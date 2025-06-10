@@ -1,0 +1,67 @@
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+.text-green {
+  color: #719177;
+}
+
+.bg-green {
+  background-color: #719177;
+}
+
+.ring-green {
+  border: 2px solid #719177;
+}
+
+.text-underline {
+  text-decoration: underline;
+}
+
+.bubble-u-shape {
+  border-radius: 0 0 50% 50%;
+}
+
+/* Estilos específicos para desktop */
+@media (min-width: 1024px) {
+  .desktop-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 280px;
+    background: white;
+    border-right: 1px solid #e5e7eb;
+    z-index: 50;
+  }
+
+  .desktop-main {
+    margin-left: 280px;
+    min-height: 100vh;
+  }
+
+  .desktop-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
+
+/* Smooth transitions */
+.smooth-transition {
+  transition: all 0.3s ease;
+}
+
+/* Custom scrollbar for desktop */
+@media (min-width: 1024px) {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #719177;
+    border-radius: 3px;
+  }
+}

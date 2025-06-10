@@ -298,25 +298,25 @@ function filterProducts(query) {
     const desktopContainer = document.getElementById('desktop-products');
     if (desktopContainer) {
         desktopContainer.innerHTML = filteredProducts.map(product => `
-           <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-lg smooth-transition product-card"
-               onclick="selectProduct(this)">
-               <div class="aspect-square bg-gray-200 relative">
-                   <div class="absolute inset-0 bg-gradient-to-br ${product.gradient} flex items-center justify-center">
-                       <i class="${product.icon} text-5xl ${product.iconColor}"></i>
-                   </div>
-               </div>
-               <div class="p-4">
-                   <h4 class="text-base font-medium text-gray-800 mb-1">${product.name}</h4>
-                   <p class="text-sm text-gray-500 mb-2">${product.condition}</p>
-                   <div class="flex items-center space-x-1">
-                       <div class="flex">
-                           ${generateStars(product.rating)}
-                       </div>
-                       <span class="text-sm text-gray-500">${product.rating} (${product.reviews})</span>
-                   </div>
-               </div>
-           </div>
-       `).join('');
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-lg smooth-transition product-card"
+            onclick="selectProduct(this)">
+            <div class="aspect-square bg-gray-200 relative">
+                <div class="absolute inset-0 bg-gradient-to-br ${product.gradient} flex items-center justify-center">
+                    <i class="${product.icon} text-5xl ${product.iconColor}"></i>
+                </div>
+            </div>
+            <div class="p-4">
+                <h4 class="text-base font-medium text-gray-800 mb-1">${product.name}</h4>
+                <p class="text-sm text-gray-500 mb-2">${product.condition}</p>
+                <div class="flex items-center space-x-1">
+                    <div class="flex">
+                        ${generateStars(product.rating)}
+                    </div>
+                    <span class="text-sm text-gray-500">${product.rating} (${product.reviews})</span>
+                </div>
+            </div>
+        </div>
+        `).join('');
     }
 }
 

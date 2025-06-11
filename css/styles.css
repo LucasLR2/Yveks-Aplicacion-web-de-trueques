@@ -45,12 +45,12 @@ body {
   }
 }
 
-/* Transiciones suaves */
+/* Smooth transitions */
 .smooth-transition {
   transition: all 0.3s ease;
 }
 
-/* Barra de desplazamiento personalizada para desktop */
+/* Custom scrollbar for desktop */
 @media (min-width: 1024px) {
   .custom-scrollbar::-webkit-scrollbar {
     width: 6px;

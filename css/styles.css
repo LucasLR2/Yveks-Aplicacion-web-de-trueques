@@ -43,6 +43,25 @@ body {
   .desktop-grid {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   }
+  
+  .contenido{
+    display: flex;
+  }
+  
+  .carrusel{
+    width: 1222px;
+    height: 855px;
+    background-color: white;
+    border-radius: 20px;
+  }
+
+  .iniciosesion {
+    margin-left: 20px;
+    width: 30%;
+    height: 855px;
+    background-color: white;
+    border-radius: 20px;
+  }
 }
 
 /* Transiciones suaves */

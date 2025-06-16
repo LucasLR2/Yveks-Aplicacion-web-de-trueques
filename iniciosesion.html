@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-[#719177]">
+    <!-- LAYOUT MÓVIL Y TABLET (hasta lg) -->
+    <div class="lg:hidden">
+        <!-- Container principal para móvil -->
+        <div class="max-w-sm mx-auto bg-white min-h-screen relative">
+            <!-- Header con ubicación -->
+            <div class="bg-white px-4 py-3 border-b border-gray-100">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-600">Ubicación</span>
+                    </div>
+                    <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+                        <i class="fas fa-bell text-gray-600 text-sm"></i>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-map-marker-alt text-green"></i>
+                    <span class="font-medium text-gray-800">Montevideo, Uruguay</span>
+                    <i class="fas fa-chevron-down text-gray-400 text-sm"></i>
+                </div>
+            </div>
+
+            <!-- Barra de búsqueda -->
+            <div class="px-4 py-3">
+                <div class="relative">
+                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" placeholder="Buscar" id="mobile-search"
+                        class="w-full pl-10 pr-4 py-3 bg-gray-0 ring-green rounded-full text-sm focus:outline-none">
+                </div>
+            </div>
+
+            <!-- Categorías -->
+            <div class="px-4 mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Categoría</h3>
+                <div class="grid grid-cols-4 gap-4">
+                    <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category"
+                        onclick="selectCategory(this)">
+                        <div
+                            class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
+                            <i class="fas fa-laptop text-green"></i>
+                        </div>
+                        <span class="text-xs text-gray-600 text-center">Tecnología</span>
+                    </div>
+
+                    <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category"
+                        onclick="selectCategory(this)">
+                        <div
+                            class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
+                            <i class="fas fa-home text-green"></i>
+                        </div>
+                        <span class="text-xs text-gray-600 text-center">Hogar</span>
+                    </div>
+
+                    <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category"
+                        onclick="selectCategory(this)">
+                        <div
+                            class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
+                            <i class="fas fa-tshirt text-green"></i>
+                        </div>
+                        <span class="text-xs text-gray-600 text-center">Ropa</span>
+                    </div>
+
+                    <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category"
+                        onclick="selectCategory(this)">
+                        <div
+                            class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
+                            <i class="fas fa-car text-green"></i>
+                        </div>
+                        <span class="text-xs text-gray-600 text-center">Accesorios</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Productos recomendados -->
+            <div class="px-4 mb-20">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Inspirado en tus intereses</h3>
+                <div class="grid grid-cols-2 gap-3" id="mobile-products">
+                    <!-- Los productos se generarán dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div
+                class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-sm bg-green relative overflow-hidden">
+                <!-- Burbuja animada -->
+                <div id="mobile-bubble"
+                    class="absolute bottom-7 w-12 h-12 bg-white bubble-u-shape transition-all duration-300 ease-out transform translate-x-6 translate-y-2">
+                </div>
+
+                <div class="flex py-2 relative z-10">
+                    <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
+                        onclick="setActiveTab(this, 0, 'mobile')">
+                        <i class="fas fa-home text-lg mb-1"></i>
+                    </button>
+
+                    <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
+                        onclick="setActiveTab(this, 1, 'mobile')">
+                        <i class="fas fa-tag text-lg mb-1"></i>
+                    </button>
+
+                    <button
+                        class="w-10 h-10 flex items-center justify-center bg-white text-green rounded-full shadow-lg transition-colors relative z-20 mx-auto"
+                        onclick="setActiveTab(this, 2, 'mobile')">
+                        <i class="fas fa-plus text-xl"></i>
+                    </button>
+
+                    <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
+                        onclick="setActiveTab(this, 3, 'mobile')">
+                        <i class="fas fa-comment text-lg mb-1"></i>
+                    </button>
+
+                    <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
+                        onclick="setActiveTab(this, 4, 'mobile')">
+                        <i class="fas fa-user text-lg mb-1"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LAYOUT DESKTOP (lg y superior) -->
+    <div class="hidden lg:block">
+        <!-- Main Content Area -->
+        <div class="iniciarsesion">
+            <!-- Content -->
+            <main class="p-5 contenido">
+                <div class="carrusel">asd</div>
+                <div class="iniciosesion">asd</div>
+            </main>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

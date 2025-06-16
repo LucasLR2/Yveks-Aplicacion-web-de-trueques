@@ -50,18 +50,23 @@ body {
   transition: all 0.3s ease;
 }
 
-/* Barra de desplazamiento personalizada para escritorio */
+/* Ocultar barra de desplazamiento del menu lateral */
 @media (min-width: 1024px) {
   .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
+    width: 0px;
   }
+}
 
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: #f1f5f9;
-  }
+/* Estilos de la barra de desplazamiento general */
+::-webkit-scrollbar {
+  width: 8px;
+}
 
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #719177;
-    border-radius: 3px;
-  }
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #719177;
+  border-radius: 3px;
 }

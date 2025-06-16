@@ -1,5 +1,5 @@
 // Datos de productos
-const productos = [
+const products = [
     {
         id: 1,
         name: "Auriculares inalámbricos",

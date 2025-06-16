@@ -159,7 +159,7 @@
                 <ul class="space-y-2">
                     <li>
                         <a href="index.html"
-                            class="desktop-nav-item active flex items-center space-x-3 px-4 py-3 rounded-lg bg-green text-white"
+                            class="desktop-nav-item  flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-50 smooth-transition"
                             onclick="setDesktopActiveNav(this)">
                             <i class="fas fa-home"></i>
                             <span>Inicio</span>
@@ -167,7 +167,7 @@
                     </li>
                     <li>
                         <a href="ofertas.html"
-                            class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-50 smooth-transition"
+                            class="desktop-nav-item active flex items-center space-x-3 px-4 py-3 rounded-lg bg-green text-white"
                             onclick="setDesktopActiveNav(this)">
                             <i class="fas fa-tag"></i>
                             <span>Ofertas</span>
@@ -221,7 +221,7 @@
         </div>
 
         <!-- Main Content Area -->
-        <div class="desktop-main overflow-y-auto">
+        <div class="desktop-main custom-scrollbar overflow-y-auto">
             <!-- Top Header -->
             <header class="bg-white border-b border-gray-200 px-8 py-4 sticky top-0 z-40">
                 <div class="flex items-center justify-between">
@@ -253,68 +253,6 @@
                     </div>
                 </div>
             </header>
-
-            <!-- Content -->
-            <main class="p-8">
-                <!-- Sección de bienvenida -->
-                <div class="mb-8">
-                    <h1 class="text-3xl font-bold text-gray-800 mb-2">¡Bienvenido de vuelta!</h1>
-                    <p class="text-gray-600">Descubre los mejores productos para ti</p>
-                </div>
-
-                <!-- Categorías destacadas (desktop) -->
-                <div class="mb-12">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Explorar por categoría</h2>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                        <div class="desktop-category-card bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl cursor-pointer hover:shadow-lg smooth-transition"
-                            onclick="selectDesktopCategory(this, 'tecnologia')">
-                            <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mb-4">
-                                <i class="fas fa-laptop text-white text-xl"></i>
-                            </div>
-                            <h3 class="font-semibold text-gray-800 mb-1">Tecnología</h3>
-                            <p class="text-sm text-gray-600">Laptops, móviles y más</p>
-                        </div>
-
-                        <div class="desktop-category-card bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-2xl cursor-pointer hover:shadow-lg smooth-transition"
-                            onclick="selectDesktopCategory(this, 'hogar')">
-                            <div class="w-12 h-12 bg-green rounded-full flex items-center justify-center mb-4">
-                                <i class="fas fa-home text-white text-xl"></i>
-                            </div>
-                            <h3 class="font-semibold text-gray-800 mb-1">Hogar</h3>
-                            <p class="text-sm text-gray-600">Muebles y decoración</p>
-                        </div>
-
-                        <div class="desktop-category-card bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-2xl cursor-pointer hover:shadow-lg smooth-transition"
-                            onclick="selectDesktopCategory(this, 'ropa')">
-                            <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center mb-4">
-                                <i class="fas fa-tshirt text-white text-xl"></i>
-                            </div>
-                            <h3 class="font-semibold text-gray-800 mb-1">Ropa</h3>
-                            <p class="text-sm text-gray-600">Moda y accesorios</p>
-                        </div>
-
-                        <div class="desktop-category-card bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-2xl cursor-pointer hover:shadow-lg smooth-transition"
-                            onclick="selectDesktopCategory(this, 'accesorios')">
-                            <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center mb-4">
-                                <i class="fas fa-car text-white text-xl"></i>
-                            </div>
-                            <h3 class="font-semibold text-gray-800 mb-1">Accesorios</h3>
-                            <p class="text-sm text-gray-600">Auto y más</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Productos recomendados (desktop) -->
-                <div class="mb-12">
-                    <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-2xl font-bold text-gray-800">Inspirado en tus intereses</h2>
-                        <button class="text-green hover:text-green-700 font-medium">Ver todos</button>
-                    </div>
-                    <div class="desktop-grid grid gap-3" id="desktop-products">
-                        <!-- Productos dinámicos -->
-                    </div>
-                </div>
-            </main>
         </div>
     </div>
 

@@ -2,82 +2,86 @@
 const products = [
     {
         id: 1,
-        name: "Auriculares inalámbricos",
-        condition: "Usados",
+        name: "Lentes retro",
+        condition: "Usado",
         rating: 4.5,
         reviews: 12,
-        icon: "fas fa-headphones",
-        gradient: "from-blue-100 to-blue-200",
-        iconColor: "text-blue-600",
-        category: "tecnologia"
-    },
-    {
-        id: 2,
-        name: "Gafas con filtro de luz azul",
-        condition: "Nuevos",
-        rating: 4.2,
-        reviews: 32,
-        icon: "fas fa-glasses",
-        gradient: "from-red-100 to-red-200",
-        iconColor: "text-red-600",
+        images: [{ image: "assets/images/1.jpg" }],
         category: "accesorios"
     },
     {
+        id: 2,
+        name: "Auriculares inalámbricos	",
+        condition: "Nuevo",
+        rating: 4.2,
+        reviews: 32,
+        images: [{ image: "assets/images/2.jpg" }],
+        category: "tecnologia"
+    },
+    {
         id: 3,
-        name: "Laptop MacBook",
-        condition: "Usados",
+        name: "Cargador magnético",
+        condition: "Usado",
         rating: 4.8,
         reviews: 8,
-        icon: "fas fa-laptop",
-        gradient: "from-gray-100 to-gray-200",
-        iconColor: "text-gray-600",
+        images: [{ image: "assets/images/3.jpg" }],
         category: "tecnologia"
     },
     {
         id: 4,
-        name: "Cámara de seguridad",
-        condition: "Nuevos",
+        name: "Proyector",
+        condition: "Nuevo",
         rating: 4.3,
         reviews: 15,
-        icon: "fas fa-camera",
-        gradient: "from-amber-100 to-amber-200",
-        iconColor: "text-amber-600",
+        images: [{ image: "assets/images/4.jpg" }],
         category: "tecnologia"
     },
     {
         id: 5,
-        name: "Silla ergonómica",
-        condition: "Nuevos",
+        name: "Remera Suzuki con estampado",
+        condition: "Nuevo",
         rating: 4.6,
         reviews: 23,
-        icon: "fas fa-chair",
-        gradient: "from-green-100 to-green-200",
-        iconColor: "text-green-600",
-        category: "hogar"
+        images: [{ image: "assets/images/5.jpg" }],
+        category: "ropa"
     },
     {
         id: 6,
-        name: "Cafetera automática",
-        condition: "Usados",
+        name: "Sillón naranja",
+        condition: "Usado",
         rating: 4.4,
         reviews: 18,
-        icon: "fas fa-coffee",
-        gradient: "from-brown-100 to-brown-200",
-        iconColor: "text-brown-600",
+        images: [{ image: "assets/images/6.jpg" }],
         category: "hogar"
     }
 ];
 
 let currentCategory = 'all';
+let selectedCategories = new Set();
+
+// Mapa de colores predefinidos
+const colorMap = {
+    'primary': 'text-green',
+    'secondary': 'text-blue-600',
+    'accent': 'text-purple-600',
+    'warning': 'text-orange-600',
+    'success': 'text-green-600',
+    'info': 'text-blue-500',
+    'danger': 'text-red-600',
+    'gray': 'text-gray-600'
+};
 
 // Función para generar estrellas
 function generateStars(rating) {
     let stars = '';
+    const fullStar = '⭐';
+    const emptyStar = '☆';
+    
     for (let i = 1; i <= 5; i++) {
         if (i <= rating) {
-            stars += '<i class="fas fa-star text-xs text-yellow-400"></i>';
+            stars += fullStar;
         } else {
-            stars += '<i class="far fa-star text-xs text-yellow-400"></i>';
+            stars += emptyStar;
         }
     }
     return stars;
@@ -86,24 +90,28 @@ function generateStars(rating) {
 // Función para generar productos móvil
 function generateMobileProducts(category = 'all') {
     const container = document.getElementById('mobile-products');
-    const filteredProducts = category === 'all' ? products : products.filter(p => p.category === category);
+    let filteredProducts;
+    
+    if (selectedCategories.size === 0) {
+        filteredProducts = productos;
+    } else {
+        filteredProducts = productos.filter(p => selectedCategories.has(p.category));
+    }
 
     container.innerHTML = filteredProducts.map(product => `
                 <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition-shadow product-card"
                     onclick="selectProduct(this)">
                     <div class="aspect-square bg-gray-200 relative">
-                        <div class="absolute inset-0 bg-gradient-to-br ${product.gradient} flex items-center justify-center">
-                            <i class="${product.icon} text-4xl ${product.iconColor}"></i>
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <img src="${product.images[0].image}" alt="${product.name}" class="w-full h-full object-cover">
                         </div>
                     </div>
                     <div class="p-3">
                         <h4 class="text-sm font-medium text-gray-800 mb-1">${product.name}</h4>
-                        <p class="text-xs text-gray-500 mb-2">${product.condition}</p>
-                        <div class="flex items-center space-x-1">
-                            <div class="flex">
-                                ${generateStars(product.rating)}
-                            </div>
-                            <span class="text-xs text-gray-500">${product.rating} (${product.reviews})</span>
+                        <p class="text-xs text-green mb-2">${product.condition}</p>
+                        <div class="flex items-center gap-2">
+                            <img src="assets/icons/Solid/Status/Star.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
+                            <span class="text-xs text-gray-500">${product.rating}</span>
                         </div>
                     </div>
                 </div>
@@ -113,23 +121,32 @@ function generateMobileProducts(category = 'all') {
 // Función para generar productos desktop
 function generateDesktopProducts(category = 'all') {
     const container = document.getElementById('desktop-products');
-    const filteredProducts = category === 'all' ? products : products.filter(p => p.category === category);
+    let filteredProducts;
+    
+    if (selectedCategories.size === 0) {
+        filteredProducts = productos;
+    } else {
+        filteredProducts = productos.filter(p => selectedCategories.has(p.category));
+    }
 
     container.innerHTML = filteredProducts.map(product => `
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md smooth-transition product-card text-sm w-[280px]"
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-lg smooth-transition product-card w-full"
         onclick="selectProduct(this)">
         <div class="aspect-square bg-gray-200 relative">
-            <div class="absolute inset-0 bg-gradient-to-br ${product.gradient} flex items-center justify-center">
-                <i class="${product.icon} text-4xl ${product.iconColor}"></i>
+            <div class="absolute inset-0 flex items-center justify-center">
+                <img src="${product.images[0].image}" alt="${product.name}" class="w-full h-full object-cover">
             </div>
         </div>
-        <div class="p-3">
+        <div class="p-4">
             <h4 class="text-base font-medium text-gray-800 mb-1 truncate">${product.name}</h4>
             
             <!-- Estado y Calificación en una sola línea -->
             <div class="flex justify-between items-center">
-                <p class="text-gray-500">${product.condition}</p>
-                <span class="text-gray-500 text-xs">${product.rating} (${product.reviews})</span>
+                <p class="text-green">${product.condition}</p>
+                <div class="flex items-center gap-2">
+                    <img src="assets/icons/Solid/Status/Star.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
+                    <span class="text-gray-500 text-xs">${product.rating}</span>
+                </div>
             </div>
         </div>
     </div>
@@ -216,14 +233,118 @@ function setDesktopActiveNav(element) {
 }
 
 function selectDesktopCategory(element, category) {
-    document.querySelectorAll('.desktop-category').forEach(cat => {
-        cat.classList.remove('bg-green-50');
-    });
+    const mainContent = document.querySelector('.desktop-main main');
+    const categoryName = element.querySelector('span').textContent;
+    
+    // Toggle la selección de la categoría
+    if (selectedCategories.has(category)) {
+        // Deseleccionar categoría
+        selectedCategories.delete(category);
+        element.classList.remove('bg-green-50');
 
-    element.classList.add('bg-green-50');
-    currentCategory = category;
+        // Eliminar la card de la categoría
+        const categoryCard = document.querySelector(`[data-category="${category}"]`);
+        if (categoryCard) {
+            categoryCard.remove();
+        }
+    } else {
+        // Seleccionar categoría
+        selectedCategories.add(category);
+        element.classList.add('bg-green-50');
+        
+        // Crear o actualizar la sección de categorías
+        let categoriesSection = document.querySelector('.categories-section');
+        if (!categoriesSection) {
+            categoriesSection = document.createElement('div');
+            categoriesSection.className = 'categories-section mb-12';
+            categoriesSection.innerHTML = `
+                <h2 class="text-2xl text-gray-800 mb-6">Explorar por categoría</h2>
+                <div class="overflow-x-auto scrollbar-hide">
+                    <div class="flex space-x-4" id="selected-categories">
+                    </div>
+                </div>
+            `;
+            // Insertar después del mensaje de bienvenida
+            const welcomeSection = document.querySelector('.mb-8');
+            welcomeSection.after(categoriesSection);
+        }
+        
+        // Agregar la nueva card de categoría
+        const categoriesGrid = document.getElementById('selected-categories');
+        const categoryCard = document.createElement('div');
+        categoryCard.className = 'desktop-category-card bg-gray-100 p-4 rounded-2xl cursor-pointer hover:shadow-lg smooth-transition flex-shrink-0 min-w-[280px]';
+        categoryCard.setAttribute('data-category', category);
+        categoryCard.innerHTML = `
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm flex-shrink-0">
+                    ${getCategoryIcon(category)}
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-green text-base mb-1">${categoryName}</h3>
+                    <p class="text-sm text-gray-600">${getCategoryDescription(category)}</p>
+                </div>
+            </div>
+        `;
+        categoriesGrid.appendChild(categoryCard);
+    }
+    
+    // Actualizar productos
     generateMobileProducts(category);
     generateDesktopProducts(category);
+    
+    // Si no hay categorías seleccionadas, eliminar la sección
+    if (selectedCategories.size === 0) {
+        const categoriesSection = document.querySelector('.categories-section');
+        if (categoriesSection) {
+            categoriesSection.remove();
+        }
+    }
+}
+
+// Función genérica para manejar vectores SVG
+function getVectorIcon(name, options = {}) {
+    const {
+        size = 'w-5 h-5',
+        color = 'primary',
+        alt = name,
+        customColor = null
+    } = options;
+
+    return `<img src="assets/icons/Outline/${name}.svg" alt="${alt}" class="${size} svg-green">`;
+}
+
+// Función específica para iconos de categoría
+function getCategoryIcon(category) {
+    const categoryIcons = {
+        'tecnologia': {
+            icon: 'Devices/Processor'
+        },
+        'hogar': {
+            icon: 'Devices/armchair'
+        },
+        'ropa': {
+            icon: 'Devices/shirt'
+        },
+        'accesorios': {
+            icon: 'Devices/glasses'
+        }
+    };
+    
+    const categoryConfig = categoryIcons[category] || { icon: 'General/tag' };
+    
+    return getVectorIcon(categoryConfig.icon, {
+        alt: category.charAt(0).toUpperCase() + category.slice(1)
+    });
+}
+
+function getCategoryDescription(category) {
+    const descriptions = {
+        'tecnologia': 'Laptops, móviles y más',
+        'hogar': 'Muebles y decoración',
+        'ropa': 'Moda y accesorios',
+        'accesorios': 'Auto y más'
+    };
+    return descriptions[category] || '';
 }
 
 // Función para seleccionar producto
@@ -259,14 +380,15 @@ function setupSearch() {
 
 function filterProducts(query) {
     if (!query) {
-        generateMobileProducts(currentCategory);
-        generateDesktopProducts(currentCategory);
+        generateMobileProducts();
+        generateDesktopProducts();
         return;
     }
 
-    const filteredProducts = products.filter(product =>
-        product.name.toLowerCase().includes(query) ||
-        product.condition.toLowerCase().includes(query)
+    const filteredProducts = productos.filter(product =>
+        (selectedCategories.size === 0 || selectedCategories.has(product.category)) &&
+        (product.name.toLowerCase().includes(query) ||
+        product.condition.toLowerCase().includes(query))
     );
 
     // Actualizar productos móvil
@@ -276,18 +398,16 @@ function filterProducts(query) {
            <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition-shadow product-card"
                onclick="selectProduct(this)">
                <div class="aspect-square bg-gray-200 relative">
-                   <div class="absolute inset-0 bg-gradient-to-br ${product.gradient} flex items-center justify-center">
-                       <i class="${product.icon} text-4xl ${product.iconColor}"></i>
+                   <div class="absolute inset-0 flex items-center justify-center">
+                       <img src="${product.images[0].image}" alt="${product.name}" class="w-full h-full object-cover">
                    </div>
                </div>
                <div class="p-3">
                    <h4 class="text-sm font-medium text-gray-800 mb-1">${product.name}</h4>
-                   <p class="text-xs text-gray-500 mb-2">${product.condition}</p>
-                   <div class="flex items-center space-x-1">
-                       <div class="flex">
-                           ${generateStars(product.rating)}
-                       </div>
-                       <span class="text-xs text-gray-500">${product.rating} (${product.reviews})</span>
+                   <p class="text-xs text-green mb-2">${product.condition}</p>
+                   <div class="flex items-center gap-2">
+                       <img src="assets/icons/Solid/Status/Star.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
+                       <span class="text-xs text-gray-500">${product.rating}</span>
                    </div>
                </div>
            </div>
@@ -298,21 +418,23 @@ function filterProducts(query) {
     const desktopContainer = document.getElementById('desktop-products');
     if (desktopContainer) {
         desktopContainer.innerHTML = filteredProducts.map(product => `
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-lg smooth-transition product-card"
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-lg smooth-transition product-card w-full"
             onclick="selectProduct(this)">
             <div class="aspect-square bg-gray-200 relative">
-                <div class="absolute inset-0 bg-gradient-to-br ${product.gradient} flex items-center justify-center">
-                    <i class="${product.icon} text-5xl ${product.iconColor}"></i>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <img src="${product.images[0].image}" alt="${product.name}" class="w-full h-full object-cover">
                 </div>
             </div>
             <div class="p-4">
-                <h4 class="text-base font-medium text-gray-800 mb-1">${product.name}</h4>
-                <p class="text-sm text-gray-500 mb-2">${product.condition}</p>
-                <div class="flex items-center space-x-1">
-                    <div class="flex">
-                        ${generateStars(product.rating)}
+                <h4 class="text-base font-medium text-gray-800 mb-1 truncate">${product.name}</h4>
+                
+                <!-- Estado y Calificación en una sola línea -->
+                <div class="flex justify-between items-center">
+                    <p class="text-green">${product.condition}</p>
+                    <div class="flex items-center gap-2">
+                        <img src="assets/icons/Solid/Status/Star.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
+                        <span class="text-gray-500 text-xs">${product.rating}</span>
                     </div>
-                    <span class="text-sm text-gray-500">${product.rating} (${product.reviews})</span>
                 </div>
             </div>
         </div>

@@ -1,5 +1,32 @@
-body {
-  font-family: 'Inter', sans-serif;
+/* Importación de fuentes */
+@font-face {
+    font-family: 'Lao Sans Pro';
+    src: url('../assets/fonts/lao-sans-pro.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('../assets/fonts/Roboto-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Aplicación de fuentes */
+html, body {
+    font-family: 'Lao Sans Pro', 'Roboto', sans-serif !important;
+}
+
+/* Clases específicas para fuentes */
+.font-lao {
+    font-family: 'Lao Sans Pro', sans-serif !important;
+}
+
+.font-roboto {
+    font-family: 'Roboto', sans-serif !important;
 }
 
 .text-green {
@@ -12,6 +39,14 @@ body {
 
 .ring-green {
   border: 2px solid #719177;
+}
+
+.svg-green {
+  filter: brightness(0) saturate(100%) invert(48%) sepia(12%) saturate(1012%) hue-rotate(88deg) brightness(95%) contrast(86%);
+}
+
+.svg-yellow {
+  filter: brightness(0) saturate(100%) invert(87%) sepia(32%) saturate(2000%) hue-rotate(345deg) brightness(105%) contrast(101%);
 }
 
 .text-underline {
@@ -69,4 +104,14 @@ body {
 ::-webkit-scrollbar-thumb {
   background: #719177;
   border-radius: 3px;
+}
+
+/* Ocultar scrollbar pero mantener funcionalidad */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE y Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari y Opera */
 }

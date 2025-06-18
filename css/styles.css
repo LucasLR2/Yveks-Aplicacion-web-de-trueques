@@ -44,22 +44,20 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   }
   
-  .contenido{
+  .contenido {
     display: flex;
   }
   
-  .carrusel{
+  .carrusel {
     width: 1222px;
-    height: 855px;
-    background-color: white;
+    min-height: 95vh;
     border-radius: 20px;
   }
 
   .iniciosesion {
     margin-left: 20px;
-    width: 30%;
-    height: 855px;
-    background-color: white;
+    min-width: 70vh;
+    min-height: 95vh;
     border-radius: 20px;
   }
 }

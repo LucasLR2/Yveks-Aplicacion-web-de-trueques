@@ -30,24 +30,32 @@ body {
     transition: all 0.3s ease;
 }
 
+.switch-button {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    background-color: #f3f4f6; /* gris suave */
+    padding: 6px;
+    border-radius: 30px;
+    width: fit-content;
+    margin-top: 12px;
+}
+
 .switch-option {
-    padding: 8px 16px;
-    border-radius: 20px;
+    padding: 6px 14px;
+    border-radius: 9999px;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    position: relative;
-    z-index: 2;
+    white-space: nowrap;
+    background-color: transparent;
+    color: #6b7280;
 }
 
 .switch-option.active {
     background: #719177;
     color: white;
-}
-
-.switch-option:not(.active) {
-    color: #6b7280;
 }
 
 .offer-card {

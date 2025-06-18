@@ -44,7 +44,7 @@
 
             <!-- Categorías -->
             <div class="px-4 mb-6">
-                <h3 class="text-lg font-semibold text-gray-800 mb-4">Categoría</h3>
+                <h3 class="text-lg text-gray-800 mb-4">Categoría</h3>
                 <div class="grid grid-cols-4 gap-4">
                     <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category"
                         onclick="selectCategory(this)">
@@ -86,7 +86,7 @@
 
             <!-- Productos recomendados -->
             <div class="px-4 mb-20">
-                <h3 class="text-lg font-semibold text-gray-800 mb-4">Inspirado en tus intereses</h3>
+                <h3 class="text-lg text-gray-800 mb-4">Inspirado en tus intereses</h3>
                 <div class="grid grid-cols-2 gap-3" id="mobile-products">
                     <!-- Los productos se generarán dinámicamente -->
                 </div>
@@ -142,7 +142,7 @@
                         <i class="fas fa-store text-white text-lg"></i>
                     </div>
                     <div>
-                        <h1 class="text-xl font-bold text-gray-800">Marketplace</h1>
+                        <h1 class="text-xl text-gray-800">Marketplace</h1>
                         <p class="text-sm text-gray-500">Tu tienda favorita</p>
                     </div>
                 </div>
@@ -202,35 +202,27 @@
 
             <!-- Categorías en sidebar -->
             <div class="p-6 border-t border-gray-100">
-                <h3 class="text-sm font-semibold text-gray-800 mb-4 uppercase tracking-wide">Categorías</h3>
+                <h3 class="text-sm text-gray-800 mb-4 uppercase tracking-wide">Categorías</h3>
                 <div class="space-y-2">
-                    <div class="desktop-category flex items-center space-x-3 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-50 smooth-transition"
+                    <div class="desktop-category flex items-center space-x-3 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-100 smooth-transition text-gray-700"
                         onclick="selectDesktopCategory(this, 'tecnologia')">
-                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                            <i class="fas fa-laptop text-blue-600 text-sm"></i>
-                        </div>
-                        <span class="text-sm text-gray-700">Tecnología</span>
+                        <img src="assets/icons/Outline/Devices/Processor.svg" alt="Tecnología" class="w-5 h-5 svg-green">
+                        <span class="text-sm">Tecnología</span>
                     </div>
-                    <div class="desktop-category flex items-center space-x-3 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-50 smooth-transition"
+                    <div class="desktop-category flex items-center space-x-3 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-100 smooth-transition text-gray-700"
                         onclick="selectDesktopCategory(this, 'hogar')">
-                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                            <i class="fas fa-home text-green text-sm"></i>
-                        </div>
-                        <span class="text-sm text-gray-700">Hogar</span>
+                        <img src="assets/icons/Outline/Devices/armchair.svg" alt="Hogar" class="w-5 h-5 svg-green">
+                        <span class="text-sm">Hogar</span>
                     </div>
-                    <div class="desktop-category flex items-center space-x-3 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-50 smooth-transition"
+                    <div class="desktop-category flex items-center space-x-3 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-100 smooth-transition text-gray-700"
                         onclick="selectDesktopCategory(this, 'ropa')">
-                        <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
-                            <i class="fas fa-tshirt text-purple-600 text-sm"></i>
-                        </div>
-                        <span class="text-sm text-gray-700">Ropa</span>
+                        <img src="assets/icons/Outline/Devices/shirt.svg" alt="Ropa" class="w-5 h-5 svg-green">
+                        <span class="text-sm">Ropa</span>
                     </div>
-                    <div class="desktop-category flex items-center space-x-3 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-50 smooth-transition"
+                    <div class="desktop-category flex items-center space-x-3 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-100 smooth-transition text-gray-700"
                         onclick="selectDesktopCategory(this, 'accesorios')">
-                        <div class="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center">
-                            <i class="fas fa-car text-orange-600 text-sm"></i>
-                        </div>
-                        <span class="text-sm text-gray-700">Accesorios</span>
+                        <img src="assets/icons/Outline/Devices/glasses.svg" alt="Accesorios" class="w-5 h-5 svg-green">
+                        <span class="text-sm">Accesorios</span>
                     </div>
                 </div>
             </div>
@@ -253,7 +245,7 @@
 
                     <!-- Acciones del header -->
                     <div class="flex items-center space-x-4">
-                        <button class="bg-green text-white px-20 py-2 rounded-full font-semibold smooth-transition">
+                        <button class="bg-green text-white px-20 py-2 rounded-full smooth-transition">
                             <i class="fas fa-plus text-x"></i>
                             Publicar ahora
                         </button>
@@ -268,75 +260,31 @@
             </header>
 
             <!-- Content -->
-            <main class="p-8">
+            <main class="p-8 lg:pl-24 lg:pr-24 lg:pt-16">
                 <!-- Sección de bienvenida -->
                 <div class="mb-8">
-                    <h1 class="text-3xl font-bold text-gray-800 mb-2">¡Bienvenido de vuelta!</h1>
+                    <h1 class="text-3xl text-gray-800 mb-4">¡Bienvenido de vuelta!</h1>
                     <p class="text-gray-600">Descubre los mejores productos para ti</p>
-                </div>
-
-                <!-- Categorías destacadas (desktop) -->
-                <div class="mb-12">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Explorar por categoría</h2>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                        <div class="desktop-category-card bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl cursor-pointer hover:shadow-lg smooth-transition"
-                            onclick="selectDesktopCategory(this, 'tecnologia')">
-                            <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mb-4">
-                                <i class="fas fa-laptop text-white text-xl"></i>
-                            </div>
-                            <h3 class="font-semibold text-gray-800 mb-1">Tecnología</h3>
-                            <p class="text-sm text-gray-600">Laptops, móviles y más</p>
-                        </div>
-
-                        <div class="desktop-category-card bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-2xl cursor-pointer hover:shadow-lg smooth-transition"
-                            onclick="selectDesktopCategory(this, 'hogar')">
-                            <div class="w-12 h-12 bg-green rounded-full flex items-center justify-center mb-4">
-                                <i class="fas fa-home text-white text-xl"></i>
-                            </div>
-                            <h3 class="font-semibold text-gray-800 mb-1">Hogar</h3>
-                            <p class="text-sm text-gray-600">Muebles y decoración</p>
-                        </div>
-
-                        <div class="desktop-category-card bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-2xl cursor-pointer hover:shadow-lg smooth-transition"
-                            onclick="selectDesktopCategory(this, 'ropa')">
-                            <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center mb-4">
-                                <i class="fas fa-tshirt text-white text-xl"></i>
-                            </div>
-                            <h3 class="font-semibold text-gray-800 mb-1">Ropa</h3>
-                            <p class="text-sm text-gray-600">Moda y accesorios</p>
-                        </div>
-
-                        <div class="desktop-category-card bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-2xl cursor-pointer hover:shadow-lg smooth-transition"
-                            onclick="selectDesktopCategory(this, 'accesorios')">
-                            <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center mb-4">
-                                <i class="fas fa-car text-white text-xl"></i>
-                            </div>
-                            <h3 class="font-semibold text-gray-800 mb-1">Accesorios</h3>
-                            <p class="text-sm text-gray-600">Auto y más</p>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Productos recomendados (desktop) -->
                 <div class="mb-12">
-                    <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-2xl font-bold text-gray-800">Inspirado en tus intereses</h2>
-                        <button class="text-green hover:text-green-700 font-medium">Ver todos</button>
+                    <div class="flex items-center justify-between mb-8">
+                        <h2 class="text-2xl text-gray-800">Inspirado en tus intereses</h2>
                     </div>
-                    <div class="desktop-grid grid gap-3" id="desktop-products">
+                    <div class="desktop-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="desktop-products">
                         <!-- Productos dinámicos -->
                     </div>
                 </div>
 
                 <!-- Sección adicional para desktop -->
                 <div class="bg-gradient-to-r from-green to-green-600 rounded-2xl p-8 text-white">
-                    <h2 class="text-2xl font-bold mb-2">¿Tienes algo que vender?</h2>
+                    <h2 class="text-2xl mb-2">¿Tienes algo que vender?</h2>
                     <p class="mb-6 opacity-90">Publica tus productos y llega a miles de compradores</p>
                 </div>
             </main>
         </div>
     </div>
-
     <script src="js/script.js"></script>
 </body>
 

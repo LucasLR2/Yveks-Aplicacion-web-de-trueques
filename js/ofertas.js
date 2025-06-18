@@ -3,105 +3,130 @@ const offers = {
     received: [
         {
             id: 1,
-            product: "Buzo salomon",
-            brand: "Salomon",
-            size: "L",
-            price: "$45",
-            originalPrice: "$60",
-            buyer: "Josefina Rodriguez",
-            buyerAvatar: "JR",
-            status: "pending",
-            statusText: "Pendiente",
-            time: "2h",
-            image: "fas fa-tshirt",
-            gradient: "from-blue-100 to-blue-200",
-            iconColor: "text-blue-600"
+            product: "Cámara Canon",
+            condition: "Reacondicionado",
+            reason: "Cambio por celular con buena cámara",
+            buyer: "Ana García",
+            buyerAvatar: "AG",
+            rating: 4,
+            reviews: 12
         },
         {
             id: 2,
             product: "Auriculares Sony",
-            brand: "Sony",
-            model: "WH-1000XM4",
-            price: "$120",
-            originalPrice: "$150",
-            buyer: "Carlos Martinez",
+            condition: "Nuevo",
+            reason: "Prefiero un modelo con cable",
+            buyer: "Carlos Martínez",
             buyerAvatar: "CM",
-            status: "accepted",
-            statusText: "Aceptada",
-            time: "1d",
-            image: "fas fa-headphones",
-            gradient: "from-purple-100 to-purple-200",
-            iconColor: "text-purple-600"
+            rating: 5,
+            reviews: 8
         },
         {
             id: 3,
-            product: "Cámara Canon",
-            brand: "Canon",
-            model: "EOS R6",
-            price: "$800",
-            originalPrice: "$1000",
-            buyer: "Ana García",
-            buyerAvatar: "AG",
-            status: "pending",
-            statusText: "Pendiente",
-            time: "3h",
-            image: "fas fa-camera",
-            gradient: "from-red-100 to-red-200",
-            iconColor: "text-red-600"
+            product: "Buzo Salomon",
+            condition: "Usado",
+            reason: "Me queda chico, busco otro talle",
+            buyer: "Josefina Rodríguez",
+            buyerAvatar: "JR",
+            rating: 3,
+            reviews: 5
+        },
+        {
+            id: 4,
+            product: "Teclado Mecánico Logitech",
+            condition: "Nuevo",
+            reason: "Quiero cambiarlo por uno con switches rojos",
+            buyer: "Matías Pérez",
+            buyerAvatar: "MP",
+            rating: 4,
+            reviews: 18
+        },
+        {
+            id: 5,
+            product: "Cámara GoPro Hero 9",
+            condition: "Usado",
+            reason: "Busco un celular con buena estabilización",
+            buyer: "Valentina Díaz",
+            buyerAvatar: "VD",
+            rating: 5,
+            reviews: 23
+        },
+        {
+            id: 6,
+            product: "Smartwatch Huawei",
+            condition: "Reacondicionado",
+            reason: "Quiero un modelo compatible con iOS",
+            buyer: "Esteban Morales",
+            buyerAvatar: "EM",
+            rating: 4,
+            reviews: 10
         }
     ],
     made: [
         {
-            id: 4,
-            product: "MacBook Pro",
-            brand: "Apple",
-            model: "13 inch",
-            price: "$900",
-            originalPrice: "$1200",
-            seller: "Tech Store",
-            sellerAvatar: "TS",
-            status: "rejected",
-            statusText: "Rechazada",
-            time: "2d",
-            image: "fas fa-laptop",
-            gradient: "from-gray-100 to-gray-200",
-            iconColor: "text-gray-600"
-        },
-        {
-            id: 5,
+            id: 7,
             product: "iPhone 14",
-            brand: "Apple",
-            model: "128GB",
-            price: "$650",
-            originalPrice: "$799",
+            condition: "Nuevo",
+            reason: "Busco una laptop potente para editar videos",
             seller: "MobileShop",
             sellerAvatar: "MS",
-            status: "pending",
-            statusText: "Pendiente",
-            time: "5h",
-            image: "fas fa-mobile-alt",
-            gradient: "from-green-100 to-green-200",
-            iconColor: "text-green-600"
+            rating: 5,
+            reviews: 14
         },
         {
-            id: 6,
-            product: "Tablet Samsung",
-            brand: "Samsung",
-            model: "Galaxy Tab S8",
-            price: "$400",
-            originalPrice: "$550",
+            id: 8,
+            product: "MacBook Pro 13”",
+            condition: "Reacondicionado",
+            reason: "Quiero una cámara profesional como la EOS R6",
+            seller: "Tech Store",
+            sellerAvatar: "TS",
+            rating: 4,
+            reviews: 20
+        },
+        {
+            id: 9,
+            product: "Tablet Samsung Tab S8",
+            condition: "Nuevo",
+            reason: "Busco consola portátil tipo Switch",
             seller: "ElectroWorld",
             sellerAvatar: "EW",
-            status: "accepted",
-            statusText: "Aceptada",
-            time: "1d",
-            image: "fas fa-tablet-alt",
-            gradient: "from-orange-100 to-orange-200",
-            iconColor: "text-orange-600"
+            rating: 4,
+            reviews: 11
+        },
+        {
+            id: 10,
+            product: "Monitor LG UltraWide",
+            condition: "Usado",
+            reason: "Quiero cambiar por uno curvo gamer",
+            seller: "OfiTech",
+            sellerAvatar: "OT",
+            rating: 3,
+            reviews: 6
+        },
+        {
+            id: 11,
+            product: "Auriculares JBL Tune 510BT",
+            condition: "Nuevo",
+            reason: "Busco modelo con cancelación activa",
+            seller: "AudioHouse",
+            sellerAvatar: "AH",
+            rating: 5,
+            reviews: 9
+        },
+        {
+            id: 12,
+            product: "Nintendo Switch",
+            condition: "Usado",
+            reason: "Quiero una tablet para estudiar",
+            seller: "GamingUY",
+            sellerAvatar: "GU",
+            rating: 4,
+            reviews: 17
         }
     ]
 };
 
+// Estado actual de las ofertas
 let currentOfferType = 'received';
 
 // Función para generar ofertas móvil
@@ -110,67 +135,37 @@ function generateMobileOffers(type) {
     const offerList = offers[type];
 
     container.innerHTML = offerList.map(offer => `
-                <div class="offer-card bg-white rounded-lg shadow-sm border border-gray-100 p-4 mb-4 cursor-pointer">
-                    <div class="flex items-start space-x-3">
-                        <!-- Imagen del producto -->
-                        <div class="w-16 h-16 product-image rounded-lg flex items-center justify-center flex-shrink-0">
-                            <div class="bg-gradient-to-br ${offer.gradient} w-full h-full rounded-lg flex items-center justify-center">
-                                <i class="${offer.image} text-2xl ${offer.iconColor}"></i>
-                            </div>
-                        </div>
+    <div class="offer-card bg-white rounded-lg shadow-sm border border-gray-100 p-4 mb-4">
+        <!-- Nombre del producto -->
+        <h3 class="text-base font-semibold text-gray-800 mb-1">${offer.product}</h3>
 
-                        <!-- Información del producto -->
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-start justify-between mb-2">
-                                <div>
-                                    <h3 class="text-sm font-semibold text-gray-800 truncate">${offer.product}</h3>
-                                    <p class="text-xs text-gray-500"${offer.brand}${offer.model ? ' • ' + offer.model : ''}${offer.size ? ' • ' + offer.size : ''}</p>
-                                </div>
-                                <span class="text-xs text-gray-400">${offer.time}</span>
-                            </div>
+        <!-- Estado del producto -->
+        <p class="text-sm text-gray-500 mb-1">Estado: ${offer.condition}</p>
 
-                            <!-- Precio y persona -->
-                            <div class="flex items-center justify-between mb-3">
-                                <div class="flex items-center space-x-2">
-                                    <span class="text-sm font-bold text-gray-800">${offer.price}</span>
-                                    <span class="text-xs text-gray-400 line-through">${offer.originalPrice}</span>
-                                </div>
-                                <div class="flex items-center space-x-2">
-                                    <div class="w-6 h-6 bg-green rounded-full flex items-center justify-center">
-                                        <span class="text-xs text-white font-medium">${offer.buyerAvatar || offer.sellerAvatar}</span>
-                                    </div>
-                                    <span class="text-xs text-gray-600">${offer.buyer || offer.seller}</span>
-                                </div>
-                            </div>
+        <!-- Motivo del intercambio -->
+        <p class="text-sm text-gray-600 mb-3">Motivo: ${offer.reason}</p>
 
-                            <!-- Estado y acciones -->
-                            <div class="flex items-center justify-between">
-                                <span class="status-badge status-${offer.status}">${offer.statusText}</span>
-                                <div class="flex space-x-2">
-                                    ${offer.status === 'pending' ? `
-                                        ${type === 'received' ? `
-                                            <button class="px-3 py-1 bg-green text-white text-xs rounded-full font-medium" onclick="acceptOffer(${offer.id})">
-                                                Aceptar
-                                            </button>
-                                            <button class="px-3 py-1 bg-gray-200 text-gray-600 text-xs rounded-full font-medium" onclick="rejectOffer(${offer.id})">
-                                                Rechazar
-                                            </button>
-                                        ` : `
-                                            <button class="px-3 py-1 bg-gray-200 text-gray-600 text-xs rounded-full font-medium" onclick="cancelOffer(${offer.id})">
-                                                Cancelar
-                                            </button>
-                                        `}
-                                    ` : `
-                                        <button class="px-3 py-1 bg-green text-white text-xs rounded-full font-medium" onclick="messageUser(${offer.id})">
-                                            Mensaje
-                                        </button>
-                                    `}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
+        <!-- Persona que ofrece -->
+        <div class="flex items-center mb-4 space-x-2">
+            <div class="w-6 h-6 bg-green rounded-full flex items-center justify-center text-white text-xs font-bold">
+                ${offer.buyerAvatar || offer.sellerAvatar}
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-800">${offer.buyer || offer.seller}</p>
+                <p class="text-xs text-gray-500">
+                    ${'★'.repeat(Math.floor(offer.rating))}${'☆'.repeat(5 - Math.floor(offer.rating))} (${offer.reviews} reseñas)
+                </p>
+            </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="flex space-x-2">
+            <button class="flex-1 px-3 py-1 bg-green text-white text-xs rounded-full font-medium" onclick="messageUser(${offer.id})">Mensaje</button>
+            <button class="flex-1 px-3 py-1 bg-blue-600 text-white text-xs rounded-full font-medium" onclick="acceptOffer(${offer.id})">Aceptar</button>
+            <button class="flex-1 px-3 py-1 bg-gray-200 text-gray-600 text-xs rounded-full font-medium" onclick="rejectOffer(${offer.id})">Cancelar</button>
+        </div>
+    </div>
+`).join('');
 }
 
 // Función para generar ofertas desktop
@@ -179,60 +174,43 @@ function generateDesktopOffers(type) {
     const offerList = offers[type];
 
     container.innerHTML = offerList.map(offer => `
-                <div class="offer-card bg-white rounded-xl shadow-sm border border-gray-100 p-6 cursor-pointer">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-12 h-12 product-image rounded-lg flex items-center justify-center">
-                                <div class="bg-gradient-to-br ${offer.gradient} w-full h-full rounded-lg flex items-center justify-center">
-                                    <i class="${offer.image} text-xl ${offer.iconColor}"></i>
-                                </div>
-                            </div>
-                            <div>
-                                <h3 class="text-base font-semibold text-gray-800">${offer.product}</h3>
-                                <p class="text-sm text-gray-500">${offer.brand}${offer.model ? ' • ' + offer.model : ''}${offer.size ? ' • ' + offer.size : ''}</p>
-                            </div>
-                        </div>
-                        <span class="text-sm text-gray-400">${offer.time}</span>
-                    </div>
+    <div class="offer-card bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <!-- Nombre del producto -->
+        <h3 class="text-lg font-semibold text-gray-800 mb-1">${offer.product}</h3>
 
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="flex items-center space-x-2">
-                            <span class="text-lg font-bold text-gray-800">${offer.price}</span>
-                            <span class="text-sm text-gray-400 line-through">${offer.originalPrice}</span>
-                        </div>
-                        <span class="status-badge status-${offer.status}">${offer.statusText}</span>
-                    </div>
+        <!-- Estado del producto -->
+        <p class="text-sm text-gray-500 mb-2">Estado: ${offer.condition}</p>
 
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-2">
-                            <div class="w-8 h-8 bg-green rounded-full flex items-center justify-center">
-                                <span class="text-sm text-white font-medium">${offer.buyerAvatar || offer.sellerAvatar}</span>
-                            </div>
-                            <span class="text-sm text-gray-600">${offer.buyer || offer.seller}</span>
-                        </div>
-                        <div class="flex space-x-2">
-                            ${offer.status === 'pending' ? `
-                                ${type === 'received' ? `
-                                    <button class="px-4 py-2 bg-green text-white text-sm rounded-full font-medium hover:bg-opacity-90 smooth-transition" onclick="acceptOffer(${offer.id})">
-                                        Aceptar
-                                    </button>
-                                    <button class="px-4 py-2 bg-gray-200 text-gray-600 text-sm rounded-full font-medium hover:bg-gray-300 smooth-transition" onclick="rejectOffer(${offer.id})">
-                                        Rechazar
-                                    </button>
-                                ` : `
-                                    <button class="px-4 py-2 bg-gray-200 text-gray-600 text-sm rounded-full font-medium hover:bg-gray-300 smooth-transition" onclick="cancelOffer(${offer.id})">
-                                        Cancelar
-                                    </button>
-                                `}
-                            ` : `
-                                <button class="px-4 py-2 bg-green text-white text-sm rounded-full font-medium hover:bg-opacity-90 smooth-transition" onclick="messageUser(${offer.id})">
-                                    Mensaje
-                                </button>
-                            `}
-                        </div>
-                    </div>
-                </div>
-            `).join('');
+        <!-- Motivo del intercambio -->
+        <p class="text-sm text-gray-600 mb-4">Motivo: ${offer.reason}</p>
+
+        <!-- Usuario que ofrece -->
+        <div class="flex items-center mb-4 space-x-3">
+            <div class="w-8 h-8 bg-green rounded-full flex items-center justify-center text-white text-sm font-bold">
+                ${offer.buyerAvatar || offer.sellerAvatar}
+            </div>
+            <div>
+                <p class="text-sm font-medium text-gray-800">${offer.buyer || offer.seller}</p>
+                <p class="text-xs text-gray-500">
+                    ${'★'.repeat(Math.floor(offer.rating))}${'☆'.repeat(5 - Math.floor(offer.rating))} (${offer.reviews} reseñas)
+                </p>
+            </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="flex space-x-2">
+            <button class="flex-1 px-4 py-2 bg-green text-white text-sm rounded-full font-medium hover:bg-opacity-90" onclick="messageUser(${offer.id})">
+                Mensaje
+            </button>
+            <button class="flex-1 px-4 py-2 bg-blue-600 text-white text-sm rounded-full font-medium hover:bg-opacity-90" onclick="acceptOffer(${offer.id})">
+                Aceptar
+            </button>
+            <button class="flex-1 px-4 py-2 bg-gray-200 text-gray-600 text-sm rounded-full font-medium hover:bg-gray-300" onclick="rejectOffer(${offer.id})">
+                Cancelar
+            </button>
+        </div>
+    </div>
+`).join('');
 }
 
 // Función para cambiar tipo de ofertas

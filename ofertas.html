@@ -7,7 +7,7 @@
     <title>Marketplace Móvil</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/ofertas.css">
 </head>
 
 <body class="bg-gray-50">
@@ -253,10 +253,31 @@
                     </div>
                 </div>
             </header>
+            <!-- Contenido principal -->
+            <main class="p-8">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800 mb-2">Ofertas</h1>
+                    <!-- Switch de ofertas desktop -->
+                    <div class="switch-button flex">
+                        <div class="switch-option active" onclick="switchOfferType('received', this)">
+                            Recibidas
+                        </div>
+                        <div class="switch-option" onclick="switchOfferType('made', this)">
+                            Hechas
+                        </div>
+                    </div>
+                </div>
+                <!-- Lista de ofertas desktop -->
+                <div class="p-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" id="desktop-offers">
+                        <!-- Las ofertas se generarán dinámicamente -->
+                    </div>
+                </div>
+            </main>
         </div>
     </div>
 
-    <script src="js/script.js"></script>
+    <script src="js/ofertas.js"></script>
 </body>
 
 </html>

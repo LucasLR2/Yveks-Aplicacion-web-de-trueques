@@ -46,7 +46,7 @@ html, body {
 }
 
 .svg-yellow {
-  filter: brightness(0) saturate(100%) invert(87%) sepia(32%) saturate(2000%) hue-rotate(345deg) brightness(105%) contrast(101%);
+  filter: brightness(0) saturate(100%) invert(87%) sepia(32%) saturate(1352%) hue-rotate(358deg) brightness(105%) contrast(101%);
 }
 
 .text-underline {
@@ -85,33 +85,28 @@ html, body {
   transition: all 0.3s ease;
 }
 
-/* Ocultar barra de desplazamiento del menu lateral */
+/* Barra de desplazamiento personalizada para escritorio */
 @media (min-width: 1024px) {
   .custom-scrollbar::-webkit-scrollbar {
-    width: 0px;
+    width: 6px;
   }
-}
 
-/* Estilos de la barra de desplazamiento general */
-::-webkit-scrollbar {
-  width: 8px;
-}
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
 
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #719177;
-  border-radius: 3px;
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #719177;
+    border-radius: 3px;
+  }
 }
 
 /* Ocultar scrollbar pero mantener funcionalidad */
 .scrollbar-hide {
-  -ms-overflow-style: none;  /* IE y Edge */
-  scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;  /* IE y Edge */
+    scrollbar-width: none;  /* Firefox */
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari y Opera */
+    display: none;  /* Chrome, Safari y Opera */
 }

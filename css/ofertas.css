@@ -1,0 +1,122 @@
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.text-green {
+    color: #719177;
+}
+
+.bg-green {
+    background-color: #719177;
+}
+
+.ring-green {
+    border: 2px solid #719177;
+}
+
+.bubble-u-shape {
+    border-radius: 0 0 50% 50%;
+}
+
+.smooth-transition {
+    transition: all 0.3s ease;
+}
+
+.switch-button {
+    position: relative;
+    background: #e5e7eb;
+    border-radius: 25px;
+    padding: 4px;
+    transition: all 0.3s ease;
+}
+
+.switch-option {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.switch-option.active {
+    background: #719177;
+    color: white;
+}
+
+.switch-option:not(.active) {
+    color: #6b7280;
+}
+
+.offer-card {
+    transition: all 0.3s ease;
+}
+
+.offer-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+}
+
+.status-badge {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.status-pending {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.status-accepted {
+    background: #d1fae5;
+    color: #059669;
+}
+
+.status-rejected {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+    .desktop-sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        width: 280px;
+        background: white;
+        border-right: 1px solid #e5e7eb;
+        z-index: 50;
+    }
+
+    .desktop-main {
+        margin-left: 280px;
+        min-height: 100vh;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 0px;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #719177;
+    border-radius: 3px;
+}

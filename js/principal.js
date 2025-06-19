@@ -1,4 +1,4 @@
-// Mapa de colores predefinidos
+// Mapa de colores predefinidos global
 const mapaColores = {
     'primario': 'text-green',
     'secundario': 'text-blue-600',
@@ -10,7 +10,7 @@ const mapaColores = {
     'gris': 'text-gray-600'
 };
 
-// Función para generar estrellas (solo para uso global, no productos)
+// Función para generar estrellas (uso global, no productos)
 function generarEstrellas(cantidad) {
     let estrellas = '';
     const estrellaLlena = '⭐';

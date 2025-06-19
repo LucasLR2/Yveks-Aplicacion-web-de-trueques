@@ -70,3 +70,11 @@ html, body {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;  /* Chrome, Safari y Opera */
 }
+
+.svg-green {
+  filter: brightness(0) saturate(100%) invert(48%) sepia(12%) saturate(1012%) hue-rotate(88deg) brightness(95%) contrast(86%);
+}
+
+.svg-yellow {
+  filter: brightness(0) saturate(100%) invert(87%) sepia(32%) saturate(2000%) hue-rotate(345deg) brightness(105%) contrast(101%);
+}

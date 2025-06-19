@@ -1,7 +1,7 @@
 /* Importación de fuentes */
 @font-face {
     font-family: 'Lao Sans Pro';
-    src: url('../assets/fonts/lao-sans-pro.ttf') format('truetype');
+    src: url('../recursos/fuentes/lao-sans-pro.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
@@ -9,95 +9,54 @@
 
 @font-face {
     font-family: 'Roboto';
-    src: url('../assets/fonts/Roboto-Regular.ttf') format('truetype');
+    src: url('../recursos/fuentes/Roboto-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 
-/* Aplicación de fuentes */
+/* Aplicación de fuentes globales */
 html, body {
     font-family: 'Lao Sans Pro', 'Roboto', sans-serif !important;
 }
 
-/* Clases específicas para fuentes */
+/* Helpers de fuentes */
 .font-lao {
     font-family: 'Lao Sans Pro', sans-serif !important;
 }
-
 .font-roboto {
     font-family: 'Roboto', sans-serif !important;
 }
 
+/* Utilidades de color globales */
 .text-green {
   color: #719177;
 }
-
 .bg-green {
   background-color: #719177;
 }
-
 .ring-green {
   border: 2px solid #719177;
 }
 
-.svg-green {
-  filter: brightness(0) saturate(100%) invert(48%) sepia(12%) saturate(1012%) hue-rotate(88deg) brightness(95%) contrast(86%);
-}
-
-.svg-yellow {
-  filter: brightness(0) saturate(100%) invert(87%) sepia(32%) saturate(2000%) hue-rotate(345deg) brightness(105%) contrast(101%);
-}
-
+/* Utilidades generales */
 .text-underline {
   text-decoration: underline;
 }
-
 .bubble-u-shape {
   border-radius: 0 0 50% 50%;
 }
-
-/* Estilos específicos para desktop */
-@media (min-width: 1024px) {
-  .desktop-sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    height: 100vh;
-    width: 280px;
-    background: white;
-    border-right: 1px solid #e5e7eb;
-    z-index: 50;
-  }
-
-  .desktop-main {
-    margin-left: 280px;
-    min-height: 100vh;
-  }
-
-  .desktop-grid {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  }
-
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 0px;
-  }
-}
-
-/* Transiciones suaves */
 .smooth-transition {
   transition: all 0.3s ease;
 }
 
-/* Estilos de la barra de desplazamiento general */
+/* Scrollbar global */
 ::-webkit-scrollbar {
   width: 8px;
 }
-
 ::-webkit-scrollbar-track {
   background: #f1f5f9;
 }
-
 ::-webkit-scrollbar-thumb {
   background: #719177;
   border-radius: 3px;
@@ -108,7 +67,6 @@ html, body {
   -ms-overflow-style: none;  /* IE y Edge */
   scrollbar-width: none;  /* Firefox */
 }
-
 .scrollbar-hide::-webkit-scrollbar {
   display: none;  /* Chrome, Safari y Opera */
 }

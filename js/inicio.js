@@ -143,14 +143,14 @@ function seleccionarCategoriaEscritorio(elemento, categoria) {
     
     if (categoriasSeleccionadas.has(categoria)) {
         categoriasSeleccionadas.delete(categoria);
-        elemento.classList.remove('bg-green-50');
+        elemento.classList.remove('bg-gray-100');
         const tarjetaCategoria = document.querySelector(`[data-category="${categoria}"]`);
         if (tarjetaCategoria) {
             tarjetaCategoria.remove();
         }
     } else {
         categoriasSeleccionadas.add(categoria);
-        elemento.classList.add('bg-green-50');
+        elemento.classList.add('bg-gray-100');
         let seccionCategorias = document.querySelector('.categories-section');
         if (!seccionCategorias) {
             seccionCategorias = document.createElement('div');

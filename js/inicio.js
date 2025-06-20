@@ -79,11 +79,11 @@ function generarProductosMovil(categoria = 'todas') {
                 </div>
             </div>
             <div class="p-3">
-                <h4 class="text-sm font-medium text-gray-800 mb-1">${producto.nombre}</h4>
-                <p class="text-xs text-green mb-2">${producto.estado}</p>
+                <h4 class="text-sm font-medium text-gray-800 mb-3">${producto.nombre}</h4>
+                <p class="text-base text-green mb-3">${producto.estado}</p>
                 <div class="flex items-center gap-2">
                     <img src="recursos/iconos/Solid/Status/Star.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
-                    <span class="text-xs text-gray-500">${producto.calificacion}</span>
+                    <span class="text-base text-gray-500">${producto.calificacion} (${producto.resenas})</span>
                 </div>
             </div>
         </div>
@@ -110,12 +110,12 @@ function generarProductosEscritorio(categoria = 'todas') {
                 </div>
             </div>
             <div class="p-4">
-                <h4 class="text-base font-medium text-gray-800 mb-1 truncate">${producto.nombre}</h4>
+                <h4 class="text-sm font-medium text-gray-800 mb-3 truncate">${producto.nombre}</h4>
                 <div class="flex justify-between items-center">
-                    <p class="text-green">${producto.estado}</p>
+                    <p class="text-base text-green">${producto.estado}</p>
                     <div class="flex items-center gap-2">
                         <img src="recursos/iconos/Solid/Status/Star.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
-                        <span class="text-gray-500 text-xs">${producto.calificacion}</span>
+                        <span class="text-gray-500 text-base">${producto.calificacion} (${producto.resenas})</span>
                     </div>
                 </div>
             </div>
@@ -143,14 +143,14 @@ function seleccionarCategoriaEscritorio(elemento, categoria) {
     
     if (categoriasSeleccionadas.has(categoria)) {
         categoriasSeleccionadas.delete(categoria);
-        elemento.classList.remove('bg-green-50');
+        elemento.classList.remove('bg-gray-100');
         const tarjetaCategoria = document.querySelector(`[data-category="${categoria}"]`);
         if (tarjetaCategoria) {
             tarjetaCategoria.remove();
         }
     } else {
         categoriasSeleccionadas.add(categoria);
-        elemento.classList.add('bg-green-50');
+        elemento.classList.add('bg-gray-100');
         let seccionCategorias = document.querySelector('.categories-section');
         if (!seccionCategorias) {
             seccionCategorias = document.createElement('div');
@@ -270,11 +270,11 @@ function filtrarProductos(consulta) {
                     </div>
                 </div>
                 <div class="p-3">
-                    <h4 class="text-sm font-medium text-gray-800 mb-1">${producto.nombre}</h4>
-                    <p class="text-xs text-green mb-2">${producto.estado}</p>
+                    <h4 class="text-sm font-medium text-gray-800 mb-3">${producto.nombre}</h4>
+                    <p class="text-base text-green mb-3">${producto.estado}</p>
                     <div class="flex items-center gap-2">
                         <img src="recursos/iconos/Solid/Status/Star.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
-                        <span class="text-xs text-gray-500">${producto.calificacion}</span>
+                        <span class="text-base text-gray-500">${producto.calificacion} (${producto.resenas})</span>
                     </div>
                 </div>
             </div>
@@ -291,12 +291,12 @@ function filtrarProductos(consulta) {
                     </div>
                 </div>
                 <div class="p-4">
-                    <h4 class="text-base font-medium text-gray-800 mb-1 truncate">${producto.nombre}</h4>
+                    <h4 class="text-sm font-medium text-gray-800 mb-3 truncate">${producto.nombre}</h4>
                     <div class="flex justify-between items-center">
-                        <p class="text-green">${producto.estado}</p>
+                        <p class="text-base text-green">${producto.estado}</p>
                         <div class="flex items-center gap-2">
                             <img src="recursos/iconos/Solid/Status/Star.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
-                            <span class="text-gray-500 text-xs">${producto.calificacion}</span>
+                            <span class="text-gray-500 text-base">${producto.calificacion} (${producto.resenas})</span>
                         </div>
                     </div>
                 </div>

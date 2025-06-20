@@ -125,15 +125,39 @@ function generarProductosEscritorio(categoria = 'todas') {
 
 // Selección de categoría móvil
 function seleccionarCategoria(elemento) {
-    document.querySelectorAll('.mobile-category').forEach(cat => {
-        const span = cat.querySelector('span');
-        span.classList.remove('text-green');
-        span.classList.add('text-gray-600');
-    });
+    // Obtener el nombre de la categoría desde el span
+    const nombreCategoria = elemento.querySelector('span').textContent.trim().toLowerCase();
+    // Mapear el nombre visible a la clave de categoría
+    const mapCategoria = {
+        'tecnología': 'tecnologia',
+        'hogar': 'hogar',
+        'ropa': 'ropa',
+        'accesorios': 'accesorios'
+    };
+    const categoria = mapCategoria[nombreCategoria] || nombreCategoria;
 
-    const span = elemento.querySelector('span');
-    span.classList.remove('text-gray-600');
-    span.classList.add('text-green');
+    // Alternar selección múltiple
+    if (categoriasSeleccionadas.has(categoria)) {
+        categoriasSeleccionadas.delete(categoria);
+        elemento.querySelector('div').classList.remove('bg-green');
+        elemento.querySelector('div').classList.add('bg-gray-100');
+        const img = elemento.querySelector('img');
+        img.classList.remove('svg-white');
+        img.classList.add('svg-green');
+        elemento.querySelector('span').classList.remove('text-green');
+        elemento.querySelector('span').classList.add('text-gray-600');
+    } else {
+        categoriasSeleccionadas.add(categoria);
+        elemento.querySelector('div').classList.remove('bg-gray-100');
+        elemento.querySelector('div').classList.add('bg-green');
+        const img = elemento.querySelector('img');
+        img.classList.remove('svg-green');
+        img.classList.add('svg-white');
+        elemento.querySelector('span').classList.remove('text-gray-600');
+        elemento.querySelector('span').classList.add('text-green');
+    }
+    generarProductosMovil();
+    generarProductosEscritorio();
 }
 
 // Selección de categoría escritorio

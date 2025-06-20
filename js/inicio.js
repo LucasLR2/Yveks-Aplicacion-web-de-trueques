@@ -79,7 +79,7 @@ function generarProductosMovil(categoria = 'todas') {
                 </div>
             </div>
             <div class="p-3">
-                <h4 class="text-sm font-medium text-gray-800 mb-3">${producto.nombre}</h4>
+                <h4 class="text-sm text-gray-800 mb-3">${producto.nombre}</h4>
                 <p class="text-base text-green mb-3">${producto.estado}</p>
                 <div class="flex items-center gap-2">
                     <img src="recursos/iconos/Solid/Status/Star.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
@@ -110,7 +110,7 @@ function generarProductosEscritorio(categoria = 'todas') {
                 </div>
             </div>
             <div class="p-4">
-                <h4 class="text-sm font-medium text-gray-800 mb-3 truncate">${producto.nombre}</h4>
+                <h4 class="text-sm text-gray-800 mb-3 truncate">${producto.nombre}</h4>
                 <div class="flex justify-between items-center">
                     <p class="text-base text-green">${producto.estado}</p>
                     <div class="flex items-center gap-2">
@@ -294,7 +294,7 @@ function filtrarProductos(consulta) {
                     </div>
                 </div>
                 <div class="p-3">
-                    <h4 class="text-sm font-medium text-gray-800 mb-3">${producto.nombre}</h4>
+                    <h4 class="text-sm text-gray-800 mb-3">${producto.nombre}</h4>
                     <p class="text-base text-green mb-3">${producto.estado}</p>
                     <div class="flex items-center gap-2">
                         <img src="recursos/iconos/Solid/Status/Star.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
@@ -315,7 +315,7 @@ function filtrarProductos(consulta) {
                     </div>
                 </div>
                 <div class="p-4">
-                    <h4 class="text-sm font-medium text-gray-800 mb-3 truncate">${producto.nombre}</h4>
+                    <h4 class="text-sm text-gray-800 mb-3 truncate">${producto.nombre}</h4>
                     <div class="flex justify-between items-center">
                         <p class="text-base text-green">${producto.estado}</p>
                         <div class="flex items-center gap-2">

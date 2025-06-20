@@ -79,7 +79,7 @@ function generarProductosMovil(categoria = 'todas') {
                 </div>
             </div>
             <div class="p-3">
-                <h4 class="text-sm font-medium text-gray-800 mb-3">${producto.nombre}</h4>
+                <h4 class="text-sm text-gray-800 mb-3">${producto.nombre}</h4>
                 <p class="text-base text-green mb-3">${producto.estado}</p>
                 <div class="flex items-center gap-2">
                     <img src="recursos/iconos/Solid/Status/Star.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
@@ -110,7 +110,7 @@ function generarProductosEscritorio(categoria = 'todas') {
                 </div>
             </div>
             <div class="p-4">
-                <h4 class="text-sm font-medium text-gray-800 mb-3 truncate">${producto.nombre}</h4>
+                <h4 class="text-sm text-gray-800 mb-3 truncate">${producto.nombre}</h4>
                 <div class="flex justify-between items-center">
                     <p class="text-base text-green">${producto.estado}</p>
                     <div class="flex items-center gap-2">
@@ -125,15 +125,39 @@ function generarProductosEscritorio(categoria = 'todas') {
 
 // Selección de categoría móvil
 function seleccionarCategoria(elemento) {
-    document.querySelectorAll('.mobile-category').forEach(cat => {
-        const span = cat.querySelector('span');
-        span.classList.remove('text-green');
-        span.classList.add('text-gray-600');
-    });
+    // Obtener el nombre de la categoría desde el span
+    const nombreCategoria = elemento.querySelector('span').textContent.trim().toLowerCase();
+    // Mapear el nombre visible a la clave de categoría
+    const mapCategoria = {
+        'tecnología': 'tecnologia',
+        'hogar': 'hogar',
+        'ropa': 'ropa',
+        'accesorios': 'accesorios'
+    };
+    const categoria = mapCategoria[nombreCategoria] || nombreCategoria;
 
-    const span = elemento.querySelector('span');
-    span.classList.remove('text-gray-600');
-    span.classList.add('text-green');
+    // Alternar selección múltiple
+    if (categoriasSeleccionadas.has(categoria)) {
+        categoriasSeleccionadas.delete(categoria);
+        elemento.querySelector('div').classList.remove('bg-green');
+        elemento.querySelector('div').classList.add('bg-gray-100');
+        const img = elemento.querySelector('img');
+        img.classList.remove('svg-white');
+        img.classList.add('svg-green');
+        elemento.querySelector('span').classList.remove('text-green');
+        elemento.querySelector('span').classList.add('text-gray-600');
+    } else {
+        categoriasSeleccionadas.add(categoria);
+        elemento.querySelector('div').classList.remove('bg-gray-100');
+        elemento.querySelector('div').classList.add('bg-green');
+        const img = elemento.querySelector('img');
+        img.classList.remove('svg-green');
+        img.classList.add('svg-white');
+        elemento.querySelector('span').classList.remove('text-gray-600');
+        elemento.querySelector('span').classList.add('text-green');
+    }
+    generarProductosMovil();
+    generarProductosEscritorio();
 }
 
 // Selección de categoría escritorio
@@ -270,7 +294,7 @@ function filtrarProductos(consulta) {
                     </div>
                 </div>
                 <div class="p-3">
-                    <h4 class="text-sm font-medium text-gray-800 mb-3">${producto.nombre}</h4>
+                    <h4 class="text-sm text-gray-800 mb-3">${producto.nombre}</h4>
                     <p class="text-base text-green mb-3">${producto.estado}</p>
                     <div class="flex items-center gap-2">
                         <img src="recursos/iconos/Solid/Status/Star.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
@@ -291,7 +315,7 @@ function filtrarProductos(consulta) {
                     </div>
                 </div>
                 <div class="p-4">
-                    <h4 class="text-sm font-medium text-gray-800 mb-3 truncate">${producto.nombre}</h4>
+                    <h4 class="text-sm text-gray-800 mb-3 truncate">${producto.nombre}</h4>
                     <div class="flex justify-between items-center">
                         <p class="text-base text-green">${producto.estado}</p>
                         <div class="flex items-center gap-2">
@@ -309,4 +333,22 @@ document.addEventListener('DOMContentLoaded', function () {
     generarProductosMovil();
     generarProductosEscritorio();
     configurarBusqueda();
+    const slider = document.querySelector('.px-4.mb-6 .flex.overflow-x-auto');
+    const caretLeft = document.querySelector('.caret-left-indicador');
+    const caretRight = document.querySelector('.caret-right-indicador');
+    if (!slider || !caretLeft || !caretRight) return;
+    function updateCarets() {
+        if (slider.scrollLeft > 5) {
+            caretLeft.style.opacity = '1';
+        } else {
+            caretLeft.style.opacity = '0';
+        }
+        if (slider.scrollWidth - slider.clientWidth - slider.scrollLeft > 5) {
+            caretRight.style.opacity = '1';
+        } else {
+            caretRight.style.opacity = '0';
+        }
+    }
+    slider.addEventListener('scroll', updateCarets);
+    updateCarets();
 });

@@ -38,33 +38,43 @@ function setActiveTab(elemento, indice, dispositivo) {
         botonCentral.style.transition = 'transform 0.3s ease';
 
         botones.forEach((btn, i) => {
-            if (i !== 2) {
-                const icono = btn.querySelector('img');
-                btn.classList.remove('text-green');
-                btn.classList.add('text-gray-300');
-                icono.style.transform = 'translateY(0)';
-                icono.style.transition = 'transform 0.3s ease';
-                // Cambiar a icono Outline
-                cambiarIconoAOutline(icono);
-            }
+            const icono = btn.querySelector('img');
+            if (i === 2) return; // No cambiar el plus
+            btn.classList.remove('text-green');
+            btn.classList.add('text-gray-300');
+            icono.classList.remove('svg-green');
+            icono.classList.add('svg-white');
+            icono.style.transform = 'translateY(0)';
+            icono.style.transition = 'transform 0.3s ease';
+            // Cambiar a icono Outline
+            cambiarIconoAOutline(icono);
+            // Eliminar cualquier clase svg-* de color antes de agregar svg-white
+            icono.classList.remove('svg-green', 'svg-gray-300', 'svg-gray-400', 'svg-gray-600', 'svg-gray-800', 'svg-yellow');
         });
     } else {
         burbuja.style.opacity = '1';
         const botonCentral = botones[2];
         botonCentral.style.transform = 'scale(1)';
         botonCentral.style.transition = 'transform 0.3s ease';
-        const anchoContenedor = elemento.parentElement.offsetWidth;
-        const posicionBoton = indice * (anchoContenedor / 5);
-        const desplazamientoBurbuja = posicionBoton + (anchoContenedor / 10) - 24;
-        burbuja.style.transform = `translateX(${desplazamientoBurbuja}px) translateY(11px)`;
+        // Nuevo cálculo usando left
+        const contenedorVerde = burbuja.parentElement;
+        const anchoContenedor = contenedorVerde.offsetWidth;
+        const cantidadBotones = botones.length;
+        const anchoBoton = anchoContenedor / cantidadBotones;
+        const leftBurbuja = (indice + 0.5) * anchoBoton - (burbuja.offsetWidth / 2);
+        burbuja.style.left = leftBurbuja + 'px';
+        burbuja.style.transform = 'translateY(11px)';
         botones.forEach((btn, i) => {
             const icono = btn.querySelector('img');
+            if (i === 2) return; // No cambiar el plus
             if (btn.classList.contains('bg-white')) {
                 return;
             }
             if (i === indice) {
                 btn.classList.remove('text-gray-300');
                 btn.classList.add('text-green');
+                icono.classList.remove('svg-white', 'svg-gray-300', 'svg-gray-400', 'svg-gray-600', 'svg-gray-800', 'svg-yellow', 'svg-green');
+                icono.classList.add('svg-green');
                 icono.style.transform = 'translateY(-8px)';
                 icono.style.transition = 'transform 0.3s ease';
                 // Cambiar a icono Solid
@@ -72,6 +82,8 @@ function setActiveTab(elemento, indice, dispositivo) {
             } else {
                 btn.classList.remove('text-green');
                 btn.classList.add('text-gray-300');
+                icono.classList.remove('svg-green', 'svg-gray-300', 'svg-gray-400', 'svg-gray-600', 'svg-gray-800', 'svg-yellow', 'svg-white');
+                icono.classList.add('svg-white');
                 icono.style.transform = 'translateY(0)';
                 icono.style.transition = 'transform 0.3s ease';
                 // Cambiar a icono Outline

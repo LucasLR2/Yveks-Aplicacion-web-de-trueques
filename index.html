@@ -93,39 +93,36 @@
             </div>
 
             <!-- Bottom Navigation -->
-            <div
-                class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-sm bg-green relative overflow-hidden">
-                <!-- Burbuja animada -->
-                <div id="mobile-bubble"
-                    class="absolute bottom-7 w-12 h-12 bg-white bubble-u-shape transition-all duration-300 ease-out transform translate-x-6 translate-y-2">
-                </div>
-
-                <div class="flex py-2 relative z-10">
-                    <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
-                        onclick="setActiveTab(this, 0, 'mobile')">
-                        <img src="recursos/iconos/Outline/General/Home.svg" alt="Inicio" class="w-6 h-6 mb-1 svg-gray-300">
-                    </button>
-
-                    <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
-                        onclick="setActiveTab(this, 1, 'mobile')">
-                        <img src="recursos/iconos/Outline/General/tag.svg" alt="Ofertas" class="w-6 h-6 mb-1 svg-gray-300">
-                    </button>
-
-                    <button
-                        class="w-10 h-10 flex items-center justify-center bg-white text-green rounded-full shadow-lg transition-colors relative z-20 mx-auto"
-                        onclick="setActiveTab(this, 2, 'mobile')">
-                        <img src="recursos/iconos/Solid/Interface/Plus.svg" alt="Agregar" class="w-5 h-5 svg-green">
-                    </button>
-
-                    <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
-                        onclick="setActiveTab(this, 3, 'mobile')">
-                        <img src="recursos/iconos/Outline/Communication/Comment.svg" alt="Comentarios" class="w-6 h-6 mb-1 svg-gray-300">
-                    </button>
-
-                    <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
-                        onclick="setActiveTab(this, 4, 'mobile')">
-                        <img src="recursos/iconos/Outline/Communication/User.svg" alt="Usuario" class="w-6 h-6 mb-1 svg-gray-300">
-                    </button>
+            <div class="fixed bottom-0 left-0 w-full max-w-sm z-50 mx-auto right-0">
+                <div class="w-full h-3 bg-white"></div>
+                <div class="relative bg-green overflow-hidden">
+                    <!-- Burbuja animada -->
+                    <div id="mobile-bubble"
+                        class="absolute left-1/2 bottom-7 -translate-x-1/2 w-12 h-12 bg-white bubble-u-shape">
+                    </div>
+                    <div class="flex py-2 relative z-10">
+                        <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
+                            onclick="setActiveTab(this, 0, 'mobile')">
+                            <img src="recursos/iconos/Outline/General/Home.svg" alt="Inicio" class="w-6 h-6 mb-1 svg-gray-300">
+                        </button>
+                        <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
+                            onclick="setActiveTab(this, 1, 'mobile')">
+                            <img src="recursos/iconos/Solid/General/tag.svg" alt="Ofertas" class="w-6 h-6 mb-1 svg-gray-300">
+                        </button>
+                        <button
+                            class="w-10 h-10 flex items-center justify-center bg-white text-green rounded-full shadow-lg transition-colors relative z-20 mx-auto"
+                            onclick="setActiveTab(this, 2, 'mobile')">
+                            <img src="recursos/iconos/Solid/Interface/Plus.svg" alt="Agregar" class="w-4 h-4 svg-green">
+                        </button>
+                        <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
+                            onclick="setActiveTab(this, 3, 'mobile')">
+                            <img src="recursos/iconos/Outline/Communication/Comment.svg" alt="Comentarios" class="w-6 h-6 mb-1 svg-gray-300">
+                        </button>
+                        <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
+                            onclick="setActiveTab(this, 4, 'mobile')">
+                            <img src="recursos/iconos/Outline/Communication/User.svg" alt="Usuario" class="w-6 h-6 mb-1 svg-gray-300">
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

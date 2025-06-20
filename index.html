@@ -44,41 +44,43 @@
             <!-- Categorías -->
             <div class="px-4 mb-6">
                 <h3 class="text-lg text-gray-800 mb-4">Categorías</h3>
-                <div class="grid grid-cols-4 gap-4">
-                    <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category"
-                        onclick="seleccionarCategoria(this)">
-                        <div
-                            class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                            <img src="recursos/iconos/Outline/Devices/Processor.svg" alt="Tecnología" class="w-5 h-5 svg-green">
+                <div class="relative">
+                    <div class="flex gap-x-4 overflow-x-auto scrollbar-hide">
+                        <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category min-w-[72px]"
+                            onclick="seleccionarCategoria(this)">
+                            <div
+                                class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
+                                <img src="recursos/iconos/Outline/Devices/Processor.svg" alt="Tecnología" class="w-5 h-5 svg-green">
+                            </div>
+                            <span class="text-xs text-gray-600 text-center truncate w-full block" title="Tecnología">Tecnología</span>
                         </div>
-                        <span class="text-xs text-gray-600 text-center">Tecnología</span>
-                    </div>
 
-                    <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category"
-                        onclick="seleccionarCategoria(this)">
-                        <div
-                            class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                            <img src="recursos/iconos/Outline/Devices/armchair.svg" alt="Hogar" class="w-5 h-5 svg-green">
+                        <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category min-w-[72px]"
+                            onclick="seleccionarCategoria(this)">
+                            <div
+                                class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
+                                <img src="recursos/iconos/Outline/Devices/armchair.svg" alt="Hogar" class="w-5 h-5 svg-green">
+                            </div>
+                            <span class="text-xs text-gray-600 text-center truncate w-full block" title="Hogar">Hogar</span>
                         </div>
-                        <span class="text-xs text-gray-600 text-center">Hogar</span>
-                    </div>
 
-                    <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category"
-                        onclick="seleccionarCategoria(this)">
-                        <div
-                            class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                            <img src="recursos/iconos/Outline/Devices/shirt.svg" alt="Ropa" class="w-5 h-5 svg-green">
+                        <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category min-w-[72px]"
+                            onclick="seleccionarCategoria(this)">
+                            <div
+                                class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
+                                <img src="recursos/iconos/Outline/Devices/shirt.svg" alt="Ropa" class="w-5 h-5 svg-green">
+                            </div>
+                            <span class="text-xs text-gray-600 text-center truncate w-full block" title="Ropa">Ropa</span>
                         </div>
-                        <span class="text-xs text-gray-600 text-center">Ropa</span>
-                    </div>
 
-                    <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category"
-                        onclick="seleccionarCategoria(this)">
-                        <div
-                            class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                            <img src="recursos/iconos/Outline/Devices/glasses.svg" alt="Accesorios" class="w-5 h-5 svg-green">
+                        <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category min-w-[72px]"
+                            onclick="seleccionarCategoria(this)">
+                            <div
+                                class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
+                                <img src="recursos/iconos/Outline/Devices/glasses.svg" alt="Accesorios" class="w-5 h-5 svg-green">
+                            </div>
+                            <span class="text-xs text-gray-600 text-center truncate w-full block" title="Accesorios">Accesorios</span>
                         </div>
-                        <span class="text-xs text-gray-600 text-center">Accesorios</span>
                     </div>
                 </div>
             </div>

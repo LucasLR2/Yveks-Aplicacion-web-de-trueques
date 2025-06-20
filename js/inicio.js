@@ -333,4 +333,22 @@ document.addEventListener('DOMContentLoaded', function () {
     generarProductosMovil();
     generarProductosEscritorio();
     configurarBusqueda();
+    const slider = document.querySelector('.px-4.mb-6 .flex.overflow-x-auto');
+    const caretLeft = document.querySelector('.caret-left-indicador');
+    const caretRight = document.querySelector('.caret-right-indicador');
+    if (!slider || !caretLeft || !caretRight) return;
+    function updateCarets() {
+        if (slider.scrollLeft > 5) {
+            caretLeft.style.opacity = '1';
+        } else {
+            caretLeft.style.opacity = '0';
+        }
+        if (slider.scrollWidth - slider.clientWidth - slider.scrollLeft > 5) {
+            caretRight.style.opacity = '1';
+        } else {
+            caretRight.style.opacity = '0';
+        }
+    }
+    slider.addEventListener('scroll', updateCarets);
+    updateCarets();
 });

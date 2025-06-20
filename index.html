@@ -16,25 +16,24 @@
         <!-- Container principal para móvil -->
         <div class="max-w-sm mx-auto bg-white min-h-screen relative">
             <!-- Header con ubicación -->
-            <div class="bg-white px-4 py-3 border-b border-gray-100">
-                <div class="flex items-center justify-between mb-3">
-                    <div class="flex items-center space-x-2">
-                        <span class="text-sm text-gray-600">Ubicación</span>
+            <div class="bg-white px-4 pb-2 pt-3">
+                <div class="flex flex-col">
+                    <span class="text-xs text-gray-600 mb-0">Ubicación</span>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <img src="recursos/iconos/Solid/Navigation/Location.svg" alt="Ubicación" class="w-5 h-5 svg-green">
+                            <span class="text-sm text-gray-800">Montevideo, Uruguay</span>
+                            <img src="recursos/iconos/Solid/Interface/Caret down.svg" alt="Expandir" class="w-6 h-6 svg-gray-800">
+                        </div>
+                        <div class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center">
+                            <img src="recursos/iconos/Solid/Status/Notification.svg" alt="Notificaciones" class="w-5 h-5 svg-gray-800">
+                        </div>
                     </div>
-                    <div class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center">
-                        <img src="recursos/iconos/Solid/Status/Notification.svg" alt="Notificaciones" class="w-5 h-5 svg-gray-800">
-                    </div>
-                </div>
-
-                <div class="flex items-center space-x-2">
-                    <img src="recursos/iconos/Solid/Navigation/Location.svg" alt="Ubicación" class="w-5 h-5 svg-green">
-                    <span class="text-sm text-gray-800">Montevideo, Uruguay</span>
-                    <img src="recursos/iconos/Solid/Interface/Caret down.svg" alt="Expandir" class="w-6 h-6 svg-gray-800">
                 </div>
             </div>
 
             <!-- Barra de búsqueda -->
-            <div class="px-4 py-3">
+            <div class="px-4 pt-1 pb-3">
                 <div class="relative">
                     <img src="recursos/iconos/Solid/Interface/Search.svg" alt="Buscar" class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 svg-green">
                     <input type="text" placeholder="Buscar" id="mobile-search"

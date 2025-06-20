@@ -26,7 +26,7 @@ function generarEstrellas(cantidad) {
 }
 
 // Función de navegación móvil
-function activarPestana(elemento, indice, dispositivo) {
+function setActiveTab(elemento, indice, dispositivo) {
     const idBurbuja = dispositivo === 'mobile' ? 'mobile-bubble' : 'desktop-bubble';
     const burbuja = document.getElementById(idBurbuja);
     const botones = document.querySelectorAll(`[onclick*="setActiveTab"][onclick*="${dispositivo}"]`);
@@ -39,11 +39,13 @@ function activarPestana(elemento, indice, dispositivo) {
 
         botones.forEach((btn, i) => {
             if (i !== 2) {
-                const icono = btn.querySelector('i');
+                const icono = btn.querySelector('img');
                 btn.classList.remove('text-green');
                 btn.classList.add('text-gray-300');
                 icono.style.transform = 'translateY(0)';
                 icono.style.transition = 'transform 0.3s ease';
+                // Cambiar a icono Outline
+                cambiarIconoAOutline(icono);
             }
         });
     } else {
@@ -56,7 +58,7 @@ function activarPestana(elemento, indice, dispositivo) {
         const desplazamientoBurbuja = posicionBoton + (anchoContenedor / 10) - 24;
         burbuja.style.transform = `translateX(${desplazamientoBurbuja}px) translateY(11px)`;
         botones.forEach((btn, i) => {
-            const icono = btn.querySelector('i');
+            const icono = btn.querySelector('img');
             if (btn.classList.contains('bg-white')) {
                 return;
             }
@@ -65,24 +67,60 @@ function activarPestana(elemento, indice, dispositivo) {
                 btn.classList.add('text-green');
                 icono.style.transform = 'translateY(-8px)';
                 icono.style.transition = 'transform 0.3s ease';
+                // Cambiar a icono Solid
+                cambiarIconoASolid(icono);
             } else {
                 btn.classList.remove('text-green');
                 btn.classList.add('text-gray-300');
                 icono.style.transform = 'translateY(0)';
                 icono.style.transition = 'transform 0.3s ease';
+                // Cambiar a icono Outline
+                cambiarIconoAOutline(icono);
             }
         });
     }
 }
 
 // Función de navegación escritorio
-function activarNavegacionEscritorio(elemento) {
+function setDesktopActiveNav(elemento) {
     document.querySelectorAll('.desktop-nav-item').forEach(item => {
         item.classList.remove('active', 'bg-green', 'text-white');
-        item.classList.add('text-gray-600', 'hover:bg-gray-50');
+        item.classList.add('text-green', 'hover:bg-gray-50');
+        // Cambiar iconos a Outline
+        const icono = item.querySelector('img');
+        if (icono) {
+            cambiarIconoAOutline(icono);
+            icono.classList.remove('svg-white');
+            icono.classList.add('svg-green');
+        }
     });
-    elemento.classList.remove('text-gray-600', 'hover:bg-gray-50');
+    elemento.classList.remove('text-green', 'hover:bg-gray-50');
     elemento.classList.add('active', 'bg-green', 'text-white');
+    // Cambiar icono a Solid
+    const icono = elemento.querySelector('img');
+    if (icono) {
+        cambiarIconoASolid(icono);
+        icono.classList.remove('svg-green');
+        icono.classList.add('svg-white');
+    }
+}
+
+// Función para cambiar icono a Outline
+function cambiarIconoAOutline(icono) {
+    const src = icono.src;
+    if (src.includes('/Solid/')) {
+        const nuevoSrc = src.replace('/Solid/', '/Outline/');
+        icono.src = nuevoSrc;
+    }
+}
+
+// Función para cambiar icono a Solid
+function cambiarIconoASolid(icono) {
+    const src = icono.src;
+    if (src.includes('/Outline/')) {
+        const nuevoSrc = src.replace('/Outline/', '/Solid/');
+        icono.src = nuevoSrc;
+    }
 }
 
 // Función genérica para manejar iconos SVG
@@ -107,6 +145,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Activar primera pestaña móvil por defecto
     const primerTabMovil = document.querySelector('[onclick*="setActiveTab"][onclick*="mobile"]');
     if (primerTabMovil) {
-        activarPestana(primerTabMovil, 0, 'mobile');
+        setActiveTab(primerTabMovil, 0, 'mobile');
     }
 });

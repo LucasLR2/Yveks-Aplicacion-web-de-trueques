@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Marketplace Móvil</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/estilos-generales.css">
     <link rel="stylesheet" href="css/inicio.css">
 </head>
@@ -23,21 +22,21 @@
                         <span class="text-sm text-gray-600">Ubicación</span>
                     </div>
                     <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                        <i class="fas fa-bell text-gray-600 text-sm"></i>
+                        <img src="recursos/iconos/Solid/Status/Notification.svg" alt="Notificaciones" class="w-4 h-4 svg-gray-600">
                     </div>
                 </div>
 
                 <div class="flex items-center space-x-2">
-                    <i class="fas fa-map-marker-alt text-green"></i>
+                    <img src="recursos/iconos/Solid/Navigation/Location.svg" alt="Ubicación" class="w-4 h-4 svg-green">
                     <span class="font-medium text-gray-800">Montevideo, Uruguay</span>
-                    <i class="fas fa-chevron-down text-gray-400 text-sm"></i>
+                    <img src="recursos/iconos/Solid/Interface/Caret down.svg" alt="Expandir" class="w-3 h-3 svg-gray-400">
                 </div>
             </div>
 
             <!-- Barra de búsqueda -->
             <div class="px-4 py-3">
                 <div class="relative">
-                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    <img src="recursos/iconos/Solid/Interface/Search.svg" alt="Buscar" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 svg-gray-400">
                     <input type="text" placeholder="Buscar" id="mobile-search"
                         class="w-full pl-10 pr-4 py-3 bg-gray-0 ring-green rounded-full text-sm focus:outline-none">
                 </div>
@@ -104,28 +103,28 @@
                 <div class="flex py-2 relative z-10">
                     <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
                         onclick="setActiveTab(this, 0, 'mobile')">
-                        <i class="fas fa-home text-lg mb-1"></i>
+                        <img src="recursos/iconos/Outline/General/Home.svg" alt="Inicio" class="w-6 h-6 mb-1 svg-gray-300">
                     </button>
 
                     <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
                         onclick="setActiveTab(this, 1, 'mobile')">
-                        <i class="fas fa-tag text-lg mb-1"></i>
+                        <img src="recursos/iconos/Outline/General/tag.svg" alt="Ofertas" class="w-6 h-6 mb-1 svg-gray-300">
                     </button>
 
                     <button
                         class="w-10 h-10 flex items-center justify-center bg-white text-green rounded-full shadow-lg transition-colors relative z-20 mx-auto"
                         onclick="setActiveTab(this, 2, 'mobile')">
-                        <i class="fas fa-plus text-xl"></i>
+                        <img src="recursos/iconos/Solid/Interface/Plus.svg" alt="Agregar" class="w-5 h-5 svg-green">
                     </button>
 
                     <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
                         onclick="setActiveTab(this, 3, 'mobile')">
-                        <i class="fas fa-comment text-lg mb-1"></i>
+                        <img src="recursos/iconos/Outline/Communication/Comment.svg" alt="Comentarios" class="w-6 h-6 mb-1 svg-gray-300">
                     </button>
 
                     <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
                         onclick="setActiveTab(this, 4, 'mobile')">
-                        <i class="fas fa-user text-lg mb-1"></i>
+                        <img src="recursos/iconos/Outline/Communication/User.svg" alt="Usuario" class="w-6 h-6 mb-1 svg-gray-300">
                     </button>
                 </div>
             </div>
@@ -140,7 +139,7 @@
             <div class="p-6 border-b border-gray-100">
                 <div class="flex items-center space-x-3 mb-4">
                     <div class="w-10 h-10 bg-green rounded-full flex items-center justify-center">
-                        <i class="fas fa-store text-white text-lg"></i>
+                        <img src="recursos/iconos/Solid/General/Shopping-bag.svg" alt="Marketplace" class="w-5 h-5 svg-white">
                     </div>
                     <div>
                         <h1 class="text-xl font-bold text-gray-800">Marketplace</h1>
@@ -150,7 +149,7 @@
 
                 <!-- Ubicación en sidebar -->
                 <div class="flex items-center space-x-2 text-sm">
-                    <i class="fas fa-map-marker-alt text-green"></i>
+                    <img src="recursos/iconos/Solid/Navigation/Location.svg" alt="Ubicación" class="w-4 h-4 svg-green">
                     <span class="text-gray-600">Montevideo, Uruguay</span>
                 </div>
             </div>
@@ -162,23 +161,23 @@
                         <a href="index.html"
                             class="desktop-nav-item active flex items-center space-x-3 px-4 py-3 rounded-lg bg-green text-white"
                             onclick="setDesktopActiveNav(this)">
-                            <i class="fas fa-home"></i>
+                            <img src="recursos/iconos/Solid/General/Home.svg" alt="Inicio" class="w-5 h-5 svg-white">
                             <span>Inicio</span>
                         </a>
                     </li>
                     <li>
                         <a href="ofertas.html"
-                            class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-50 smooth-transition"
+                            class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-green hover:bg-gray-50 smooth-transition"
                             onclick="setDesktopActiveNav(this)">
-                            <i class="fas fa-tag"></i>
+                            <img src="recursos/iconos/Outline/General/tag.svg" alt="Ofertas" class="w-5 h-5 svg-green">
                             <span>Ofertas</span>
                         </a>
                     </li>
                     <li>
                         <a href="#"
-                            class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-50 smooth-transition"
+                            class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-green hover:bg-gray-50 smooth-transition"
                             onclick="setDesktopActiveNav(this)">
-                            <i class="fas fa-user"></i>
+                            <img src="recursos/iconos/Outline/Communication/User.svg" alt="Perfil" class="w-5 h-5 svg-green">
                             <span>Perfil</span>
                         </a>
                     </li>
@@ -216,32 +215,35 @@
         <!-- Main Content Area -->
         <div class="desktop-main overflow-y-auto">
             <!-- Top Header -->
-            <header class="bg-white border-b border-gray-200 px-8 py-4 sticky top-0 z-40">
+            <header class="bg-white border-b border-gray-200 px-20 py-4 sticky top-0 z-40">
                 <div class="flex items-center justify-between">
                     <!-- Barra de búsqueda expandida -->
-                    <div class="flex-1 max-w-2xl mr-8">
+                    <div class="flex-1 max-w-2xl">
                         <div class="relative">
-                            <i
-                                class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <img src="recursos/iconos/Solid/Interface/Search.svg" alt="Buscar" class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 svg-green">
                             <input type="text" placeholder="Buscar productos, marcas, categorías..." id="desktop-search"
-                                class="w-full pl-12 pr-4 py-3 rounded-full text-sm ring-green smooth-transition">
+                                class="w-full pl-12 pr-4 py-3 rounded-full text-sm border border-gray-600 focus:outline-none text-gray-600 placeholder-gray-600">
                         </div>
+                    </div>
+
+                    <!-- Botón Nueva publicación centrado -->
+                    <div class="mx-8">
+                        <button class="bg-green text-white px-4 h-8 rounded-full smooth-transition flex items-center text-sm">
+                            <img src="recursos/iconos/Solid/Interface/Plus.svg" alt="Publicar" class="w-3 h-3 svg-white mr-2">
+                            Nueva publicación
+                        </button>
                     </div>
 
                     <!-- Acciones del header -->
                     <div class="flex items-center space-x-4">
-                        <button class="bg-green text-white px-20 py-2 rounded-full font-semibold smooth-transition">
-                            <i class="fas fa-plus text-x"></i>
-                            Publicar ahora
+                        <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition">
+                            <img src="recursos/iconos/Solid/Communication/Comment.svg" alt="Comentarios" class="w-5 h-5 svg-gray-800">
                         </button>
-                        <button class="w-8 h-8 relative bg-green rounded-full smooth-transition">
-                            <i class="fas fa-comment text-white text-x"></i>
+                        <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition">
+                            <img src="recursos/iconos/Solid/Status/Notification.svg" alt="Notificaciones" class="w-5 h-5 svg-gray-800">
                         </button>
-                        <button class="w-8 h-8 relative bg-green rounded-full smooth-transition">
-                            <i class="fas fa-bell text-white text-x"></i>
-                        </button>
-                        <button class="w-8 h-8 bg-green rounded-full p-2 flex items-center justify-center">
-                            <i class="fas fa-user text-white text-x"></i>
+                        <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center">
+                            <img src="recursos/iconos/Solid/Communication/User.svg" alt="Usuario" class="w-5 h-5 svg-gray-800">
                         </button>
                     </div>
                 </div>

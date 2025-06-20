@@ -38,16 +38,16 @@ function setActiveTab(elemento, indice, dispositivo) {
         botonCentral.style.transition = 'transform 0.3s ease';
 
         botones.forEach((btn, i) => {
-            const icono = btn.querySelector('img');
+                const icono = btn.querySelector('img');
             if (i === 2) return; // No cambiar el plus
-            btn.classList.remove('text-green');
-            btn.classList.add('text-gray-300');
+                btn.classList.remove('text-green');
+                btn.classList.add('text-gray-300');
             icono.classList.remove('svg-green');
             icono.classList.add('svg-white');
-            icono.style.transform = 'translateY(0)';
-            icono.style.transition = 'transform 0.3s ease';
-            // Cambiar a icono Outline
-            cambiarIconoAOutline(icono);
+                icono.style.transform = 'translateY(0)';
+                icono.style.transition = 'transform 0.3s ease';
+                // Cambiar a icono Outline
+                cambiarIconoAOutline(icono);
             // Eliminar cualquier clase svg-* de color antes de agregar svg-white
             icono.classList.remove('svg-green', 'svg-gray-300', 'svg-gray-400', 'svg-gray-600', 'svg-gray-800', 'svg-yellow');
         });

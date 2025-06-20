@@ -80,10 +80,12 @@ function generarProductosMovil(categoria = 'todas') {
             </div>
             <div class="p-3">
                 <h4 class="text-sm text-gray-800 mb-3">${producto.nombre}</h4>
-                <p class="text-base text-green mb-3">${producto.estado}</p>
-                <div class="flex items-center gap-2">
-                    <img src="recursos/iconos/Solid/Status/Star.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
-                    <span class="text-base text-gray-500">${producto.calificacion} (${producto.resenas})</span>
+                <div class="flex items-center justify-between">
+                    <p class="text-base text-green mb-0">${producto.estado}</p>
+                    <div class="flex items-center gap-2">
+                        <img src="recursos/iconos/Solid/Status/Star.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
+                        <span class="text-base text-gray-500">${producto.calificacion} (${producto.resenas})</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -295,10 +297,12 @@ function filtrarProductos(consulta) {
                 </div>
                 <div class="p-3">
                     <h4 class="text-sm text-gray-800 mb-3">${producto.nombre}</h4>
-                    <p class="text-base text-green mb-3">${producto.estado}</p>
-                    <div class="flex items-center gap-2">
-                        <img src="recursos/iconos/Solid/Status/Star.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
-                        <span class="text-base text-gray-500">${producto.calificacion} (${producto.resenas})</span>
+                    <div class="flex items-center justify-between">
+                        <p class="text-base text-green mb-0">${producto.estado}</p>
+                        <div class="flex items-center gap-2">
+                            <img src="recursos/iconos/Solid/Status/Star.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
+                            <span class="text-base text-gray-500">${producto.calificacion} (${producto.resenas})</span>
+                        </div>
                     </div>
                 </div>
             </div>

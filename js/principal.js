@@ -190,14 +190,14 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 const menu = document.getElementById("menu");
-  const button = document.getElementById("menu-button");
+const button = document.getElementById("menu-button");
 
-  function showDropdown() {
-    menu.classList.toggle("hidden");
+function showDropdown() {
+  menu.classList.toggle("hidden");
+}
+
+document.addEventListener("click", (event) => {
+  if (!menu.contains(event.target) && !button.contains(event.target)) {
+    menu.classList.add("hidden");
   }
-
-  document.addEventListener("click", (event) => {
-    if (!menu.contains(event.target) && !button.contains(event.target)) {
-      menu.classList.add("hidden"); 
-    }
-  });
+});

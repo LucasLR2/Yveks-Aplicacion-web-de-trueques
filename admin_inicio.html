@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Usuarios</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/admin_inicio.css">
+</head>
+
+<body class="bg-gray-100 font-sans">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-gradient-to-b from-green-600 to-green-700 text-white flex flex-col">
+            <!-- Logo -->
+            <div class="p-6 border-b border-green-500">
+                <h1 class="text-xl font-bold">Logo</h1>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="flex-1 py-4">
+                <div class="px-4 space-y-2">
+                    <div class="sidebar-item px-4 py-3 rounded-lg cursor-pointer flex items-center space-x-3">
+                        <i class="fas fa-chart-bar text-lg"></i>
+                        <span>Resumen</span>
+                    </div>
+                    <div
+                        class="sidebar-item active-sidebar px-4 py-3 rounded-lg cursor-pointer flex items-center space-x-3">
+                        <i class="fas fa-users text-lg"></i>
+                        <span>Usuarios</span>
+                    </div>
+                    <div class="sidebar-item px-4 py-3 rounded-lg cursor-pointer flex items-center space-x-3">
+                        <i class="fas fa-box text-lg"></i>
+                        <span>Productos</span>
+                    </div>
+                    <div class="sidebar-item px-4 py-3 rounded-lg cursor-pointer flex items-center space-x-3">
+                        <i class="fas fa-exclamation-triangle text-lg"></i>
+                        <span>Incidencias</span>
+                    </div>
+                    <div class="sidebar-item px-4 py-3 rounded-lg cursor-pointer flex items-center space-x-3">
+                        <i class="fas fa-envelope text-lg"></i>
+                        <span>Mensajes</span>
+                    </div>
+                    <div class="sidebar-item px-4 py-3 rounded-lg cursor-pointer flex items-center space-x-3">
+                        <i class="fas fa-bell text-lg"></i>
+                        <span>Notificaciones</span>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <header class="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-2xl font-semibold text-gray-800">Usuarios</h2>
+                    <div class="flex items-center space-x-4">
+                        <!-- Notification Bell -->
+                        <button class="text-gray-500 hover:text-gray-700 relative">
+                            <i class="fas fa-bell text-xl"></i>
+                            <span
+                                class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                        </button>
+
+                        <!-- User Profile -->
+                        <div class="flex items-center space-x-3 cursor-pointer group">
+                            <div class="user-avatar">AM</div>
+                            <div class="flex items-center space-x-1">
+                                <span class="text-gray-700 font-medium">Alejandro Méndez</span>
+                                <i
+                                    class="fas fa-chevron-down text-gray-500 group-hover:text-gray-700 transition-colors"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <!-- Search Bar -->
+                <div class="mb-6">
+                    <div class="relative max-w-md">
+                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" placeholder="Buscar usuario"
+                            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                            id="searchInput">
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="mb-6">
+                    <div class="border-b border-gray-200">
+                        <nav class="-mb-px flex space-x-8">
+                            <button
+                                class="tab-button active py-2 px-1 border-b-2 border-green-500 font-medium text-sm text-green-600"
+                                data-tab="users">
+                                Listado de usuarios
+                            </button>
+                            <button
+                                class="tab-button py-2 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                                data-tab="ratings">
+                                Valoraciones
+                            </button>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Users Table -->
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    ID</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Nombre</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Correo</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Contraseña</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Fecha de nacimiento</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Ubicación</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Rol</th>
+                                <th
+                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200" id="usersTableBody">
+                            <!-- User rows will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="js/admin_inicio.js"></script>
+</body>
+
+</html>

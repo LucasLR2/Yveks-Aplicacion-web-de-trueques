@@ -1,11 +1,42 @@
-const usuarios = [
+let usuarios = [
     {
       id: 1,
       nombre: "Juan Perez",
       email: "juan@example.com",
       contrasena: "123456",
+      fechnacimiento: "26/04/1990",
+      ubicacion: "Montevideo, Uruguay",
+      rol: "usuario-verificado"
+    },
+    {
+      id: 2,
+      nombre: "Lucia Fernandez",
+      email: "lucia@example.com",
+      contrasena: "lucia789",
+      fechnacimiento: "15/08/1995",
+      ubicacion: "Canelones, Uruguay",
+      rol: "usuario-no-verificado"
+    },
+    {
+      id: 3,
+      nombre: "ALberto Gomez",
+      email: "agomez@example.com",
+      contrasena: "admin123",
+      fechnacimiento: "01/01/1980",
+      ubicacion: "Montevideo, Uruguay",
+      rol: "moderador"
     }
-  ];
+];
+
+// Combinar usuarios definidos en JS con los del localStorage (sin duplicados por email)
+let usuariosGuardados = localStorage.getItem("usuarios");
+let usuariosLocal = usuariosGuardados ? JSON.parse(usuariosGuardados) : [];
+// Evitar duplicados por email
+let emailsJS = new Set(usuarios.map(u => u.email));
+let usuariosCombinados = usuarios.concat(
+  usuariosLocal.filter(u => !emailsJS.has(u.email))
+);
+usuarios = usuariosCombinados;
 
 document.addEventListener("DOMContentLoaded", function () {
   const anchoPantalla = window.innerWidth;

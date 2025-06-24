@@ -48,100 +48,83 @@
         <h3 class="text-lg text-gray-800 mb-4">Categorías</h3>
         <div class="relative">
           <div class="flex gap-x-4 overflow-x-auto scrollbar-hide">
-            <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category min-w-[72px]"
-              onclick="seleccionarCategoria(this)">
-              <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                <img src="recursos/iconos/Outline/Devices/Processor.svg" alt="Tecnología" class="w-5 h-5 svg-green">
-              </div>
-              <span class="text-xs text-gray-600 text-center truncate w-full block" title="Tecnología">Tecnología</span>
-            </div>
-
-            <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category min-w-[72px]"
-              onclick="seleccionarCategoria(this)">
-              <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                <img src="recursos/iconos/Outline/Devices/armchair.svg" alt="Hogar" class="w-5 h-5 svg-green">
-              </div>
-              <span class="text-xs text-gray-600 text-center truncate w-full block" title="Hogar">Hogar</span>
-            </div>
-
-            <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category min-w-[72px]"
-              onclick="seleccionarCategoria(this)">
-              <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                <img src="recursos/iconos/Outline/Devices/shirt.svg" alt="Ropa" class="w-5 h-5 svg-green">
-              </div>
-              <span class="text-xs text-gray-600 text-center truncate w-full block" title="Ropa">Ropa</span>
-            </div>
-
-            <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category min-w-[72px]"
-              onclick="seleccionarCategoria(this)">
-              <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                <img src="recursos/iconos/Outline/Devices/glasses.svg" alt="Accesorios" class="w-5 h-5 svg-green">
-              </div>
-              <span class="text-xs text-gray-600 text-center truncate w-full block" title="Accesorios">Accesorios</span>
-            </div>
-            
-            <!-- Deportes -->
-            <div
-              class="flex flex-col items-center space-y-2 cursor-pointer mobile-category flex-shrink-0 w-20 snap-start"
-              onclick="selectCategory(this)">
-              <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                <i class="fas fa-futbol text-green"></i>
-              </div>
-              <span class="text-xs text-gray-600 text-center">Deportes</span>
-            </div>
-
-            <!-- Juguetes -->
-            <div
-              class="flex flex-col items-center space-y-2 cursor-pointer mobile-category flex-shrink-0 w-20 snap-start"
-              onclick="selectCategory(this)">
-              <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                <i class="fas fa-puzzle-piece text-green"></i>
-              </div>
-              <span class="text-xs text-gray-600 text-center">Juguetes</span>
-            </div>
-
-            <!-- Mascotas -->
-            <div
-              class="flex flex-col items-center space-y-2 cursor-pointer mobile-category flex-shrink-0 w-20 snap-start"
-              onclick="selectCategory(this)">
-              <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                <i class="fas fa-paw text-green"></i>
-              </div>
-              <span class="text-xs text-gray-600 text-center">Mascotas</span>
-            </div>
-
-            <!-- Herramientas -->
-            <div
-              class="flex flex-col items-center space-y-2 cursor-pointer mobile-category flex-shrink-0 w-20 snap-start"
-              onclick="selectCategory(this)">
-              <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                <i class="fas fa-tools text-green"></i>
-              </div>
-              <span class="text-xs text-gray-600 text-center">Herramientas</span>
-            </div>
-
-            <!-- Servicios -->
-            <div
-              class="flex flex-col items-center space-y-2 cursor-pointer mobile-category flex-shrink-0 w-20 snap-start"
-              onclick="selectCategory(this)">
-              <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                <i class="fas fa-concierge-bell text-green"></i>
-              </div>
-              <span class="text-xs text-gray-600 text-center">Servicios</span>
-            </div>
-
-            <!-- Antigüedades -->
-            <div
-              class="flex flex-col items-center space-y-2 cursor-pointer mobile-category flex-shrink-0 w-20 snap-start"
-              onclick="selectCategory(this)">
-              <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                <i class="fas fa-archway text-green"></i>
-              </div>
-              <span class="text-xs text-gray-600 text-center">Antigüedades</span>
-            </div>
+      <!-- Tecnología -->
+    <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category min-w-[72px]"
+      onclick="seleccionarCategoria(this)">
+      <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
+        <img src="recursos/iconos/Outline/Devices/Processor.svg" alt="Tecnología" class="w-4 h-4 svg-green">
+      </div>
+      <span class="text-xs text-gray-600 text-center truncate w-full block" title="Tecnología">Tecnología</span>
+    </div>
+      <!-- Hogar -->
+    <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category min-w-[72px]"
+      onclick="seleccionarCategoria(this)">
+      <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
+        <img src="recursos/iconos/Outline/Devices/armchair.svg" alt="Hogar" class="w-4 h-4 svg-green">
+      </div>
+      <span class="text-xs text-gray-600 text-center truncate w-full block" title="Hogar">Hogar</span>
+    </div>
+      <!-- Ropa -->
+    <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category min-w-[72px]"
+      onclick="seleccionarCategoria(this)">
+      <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
+        <img src="recursos/iconos/Outline/Devices/shirt.svg" alt="Ropa" class="w-4 h-4 svg-green">
+      </div>
+      <span class="text-xs text-gray-600 text-center truncate w-full block" title="Ropa">Ropa</span>
+    </div>
+      <!-- Accesorios -->
+    <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category min-w-[72px]"
+      onclick="seleccionarCategoria(this)">
+      <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
+        <img src="recursos/iconos/Outline/Devices/glasses.svg" alt="Accesorios" class="w-4 h-4 svg-green">
+      </div>
+      <span class="text-xs text-gray-600 text-center truncate w-full block" title="Accesorios">Accesorios</span>
+    </div>
+      <!-- Deportes -->
+    <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category min-w-[72px]"
+      onclick="seleccionarCategoria(this)">
+      <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
+        <img src="recursos/iconos/Outline/Interface/Voleibol.svg" alt="Deportes" class="w-4 h-4 svg-green">
+      </div>
+      <span class="text-xs text-gray-600 text-center truncate w-full block" title="Deportes">Deportes</span>
+    </div>
+      <!-- Juguetes -->
+    <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category min-w-[72px]"
+      onclick="seleccionarCategoria(this)">
+      <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
+        <img src="recursos/iconos/Outline/Interface/Oso-de-peluche.svg" alt="Juguetes" class="w-4 h-4 svg-green">
+      </div>
+      <span class="text-xs text-gray-600 text-center truncate w-full block" title="Juguetes">Juguetes</span>
+    </div>
+      <!-- Mascotas -->
+    <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category min-w-[72px]"
+      onclick="seleccionarCategoria(this)">
+      <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
+        <img src="recursos/iconos/Outline/Interface/Pata.svg" alt="Mascotas" class="w-4 h-4 svg-green">
+      </div>
+      <span class="text-xs text-gray-600 text-center truncate w-full block" title="Mascotas">Mascotas</span>
+    </div>
+    <!-- Herramientas -->
+    <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category min-w-[72px]"
+      onclick="seleccionarCategoria(this)">
+      <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
+        <img src="recursos/iconos/Outline/Interface/herramientas.svg" alt="Herramientas" class="w-4 h-4 svg-green">
+      </div>
+      <span class="text-xs text-gray-600 text-center truncate w-full block" title="Herramientas">Herramientas</span>
+    </div>
+    <!-- Servicios -->
+    <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category min-w-[72px]"
+      onclick="seleccionarCategoria(this)">
+      <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
+        <img src="recursos/iconos/Outline/Interface/servicio.svg" alt="Servicios" class="w-4 h-4 svg-green">
+      </div>
+      <span class="text-xs text-gray-600 text-center truncate w-full block" title="Servicios">Servicios</span>
+    </div>
           </div>
         </div>
       </div>
+
+
 
       <!-- Productos recomendados -->
       <div class="px-6 md:px-16 mb-20">
@@ -244,7 +227,7 @@
         </ul>
       </nav>
 
-      <!-- Categorías en sidebar -->
+       <!-- Categorías en sidebar -->
       <div class="p-6 border-t border-gray-100">
         <h3 class="text-sm text-gray-800 mb-4">Categorías</h3>
         <div class="space-y-2">
@@ -273,62 +256,49 @@
             <span class="text-sm text-green">Accesorios</span>
           </div>
 
-          <!-- Deportes -->
-          <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category flex-shrink-0 w-20 snap-start"
-            onclick="selectCategory(this)">
-            <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-              <i class="fas fa-futbol text-green"></i>
-            </div>
-            <span class="text-xs text-gray-600 text-center">Deportes</span>
-          </div>
 
-          <!-- Juguetes -->
-          <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category flex-shrink-0 w-20 snap-start"
-            onclick="selectCategory(this)">
-            <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-              <i class="fas fa-puzzle-piece text-green"></i>
-            </div>
-            <span class="text-xs text-gray-600 text-center">Juguetes</span>
-          </div>
+ <!-- Deportes -->
+<div class="desktop-category flex items-center space-x-3 px-4 py-3 rounded-lg cursor-pointer hover:bg-gray-50 smooth-transition"
+  onclick="seleccionarCategoriaEscritorio(this, 'deportes')">
+  <img src="recursos/iconos/Outline/Interface/Voleibol.svg" alt="Deportes" class="w-4 h-4 svg-green">
+  <span class="text-sm text-green">Deportes</span>
+</div>
 
-          <!-- Mascotas -->
-          <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category flex-shrink-0 w-20 snap-start"
-            onclick="selectCategory(this)">
-            <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-              <i class="fas fa-paw text-green"></i>
-            </div>
-            <span class="text-xs text-gray-600 text-center">Mascotas</span>
-          </div>
 
-          <!-- Herramientas -->
-          <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category flex-shrink-0 w-20 snap-start"
-            onclick="selectCategory(this)">
-            <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-              <i class="fas fa-tools text-green"></i>
-            </div>
-            <span class="text-xs text-gray-600 text-center">Herramientas</span>
-          </div>
+<!-- Juguetes -->
+<div class="desktop-category flex items-center space-x-3 px-4 py-3 rounded-lg cursor-pointer hover:bg-gray-50 smooth-transition"
+  onclick="seleccionarCategoriaEscritorio(this, 'juguetes')">
+  <img src="recursos/iconos/Outline/Interface/Oso-de-peluche.svg" alt="Juguetes" class="w-4 h-4 svg-green">
+  <span class="text-sm text-green">Juguetes</span>
+</div>
 
-          <!-- Servicios -->
-          <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category flex-shrink-0 w-20 snap-start"
-            onclick="selectCategory(this)">
-            <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-              <i class="fas fa-concierge-bell text-green"></i>
-            </div>
-            <span class="text-xs text-gray-600 text-center">Servicios</span>
-          </div>
 
-          <!-- Antigüedades -->
-          <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category flex-shrink-0 w-20 snap-start"
-            onclick="selectCategory(this)">
-            <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-              <i class="fas fa-archway text-green"></i>
-            </div>
-            <span class="text-xs text-gray-600 text-center">Antigüedades</span>
+<!-- Mascotas -->
+<div class="desktop-category flex items-center space-x-3 px-4 py-3 rounded-lg cursor-pointer hover:bg-gray-50 smooth-transition"
+  onclick="seleccionarCategoriaEscritorio(this, 'mascotas')">
+  <img src="recursos/iconos/Outline/Interface/Pata.svg" alt="Mascotas" class="w-4 h-4 svg-green">
+  <span class="text-sm text-green">Mascotas</span>
+</div>
+
+
+<!-- Herramientas -->
+<div class="desktop-category flex items-center space-x-3 px-4 py-3 rounded-lg cursor-pointer hover:bg-gray-50 smooth-transition"
+  onclick="seleccionarCategoriaEscritorio(this, 'herramientas')">
+  <img src="recursos/iconos/Outline/Interface/herramientas.svg" alt="Herramientas" class="w-4 h-4 svg-green">
+  <span class="text-sm text-green">Herramientas</span>
+</div>
+
+
+<!-- Servicios -->
+<div class="desktop-category flex items-center space-x-3 px-4 py-3 rounded-lg cursor-pointer hover:bg-gray-50 smooth-transition"
+  onclick="seleccionarCategoriaEscritorio(this, 'servicios')">
+  <img src="recursos/iconos/Outline/Interface/servicio.svg" alt="Servicios" class="w-4 h-4 svg-green">
+  <span class="text-sm text-green">Servicios</span>
+</div>
           </div>
 
         </div>
-      </div>
+
     </div>
 
     <!-- Main Content Area -->

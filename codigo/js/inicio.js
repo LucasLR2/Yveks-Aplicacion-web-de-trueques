@@ -220,18 +220,15 @@ function seleccionarCategoriaEscritorio(elemento, categoria) {
 // Iconos de categoría
 function obtenerIconoCategoria(categoria) {
     const iconosCategoria = {
-        'tecnologia': {
-            icono: 'Processor'
-        },
-        'hogar': {
-            icono: 'armchair'
-        },
-        'ropa': {
-            icono: 'shirt'
-        },
-        'accesorios': {
-            icono: 'glasses'
-        }
+        'tecnologia': { icono: 'Processor' },
+        'hogar': { icono: 'armchair' },
+        'ropa': { icono: 'shirt' },
+        'accesorios': { icono: 'glasses' },
+        'deportes': { icono: 'Voleibol' },
+        'entretenimiento': { icono: 'dado' },
+        'mascotas': { icono: 'Pata' },
+        'herramientas': { icono: 'herramientas' },
+        'servicios': { icono: 'servicio' }
     };
     const config = iconosCategoria[categoria] || { icono: 'tag' };
     return `<img src="recursos/iconos/Outline/Devices/${config.icono}.svg" alt="${categoria.charAt(0).toUpperCase() + categoria.slice(1)}" class="w-5 h-5 svg-green">`;
@@ -241,11 +238,17 @@ function obtenerDescripcionCategoria(categoria) {
     const descripciones = {
         'tecnologia': 'Laptops, móviles y más',
         'hogar': 'Muebles y decoración',
-        'ropa': 'Moda y accesorios',
-        'accesorios': 'Auto y más'
+        'ropa': 'Moda y estilo',
+        'accesorios': 'Auto y más',
+        'deportes': 'Pelotas, equipamiento y más',
+        'entretenimiento': 'Entretenimiento para todos',
+        'mascotas': 'Accesorios y cuidado',
+        'herramientas': 'Manual y eléctrica',
+        'servicios': 'Ofrece o contrata servicios'
     };
     return descripciones[categoria] || '';
 }
+
 
 // Selección de producto
 function seleccionarProducto(elemento) {

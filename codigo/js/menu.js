@@ -102,7 +102,7 @@ function renderMenu(containerId) {
     { nombre: "Ropa", icon: "recursos/iconos/Outline/Devices/shirt.svg" },
     { nombre: "Accesorios", icon: "recursos/iconos/Outline/Devices/glasses.svg" },
     { nombre: "Deportes", icon: null, fa: "fas fa-futbol" },
-    { nombre: "Juguetes", icon: null, fa: "fas fa-puzzle-piece" },
+    { nombre: "Entretenimiento", icon: null, fa: "fas fa-puzzle-piece" },
     { nombre: "Mascotas", icon: null, fa: "fas fa-paw" },
     { nombre: "Herramientas", icon: null, fa: "fas fa-tools" },
     { nombre: "Servicios", icon: null, fa: "fas fa-concierge-bell" },

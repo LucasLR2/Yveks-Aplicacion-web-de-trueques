@@ -13,38 +13,41 @@
 <body class="bg-gray-100 font-sans">
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <div class="w-64 bg-gradient-to-b from-green-600 to-green-700 text-white flex flex-col">
+        <div class="w-64 bg-gradient-to-b bg-green text-white flex flex-col">
             <!-- Logo -->
-            <div class="p-6 border-b border-green-500">
+            <div class="p-6 border-b ring-green">
                 <h1 class="text-xl font-bold">Logo</h1>
             </div>
 
             <!-- Navigation Menu -->
             <nav class="flex-1 py-4">
-                <div class="px-4 space-y-2">
-                    <div class="sidebar-item px-4 py-3 rounded-lg cursor-pointer flex items-center space-x-3">
-                        <i class="fas fa-chart-bar text-lg"></i>
+                <div class="px-4 sidebar-nav">
+                    <!-- Indicador de selección que se mueve -->
+                    <div class="selection-indicator" id="selectionIndicator"></div>
+                    
+                    <!-- Items del menú -->
+                    <div class="menu-item" data-index="0">
+                        <i class="fas fa-chart-bar"></i>
                         <span>Resumen</span>
                     </div>
-                    <div
-                        class="sidebar-item active-sidebar px-4 py-3 rounded-lg cursor-pointer flex items-center space-x-3">
-                        <i class="fas fa-users text-lg"></i>
+                    <div class="menu-item active" data-index="1">
+                        <i class="fas fa-user"></i>
                         <span>Usuarios</span>
                     </div>
-                    <div class="sidebar-item px-4 py-3 rounded-lg cursor-pointer flex items-center space-x-3">
-                        <i class="fas fa-box text-lg"></i>
+                    <div class="menu-item" data-index="2">
+                        <i class="fas fa-box"></i>
                         <span>Productos</span>
                     </div>
-                    <div class="sidebar-item px-4 py-3 rounded-lg cursor-pointer flex items-center space-x-3">
-                        <i class="fas fa-exclamation-triangle text-lg"></i>
+                    <div class="menu-item" data-index="3">
+                        <i class="fas fa-exclamation-triangle"></i>
                         <span>Incidencias</span>
                     </div>
-                    <div class="sidebar-item px-4 py-3 rounded-lg cursor-pointer flex items-center space-x-3">
-                        <i class="fas fa-envelope text-lg"></i>
+                    <div class="menu-item" data-index="4">
+                        <i class="fas fa-envelope"></i>
                         <span>Mensajes</span>
                     </div>
-                    <div class="sidebar-item px-4 py-3 rounded-lg cursor-pointer flex items-center space-x-3">
-                        <i class="fas fa-bell text-lg"></i>
+                    <div class="menu-item" data-index="5">
+                        <i class="fas fa-bell"></i>
                         <span>Notificaciones</span>
                     </div>
                 </div>
@@ -54,15 +57,13 @@
         <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Header -->
-            <header class="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
+            <header class="bg-gray-100 px-6 py-4">
                 <div class="flex items-center justify-between">
                     <h2 class="text-2xl font-semibold text-gray-800">Usuarios</h2>
                     <div class="flex items-center space-x-4">
                         <!-- Notification Bell -->
-                        <button class="text-gray-500 hover:text-gray-700 relative">
+                        <button class="text-gray-500 relative">
                             <i class="fas fa-bell text-xl"></i>
-                            <span
-                                class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
                         </button>
 
                         <!-- User Profile -->
@@ -85,7 +86,7 @@
                     <div class="relative max-w-md">
                         <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                         <input type="text" placeholder="Buscar usuario"
-                            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                             id="searchInput">
                     </div>
                 </div>
@@ -95,12 +96,12 @@
                     <div class="border-b border-gray-200">
                         <nav class="-mb-px flex space-x-8">
                             <button
-                                class="tab-button active py-2 px-1 border-b-2 border-green-500 font-medium text-sm text-green-600"
+                                class="tab-button active py-2 px-1 border-b-2 seleccionar-tabla font-medium text-sm text-green"
                                 data-tab="users">
                                 Listado de usuarios
                             </button>
                             <button
-                                class="tab-button py-2 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                                class="tab-button py-2 px-1 border-b-2 border-transparent font-medium text-sm text-gray-500"
                                 data-tab="ratings">
                                 Valoraciones
                             </button>
@@ -111,32 +112,24 @@
                 <!-- Users Table -->
                 <div class="bg-white rounded-lg shadow overflow-hidden">
                     <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
+                        <thead class="encabezado-tabla">
                             <tr>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
                                     ID</th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
                                     Nombre</th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
                                     Correo</th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
                                     Contraseña</th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
                                     Fecha de nacimiento</th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
                                     Ubicación</th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
                                     Rol</th>
-                                <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Acciones</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
+                                </th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200" id="usersTableBody">

@@ -7,7 +7,7 @@ const users = [
         password: '••••••••••',
         birthDate: '26 de abril de 1990',
         location: 'Montevideo, Uruguay',
-        role: 'Propietario',
+        role: 'Moderador',
         avatar: 'AM'
     },
     {
@@ -17,7 +17,7 @@ const users = [
         password: '••••••••••',
         birthDate: '21 de febrero de 1998',
         location: 'Montevideo, Uruguay',
-        role: 'Usuario',
+        role: 'Verificado',
         avatar: 'JG'
     },
     {
@@ -27,7 +27,7 @@ const users = [
         password: '••••••••••',
         birthDate: '4 de marzo de 2001',
         location: 'Montevideo, Uruguay',
-        role: 'Usuario',
+        role: 'No verificado',
         avatar: 'SG'
     },
     {
@@ -51,7 +51,9 @@ function renderUsersTable(usersToRender = users) {
         const row = document.createElement('tr');
         row.className = 'table-row';
 
-        const roleClass = user.role === 'Propietario' ? 'bg-purple-100 text-purple-800' :
+        const roleClass = user.role === 'No verificado' ? 'bg-red-100 text-red-800' :
+            user.role === 'Verificado' ? 'bg-green-100 text-green-800' :
+                'bg-gray-100 text-gray-800';
             user.role === 'Moderador' ? 'bg-blue-100 text-blue-800' :
                 'bg-gray-100 text-gray-800';
 
@@ -103,12 +105,12 @@ document.querySelectorAll('.tab-button').forEach(button => {
     button.addEventListener('click', function () {
         // Remove active class from all tabs
         document.querySelectorAll('.tab-button').forEach(tab => {
-            tab.classList.remove('active', 'border-green-500', 'text-green-600');
+            tab.classList.remove('active', 'seleccionar-tabla', 'text-green');
             tab.classList.add('border-transparent', 'text-gray-500');
         });
 
         // Add active class to clicked tab
-        this.classList.add('active', 'border-green-500', 'text-green-600');
+        this.classList.add('active', 'seleccionar-tabla', 'text-green');
         this.classList.remove('border-transparent', 'text-gray-500');
 
         // Here you would typically load different content based on the tab
@@ -123,18 +125,82 @@ document.querySelectorAll('.tab-button').forEach(button => {
     });
 });
 
-// Sidebar navigation
-document.querySelectorAll('.sidebar-item').forEach(item => {
-    item.addEventListener('click', function () {
-        // Remove active class from all items
-        document.querySelectorAll('.sidebar-item').forEach(sidebarItem => {
-            sidebarItem.classList.remove('active-sidebar');
+// Sidebar navigation component
+class SidebarNavigation {
+    constructor() {
+        this.menuItems = document.querySelectorAll('.menu-item');
+        this.selectionIndicator = document.getElementById('selectionIndicator');
+        this.currentActiveIndex = 1; // Usuarios está activo por defecto
+        
+        this.init();
+    }
+    
+    init() {
+        // Posicionar el indicador en el elemento activo inicial
+        this.updateIndicatorPosition(this.currentActiveIndex);
+        
+        // Agregar event listeners a todos los items
+        this.menuItems.forEach((item, index) => {
+            item.addEventListener('click', () => this.selectItem(index));
         });
+    }
+    
+    selectItem(index) {
+        if (index === this.currentActiveIndex) return;
+        
+        this.menuItems[this.currentActiveIndex].classList.remove('active');
+        
+        this.menuItems[index].classList.add('active');
+        
+        this.updateIndicatorPosition(index);
+        
+        this.currentActiveIndex = index;
+        
+        this.handleNavigation(index);
+    }
+    
+    updateIndicatorPosition(index) {
+        const targetItem = this.menuItems[index];
+        const itemHeight = 46;
+        const offsetY = index * itemHeight;
+        
+        this.selectionIndicator.style.transform = `translateY(${offsetY}px)`;
+    }
+    
+    handleNavigation(index) {
+        const sections = ['resumen', 'usuarios', 'productos', 'incidencias', 'mensajes', 'notificaciones'];
+        console.log(`Navegando a: ${sections[index]}`);
+        
+        switch(index) {
+            case 0:
+                // Lógica para Resumen
+                break;
+            case 1:
+                // Lógica para Usuarios (actual)
+                this.showUsersSection();
+                break;
+            case 2:
+                // Lógica para Productos
+                break;
+            case 3:
+                // Lógica para Incidencias
+                break;
+            case 4:
+                // Lógica para Mensajes
+                break;
+            case 5:
+                // Lógica para Notificaciones
+                break;
+        }
+    }
+    
+    showUsersSection() {
+        const header = document.querySelector('header h2');
+        if (header) header.textContent = 'Usuarios';
+    }
+}
 
-        // Add active class to clicked item
-        this.classList.add('active-sidebar');
-    });
-});
-
+// Inicializar el componente de navegación
+const sidebarNav = new SidebarNavigation();
 // Initialize the table
 renderUsersTable();

@@ -7,37 +7,62 @@ const usuarios = [
     }
   ];
 
-document.addEventListener("DOMContentLoaded", function () {
-  const anchoPantalla = window.innerWidth;
+document.addEventListener('DOMContentLoaded', () => {
+  const formulariosRegistro = [
+    document.querySelector('.form-registro-movil'),
+    document.getElementById('form-registro-desktop')
+  ];
 
-  // Usar el formulario que está visible
-  const formulario =
-    anchoPantalla >= 1024
-      ? document.getElementById("form-login-desktop")
-      : document.getElementById("form-login-mobile");
+  formulariosRegistro.forEach(formulario => {
+    if (!formulario) return;
 
-  if (!formulario) {
-    console.error("No se encontró el formulario correspondiente");
-    return;
-  }
+    formulario.addEventListener('submit', function (evento) {
+      evento.preventDefault();
 
-  formulario.addEventListener("submit", function (evento) {
-    evento.preventDefault();
+      // Detectar si es móvil o escritorio
+      const esMovil = this.classList.contains('form-registro-movil');
 
-    const correo = formulario.querySelector("input[type='email']").value.trim();
-    const clave = formulario.querySelector("input[type='password']").value.trim();
+      const nombreInput = document.getElementById(esMovil ? 'nombre-movil' : 'nombre-escritorio');
+      const emailInput = document.getElementById(esMovil ? 'email-movil' : 'email-escritorio');
+      const contrasenaInput = document.getElementById(esMovil ? 'password-movil' : 'password-escritorio');
+      const terminosCheck = document.getElementById(esMovil ? 'terminos-movil' : 'terminos-escritorio');
 
-    const usuarioValido = usuarios.find(
-      (usuario) => usuario.email === correo && usuario.contrasena === clave
-    );
+      const nombre = nombreInput.value.trim();
+      const email = emailInput.value.trim();
+      const contrasena = contrasenaInput.value;
 
-    if (usuarioValido) {
-      window.location.href = "index.html"; // Redirigir a la página principal
-    } else {
-      console.log("Correo o contraseña incorrectos");
-    }
+      if (!nombre || !email || !contrasena) {
+        alert('Por favor, completa todos los campos.');
+        return;
+      }
+
+      if (!terminosCheck.checked) {
+        alert('Debes aceptar los términos y condiciones.');
+        return;
+      }
+
+      // Obtener usuarios existentes o inicializar
+      let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+
+      // Crear nuevo usuario con id incremental
+      const nuevoUsuario = {
+        id: usuarios.length > 0 ? usuarios[usuarios.length - 1].id + 1 : 1,
+        nombre,
+        email,
+        contrasena
+      };
+
+      // Agregar usuario y guardar en localStorage
+      usuarios.push(nuevoUsuario);
+      localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+      alert('Registro exitoso 🎉');
+      formulario.reset();
+      console.log('Usuarios registrados:', usuarios);
+    });
   });
 });
+
 
 // Configuración de visibilidad de contraseña para escritorio y móvil
 function configurarVisibilidadPassword(idInput, idBoton) {

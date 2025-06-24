@@ -13,134 +13,154 @@
     <div class="lg:hidden">
         <!-- Container principal para móvil -->
         <div class="max-w-sm mx-auto bg-white min-h-screen relative">
-            <!-- Header con ubicación -->
-            <div class="bg-white px-4 py-3 border-b border-gray-100">
-                <div class="flex items-center justify-between mb-3">
-                    <div class="flex items-center space-x-2">
-                        <span class="text-sm text-gray-600">Ubicación</span>
-                    </div>
-                    <div class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                        <i class="fas fa-bell text-gray-600 text-sm"></i>
-                    </div>
-                </div>
+            <!-- Formulario de inicio de sesión -->
+                <div class="iniciosesion bg-white">
+                    <div class="flex-1 p-6 items-center grid place-items-center h-screen">
+                        <h1 class="text-2xl font-bold mb-4 text-center">Iniciar sesión</h1>
+                        <p class="text-[#8C8C8C] mb-6 text-center">Bienvenido de vuelta, inicia sesión para continuar.</p>
 
-                <div class="flex items-center space-x-2">
-                    <i class="fas fa-map-marker-alt text-green"></i>
-                    <span class="font-medium text-gray-800">Montevideo, Uruguay</span>
-                    <i class="fas fa-chevron-down text-gray-400 text-sm"></i>
-                </div>
-            </div>
+                        <!-- Sección de inicio de sesión -->
+                        <form class="w-full max-w-sm">
+                            <div class="mb-4 pb-[10px]">
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                                <input type="email" id="email" class="mt-1 block w-full border border-[#8C8C8C] rounded-full p-2" placeholder="ejemplo@gmail.com" required>
+                            </div>
+                            <div class="mb-4 pb-[10px] relative">
+                                <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                                <input type="password" id="password" class="mt-1 block w-full border border-[#8C8C8C] rounded-full p-2 pr-10" placeholder="••••••••••••" required>
+                                
+                                <button type="button" id="togglePassword" class="absolute right-3 top-[34px] text-gray-500 hover:text-gray-700">
+                                    <i class="far fa-eye-slash"></i>
+                                </button>
+                            </div>
 
-            <!-- Barra de búsqueda -->
-            <div class="px-4 py-3">
-                <div class="relative">
-                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                    <input type="text" placeholder="Buscar" id="mobile-search"
-                        class="w-full pl-10 pr-4 py-3 bg-gray-0 ring-green rounded-full text-sm focus:outline-none">
-                </div>
-            </div>
+                            <div class="mb-4 text-right">
+                                <a href="#" class="text-sm text-green-600 hover:underline">¿Olvidaste tu contraseña?</a>
+                            </div>
 
-            <!-- Categorías -->
-            <div class="px-4 mb-6">
-                <h3 class="text-lg font-semibold text-gray-800 mb-4">Categoría</h3>
-                <div class="grid grid-cols-4 gap-4">
-                    <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category"
-                        onclick="selectCategory(this)">
-                        <div
-                            class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                            <i class="fas fa-laptop text-green"></i>
+                            <button type="submit" class="w-full bg-[#719177] text-white rounded-full mt-2 p-[13px]">Iniciar sesión</button>
+                        </form>
+
+                        <div class="flex items-center justify-center my-6">
+                            <hr class="w-24 border-t border-gray-300">
+                            <span class="px-3 text-sm text-gray-500">O inicia con</span>
+                            <hr class="w-24 border-t border-gray-300">
                         </div>
-                        <span class="text-xs text-gray-600 text-center">Tecnología</span>
-                    </div>
 
-                    <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category"
-                        onclick="selectCategory(this)">
-                        <div
-                            class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                            <i class="fas fa-home text-green"></i>
+                        <!-- Iconos iniciar sesion -->
+                        <div class="flex justify-center space-x-6">
+                            <!-- Apple -->
+                            <button class="w-[64px] h-[64px] rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition">
+                                <img src="img/apple-logo.png" alt="Iniciar con Apple" class="w-6 h-6">
+                            </button>
+
+                            <!-- Google -->
+                            <button class="w-[64px] h-[64px] rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition">
+                                <img src="img/google-logo.png" alt="Iniciar con Google" class="w-6 h-6">
+                            </button>
+
+                            <!-- Microsoft -->
+                            <button class="w-[64px] h-[64px] rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition">
+                                <img src="img/microsoft-logo.png" alt="Iniciar con Microsoft" class="w-6 h-6">
+                            </button>
                         </div>
-                        <span class="text-xs text-gray-600 text-center">Hogar</span>
-                    </div>
 
-                    <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category"
-                        onclick="selectCategory(this)">
-                        <div
-                            class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                            <i class="fas fa-tshirt text-green"></i>
+                        <div class="mt-4 text-center">
+                            <p class="text-sm text-gray-600">¿No tienes una cuenta? <a href="#" class="text-green-500">Registrarte</a></p>
                         </div>
-                        <span class="text-xs text-gray-600 text-center">Ropa</span>
-                    </div>
-
-                    <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category"
-                        onclick="selectCategory(this)">
-                        <div
-                            class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                            <i class="fas fa-car text-green"></i>
-                        </div>
-                        <span class="text-xs text-gray-600 text-center">Accesorios</span>
                     </div>
                 </div>
-            </div>
-
-            <!-- Productos recomendados -->
-            <div class="px-4 mb-20">
-                <h3 class="text-lg font-semibold text-gray-800 mb-4">Inspirado en tus intereses</h3>
-                <div class="grid grid-cols-2 gap-3" id="mobile-products">
-                    <!-- Los productos se generarán dinámicamente -->
-                </div>
-            </div>
-
-            <!-- Bottom Navigation -->
-            <div
-                class="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-sm bg-green relative overflow-hidden">
-                <!-- Burbuja animada -->
-                <div id="mobile-bubble"
-                    class="absolute bottom-7 w-12 h-12 bg-white bubble-u-shape transition-all duration-300 ease-out transform translate-x-6 translate-y-2">
-                </div>
-
-                <div class="flex py-2 relative z-10">
-                    <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
-                        onclick="setActiveTab(this, 0, 'mobile')">
-                        <i class="fas fa-home text-lg mb-1"></i>
-                    </button>
-
-                    <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
-                        onclick="setActiveTab(this, 1, 'mobile')">
-                        <i class="fas fa-tag text-lg mb-1"></i>
-                    </button>
-
-                    <button
-                        class="w-10 h-10 flex items-center justify-center bg-white text-green rounded-full shadow-lg transition-colors relative z-20 mx-auto"
-                        onclick="setActiveTab(this, 2, 'mobile')">
-                        <i class="fas fa-plus text-xl"></i>
-                    </button>
-
-                    <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
-                        onclick="setActiveTab(this, 3, 'mobile')">
-                        <i class="fas fa-comment text-lg mb-1"></i>
-                    </button>
-
-                    <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
-                        onclick="setActiveTab(this, 4, 'mobile')">
-                        <i class="fas fa-user text-lg mb-1"></i>
-                    </button>
-                </div>
-            </div>
         </div>
     </div>
 
     <!-- LAYOUT DESKTOP (lg y superior) -->
     <div class="hidden lg:block">
         <!-- Main Content Area -->
-        <div class="iniciarsesion">
+        <div>
             <!-- Content -->
-            <main class="p-5 contenido">
-                <div class="carrusel bg-white">asd</div>
-                <div class="iniciosesion bg-white">asd</div>
+            <main class="p-[16px] gap-[16px] flex w-full h-screen">
+                <!-- Carrusel de imágenes -->
+                <div class="bg-white min-h-[95vh] rounded-[20px] lg:w-[60%] xl:w-[65%]">
+                    <div id="carrusel" class="relative w-full h-full overflow-hidden rounded-[20px]">
+                        <!-- Slides -->
+                        <div class="flex transition-transform duration-700 ease-in-out w-full h-full" id="diapositivas">
+                            <img src="ruta/a/imagen1.jpg" class="w-full flex-shrink-0 object-cover" alt="Imagen 1">
+                            <img src="ruta/a/imagen2.jpg" class="w-full flex-shrink-0 object-cover" alt="Imagen 2">
+                            <img src="ruta/a/imagen3.jpg" class="w-full flex-shrink-0 object-cover" alt="Imagen 3">
+                        </div>
+
+                        <!-- Indicadores -->
+                        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-3">
+                            <button class="w-3 h-3 rounded-full bg-gray-400" onclick="irADiapositiva(0)" id="indicador-0"></button>
+                            <button class="w-3 h-3 rounded-full bg-gray-300" onclick="irADiapositiva(1)" id="indicador-1"></button>
+                            <button class="w-3 h-3 rounded-full bg-gray-300" onclick="irADiapositiva(2)" id="indicador-2"></button>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- Formulario de inicio de sesión -->
+                <div class="bg-white min-h-[95vh] rounded-[20px] lg:w-[40%] xl:w-[35%] xl:p-[50px]">
+                    <div class="flex-1 p-8">
+                        <h1 class="text-2xl font-bold mb-4 text-center">Iniciar sesión</h1>
+                        <p class="text-[#8C8C8C] mb-6 text-center">Bienvenido de vuelta, te estábamos esperando.</p>
+
+                        <!-- Sección de inicio de sesión -->
+                        <form>
+                            <div class="mb-4 pb-[10px]">
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                                <input type="email" id="email" class="mt-1 block w-full border border-[#8C8C8C] rounded-full p-2" placeholder="ejemplo@gmail.com" required>
+                            </div>
+                            <div class="mb-4 pb-[10px] relative">
+                                <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                                <input type="password" id="password" class="mt-1 block w-full border border-[#8C8C8C] rounded-full p-2 pr-10" placeholder="••••••••••••" required>
+                                
+                                <button type="button" id="togglePassword" class="absolute right-3 top-[34px] text-gray-500 hover:text-gray-700">
+                                    <i class="far fa-eye-slash"></i>
+                                </button>
+                            </div>
+
+                            <div class="mb-4 text-right">
+                                <a href="#" class="text-sm text-green-600 hover:underline">¿Olvidaste tu contraseña?</a>
+                            </div>
+
+                            <button type="submit" class="w-full bg-[#719177] text-white rounded-full mt-2 p-[13px]">Iniciar sesión</button>
+                        </form>
+
+                        <div class="flex items-center justify-center my-6">
+                            <hr class="w-24 border-t border-gray-300">
+                            <span class="px-3 text-sm text-gray-500">O inicia con</span>
+                            <hr class="w-24 border-t border-gray-300">
+                        </div>
+
+                        <!-- Iconos iniciar sesion -->
+                        <div class="flex justify-center space-x-6">
+                            <!-- Apple -->
+                            <button class="w-[64px] h-[64px] rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition">
+                                <img src="img/apple-logo.png" alt="Iniciar con Apple" class="w-6 h-6">
+                            </button>
+
+                            <!-- Google -->
+                            <button class="w-[64px] h-[64px] rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition">
+                                <img src="img/google-logo.png" alt="Iniciar con Google" class="w-6 h-6">
+                            </button>
+
+                            <!-- Microsoft -->
+                            <button class="w-[64px] h-[64px] rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition">
+                                <img src="img/microsoft-logo.png" alt="Iniciar con Microsoft" class="w-6 h-6">
+                            </button>
+                        </div>
+
+                        <div class="mt-4 text-center">
+                            <p class="text-sm text-gray-600">¿No tienes una cuenta? <a href="#" class="text-green-500">Registrarte</a></p>
+                        </div>
+                    </div>
+                </div>
             </main>
         </div>
     </div>
 
-    <script src="js/script.js"></script>
+    <script src="js/scriptiniciar.js"></script>
 </body>
 </html>

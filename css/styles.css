@@ -43,23 +43,6 @@ body {
   .desktop-grid {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   }
-  
-  .contenido {
-    display: flex;
-  }
-  
-  .carrusel {
-    width: 1222px;
-    min-height: 95vh;
-    border-radius: 20px;
-  }
-
-  .iniciosesion {
-    margin-left: 20px;
-    min-width: 70vh;
-    min-height: 95vh;
-    border-radius: 20px;
-  }
 }
 
 /* Transiciones suaves */

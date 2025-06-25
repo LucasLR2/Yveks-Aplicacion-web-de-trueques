@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/estilos-generales.css">
+</head>
+<body class="bg-[#719177]">
+    <!-- LAYOUT MÓVIL Y TABLET (hasta lg) -->
+    <div class="lg:hidden bg-white">
+        <!-- Container principal para móvil -->
+        <div class="bg-white min-h-screen flex items-center justify-center">
+            <!-- Formulario de inicio de sesión -->
+            <div class="bg-white w-full">
+                <div class="flex-1 p-6">
+                    <h1 class="text-2xl font-bold mb-4 text-center">Iniciar sesión</h1>
+                    <p class="text-[#8C8C8C] mb-6 text-center">Bienvenido de vuelta, inicia sesión para continuar.</p>
+
+                    <!-- Sección de inicio de sesión -->
+                    <form class="w-full form-login-mobile pl-[32px] pr-[32px]">
+                        <div class="mb-4 pb-[10px]">
+                            <label for="email-movil" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="email" id="email-movil" class="mt-1 block w-full border border-[#8C8C8C] rounded-full p-2" placeholder="ejemplo@gmail.com" required>
+                        </div>
+                        <div class="mb-4 pb-[10px] relative">
+                            <label for="password-movil" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                            <input type="password" id="password-movil" class="mt-1 block w-full border border-[#8C8C8C] rounded-full p-2 pr-10" placeholder="••••••••••••" required>
+                            
+                            <button type="button" id="togglePassword-movil" class="absolute right-3 top-[34px] text-gray-500 hover:text-gray-700">
+                                <i class="far fa-eye-slash"></i>
+                            </button>
+                        </div>
+
+                        <div class="mb-4 text-right">
+                            <a href="#" class="text-sm text-green-600 hover:underline">¿Olvidaste tu contraseña?</a>
+                        </div>
+
+                        <button type="submit" class="w-full bg-[#719177] text-white rounded-full mt-2 p-[13px]">Iniciar sesión</button>
+                    </form>
+
+                    <div class="flex items-center justify-center my-6">
+                        <hr class="w-24 border-t border-gray-300">
+                        <span class="px-3 text-sm text-gray-500">O inicia con</span>
+                        <hr class="w-24 border-t border-gray-300">
+                    </div>
+
+                    <!-- Iconos iniciar sesion -->
+                    <div class="flex justify-center space-x-6">
+                        <!-- Apple -->
+                        <button class="w-[64px] h-[64px] rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition">
+                            <img src="recursos/iconos/apple.svg" alt="Iniciar con Apple" class="w-6 h-6">
+                        </button>
+
+                        <!-- Google -->
+                        <button class="w-[64px] h-[64px] rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition">
+                            <img src="recursos/iconos/google.svg" alt="Iniciar con Google" class="w-6 h-6">
+                        </button>
+
+                        <!-- Microsoft -->
+                        <button class="w-[64px] h-[64px] rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition">
+                            <img src="recursos/iconos/microsoft.svg" alt="Iniciar con Microsoft" class="w-6 h-6">
+                        </button>
+                    </div>
+
+                    <div class="mt-4 text-center">
+                        <p class="text-sm text-gray-600">¿No tienes una cuenta? <a href="registrarse.html" class="text-green-500">Registrarte</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LAYOUT DESKTOP (lg y superior) -->
+    <div class="hidden lg:block">
+        <!-- Main Content Area -->
+        <div>
+            <!-- Content -->
+            <main class="p-[16px] gap-[16px] flex w-full h-screen">
+                <!-- Carrusel de imágenes -->
+                <div class="bg-white min-h-[95vh] rounded-[20px] lg:w-[60%] xl:w-[65%]">
+                    <div id="carrusel" class="relative w-full h-full overflow-hidden rounded-[20px]">
+                        <!-- Slides -->
+                        <div class="flex transition-transform duration-700 ease-in-out w-full h-full" id="diapositivas">
+                            <img src="" class="w-full flex-shrink-0 object-cover" alt="Imagen 1">
+                            <img src="" class="w-full flex-shrink-0 object-cover" alt="Imagen 2">
+                            <img src="" class="w-full flex-shrink-0 object-cover" alt="Imagen 3">
+                        </div>
+
+                        <!-- Indicadores -->
+                        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-3">
+                            <button class="w-3 h-3 rounded-full bg-gray-400" onclick="irADiapositiva(0)" id="indicador-0"></button>
+                            <button class="w-3 h-3 rounded-full bg-gray-300" onclick="irADiapositiva(1)" id="indicador-1"></button>
+                            <button class="w-3 h-3 rounded-full bg-gray-300" onclick="irADiapositiva(2)" id="indicador-2"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Formulario de inicio de sesión -->
+                <div class="bg-white min-h-[95vh] rounded-[20px] lg:w-[40%] xl:w-[35%] xl:p-[50px] flex items-center h-full">
+                    <div class="flex-1 p-8 ">
+                        <h1 class="text-2xl font-bold mb-4 text-center">Iniciar sesión</h1>
+                        <p class="text-[#8C8C8C] mb-6 text-center">Bienvenido de vuelta, te estábamos esperando.</p>
+
+                        <!-- Sección de inicio de sesión -->
+                        <form id="form-login-desktop">
+                            <div class="mb-4 pb-[10px]">
+                                <label for="email-escritorio" class="block text-sm font-medium text-gray-700">Email</label>
+                                <input type="email" id="email-escritorio" class="mt-1 block w-full border border-[#8C8C8C] rounded-full p-2" placeholder="ejemplo@gmail.com" required>
+                            </div>
+                            <div class="mb-4 pb-[10px] relative">
+                                <label for="password-escritorio" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                                <input type="password" id="password-escritorio" class="mt-1 block w-full border border-[#8C8C8C] rounded-full p-2 pr-10" placeholder="••••••••••••" required>
+                                
+                                <button type="button" id="togglePassword-escritorio" class="absolute right-3 top-[34px] text-gray-500 hover:text-gray-700">
+                                    <i class="far fa-eye-slash"></i>
+                                </button>
+                            </div>
+
+                            <div class="mb-4 text-right">
+                                <a href="#" class="text-sm text-green-600 hover:underline">¿Olvidaste tu contraseña?</a>
+                            </div>
+
+                            <button type="submit" class="w-full bg-[#719177] text-white rounded-full mt-2 p-[13px]">Iniciar sesión</button>
+                        </form>
+
+                        <div class="flex items-center justify-center my-6">
+                            <hr class="w-24 border-t border-gray-300">
+                            <span class="px-3 text-sm text-gray-500">O inicia con</span>
+                            <hr class="w-24 border-t border-gray-300">
+                        </div>
+
+                        <!-- Iconos iniciar sesion -->
+                        <div class="flex justify-center space-x-6">
+                            <!-- Apple -->
+                            <button class="w-[64px] h-[64px] rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition">
+                                <img src="recursos/iconos/apple.svg" alt="Iniciar con Apple" class="w-6 h-6">
+                            </button>
+
+                            <!-- Google -->
+                            <button class="w-[64px] h-[64px] rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition">
+                                <img src="recursos/iconos/google.svg" alt="Iniciar con Google" class="w-6 h-6">
+                            </button>
+
+                            <!-- Microsoft -->
+                            <button class="w-[64px] h-[64px] rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition">
+                                <img src="recursos/iconos/microsoft.svg" alt="Iniciar con Microsoft" class="w-6 h-6">
+                            </button>
+                        </div>
+
+                        <div class="mt-4 text-center">
+                            <p class="text-sm text-gray-600">¿No tienes una cuenta? <a href="registrarse.html" class="text-green-500">Registrarte</a></p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="js/scriptiniciar.js"></script>
+</body>
+</html>

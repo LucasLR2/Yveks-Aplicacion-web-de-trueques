@@ -143,11 +143,11 @@
           </div>
           <div class="flex py-2 relative z-10">
             <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
-              onclick="setActiveTab(this, 0, 'mobile')">
+              onclick="setActiveTab(this, 0, 'mobile'); window.location.href='index.html'">
               <img src="recursos/iconos/Outline/General/Home.svg" alt="Inicio" class="w-6 h-6 mb-1 svg-gray-300">
             </button>
             <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
-              onclick="setActiveTab(this, 1, 'mobile')">
+              onclick="setActiveTab(this, 1, 'mobile'); window.location.href='ofertas.html'">
               <img src="recursos/iconos/Solid/General/tag.svg" alt="Ofertas" class="w-6 h-6 mb-1 svg-gray-300">
             </button>
             <button
@@ -255,6 +255,7 @@
             <img src="recursos/iconos/Outline/Devices/glasses.svg" alt="Accesorios" class="w-5 h-5 svg-green">
             <span class="text-sm text-green">Accesorios</span>
           </div>
+<<<<<<< HEAD
 
 
  <!-- Deportes -->
@@ -297,6 +298,38 @@
 </div>
           </div>
 
+=======
+          <div
+            class="desktop-category flex items-center space-x-3 px-4 py-3 rounded-lg cursor-pointer hover:bg-gray-50 smooth-transition"
+            onclick="seleccionarCategoriaEscritorio(this, 'deportes')">
+            <img src="recursos/iconos/Outline/Devices/Voleibol.svg" alt="Deportes" class="w-4 h-4 svg-green">
+            <span class="text-sm text-green">Deportes</span>
+          </div>
+          <div
+            class="desktop-category flex items-center space-x-3 px-4 py-3 rounded-lg cursor-pointer hover:bg-gray-50 smooth-transition"
+            onclick="seleccionarCategoriaEscritorio(this, 'entretenimiento')">
+            <img src="recursos/iconos/Outline/Devices/dado.svg" alt="Entretenimiento" class="w-4 h-4 svg-green">
+            <span class="text-sm text-green">Entretenimiento</span>
+          </div>
+          <div
+            class="desktop-category flex items-center space-x-3 px-4 py-3 rounded-lg cursor-pointer hover:bg-gray-50 smooth-transition"
+            onclick="seleccionarCategoriaEscritorio(this, 'mascotas')">
+            <img src="recursos/iconos/Outline/Devices/Pata.svg" alt="Mascotas" class="w-4 h-4 svg-green">
+            <span class="text-sm text-green">Mascotas</span>
+          </div>
+          <div
+            class="desktop-category flex items-center space-x-3 px-4 py-3 rounded-lg cursor-pointer hover:bg-gray-50 smooth-transition"
+            onclick="seleccionarCategoriaEscritorio(this, 'herramientas')">
+            <img src="recursos/iconos/Outline/Devices/herramientas.svg" alt="Herramientas" class="w-4 h-4 svg-green">
+            <span class="text-sm text-green">Herramientas</span>
+          </div>
+          <div
+            class="desktop-category flex items-center space-x-3 px-4 py-3 rounded-lg cursor-pointer hover:bg-gray-50 smooth-transition"
+            onclick="seleccionarCategoriaEscritorio(this, 'servicios')">
+            <img src="recursos/iconos/Outline/Devices/servicio.svg" alt="Servicios" class="w-4 h-4 svg-green">
+            <span class="text-sm text-green">Servicios</span>
+          </div>
+>>>>>>> fdfb8caece19eab9a057d18f8a13fd1b1d30898f
         </div>
 
     </div>
@@ -359,7 +392,8 @@
                 </div>
                 <div class="py-1" role="none">
                   <a href="#" class="block px-4 py-2 text-sm text-gray-700 flex" role="menuitem" tabindex="-1"
-                    id="menu-item-6"> <img src="recursos/iconos/Outline/Interface/Logout.svg" alt="Estrella"
+                    id="menu-item-6" onclick="window.location.href='iniciarsesion.html'">
+                    <img src="recursos/iconos/Outline/Interface/Logout.svg" alt="Estrella"
                       class="w-4 h-4 svg-red-400 mr-2">Cerrar sesión</a>
                 </div>
               </div>

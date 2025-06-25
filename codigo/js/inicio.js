@@ -2,7 +2,7 @@
 const productos = [
     {
         id: 1,
-        nombre: "Lentes retro",
+        nombre: "Lentes retro rojos",
         estado: "Usado",
         calificacion: 4.5,
         resenas: 12,
@@ -53,7 +53,259 @@ const productos = [
         resenas: 18,
         imagenes: [{ imagen: "recursos/imagenes/6.jpg" }],
         categoria: "hogar"
-    }
+    },
+        {
+        id: 7,
+        nombre: "Zapatillas Adidas Aggresive",
+        estado: "Usado",
+        calificacion: 4.9,
+        resenas: 11,
+        imagenes: [{ imagen: "recursos/imagenes/7.jpg" }],
+        categoria: "ropa"
+    },
+            {
+        id: 8,
+        nombre: "Libro The Laws of Human Nature",
+        estado: "Nuevo",
+        calificacion: 3.8,
+        resenas: 5,
+        imagenes: [{ imagen: "recursos/imagenes/8.jpg" }],
+        categoria: "entretenimiento"
+    },
+    {
+        id: 9,
+        nombre: "Remera Illicit Bloc denim claro",
+        estado: "Nuevo",
+        calificacion: 5.0,
+        resenas: 15,
+        imagenes: [{ imagen: "recursos/imagenes/9.jpg" }],
+        categoria: "ropa"
+    },
+    {
+        id: 10,
+        nombre: "Lámpara de escritorio",
+        estado: "Usado",
+        calificacion: 3.9,
+        resenas: 7,
+        imagenes: [{ imagen: "recursos/imagenes/10.jpg" }],
+        categoria: "hogar"
+    },
+    {
+        id: 11,
+        nombre: "Remera blanca con estampado azul",
+        estado: "Nuevo",
+        calificacion: 1.8,
+        resenas: 4,
+        imagenes: [{ imagen: "recursos/imagenes/11.jpg" }],
+        categoria: "ropa"
+    },
+    {
+        id: 12,
+        nombre: "Remera marrón Illicit Bloc",
+        estado: "Nuevo",
+        calificacion: 5.0,
+        resenas: 17,
+        imagenes: [{ imagen: "recursos/imagenes/12.jpg" }],
+        categoria: "ropa"
+    },
+    {
+        id: 13,
+        nombre: "Cámara fotográfica Canon",
+        estado: "Usado",
+        calificacion: 4.8,
+        resenas: 21,
+        imagenes: [{ imagen: "recursos/imagenes/13.jpg" }],
+        categoria: "tecnologia"
+    },
+    {
+        id: 14,
+        nombre: "Remera blanca con estampado rojo",
+        estado: "Usado",
+        calificacion: 3.6,
+        resenas: 13,
+        imagenes: [{ imagen: "recursos/imagenes/14.jpg" }],
+        categoria: "ropa"
+    },
+    {
+        id: 15,
+        nombre: "iPad mini",
+        estado: "Usado",
+        calificacion: 4.7,
+        resenas: 24,
+        imagenes: [{ imagen: "recursos/imagenes/15.jpg" }],
+        categoria: "tecnologia"
+    },
+    {
+        id: 16,
+        nombre: "Cámara fotográfica Sony",
+        estado: "Usado",
+        calificacion: 4.8,
+        resenas: 19,
+        imagenes: [{ imagen: "recursos/imagenes/16.jpg" }],
+        categoria: "tecnologia"
+    },
+    {
+        id: 17,
+        nombre: "Remera Umbro azul y blanca",
+        estado: "Nuevo",
+        calificacion: 4.9,
+        resenas: 18,
+        imagenes: [{ imagen: "recursos/imagenes/17.jpg" }],
+        categoria: "ropa"
+    },
+    {
+        id: 18,
+        nombre: "AirPods",
+        estado: "Nuevo",
+        calificacion: 4.8,
+        resenas: 25,
+        imagenes: [{ imagen: "recursos/imagenes/18.jpg" }],
+        categoria: "tecnologia"
+    },
+    {
+        id: 19,
+        nombre: "Remera negra con estampado beige vintage",
+        estado: "Nuevo",
+        calificacion: 5.0,
+        resenas: 22,
+        imagenes: [{ imagen: "recursos/imagenes/19.jpg" }],
+        categoria: "ropa"
+    },
+    {
+        id: 20,
+        nombre: "Remera Nike blanca con estampado lila",
+        estado: "Nuevo",
+        calificacion: 4.9,
+        resenas: 16,
+        imagenes: [{ imagen: "recursos/imagenes/20.jpg" }],
+        categoria: "ropa"
+    },
+    {
+        id: 21,
+        nombre: "Lentes retro amarillos",
+        estado: "Usado",
+        calificacion: 2.7,
+        resenas: 10,
+        imagenes: [{ imagen: "recursos/imagenes/21.jpg" }],
+        categoria: "accesorios"
+    },
+    {
+        id: 22,
+        nombre: "Remera ArtTheMoment blanca",
+        estado: "Nuevo",
+        calificacion: 4.0,
+        resenas: 9,
+        imagenes: [{ imagen: "recursos/imagenes/22.jpg" }],
+        categoria: "ropa"
+    },
+    {
+        id: 23,
+        nombre: "Teclado Clicky verde",
+        estado: "Usado",
+        calificacion: 5.0,
+        resenas: 19,
+        imagenes: [{ imagen: "recursos/imagenes/23.jpg" }],
+        categoria: "tecnologia"
+    },
+    {
+        id: 24,
+        nombre: "Mouse y soporte inalámbrico led",
+        estado: "Nuevo",
+        calificacion: 4.2,
+        resenas: 27,
+        imagenes: [{ imagen: "recursos/imagenes/24.jpg" }],
+        categoria: "tecnologia"
+    },
+    {
+        id: 25,
+        nombre: "AirPods Max negros",
+        estado: "Usado",
+        calificacion: 4.5,
+        resenas: 20,
+        imagenes: [{ imagen: "recursos/imagenes/25.jpg" }],
+        categoria: "tecnologia"
+    },
+    {
+        id: 26,
+        nombre: "Samsung Galaxy Book",
+        estado: "Usado",
+        calificacion: 4.1,
+        resenas: 31,
+        imagenes: [{ imagen: "recursos/imagenes/26.jpg" }],
+        categoria: "tecnologia"
+    },
+    {
+        id: 27,
+        nombre: "Bicileta rodado 27",
+        estado: "Usado",
+        calificacion: 4.9,
+        resenas: 23,
+        imagenes: [{ imagen: "recursos/imagenes/27.jpg" }],
+        categoria: "deportes"
+    },
+    {
+        id: 28,
+        nombre: "Guitarra eléctrica naranja",
+        estado: "Nuevo",
+        calificacion: 4.6,
+        resenas: 15,
+        imagenes: [{ imagen: "recursos/imagenes/28.jpg" }],
+        categoria: "tecnologia"
+    },
+    {
+        id: 29,
+        nombre: "Apple Watch con cadena",
+        estado: "Usado",
+        calificacion: 3.7,
+        resenas: 14,
+        imagenes: [{ imagen: "recursos/imagenes/29.jpg" }],
+        categoria: "tecnologia"
+    },
+    {
+        id: 30,
+        nombre: "Dron",
+        estado: "Usado",
+        calificacion: 4.0,
+        resenas: 9,
+        imagenes: [{ imagen: "recursos/imagenes/30.jpg" }],
+        categoria: "tecnologia"
+    },
+    {
+        id: 31,
+        nombre: "Buzo Nike azul",
+        estado: "Nuevo",
+        calificacion: 5.0,
+        resenas: 29,
+        imagenes: [{ imagen: "recursos/imagenes/30.jpg" }],
+        categoria: "ropa"
+    },
+    {
+        id: 32,
+        nombre: "Buzo Salomon negro",
+        estado: "Usado",
+        calificacion: 4.4,
+        resenas: 22,
+        imagenes: [{ imagen: "recursos/imagenes/32.jpg" }],
+        categoria: "ropa"
+    },
+    {
+        id: 33,
+        nombre: "Cinto de cuero negro",
+        estado: "Usado",
+        calificacion: 2.8,
+        resenas: 10,
+        imagenes: [{ imagen: "recursos/imagenes/33.jpg" }],
+        categoria: "accesorios"
+    },
+    {
+        id: 34,
+        nombre: "Morral High negro",
+        estado: "Usadoo",
+        calificacion: 4.5,
+        resenas: 20,
+        imagenes: [{ imagen: "recursos/imagenes/34.jpg" }],
+        categoria: "accesorios"
+    },
 ];
 
 let categoriaActual = 'todas';
@@ -220,6 +472,7 @@ function seleccionarCategoriaEscritorio(elemento, categoria) {
 // Iconos de categoría
 function obtenerIconoCategoria(categoria) {
     const iconosCategoria = {
+<<<<<<< HEAD
         'tecnologia': { icono: 'Processor' },
         'hogar': { icono: 'armchair' },
         'ropa': { icono: 'shirt' },
@@ -229,6 +482,35 @@ function obtenerIconoCategoria(categoria) {
         'mascotas': { icono: 'Pata' },
         'herramientas': { icono: 'herramientas' },
         'servicios': { icono: 'servicio' }
+=======
+        'tecnologia': {
+            icono: 'Processor'
+        },
+        'hogar': {
+            icono: 'armchair'
+        },
+        'ropa': {
+            icono: 'shirt'
+        },
+        'accesorios': {
+            icono: 'glasses'
+        },
+        'deportes': {
+            icono: 'Voleibol'
+        },
+        'entretenimiento': {
+            icono: 'dado'
+        },
+        'mascotas': {
+            icono: 'Pata'
+        },
+        'herramientas': {
+            icono: 'herramientas'
+        },
+        'servicios': {
+            icono: 'servicio'
+        }
+>>>>>>> fdfb8caece19eab9a057d18f8a13fd1b1d30898f
     };
     const config = iconosCategoria[categoria] || { icono: 'tag' };
     return `<img src="recursos/iconos/Outline/Devices/${config.icono}.svg" alt="${categoria.charAt(0).toUpperCase() + categoria.slice(1)}" class="w-5 h-5 svg-green">`;
@@ -238,13 +520,23 @@ function obtenerDescripcionCategoria(categoria) {
     const descripciones = {
         'tecnologia': 'Laptops, móviles y más',
         'hogar': 'Muebles y decoración',
+<<<<<<< HEAD
         'ropa': 'Moda y estilo',
-        'accesorios': 'Auto y más',
+        'accesorios': 'Collares, anillos y más',
         'deportes': 'Pelotas, equipamiento y más',
-        'entretenimiento': 'Entretenimiento para todos',
+        'entretenimiento': 'Libros, videojuegos y más',
         'mascotas': 'Accesorios y cuidado',
         'herramientas': 'Manual y eléctrica',
         'servicios': 'Ofrece o contrata servicios'
+=======
+        'ropa': 'Moda y accesorios',
+        'accesorios': 'Auto y más',
+        'deportes': 'Equipamiento deportivo',
+        'entretenimiento': 'Juegos y diversión',
+        'mascotas': 'Mascotas y accesorios',
+        'herramientas': 'Herramientas y bricolaje',
+        'servicios': 'Servicios profesionales'
+>>>>>>> fdfb8caece19eab9a057d18f8a13fd1b1d30898f
     };
     return descripciones[categoria] || '';
 }

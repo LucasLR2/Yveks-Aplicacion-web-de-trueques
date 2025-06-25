@@ -117,10 +117,10 @@ document.querySelectorAll('.tab-button').forEach(button => {
         const tabType = this.getAttribute('data-tab');
         if (tabType === 'ratings') {
             // Show ratings content
-            console.log('Showing ratings');
+            console.log('Mostrando valoraciones');
         } else {
             // Show users content
-            console.log('Showing users');
+            console.log('Mostrando usuarios');
         }
     });
 });

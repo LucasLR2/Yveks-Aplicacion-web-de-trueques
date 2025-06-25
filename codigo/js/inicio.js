@@ -483,6 +483,21 @@ function obtenerIconoCategoria(categoria) {
         },
         'accesorios': {
             icono: 'glasses'
+        },
+        'deportes': {
+            icono: 'Voleibol'
+        },
+        'entretenimiento': {
+            icono: 'dado'
+        },
+        'mascotas': {
+            icono: 'Pata'
+        },
+        'herramientas': {
+            icono: 'herramientas'
+        },
+        'servicios': {
+            icono: 'servicio'
         }
     };
     const config = iconosCategoria[categoria] || { icono: 'tag' };
@@ -494,7 +509,12 @@ function obtenerDescripcionCategoria(categoria) {
         'tecnologia': 'Laptops, móviles y más',
         'hogar': 'Muebles y decoración',
         'ropa': 'Moda y accesorios',
-        'accesorios': 'Auto y más'
+        'accesorios': 'Auto y más',
+        'deportes': 'Equipamiento deportivo',
+        'entretenimiento': 'Juegos y diversión',
+        'mascotas': 'Mascotas y accesorios',
+        'herramientas': 'Herramientas y bricolaje',
+        'servicios': 'Servicios profesionales'
     };
     return descripciones[categoria] || '';
 }

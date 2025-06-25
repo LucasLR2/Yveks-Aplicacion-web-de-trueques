@@ -26,7 +26,6 @@ Crear una aplicación web que permita a los usuarios intercambiar artículos de 
 ## 📁 Estructura de Carpetas
 
 - **codigo/**: Contiene todo el código fuente de la aplicación web.
-  - **index.html, ofertas.html**: Archivos principales HTML de la aplicación.
   - **css/**: Hojas de estilo CSS para la aplicación.
   - **js/**: Scripts JavaScript que gestionan la lógica y la interacción de la interfaz.
   - **recursos/**: Recursos estáticos utilizados en la aplicación.

@@ -107,3 +107,37 @@ html, body {
   filter: brightness(1) saturate(10) sepia(1) hue-rotate(0deg);
   opacity: 0.5;
 }
+
+/* Botones reutilizables */
+.btn-primary {
+  background-color: #719177;
+  color: white;
+  border: 2px solid #719177;
+  border-radius: 9999px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #5a7a5f;
+  border-color: #5a7a5f;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #719177;
+  border: 2px solid #719177;
+  border-radius: 9999px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background-color: #f3f4f6;
+  border-color: #5a7a5f;
+  color: #5a7a5f;
+  transform: translateY(-1px);
+}

@@ -75,7 +75,7 @@ const offers = {
         },
         {
             id: 8,
-            product: "MacBook Pro 13”",
+            product: "MacBook Pro 13",
             condition: "Reacondicionado",
             reason: "Quiero una cámara profesional como la EOS R6",
             seller: "Tech Store",
@@ -135,34 +135,52 @@ function generateMobileOffers(type) {
     const offerList = offers[type];
 
     container.innerHTML = offerList.map(offer => `
-    <div class="offer-card bg-white rounded-lg shadow-sm border border-gray-100 p-4 mb-4">
-        <!-- Nombre del producto -->
-        <h3 class="text-base font-semibold text-gray-800 mb-1">${offer.product}</h3>
-
-        <!-- Estado del producto -->
-        <p class="text-sm text-gray-500 mb-1">Estado: ${offer.condition}</p>
-
-        <!-- Motivo del intercambio -->
-        <p class="text-sm text-gray-600 mb-3">Motivo: ${offer.reason}</p>
-
-        <!-- Persona que ofrece -->
-        <div class="flex items-center mb-4 space-x-2">
-            <div class="w-6 h-6 bg-green rounded-full flex items-center justify-center text-white text-xs font-bold">
-                ${offer.buyerAvatar || offer.sellerAvatar}
+    <div class="offer-card bg-transparent rounded-2xl shadow-sm ring-green p-4 mb-4 w-full">
+        <div class="flex space-x-4">
+            <!-- Imagen principal del producto ofrecido/querido -->
+            <div class="flex-shrink-0">
+                <img src="recursos/imagenes/${offer.id}.jpg" alt="${offer.product}" class="w-40 h-40 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg lg:rounded-xl">
             </div>
-            <div>
-                <p class="text-sm font-medium text-gray-800">${offer.buyer || offer.seller}</p>
-                <p class="text-xs text-gray-500">
-                    ${'★'.repeat(Math.floor(offer.rating))}${'☆'.repeat(5 - Math.floor(offer.rating))} (${offer.reviews} reseñas)
-                </p>
+            
+            <!-- Información del producto -->
+            <div class="flex-1 min-w-0">
+                <!-- Nombre del producto -->
+                <h3 class="text-2xl text-gray-800 mb-1 text-left truncate">${offer.product}</h3>
+                
+                <!-- Estado del producto -->
+                <p class="text-base text-green mb-2">${offer.condition}</p>
+                
+                <!-- Sección "Por" -->
+                <div class="flex flex-col space-y-2">
+                    <span class="text-xs text-black">Por</span>
+                    <div class="flex items-center space-x-2">
+                        <img src="recursos/imagenes/${offer.id + 5}.jpg" alt="Mi producto" class="w-16 h-16 md:w-10 md:h-10 lg:w-16 lg:h-16 object-cover rounded lg:rounded-lg flex-shrink-0">
+                        <span class="text-xs md:text-sm lg:text-base text-black">Mi Producto</span>
+                    </div>
+                </div>
             </div>
         </div>
-
+        
+        <!-- Información del usuario -->
+        <div class="flex items-center justify-between mt-4 mb-3">
+            <div class="flex items-center space-x-2">
+                <span class="text-xs text-black">De</span>
+                <div class="w-5 h-5 bg-green rounded-full flex items-center justify-center text-white text-xs">
+                    ${offer.buyerAvatar || offer.sellerAvatar}
+                </div>
+                <span class="text-xs text-black truncate">${offer.buyer || offer.seller}</span>
+            </div>
+            <div class="flex items-center space-x-1">
+                <img src="recursos/iconos/Solid/Status/Star.svg" alt="Estrella" class="w-3 h-3 svg-yellow">
+                <span class="text-xs text-black">${offer.rating} (${offer.reviews})</span>
+            </div>
+        </div>
+        
         <!-- Botones -->
-        <div class="flex space-x-2">
-            <button class="flex-1 px-3 py-1 bg-green text-white text-xs rounded-full font-medium" onclick="messageUser(${offer.id})">Mensaje</button>
-            <button class="flex-1 px-3 py-1 bg-blue-600 text-white text-xs rounded-full font-medium" onclick="acceptOffer(${offer.id})">Aceptar</button>
-            <button class="flex-1 px-3 py-1 bg-gray-200 text-gray-600 text-xs rounded-full font-medium" onclick="rejectOffer(${offer.id})">Cancelar</button>
+        <div class="flex space-x-2 mt-4">
+            <button class="btn-primary flex-1 px-2 py-1.5 text-xs" onclick="messageUser(${offer.id})">Mensaje</button>
+            <button class="btn-primary flex-1 px-2 py-1.5 text-xs" onclick="acceptOffer(${offer.id})">Aceptar</button>
+            <button class="btn-secondary flex-1 px-2 py-1.5 text-xs" onclick="rejectOffer(${offer.id})">Cancelar</button>
         </div>
     </div>
 `).join('');
@@ -174,38 +192,56 @@ function generateDesktopOffers(type) {
     const offerList = offers[type];
 
     container.innerHTML = offerList.map(offer => `
-    <div class="offer-card bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-        <!-- Nombre del producto -->
-        <h3 class="text-lg font-semibold text-gray-800 mb-1">${offer.product}</h3>
-
-        <!-- Estado del producto -->
-        <p class="text-sm text-gray-500 mb-2">Estado: ${offer.condition}</p>
-
-        <!-- Motivo del intercambio -->
-        <p class="text-sm text-gray-600 mb-4">Motivo: ${offer.reason}</p>
-
-        <!-- Usuario que ofrece -->
-        <div class="flex items-center mb-4 space-x-3">
-            <div class="w-8 h-8 bg-green rounded-full flex items-center justify-center text-white text-sm font-bold">
-                ${offer.buyerAvatar || offer.sellerAvatar}
+    <div class="offer-card bg-transparent rounded-3xl shadow-sm ring-green p-8 w-full">
+        <div class="flex space-x-8">
+            <!-- Imagen principal del producto ofrecido/querido -->
+            <div class="flex-shrink-0">
+                <img src="recursos/imagenes/${offer.id}.jpg" alt="${offer.product}" class="w-20 h-20 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg lg:rounded-xl">
             </div>
-            <div>
-                <p class="text-sm font-medium text-gray-800">${offer.buyer || offer.seller}</p>
-                <p class="text-xs text-gray-500">
-                    ${'★'.repeat(Math.floor(offer.rating))}${'☆'.repeat(5 - Math.floor(offer.rating))} (${offer.reviews} reseñas)
-                </p>
+            
+            <!-- Información del producto -->
+            <div class="flex-1 min-w-0">
+                <!-- Nombre del producto -->
+                <h3 class="text-2xl text-gray-800 mb-3 text-left">${offer.product}</h3>
+                
+                <!-- Estado del producto -->
+                <p class="text-base text-green mb-5">${offer.condition}</p>
+                
+                <!-- Sección "Por" -->
+                <div class="flex flex-col space-y-3">
+                    <span class="text-base text-black">Por</span>
+                    <div class="flex items-center space-x-3">
+                        <img src="recursos/imagenes/${offer.id + 5}.jpg" alt="Mi producto" class="w-6 h-6 md:w-10 md:h-10 lg:w-16 lg:h-16 object-cover rounded lg:rounded-lg flex-shrink-0">
+                        <span class="text-xs md:text-sm lg:text-base text-black">Mi Producto</span>
+                    </div>
+                </div>
             </div>
         </div>
-
+        
+        <!-- Información del usuario -->
+        <div class="flex items-center justify-between mt-8 mb-6">
+            <div class="flex items-center space-x-4">
+                <span class="text-base text-black">De</span>
+                <div class="w-10 h-10 bg-green rounded-full flex items-center justify-center text-white text-base">
+                    ${offer.buyerAvatar || offer.sellerAvatar}
+                </div>
+                <span class="text-base text-black">${offer.buyer || offer.seller}</span>
+            </div>
+            <div class="flex items-center space-x-3">
+                <img src="recursos/iconos/Solid/Status/Star.svg" alt="Estrella" class="w-6 h-6 svg-yellow">
+                <span class="text-base text-black">${offer.rating} (${offer.reviews})</span>
+            </div>
+        </div>
+        
         <!-- Botones -->
-        <div class="flex space-x-2">
-            <button class="flex-1 px-4 py-2 bg-green text-white text-sm rounded-full font-medium hover:bg-opacity-90" onclick="messageUser(${offer.id})">
+        <div class="flex space-x-4 mt-8">
+            <button class="btn-primary flex-1 px-6 py-2 text-base" onclick="messageUser(${offer.id})">
                 Mensaje
             </button>
-            <button class="flex-1 px-4 py-2 bg-blue-600 text-white text-sm rounded-full font-medium hover:bg-opacity-90" onclick="acceptOffer(${offer.id})">
+            <button class="btn-primary flex-1 px-6 py-2 text-base" onclick="acceptOffer(${offer.id})">
                 Aceptar
             </button>
-            <button class="flex-1 px-4 py-2 bg-gray-200 text-gray-600 text-sm rounded-full font-medium hover:bg-gray-300" onclick="rejectOffer(${offer.id})">
+            <button class="btn-secondary flex-1 px-6 py-2 text-base" onclick="rejectOffer(${offer.id})">
                 Cancelar
             </button>
         </div>
@@ -250,58 +286,119 @@ function messageUser(id) {
 }
 
 // Función para manejar navegación móvil
-function setActiveTab(element, index, device) {
-    const bubbleId = device === 'mobile' ? 'mobile-bubble' : 'desktop-bubble';
-    const bubble = document.getElementById(bubbleId);
-    const buttons = document.querySelectorAll(`[onclick*="setActiveTab"][onclick*="${device}"]`);
+function setActiveTab(elemento, indice, dispositivo) {
+    const idBurbuja = dispositivo === "mobile" ? "mobile-bubble" : "desktop-bubble";
+    const burbuja = document.getElementById(idBurbuja);
+    const botones = document.querySelectorAll(`[onclick*="setActiveTab"][onclick*="${dispositivo}"]`);
 
-    if (index === 2) {
-        bubble.style.opacity = '0';
-        const centralBtn = buttons[2];
-        centralBtn.style.transform = 'scale(1.2)';
-        centralBtn.style.transition = 'transform 0.3s ease';
+    // Navegación
+    const rutas = [
+        "index.html",
+        "ofertas.html",
+        "publicar.html",
+        "comentarios.html",
+        "perfil.html"
+    ];
+    // Detectar página actual por el índice
+    const paginaActual = window.location.pathname.split("/").pop();
+    if (rutas[indice] !== paginaActual) {
+        window.location.href = rutas[indice];
+        return;
+    }
 
-        buttons.forEach((btn, i) => {
-            if (i !== 2) {
-                const icon = btn.querySelector('i');
-                btn.classList.remove('text-green');
-                btn.classList.add('text-gray-300');
-                icon.style.transform = 'translateY(0)';
-                icon.style.transition = 'transform 0.3s ease';
-            }
+    if (indice === 2) {
+        burbuja.style.opacity = "0";
+        const botonCentral = botones[2];
+        botonCentral.style.transform = "scale(1.2)";
+        botonCentral.style.transition = "transform 0.3s ease";
+
+        botones.forEach((btn, i) => {
+            const icono = btn.querySelector("img");
+            if (i === 2) return; // No cambiar el plus
+            btn.classList.remove("text-green");
+            btn.classList.add("text-gray-300");
+            icono.classList.remove("svg-green");
+            icono.classList.add("svg-white");
+            icono.style.transform = "translateY(0)";
+            icono.style.transition = "transform 0.3s ease";
+            cambiarIconoAOutline(icono);
+            icono.classList.remove(
+                "svg-green",
+                "svg-gray-300",
+                "svg-gray-400",
+                "svg-gray-600",
+                "svg-gray-800",
+                "svg-yellow"
+            );
         });
     } else {
-        bubble.style.opacity = '1';
-
-        const centralBtn = buttons[2];
-        centralBtn.style.transform = 'scale(1)';
-        centralBtn.style.transition = 'transform 0.3s ease';
-
-        const containerWidth = element.parentElement.offsetWidth;
-        const buttonPosition = index * (containerWidth / 5);
-        const bubbleOffset = buttonPosition + (containerWidth / 10) - 24;
-
-        bubble.style.transform = `translateX(${bubbleOffset}px) translateY(11px)`;
-
-        buttons.forEach((btn, i) => {
-            const icon = btn.querySelector('i');
-
-            if (btn.classList.contains('bg-white')) {
+        burbuja.style.opacity = "1";
+        const botonCentral = botones[2];
+        botonCentral.style.transform = "scale(1)";
+        botonCentral.style.transition = "transform 0.3s ease";
+        const contenedorVerde = burbuja.parentElement;
+        const anchoContenedor = contenedorVerde.offsetWidth;
+        const cantidadBotones = botones.length;
+        const anchoBoton = anchoContenedor / cantidadBotones;
+        const leftBurbuja = (indice + 0.5) * anchoBoton - burbuja.offsetWidth / 2;
+        burbuja.style.left = leftBurbuja + "px";
+        burbuja.style.transform = "translateY(11px)";
+        botones.forEach((btn, i) => {
+            const icono = btn.querySelector("img");
+            if (i === 2) return;
+            if (btn.classList.contains("bg-white")) {
                 return;
             }
-
-            if (i === index) {
-                btn.classList.remove('text-gray-300');
-                btn.classList.add('text-green');
-                icon.style.transform = 'translateY(-8px)';
-                icon.style.transition = 'transform 0.3s ease';
+            if (i === indice) {
+                btn.classList.remove("text-gray-300");
+                btn.classList.add("text-green");
+                icono.classList.remove(
+                    "svg-white",
+                    "svg-gray-300",
+                    "svg-gray-400",
+                    "svg-gray-600",
+                    "svg-gray-800",
+                    "svg-yellow",
+                    "svg-green"
+                );
+                icono.classList.add("svg-green");
+                icono.style.transform = "translateY(-8px)";
+                icono.style.transition = "transform 0.3s ease";
+                cambiarIconoASolid(icono);
             } else {
-                btn.classList.remove('text-green');
-                btn.classList.add('text-gray-300');
-                icon.style.transform = 'translateY(0)';
-                icon.style.transition = 'transform 0.3s ease';
+                btn.classList.remove("text-green");
+                btn.classList.add("text-gray-300");
+                icono.classList.remove(
+                    "svg-green",
+                    "svg-gray-300",
+                    "svg-gray-400",
+                    "svg-gray-600",
+                    "svg-gray-800",
+                    "svg-yellow",
+                    "svg-white"
+                );
+                icono.classList.add("svg-white");
+                icono.style.transform = "translateY(0)";
+                icono.style.transition = "transform 0.3s ease";
+                cambiarIconoAOutline(icono);
             }
         });
+    }
+}
+
+function cambiarIconoAOutline(icono) {
+    const src = icono.src;
+    if (src.includes("/Solid/")) {
+        const nuevoSrc = src.replace("/Solid/", "/Outline/");
+        icono.src = nuevoSrc;
+    }
+}
+
+function cambiarIconoASolid(icono) {
+    const src = icono.src;
+    if (src.includes("/Outline/")) {
+        const nuevoSrc = src.replace("/Outline/", "/Solid/");
+        icono.src = nuevoSrc;
     }
 }
 
@@ -309,4 +406,9 @@ function setActiveTab(element, index, device) {
 document.addEventListener('DOMContentLoaded', function () {
     generateMobileOffers(currentOfferType);
     generateDesktopOffers(currentOfferType);
+    // Activar el tab de Ofertas (índice 1)
+    const tabOfertas = document.querySelectorAll('[onclick*="setActiveTab"][onclick*="mobile"]')[1];
+    if (tabOfertas) {
+        setActiveTab(tabOfertas, 1, 'mobile');
+    }
 });

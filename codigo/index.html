@@ -49,7 +49,7 @@
         <div class="relative">
           <div class="flex gap-x-4 overflow-x-auto scrollbar-hide">
             <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category min-w-[72px]"
-              onclick="seleccionarCategoria(this)">
+              onclick="seleccionarCategoria(this)" data-category="tecnologia">
               <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
                 <img src="recursos/iconos/contorno/dispositivos/Processor.svg" alt="Tecnología" class="w-5 h-5 svg-green">
               </div>
@@ -57,7 +57,7 @@
             </div>
 
             <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category min-w-[72px]"
-              onclick="seleccionarCategoria(this)">
+              onclick="seleccionarCategoria(this)" data-category="hogar">
               <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
                 <img src="recursos/iconos/contorno/dispositivos/armchair.svg" alt="Hogar" class="w-5 h-5 svg-green">
               </div>
@@ -65,7 +65,7 @@
             </div>
 
             <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category min-w-[72px]"
-              onclick="seleccionarCategoria(this)">
+              onclick="seleccionarCategoria(this)" data-category="ropa">
               <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
                 <img src="recursos/iconos/contorno/dispositivos/shirt.svg" alt="Ropa" class="w-5 h-5 svg-green">
               </div>
@@ -73,7 +73,7 @@
             </div>
 
             <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category min-w-[72px]"
-              onclick="seleccionarCategoria(this)">
+              onclick="seleccionarCategoria(this)" data-category="accesorios">
               <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
                 <img src="recursos/iconos/contorno/dispositivos/glasses.svg" alt="Accesorios" class="w-5 h-5 svg-green">
               </div>
@@ -83,29 +83,29 @@
             <!-- Deportes -->
             <div
               class="flex flex-col items-center space-y-2 cursor-pointer mobile-category flex-shrink-0 w-20 snap-start"
-              onclick="selectCategory(this)">
+              onclick="seleccionarCategoria(this)" data-category="deportes">
               <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                <i class="fas fa-futbol text-green"></i>
+                <img src="recursos/iconos/contorno/dispositivos/Voleibol.svg" alt="Deportes" class="w-5 h-5 svg-green">
               </div>
               <span class="text-xs text-gray-600 text-center">Deportes</span>
             </div>
 
-            <!-- Juguetes -->
+            <!-- Entretenimiento -->
             <div
               class="flex flex-col items-center space-y-2 cursor-pointer mobile-category flex-shrink-0 w-20 snap-start"
-              onclick="selectCategory(this)">
+              onclick="seleccionarCategoria(this)" data-category="entretenimiento">
               <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                <i class="fas fa-puzzle-piece text-green"></i>
+                <img src="recursos/iconos/contorno/dispositivos/dado.svg" alt="Entretenimiento" class="w-5 h-5 svg-green">
               </div>
-              <span class="text-xs text-gray-600 text-center">Juguetes</span>
+              <span class="text-xs text-gray-600 text-center">Entretenimiento</span>
             </div>
 
             <!-- Mascotas -->
             <div
               class="flex flex-col items-center space-y-2 cursor-pointer mobile-category flex-shrink-0 w-20 snap-start"
-              onclick="selectCategory(this)">
+              onclick="seleccionarCategoria(this)" data-category="mascotas">
               <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                <i class="fas fa-paw text-green"></i>
+                <img src="recursos/iconos/contorno/dispositivos/Pata.svg" alt="Mascotas" class="w-5 h-5 svg-green">
               </div>
               <span class="text-xs text-gray-600 text-center">Mascotas</span>
             </div>
@@ -113,9 +113,9 @@
             <!-- Herramientas -->
             <div
               class="flex flex-col items-center space-y-2 cursor-pointer mobile-category flex-shrink-0 w-20 snap-start"
-              onclick="selectCategory(this)">
+              onclick="seleccionarCategoria(this)" data-category="herramientas">
               <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                <i class="fas fa-tools text-green"></i>
+                <img src="recursos/iconos/contorno/dispositivos/herramientas.svg" alt="Herramientas" class="w-5 h-5 svg-green">
               </div>
               <span class="text-xs text-gray-600 text-center">Herramientas</span>
             </div>
@@ -123,21 +123,11 @@
             <!-- Servicios -->
             <div
               class="flex flex-col items-center space-y-2 cursor-pointer mobile-category flex-shrink-0 w-20 snap-start"
-              onclick="selectCategory(this)">
+              onclick="seleccionarCategoria(this)" data-category="servicios">
               <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                <i class="fas fa-concierge-bell text-green"></i>
+                <img src="recursos/iconos/contorno/dispositivos/servicio.svg" alt="Servicios" class="w-5 h-5 svg-green">
               </div>
               <span class="text-xs text-gray-600 text-center">Servicios</span>
-            </div>
-
-            <!-- Antigüedades -->
-            <div
-              class="flex flex-col items-center space-y-2 cursor-pointer mobile-category flex-shrink-0 w-20 snap-start"
-              onclick="selectCategory(this)">
-              <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                <i class="fas fa-archway text-green"></i>
-              </div>
-              <span class="text-xs text-gray-600 text-center">Antigüedades</span>
             </div>
           </div>
         </div>

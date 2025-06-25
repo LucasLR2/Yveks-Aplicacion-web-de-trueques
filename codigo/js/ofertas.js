@@ -397,17 +397,13 @@ function setActiveTab(elemento, indice, dispositivo) {
     const burbuja = document.getElementById(idBurbuja);
     const botones = document.querySelectorAll(`[onclick*="setActiveTab"][onclick*="${dispositivo}"]`);
 
-    // Navegación
+    // Navegación solo para Inicio y Ofertas
     const rutas = [
         "index.html",
-        "ofertas.html",
-        "publicar.html",
-        "comentarios.html",
-        "perfil.html"
+        "ofertas.html"
     ];
-    // Detectar página actual por el índice
     const paginaActual = window.location.pathname.split("/").pop();
-    if (rutas[indice] !== paginaActual) {
+    if ((indice === 0 || indice === 1) && rutas[indice] !== paginaActual) {
         window.location.href = rutas[indice];
         return;
     }

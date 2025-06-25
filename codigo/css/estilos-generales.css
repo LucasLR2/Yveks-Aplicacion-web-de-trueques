@@ -30,7 +30,7 @@ html, body {
 
 /* Utilidades de color globales */
 .text-green {
-  color: #719177;
+  color: #719177 !important;
 }
 .bg-green {
   background-color: #719177;
@@ -140,4 +140,11 @@ html, body {
   border-color: #5a7a5f;
   color: #5a7a5f;
   transform: translateY(-1px);
+}
+
+.text-yellow {
+  color: #FFC531 !important;
+}
+.text-red {
+  color: #DD3D3D !important;
 }

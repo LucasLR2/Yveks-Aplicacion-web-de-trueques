@@ -70,17 +70,17 @@ function renderUsersTable(usersToRender = users) {
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${user.birthDate}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${user.location}</td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${roleClass}">
+                        <span class="inline-flex px-2 py-1 text-xs rounded-full ${roleClass}">
                             ${user.role}
                         </span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <div class="flex space-x-2">
-                            <button class="action-btn text-green-600 hover:text-green-900" title="Editar">
-                                <i class="fas fa-edit"></i>
+                            <button class="action-btn" title="Editar">
+                                <img src="recursos/iconos/contorno/interface/Edit.svg" alt="Editar" class="w-5 h-5 svg-gray-600">
                             </button>
-                            <button class="action-btn text-red-600 hover:text-red-900" title="Eliminar">
-                                <i class="fas fa-trash"></i>
+                            <button class="action-btn" title="Eliminar">
+                                <img src="recursos/iconos/contorno/interface/Trash.svg" alt="Eliminar" class="w-5 h-5 svg-gray-600">
                             </button>
                         </div>
                     </td>
@@ -132,6 +132,16 @@ class SidebarNavigation {
         this.selectionIndicator = document.getElementById('selectionIndicator');
         this.currentActiveIndex = 1; // Usuarios está activo por defecto
         
+        // Definir los iconos para cada elemento del menú
+        this.menuIcons = {
+            0: { outline: 'recursos/iconos/contorno/general/Chart-pie-alt.svg', solid: 'recursos/iconos/solido/general/Chart-pie-alt.svg' },
+            1: { outline: 'recursos/iconos/contorno/comunicacion/User.svg', solid: 'recursos/iconos/solido/comunicacion/User.svg' },
+            2: { outline: 'recursos/iconos/contorno/general/Box.svg', solid: 'recursos/iconos/solido/general/Box.svg' },
+            3: { outline: 'recursos/iconos/contorno/estado/Info-triangle.svg', solid: 'recursos/iconos/solido/estado/Info-triangle.svg' },
+            4: { outline: 'recursos/iconos/contorno/comunicacion/Envelope.svg', solid: 'recursos/iconos/solido/comunicacion/Envelope.svg' },
+            5: { outline: 'recursos/iconos/contorno/estado/Notification.svg', solid: 'recursos/iconos/solido/estado/Notification.svg' }
+        };
+        
         this.init();
     }
     
@@ -148,8 +158,12 @@ class SidebarNavigation {
     selectItem(index) {
         if (index === this.currentActiveIndex) return;
         
+        // Cambiar icono del elemento anterior a contorno
+        this.updateMenuItemIcon(this.currentActiveIndex, 'outline');
         this.menuItems[this.currentActiveIndex].classList.remove('active');
         
+        // Cambiar icono del nuevo elemento a sólido
+        this.updateMenuItemIcon(index, 'solid');
         this.menuItems[index].classList.add('active');
         
         this.updateIndicatorPosition(index);
@@ -157,6 +171,20 @@ class SidebarNavigation {
         this.currentActiveIndex = index;
         
         this.handleNavigation(index);
+    }
+    
+    updateMenuItemIcon(index, type) {
+        const menuItem = this.menuItems[index];
+        const iconImg = menuItem.querySelector('img');
+        if (iconImg && this.menuIcons[index]) {
+            iconImg.src = this.menuIcons[index][type];
+            // Cambiar la clase de color según el tipo
+            if (type === 'solid') {
+                iconImg.className = iconImg.className.replace('svg-white', 'svg-green');
+            } else {
+                iconImg.className = iconImg.className.replace('svg-green', 'svg-white');
+            }
+        }
     }
     
     updateIndicatorPosition(index) {
@@ -200,7 +228,8 @@ class SidebarNavigation {
     }
 }
 
-// Inicializar el componente de navegación
-const sidebarNav = new SidebarNavigation();
-// Initialize the table
-renderUsersTable();
+// Initialize sidebar navigation
+document.addEventListener('DOMContentLoaded', function() {
+    new SidebarNavigation();
+    renderUsersTable();
+});

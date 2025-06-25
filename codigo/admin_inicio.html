@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración - Usuarios</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/admin_inicio.css">
+    <link rel="stylesheet" href="css/estilos-generales.css">
 </head>
 
 <body class="bg-gray-100 font-sans">
@@ -16,7 +16,7 @@
         <div class="w-64 bg-gradient-to-b bg-green text-white flex flex-col">
             <!-- Logo -->
             <div class="p-6 border-b ring-green">
-                <h1 class="text-xl font-bold">Logo</h1>
+                <h1 class="text-xl">Logo</h1>
             </div>
 
             <!-- Navigation Menu -->
@@ -27,27 +27,27 @@
                     
                     <!-- Items del menú -->
                     <div class="menu-item" data-index="0">
-                        <i class="fas fa-chart-bar"></i>
+                        <img src="recursos/iconos/contorno/general/Chart-pie-alt.svg" alt="Resumen" class="w-6 h-6 svg-white">
                         <span>Resumen</span>
                     </div>
                     <div class="menu-item active" data-index="1">
-                        <i class="fas fa-user"></i>
+                        <img src="recursos/iconos/solido/comunicacion/User.svg" alt="Usuarios" class="w-6 h-6 svg-green">
                         <span>Usuarios</span>
                     </div>
                     <div class="menu-item" data-index="2">
-                        <i class="fas fa-box"></i>
+                        <img src="recursos/iconos/contorno/general/Box.svg" alt="Productos" class="w-6 h-6 svg-white">
                         <span>Productos</span>
                     </div>
                     <div class="menu-item" data-index="3">
-                        <i class="fas fa-exclamation-triangle"></i>
+                        <img src="recursos/iconos/contorno/estado/Info-triangle.svg" alt="Incidencias" class="w-6 h-6 svg-white">
                         <span>Incidencias</span>
                     </div>
                     <div class="menu-item" data-index="4">
-                        <i class="fas fa-envelope"></i>
+                        <img src="recursos/iconos/contorno/comunicacion/Envelope.svg" alt="Mensajes" class="w-6 h-6 svg-white">
                         <span>Mensajes</span>
                     </div>
                     <div class="menu-item" data-index="5">
-                        <i class="fas fa-bell"></i>
+                        <img src="recursos/iconos/contorno/estado/Notification.svg" alt="Notificaciones" class="w-6 h-6 svg-white">
                         <span>Notificaciones</span>
                     </div>
                 </div>
@@ -59,11 +59,11 @@
             <!-- Header -->
             <header class="bg-gray-100 px-6 py-4">
                 <div class="flex items-center justify-between">
-                    <h2 class="text-2xl font-semibold text-gray-800">Usuarios</h2>
+                    <h2 class="text-2xl text-gray-800">Usuarios</h2>
                     <div class="flex items-center space-x-4">
                         <!-- Notification Bell -->
                         <button class="text-gray-500 relative">
-                            <i class="fas fa-bell text-xl"></i>
+                            <img src="recursos/iconos/solido/estado/Notification.svg" alt="Notificaciones" class="w-6 h-6 svg-gray-500">
                         </button>
 
                         <!-- User Profile -->
@@ -71,8 +71,7 @@
                             <div class="user-avatar">AM</div>
                             <div class="flex items-center space-x-1">
                                 <span class="text-gray-700 font-medium">Alejandro Méndez</span>
-                                <i
-                                    class="fas fa-chevron-down text-gray-500 group-hover:text-gray-700 transition-colors"></i>
+                                <img src="recursos/iconos/solido/interface/Caret down.svg" alt="Expandir" class="w-5 h-5 svg-gray-500 group-hover:svg-gray-700 transition-colors">
                             </div>
                         </div>
                     </div>
@@ -84,7 +83,7 @@
                 <!-- Search Bar -->
                 <div class="mb-6">
                     <div class="relative max-w-md">
-                        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        <img src="recursos/iconos/solido/interface/Search.svg" alt="Buscar" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 svg-gray-400">
                         <input type="text" placeholder="Buscar usuario"
                             class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                             id="searchInput">

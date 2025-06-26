@@ -186,7 +186,7 @@ function generateMobileOffers(type) {
                         <span class="text-xs text-black truncate">${offer.seller}</span>
                     </div>
                     <div class="flex items-center space-x-1">
-                        <img src="recursos/iconos/solido/estado/Star.svg" alt="Estrella" class="w-3 h-3 svg-yellow">
+                        <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-3 h-3 svg-yellow">
                         <span class="text-xs text-black">${offer.rating} (${offer.reviews})</span>
                     </div>
                 </div>
@@ -228,7 +228,7 @@ function generateMobileOffers(type) {
                     <span class="text-xs text-black truncate">${offer.buyer || offer.seller}</span>
                 </div>
                 <div class="flex items-center space-x-1">
-                    <img src="recursos/iconos/solido/estado/Star.svg" alt="Estrella" class="w-3 h-3 svg-yellow">
+                    <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-3 h-3 svg-yellow">
                     <span class="text-xs text-black">${offer.rating} (${offer.reviews})</span>
                 </div>
             </div>
@@ -293,7 +293,7 @@ function generateDesktopOffers(type) {
                         <span class="text-base text-black">${offer.seller}</span>
                     </div>
                     <div class="flex items-center space-x-3">
-                        <img src="recursos/iconos/solido/estado/Star.svg" alt="Estrella" class="w-6 h-6 svg-yellow">
+                        <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-6 h-6 svg-yellow">
                         <span class="text-base text-black">${offer.rating} (${offer.reviews})</span>
                     </div>
                 </div>
@@ -335,7 +335,7 @@ function generateDesktopOffers(type) {
                     <span class="text-base text-black">${offer.buyer || offer.seller}</span>
                 </div>
                 <div class="flex items-center space-x-3">
-                    <img src="recursos/iconos/solido/estado/Star.svg" alt="Estrella" class="w-6 h-6 svg-yellow">
+                    <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-6 h-6 svg-yellow">
                     <span class="text-base text-black">${offer.rating} (${offer.reviews})</span>
                 </div>
             </div>

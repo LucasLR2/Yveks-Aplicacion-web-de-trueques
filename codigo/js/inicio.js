@@ -335,7 +335,7 @@ function generarProductosMovil(categoria = 'todas') {
                 <div class="flex items-center justify-between">
                     <p class="text-base text-green mb-0">${producto.estado}</p>
                     <div class="flex items-center gap-2">
-                        <img src="recursos/iconos/Solid/Status/Star.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
+                        <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
                         <span class="text-base text-gray-500">${producto.calificacion} (${producto.resenas})</span>
                     </div>
                 </div>
@@ -368,7 +368,7 @@ function generarProductosEscritorio(categoria = 'todas') {
                 <div class="flex justify-between items-center">
                     <p class="text-base text-green">${producto.estado}</p>
                     <div class="flex items-center gap-2">
-                        <img src="recursos/iconos/Solid/Status/Star.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
+                        <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
                         <span class="text-gray-500 text-base">${producto.calificacion} (${producto.resenas})</span>
                     </div>
                 </div>
@@ -501,7 +501,7 @@ function obtenerIconoCategoria(categoria) {
         }
     };
     const config = iconosCategoria[categoria] || { icono: 'tag' };
-    return `<img src="recursos/iconos/Outline/Devices/${config.icono}.svg" alt="${categoria.charAt(0).toUpperCase() + categoria.slice(1)}" class="w-5 h-5 svg-green">`;
+    return `<img src="recursos/iconos/contorno/dispositivos/${config.icono}.svg" alt="${categoria.charAt(0).toUpperCase() + categoria.slice(1)}" class="w-5 h-5 svg-green">`;
 }
 
 function obtenerDescripcionCategoria(categoria) {
@@ -572,7 +572,7 @@ function filtrarProductos(consulta) {
                     <div class="flex items-center justify-between">
                         <p class="text-base text-green mb-0">${producto.estado}</p>
                         <div class="flex items-center gap-2">
-                            <img src="recursos/iconos/Solid/Status/Star.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
+                            <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
                             <span class="text-base text-gray-500">${producto.calificacion} (${producto.resenas})</span>
                         </div>
                     </div>
@@ -595,7 +595,7 @@ function filtrarProductos(consulta) {
                     <div class="flex justify-between items-center">
                         <p class="text-base text-green">${producto.estado}</p>
                         <div class="flex items-center gap-2">
-                            <img src="recursos/iconos/Solid/Status/Star.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
+                            <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
                             <span class="text-gray-500 text-base">${producto.calificacion} (${producto.resenas})</span>
                         </div>
                     </div>

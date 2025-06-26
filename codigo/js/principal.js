@@ -10,21 +10,6 @@ const mapaColores = {
   gris: "text-gray-600",
 };
 
-// Función para generar estrellas (uso global, no productos)
-function generarEstrellas(cantidad) {
-  let estrellas = "";
-  const estrellaLlena = "⭐";
-  const estrellaVacia = "☆";
-  for (let i = 1; i <= 5; i++) {
-    if (i <= cantidad) {
-      estrellas += estrellaLlena;
-    } else {
-      estrellas += estrellaVacia;
-    }
-  }
-  return estrellas;
-}
-
 // Función de navegación móvil
 function setActiveTab(elemento, indice, dispositivo) {
   const idBurbuja =
@@ -146,8 +131,8 @@ function setDesktopActiveNav(elemento) {
 // Función para cambiar icono a Outline
 function cambiarIconoAOutline(icono) {
   const src = icono.src;
-  if (src.includes("/Solid/")) {
-    const nuevoSrc = src.replace("/Solid/", "/Outline/");
+  if (src.includes("/solido/")) {
+    const nuevoSrc = src.replace("/solido/", "/contorno/");
     icono.src = nuevoSrc;
   }
 }
@@ -155,8 +140,8 @@ function cambiarIconoAOutline(icono) {
 // Función para cambiar icono a Solid
 function cambiarIconoASolid(icono) {
   const src = icono.src;
-  if (src.includes("/Outline/")) {
-    const nuevoSrc = src.replace("/Outline/", "/Solid/");
+  if (src.includes("/contorno/")) {
+    const nuevoSrc = src.replace("/contorno/", "/solido/");
     icono.src = nuevoSrc;
   }
 }
@@ -169,7 +154,7 @@ function obtenerIconoVectorial(nombre, opciones = {}) {
     alt = nombre,
     colorPersonalizado = null,
   } = opciones;
-  return `<img src="recursos/iconos/Outline/${nombre}.svg" alt="${alt}" class="${tamano} svg-green">`;
+  return `<img src="recursos/iconos/contorno/${nombre}.svg" alt="${alt}" class="${tamano} svg-green">`;
 }
 
 // Evento de redimensionamiento global

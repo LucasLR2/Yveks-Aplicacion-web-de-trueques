@@ -16,6 +16,20 @@ Crear una aplicación web que permita a los usuarios intercambiar artículos de 
 - Sistema de valoración y comentarios
 - Panel de administración
 
+## 📁 Estructura de Carpetas
+
+- **codigo/**: Contiene todo el código fuente de la aplicación web.
+  - **css/**: Hojas de estilo CSS para la aplicación.
+  - **js/**: Scripts JavaScript que gestionan la lógica y la interacción de la interfaz.
+  - **recursos/**: Recursos estáticos utilizados en la aplicación.
+    - **imagenes/**: Imágenes utilizadas en la plataforma.
+    - **iconos/**: Iconos SVG organizados en subcarpetas por tipo (Solid, Outline, etc.).
+    - **fuentes/**: Tipografías utilizadas en la aplicación.
+
+- **documentacion/**: Carpeta destinada a la documentación del proyecto. Aquí se incluyen:
+  - Documento de Especificación de Requerimientos
+  - Documento de Punto de Función del Sistema
+
 ## 👥 Equipo de Desarrollo
 - Alexis Sosa - [@AlexisSosaOjeda](https://github.com/AlexisSosaOjeda "Ir al perfil de GitHub")
 - Catalina Gamarra - [@CataMGR](https://github.com/CataMGR "Ir al perfil de GitHub")

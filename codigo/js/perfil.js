@@ -1,4 +1,3 @@
-// Datos de productos
 const productos = [
     {
         id: 1,
@@ -56,290 +55,95 @@ const productos = [
     },
 ];
 
-let categoriaActual = 'todas';
-let categoriasSeleccionadas = new Set();
+// Datos de reseñas - usando imágenes consistentes
+const resenas = [
+    {
+        id: 1,
+        usuario: "María Rodríguez",
+        avatar: "recursos/imagenes/usuarios/maria.jpg",
+        fecha: "15 de abril de 2024",
+        calificacion: 5,
+        titulo: "Excelente vendedor, muy recomendado",
+        comentario: "José fue muy amable y profesional. El producto llegó exactamente como se describía y en perfectas condiciones. La comunicación fue excelente durante todo el proceso. Definitivamente compraría de nuevo.",
+        producto: "Auriculares inalámbricos"
+    },
+    {
+        id: 2,
+        usuario: "Carlos Mendoza",
+        avatar: "recursos/imagenes/usuarios/carlos.jpg",
+        fecha: "8 de abril de 2024",
+        calificacion: 4,
+        titulo: "Buen producto, envío rápido",
+        comentario: "El cargador magnético funciona perfectamente. El envío fue más rápido de lo esperado. José respondió todas mis preguntas rápidamente. Solo le doy 4 estrellas porque el empaque podría ser mejor.",
+        producto: "Cargador magnético"
+    },
+    {
+        id: 3,
+        usuario: "Ana Gutierrez",
+        avatar: "recursos/imagenes/usuarios/ana.jpg",
+        fecha: "2 de abril de 2024",
+        calificacion: 5,
+        titulo: "¡Increíble experiencia de compra!",
+        comentario: "Los lentes llegaron en perfectas condiciones. José fue súper honesto sobre el estado del producto y me dio muchos consejos sobre su cuidado. La transacción fue muy fluida.",
+        producto: "Lentes retro rojos"
+    },
+    {
+        id: 4,
+        usuario: "Diego Silva",
+        avatar: "recursos/imagenes/usuarios/diego.jpg",
+        fecha: "28 de marzo de 2024",
+        calificacion: 4,
+        titulo: "Vendedor confiable y responsable",
+        comentario: "El proyector funciona muy bien. José me explicó detalladamente cómo usarlo y me dio algunos accesorios extra sin costo. Muy recomendado para futuras compras.",
+        producto: "Proyector"
+    },
+    {
+        id: 5,
+        usuario: "Sofia López",
+        avatar: "recursos/imagenes/usuarios/sofia.jpg",
+        fecha: "20 de marzo de 2024",
+        calificacion: 5,
+        titulo: "Perfecto estado, tal como se describía",
+        comentario: "La remera está en excelente estado. José fue muy detallado en la descripción y las fotos coinciden perfectamente con el producto real. Entrega puntual y buen precio.",
+        producto: "Remera Suzuki con estampado"
+    },
+    {
+        id: 6,
+        usuario: "Roberto Martínez",
+        avatar: "recursos/imagenes/usuarios/roberto.jpg",
+        fecha: "15 de marzo de 2024",
+        calificacion: 4,
+        titulo: "Sillón cómodo y en buen estado",
+        comentario: "El sillón llegó en buen estado general. José me ayudó con la entrega y fue muy amable. Solo tiene algunos signos normales de uso, pero nada que afecte su funcionalidad.",
+        producto: "Sillón naranja"
+    }
+];
+
+let currentTab = 'productos';
 
 // Generar productos para el perfil
 function generarProductosPerfil() {
     const contenedor = document.getElementById('profile-products');
-    if (!contenedor) return; // Si no existe el contenedor del perfil, no hacer nada
+    const contenedorMovil = document.getElementById('mobile-profile-products');
 
-    contenedor.innerHTML = productos.map(producto => `
-        <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-200 cursor-pointer hover:shadow-md transition-shadow"
-            onclick="seleccionarProducto(this)">
-            <div class="aspect-square bg-gray-200 relative">
-                <img src="${producto.imagenes[0].imagen}" alt="${producto.nombre}" class="w-full h-full object-cover">
-            </div>
-            <div class="p-4">
-                <h3 class="font-medium text-gray-800 mb-1">${producto.nombre}</h3>
-                <p class="text-sm text-gray-600">${producto.estado}</p>
-            </div>
-        </div>
-    `).join('');
-}
-
-// Generar productos para móvil
-function generarProductosMovil(categoria = 'todas') {
-    const contenedor = document.getElementById('mobile-products');
-    if (!contenedor) return; // Si no existe el contenedor móvil, no hacer nada
-    
-    let productosFiltrados;
-    
-    if (categoriasSeleccionadas.size === 0) {
-        productosFiltrados = productos;
-    } else {
-        productosFiltrados = productos.filter(p => categoriasSeleccionadas.has(p.categoria));
-    }
-
-    contenedor.innerHTML = productosFiltrados.map(producto => `
-        <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition-shadow product-card"
-            onclick="seleccionarProducto(this)">
-            <div class="aspect-square bg-gray-200 relative">
-                <div class="absolute inset-0 flex items-center justify-center">
+    const productosHTML = productos.map(producto => `
+            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-200 cursor-pointer hover:shadow-md transition-shadow"
+                onclick="seleccionarProducto(this)">
+                <div class="aspect-square bg-gray-200 relative">
                     <img src="${producto.imagenes[0].imagen}" alt="${producto.nombre}" class="w-full h-full object-cover">
                 </div>
-            </div>
-            <div class="p-3">
-                <h4 class="text-sm text-gray-800 mb-3">${producto.nombre}</h4>
-                <div class="flex items-center justify-between">
-                    <p class="text-base text-green mb-0">${producto.estado}</p>
-                    <div class="flex items-center gap-2">
-                        <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
-                        <span class="text-base text-gray-500">${producto.calificacion} (${producto.resenas})</span>
-                    </div>
+                <div class="p-4">
+                    <h3 class="font-medium text-gray-800 mb-1">${producto.nombre}</h3>
+                    <p class="text-sm text-gray-600">${producto.estado}</p>
                 </div>
             </div>
-        </div>
-    `).join('');
-}
+        `).join('');
 
-// Generar productos para escritorio
-function generarProductosEscritorio(categoria = 'todas') {
-    const contenedor = document.getElementById('desktop-products');
-    if (!contenedor) return; // Si no existe el contenedor escritorio, no hacer nada
-    
-    let productosFiltrados;
-    
-    if (categoriasSeleccionadas.size === 0) {
-        productosFiltrados = productos;
-    } else {
-        productosFiltrados = productos.filter(p => categoriasSeleccionadas.has(p.categoria));
-    }
-
-    contenedor.innerHTML = productosFiltrados.map(producto => `
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-lg smooth-transition product-card w-full"
-            onclick="seleccionarProducto(this)">
-            <div class="aspect-square bg-gray-200 relative">
-                <div class="absolute inset-0 flex items-center justify-center">
-                    <img src="${producto.imagenes[0].imagen}" alt="${producto.nombre}" class="w-full h-full object-cover">
-                </div>
-            </div>
-            <div class="p-4">
-                <h4 class="text-sm text-gray-800 mb-3 truncate">${producto.nombre}</h4>
-                <div class="flex justify-between items-center">
-                    <p class="text-base text-green">${producto.estado}</p>
-                    <div class="flex items-center gap-2">
-                        <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
-                        <span class="text-gray-500 text-base">${producto.calificacion} (${producto.resenas})</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `).join('');
-}
-
-// Selección de categoría móvil
-function seleccionarCategoria(elemento) {
-    // Obtener el nombre de la categoría desde el span
-    const nombreCategoria = elemento.querySelector('span').textContent.trim().toLowerCase();
-    // Mapear el nombre visible a la clave de categoría
-    const mapCategoria = {
-        'tecnología': 'tecnologia',
-        'hogar': 'hogar',
-        'ropa': 'ropa',
-        'accesorios': 'accesorios'
-    };
-    const categoria = mapCategoria[nombreCategoria] || nombreCategoria;
-
-    // Alternar selección múltiple
-    if (categoriasSeleccionadas.has(categoria)) {
-        categoriasSeleccionadas.delete(categoria);
-        elemento.querySelector('div').classList.remove('bg-green');
-        elemento.querySelector('div').classList.add('bg-gray-100');
-        const img = elemento.querySelector('img');
-        img.classList.remove('svg-white');
-        img.classList.add('svg-green');
-        elemento.querySelector('span').classList.remove('text-green');
-        elemento.querySelector('span').classList.add('text-gray-600');
-    } else {
-        categoriasSeleccionadas.add(categoria);
-        elemento.querySelector('div').classList.remove('bg-gray-100');
-        elemento.querySelector('div').classList.add('bg-green');
-        const img = elemento.querySelector('img');
-        img.classList.remove('svg-green');
-        img.classList.add('svg-white');
-        elemento.querySelector('span').classList.remove('text-gray-600');
-        elemento.querySelector('span').classList.add('text-green');
-    }
-    generarProductosMovil();
-    generarProductosEscritorio();
-}
-
-// Selección de categoría escritorio
-function seleccionarCategoriaEscritorio(elemento, categoria) {
-    const mainContent = document.querySelector('.desktop-main main');
-    const nombreCategoria = elemento.querySelector('span').textContent;
-    
-    if (categoriasSeleccionadas.has(categoria)) {
-        categoriasSeleccionadas.delete(categoria);
-        elemento.classList.remove('bg-gray-100');
-        const tarjetaCategoria = document.querySelector(`[data-category="${categoria}"]`);
-        if (tarjetaCategoria) {
-            tarjetaCategoria.remove();
-        }
-    } else {
-        categoriasSeleccionadas.add(categoria);
-        elemento.classList.add('bg-gray-100');
-        let seccionCategorias = document.querySelector('.categories-section');
-        if (!seccionCategorias) {
-            seccionCategorias = document.createElement('div');
-            seccionCategorias.className = 'categories-section mb-12';
-            seccionCategorias.innerHTML = `
-                <h2 class="text-2xl text-gray-800 mb-6">Explorar por categoría</h2>
-                <div class="overflow-x-auto scrollbar-hide">
-                    <div class="flex space-x-4" id="selected-categories"></div>
-                </div>
-            `;
-            const seccionBienvenida = document.querySelector('.mb-8');
-            seccionBienvenida.after(seccionCategorias);
-        }
-        const gridCategorias = document.getElementById('selected-categories');
-        const tarjetaCategoria = document.createElement('div');
-        tarjetaCategoria.className = 'desktop-category-card bg-gray-100 p-4 rounded-2xl cursor-pointer hover:shadow-lg smooth-transition flex-shrink-0 min-w-[280px]';
-        tarjetaCategoria.setAttribute('data-category', categoria);
-        tarjetaCategoria.innerHTML = `
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm flex-shrink-0">
-                    ${obtenerIconoCategoria(categoria)}
-                </div>
-                <div class="flex-1">
-                    <h3 class="text-green text-base mb-1">${nombreCategoria}</h3>
-                    <p class="text-sm text-gray-600">${obtenerDescripcionCategoria(categoria)}</p>
-                </div>
-            </div>
-        `;
-        gridCategorias.appendChild(tarjetaCategoria);
-    }
-    generarProductosMovil(categoria);
-    generarProductosEscritorio(categoria);
-    if (categoriasSeleccionadas.size === 0) {
-        const seccionCategorias = document.querySelector('.categories-section');
-        if (seccionCategorias) {
-            seccionCategorias.remove();
-        }
-    }
-}
-
-// Iconos de categoría
-function obtenerIconoCategoria(categoria) {
-    const iconosCategoria = {
-        'tecnologia': {
-            icono: 'procesador'
-        },
-        'hogar': {
-            icono: 'sillon'
-        },
-        'ropa': {
-            icono: 'remera'
-        },
-        'accesorios': {
-            icono: 'lentes'
-        },
-        'deportes': {
-            icono: 'pelota'
-        },
-        'entretenimiento': {
-            icono: 'dado'
-        },
-        'mascotas': {
-            icono: 'pata'
-        },
-        'herramientas': {
-            icono: 'herramientas'
-        },
-        'servicios': {
-            icono: 'servicio'
-        }
-    };
-    const config = iconosCategoria[categoria] || { icono: 'tag' };
-    return `<img src="recursos/iconos/contorno/dispositivos/${config.icono}.svg" alt="${categoria.charAt(0).toUpperCase() + categoria.slice(1)}" class="w-5 h-5 svg-green">`;
-}
-
-function obtenerDescripcionCategoria(categoria) {
-    const descripciones = {
-        'tecnologia': 'Laptops, móviles y más',
-        'hogar': 'Muebles y decoración',
-        'ropa': 'Moda y accesorios',
-        'accesorios': 'Auto y más',
-        'deportes': 'Equipamiento deportivo',
-        'entretenimiento': 'Juegos y diversión',
-        'mascotas': 'Mascotas y accesorios',
-        'herramientas': 'Herramientas y bricolaje',
-        'servicios': 'Servicios profesionales'
-    };
-    return descripciones[categoria] || '';
-}
-
-// Selección de producto
-function seleccionarProducto(elemento) {
-    elemento.style.transform = 'scale(0.95)';
-    setTimeout(() => {
-        elemento.style.transform = 'scale(1)';
-    }, 150);
-    console.log('Producto seleccionado');
-}
-
-// Búsqueda
-function configurarBusqueda() {
-    const busquedaMovil = document.getElementById('mobile-search');
-    const busquedaEscritorio = document.getElementById('desktop-search');
-    if (busquedaMovil) {
-        busquedaMovil.addEventListener('input', function (e) {
-            const consulta = e.target.value.toLowerCase();
-            filtrarProductos(consulta);
-        });
-    }
-    if (busquedaEscritorio) {
-        busquedaEscritorio.addEventListener('input', function (e) {
-            const consulta = e.target.value.toLowerCase();
-            filtrarProductos(consulta);
-        });
-    }
-}
-
-function filtrarProductos(consulta) {
-    if (!consulta) {
-        generarProductosMovil();
-        generarProductosEscritorio();
-        generarProductosPerfil();
-        return;
-    }
-    const productosFiltrados = productos.filter(producto =>
-        (categoriasSeleccionadas.size === 0 || categoriasSeleccionadas.has(producto.categoria)) &&
-        (producto.nombre.toLowerCase().includes(consulta) ||
-        producto.estado.toLowerCase().includes(consulta))
-    );
-    
-    // Filtrar productos móvil
-    const contenedorMovil = document.getElementById('mobile-products');
-    if (contenedorMovil) {
-        contenedorMovil.innerHTML = productosFiltrados.map(producto => `
+    const productosMovilHTML = productos.map(producto => `
             <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition-shadow product-card"
                 onclick="seleccionarProducto(this)">
                 <div class="aspect-square bg-gray-200 relative">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <img src="${producto.imagenes[0].imagen}" alt="${producto.nombre}" class="w-full h-full object-cover">
-                    </div>
+                    <img src="${producto.imagenes[0].imagen}" alt="${producto.nombre}" class="w-full h-full object-cover">
                 </div>
                 <div class="p-3">
                     <h4 class="text-sm text-gray-800 mb-3">${producto.nombre}</h4>
@@ -353,75 +157,152 @@ function filtrarProductos(consulta) {
                 </div>
             </div>
         `).join('');
-    }
-    
-    // Filtrar productos escritorio
-    const contenedorEscritorio = document.getElementById('desktop-products');
-    if (contenedorEscritorio) {
-        contenedorEscritorio.innerHTML = productosFiltrados.map(producto => `
-            <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-lg smooth-transition product-card w-full"
-                onclick="seleccionarProducto(this)">
-                <div class="aspect-square bg-gray-200 relative">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <img src="${producto.imagenes[0].imagen}" alt="${producto.nombre}" class="w-full h-full object-cover">
-                    </div>
-                </div>
-                <div class="p-4">
-                    <h4 class="text-sm text-gray-800 mb-3 truncate">${producto.nombre}</h4>
-                    <div class="flex justify-between items-center">
-                        <p class="text-base text-green">${producto.estado}</p>
-                        <div class="flex items-center gap-2">
-                            <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
-                            <span class="text-gray-500 text-base">${producto.calificacion} (${producto.resenas})</span>
+
+    if (contenedor) contenedor.innerHTML = productosHTML;
+    if (contenedorMovil) contenedorMovil.innerHTML = productosMovilHTML;
+}
+
+// Generar reseñas para el perfil
+function generarResenasPerfil() {
+    const contenedor = document.getElementById('profile-reviews');
+    const contenedorMovil = document.getElementById('mobile-profile-reviews');
+
+    const resenasHTML = resenas.map(resena => `
+            <div class="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow">
+                <div class="flex items-start space-x-4">
+                    <img src="${resena.avatar}" alt="${resena.usuario}" class="w-12 h-12 rounded-full object-cover">
+                    <div class="flex-1">
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <h4 class="font-medium text-gray-800">${resena.usuario}</h4>
+                                <p class="text-sm text-gray-500">${resena.fecha}</p>
+                            </div>
+                            <div class="flex items-center space-x-1">
+                                ${Array.from({ length: 5 }, (_, i) => `
+                                    <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" 
+                                         class="w-4 h-4 ${i < resena.calificacion ? 'svg-yellow' : 'svg-gray-300'}">
+                                `).join('')}
+                            </div>
+                        </div>
+                        <h5 class="font-medium text-gray-800 mb-2">${resena.titulo}</h5>
+                        <p class="text-gray-600 mb-3">${resena.comentario}</p>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <img src="recursos/iconos/solido/general/caja.svg" alt="Producto" class="w-4 h-4 mr-1 svg-gray-500">
+                            <span>Producto: ${resena.producto}</span>
                         </div>
                     </div>
                 </div>
             </div>
         `).join('');
-    }
-    
-    // Filtrar productos perfil
-    const contenedorPerfil = document.getElementById('profile-products');
-    if (contenedorPerfil) {
-        contenedorPerfil.innerHTML = productosFiltrados.map(producto => `
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-200 cursor-pointer hover:shadow-md transition-shadow"
-                onclick="seleccionarProducto(this)">
-                <div class="aspect-square bg-gray-200 relative">
-                    <img src="${producto.imagenes[0].imagen}" alt="${producto.nombre}" class="w-full h-full object-cover">
-                </div>
-                <div class="p-4">
-                    <h3 class="font-medium text-gray-800 mb-1">${producto.nombre}</h3>
-                    <p class="text-sm text-gray-600">${producto.estado}</p>
+
+    const resenasMovilHTML = resenas.map(resena => `
+            <div class="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+                <div class="flex items-start space-x-3">
+                    <img src="${resena.avatar}" alt="${resena.usuario}" class="w-10 h-10 rounded-full object-cover">
+                    <div class="flex-1">
+                        <div class="flex items-center justify-between mb-1">
+                            <h4 class="font-medium text-gray-800 text-sm">${resena.usuario}</h4>
+                            <div class="flex items-center space-x-1">
+                                ${Array.from({ length: 5 }, (_, i) => `
+                                    <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" 
+                                         class="w-3 h-3 ${i < resena.calificacion ? 'svg-yellow' : 'svg-gray-300'}">
+                                `).join('')}
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-2">${resena.fecha}</p>
+                        <h5 class="font-medium text-gray-800 text-sm mb-2">${resena.titulo}</h5>
+                        <p class="text-gray-600 text-sm mb-2">${resena.comentario}</p>
+                        <p class="text-xs text-gray-500">Producto: ${resena.producto}</p>
+                    </div>
                 </div>
             </div>
         `).join('');
+
+    if (contenedor) contenedor.innerHTML = resenasHTML;
+    if (contenedorMovil) contenedorMovil.innerHTML = resenasMovilHTML;
+}
+
+// Cambiar tab en móvil
+function switchMobileTab(tab, element) {
+    currentTab = tab;
+
+    // Actualizar estilos de tabs
+    document.querySelectorAll('.mobile-tab').forEach(t => {
+        t.classList.remove('tab-active');
+        t.classList.add('tab-inactive');
+    });
+    element.classList.remove('tab-inactive');
+    element.classList.add('tab-active');
+
+    // Mostrar/ocultar contenido
+    document.querySelectorAll('.mobile-content').forEach(content => {
+        content.classList.add('hidden');
+        content.classList.remove('content-show');
+        content.classList.add('content-fade');
+    });
+
+    const targetContent = document.getElementById(`mobile-${tab}`);
+    if (targetContent) {
+        targetContent.classList.remove('hidden');
+        targetContent.classList.remove('content-fade');
+        targetContent.classList.add('content-show');
     }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    // Generar productos según el contenedor que exista
-    generarProductosMovil();
-    generarProductosEscritorio(); 
-    generarProductosPerfil(); // Nueva función para el perfil
-    configurarBusqueda();
-    
-    const slider = document.querySelector('.px-4.mb-6 .flex.overflow-x-auto');
-    const caretLeft = document.querySelector('.caret-left-indicador');
-    const caretRight = document.querySelector('.caret-right-indicador');
-    if (!slider || !caretLeft || !caretRight) return;
-    
-    function updateCarets() {
-        if (slider.scrollLeft > 5) {
-            caretLeft.style.opacity = '1';
-        } else {
-            caretLeft.style.opacity = '0';
-        }
-        if (slider.scrollWidth - slider.clientWidth - slider.scrollLeft > 5) {
-            caretRight.style.opacity = '1';
-        } else {
-            caretRight.style.opacity = '0';
-        }
+// Cambiar tab en desktop
+function switchDesktopTab(tab, element) {
+    currentTab = tab;
+
+    // Actualizar estilos de tabs
+    document.querySelectorAll('.desktop-tab').forEach(t => {
+        t.classList.remove('tab-active');
+        t.classList.add('tab-inactive');
+    });
+    element.classList.remove('tab-inactive');
+    element.classList.add('tab-active');
+
+    // Mostrar/ocultar contenido
+    document.querySelectorAll('.desktop-content').forEach(content => {
+        content.classList.add('hidden');
+        content.classList.remove('content-show');
+        content.classList.add('content-fade');
+    });
+
+    const targetContent = document.getElementById(`desktop-${tab}`);
+    if (targetContent) {
+        targetContent.classList.remove('hidden');
+        targetContent.classList.remove('content-fade');
+        targetContent.classList.add('content-show');
     }
-    slider.addEventListener('scroll', updateCarets);
-    updateCarets();
+}
+
+// Selección de producto
+function seleccionarProducto(elemento) {
+    elemento.style.transform = 'scale(0.95)';
+    setTimeout(() => {
+        elemento.style.transform = 'scale(1)';
+    }, 150);
+    console.log('Producto seleccionado');
+}
+
+// Mostrar dropdown del menú
+function showDropdown() {
+    const menu = document.getElementById('menu');
+    menu.classList.toggle('hidden');
+}
+
+// Cerrar dropdown al hacer click fuera
+document.addEventListener('click', function (event) {
+    const menu = document.getElementById('menu');
+    const button = document.getElementById('menu-button');
+
+    if (!menu.contains(event.target) && !button.contains(event.target)) {
+        menu.classList.add('hidden');
+    }
+});
+
+// Inicializar la página
+document.addEventListener('DOMContentLoaded', function () {
+    generarProductosPerfil();
+    generarResenasPerfil();
 });

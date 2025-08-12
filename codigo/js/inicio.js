@@ -628,3 +628,38 @@ document.addEventListener('DOMContentLoaded', function () {
     slider.addEventListener('scroll', updateCarets);
     updateCarets();
 });
+
+// Funcion para impedir el acceso a usuarios no registrados
+function crearPopupAccesoRestringido() {
+    // Crear el elemento del popup
+    const popup = document.createElement('div');
+    popup.id = 'popup';
+    popup.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+    
+    popup.innerHTML = `
+        <div class="bg-white rounded-xl p-6 shadow-lg text-center max-w-sm">
+            <h2 class="text-xl font-bold mb-4">Acceso restringido</h2>
+            <p class="mb-4">Debes iniciar sesión para acceder a esta sección.</p>
+            <div class="flex justify-center gap-4">
+                <a href="iniciarsesion.html" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Iniciar sesión</a>
+                <button id="cerrarPopup" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Volver</button>
+            </div>
+        </div>
+    `;
+    
+    // Añadir el popup como hijo del body
+    document.body.appendChild(popup);
+    
+    // Añadir evento al botón de cerrar
+    const botonCerrar = document.getElementById('cerrarPopup');
+    if (botonCerrar) {
+        botonCerrar.addEventListener('click', function() {
+            popup.remove();
+        });
+    }
+}
+
+// Llamar a la función para crear el popup al cargar la página
+document.addEventListener('DOMContentLoaded', function() {
+    
+});

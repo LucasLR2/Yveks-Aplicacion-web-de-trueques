@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +7,12 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/estilos-generales.css">
   <link rel="stylesheet" href="css/inicio.css">
+<!-- Vue 2 -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+
+<!-- BotUI CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/botui/0.2.1/botui.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/botui/0.2.1/botui-theme-default.css" rel="stylesheet">
 </head>
 
 <body class="bg-white lg:bg-gray-50">
@@ -367,10 +372,16 @@
         <div class="mb-8">
           <h1 class="text-3xl text-gray-800 mb-4">¡Bienvenido de vuelta!</h1>
           <p class="text-gray-600">Descubre los mejores productos para ti</p>
-          <a href="" target="_blank" class="chatbot-btn">
+          <a href="#" id="chatbot-btn" class="chatbot-btn">
             <i class="bi bi-chatbot"></i>
           </a>
         </div>
+      <!-- contenedor chatbot -->
+<div id="chatbot-container" class="hidden fixed w-80 h-96 bg-white rounded-lg shadow-xl border p-4 overflow-y-auto z-50 bottom-[5.75rem] right-0 -translate-x-[10px]">
+  <div id="botui-app">
+    <bot-ui></bot-ui>
+  </div>
+</div>
 
         <!-- Categorías destacadas (desktop) -->
         <div class="mb-12 categories-section">
@@ -389,10 +400,8 @@
       </main>
     </div>
   </div>
-
+  </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/botui/0.2.1/botui.min.js"></script>
   <script src="js/principal.js"></script>
   <script src="js/inicio.js"></script>
-  
-</body>
-
 </html>

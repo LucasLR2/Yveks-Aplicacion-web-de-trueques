@@ -55,71 +55,76 @@ const productos = [
     },
 ];
 
-// Datos de reseñas - usando imágenes consistentes
 const resenas = [
     {
         id: 1,
         usuario: "María Rodríguez",
-        avatar: "recursos/imagenes/usuarios/maria.jpg",
+        avatar: "recursos/imagenes/angelaleman.jpg",
         fecha: "15 de abril de 2024",
         calificacion: 5,
-        titulo: "Excelente vendedor, muy recomendado",
-        comentario: "José fue muy amable y profesional. El producto llegó exactamente como se describía y en perfectas condiciones. La comunicación fue excelente durante todo el proceso. Definitivamente compraría de nuevo.",
-        producto: "Auriculares inalámbricos"
+        comentario: "José fue muy amable y profesional. El producto llegó exactamente como se describía y en perfectas condiciones."
     },
     {
         id: 2,
         usuario: "Carlos Mendoza",
-        avatar: "recursos/imagenes/usuarios/carlos.jpg",
+        avatar: "recursos/imagenes/angelaleman.jpg",
         fecha: "8 de abril de 2024",
         calificacion: 4,
-        titulo: "Buen producto, envío rápido",
-        comentario: "El cargador magnético funciona perfectamente. El envío fue más rápido de lo esperado. José respondió todas mis preguntas rápidamente. Solo le doy 4 estrellas porque el empaque podría ser mejor.",
-        producto: "Cargador magnético"
+        comentario: "El cargador magnético funciona perfectamente. El envío fue más rápido de lo esperado."
     },
     {
         id: 3,
         usuario: "Ana Gutierrez",
-        avatar: "recursos/imagenes/usuarios/ana.jpg",
+        avatar: "recursos/imagenes/angelaleman.jpg",
         fecha: "2 de abril de 2024",
         calificacion: 5,
-        titulo: "¡Increíble experiencia de compra!",
-        comentario: "Los lentes llegaron en perfectas condiciones. José fue súper honesto sobre el estado del producto y me dio muchos consejos sobre su cuidado. La transacción fue muy fluida.",
-        producto: "Lentes retro rojos"
+        comentario: "Los lentes llegaron en perfectas condiciones. José fue súper honesto sobre el estado del producto y me dio muchos consejos sobre su cuidado."
     },
     {
         id: 4,
         usuario: "Diego Silva",
-        avatar: "recursos/imagenes/usuarios/diego.jpg",
+        avatar: "recursos/imagenes/angelaleman.jpg",
         fecha: "28 de marzo de 2024",
         calificacion: 4,
-        titulo: "Vendedor confiable y responsable",
-        comentario: "El proyector funciona muy bien. José me explicó detalladamente cómo usarlo y me dio algunos accesorios extra sin costo. Muy recomendado para futuras compras.",
-        producto: "Proyector"
+        comentario: "El proyector funciona muy bien. José me explicó detalladamente cómo usarlo y me dio algunos accesorios extra sin costo."
     },
     {
         id: 5,
         usuario: "Sofia López",
-        avatar: "recursos/imagenes/usuarios/sofia.jpg",
+        avatar: "recursos/imagenes/angelaleman.jpg",
         fecha: "20 de marzo de 2024",
         calificacion: 5,
-        titulo: "Perfecto estado, tal como se describía",
-        comentario: "La remera está en excelente estado. José fue muy detallado en la descripción y las fotos coinciden perfectamente con el producto real. Entrega puntual y buen precio.",
-        producto: "Remera Suzuki con estampado"
+        comentario: "La remera está en excelente estado. José fue muy detallado en la descripción y las fotos coinciden perfectamente con el producto real."
     },
     {
         id: 6,
         usuario: "Roberto Martínez",
-        avatar: "recursos/imagenes/usuarios/roberto.jpg",
+        avatar: "recursos/imagenes/angelaleman.jpg",
         fecha: "15 de marzo de 2024",
         calificacion: 4,
-        titulo: "Sillón cómodo y en buen estado",
-        comentario: "El sillón llegó en buen estado general. José me ayudó con la entrega y fue muy amable. Solo tiene algunos signos normales de uso, pero nada que afecte su funcionalidad.",
-        producto: "Sillón naranja"
+        comentario: "El sillón llegó en buen estado general. José me ayudó con la entrega y fue muy amable."
     }
 ];
 
 let currentTab = 'productos';
+
+// Función para generar estrellas basadas en calificación
+function generarEstrellas(calificacion, tamaño = 'w-4 h-4') {
+    const estrellas = [];
+    const calificacionEntera = Math.floor(calificacion);
+    
+    for (let i = 1; i <= 5; i++) {
+        if (i <= calificacionEntera) {
+            // Estrella sólida (amarilla)
+            estrellas.push(`<img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="${tamaño} svg-yellow">`);
+        } else {
+            // Estrella de contorno (gris)
+            estrellas.push(`<img src="recursos/iconos/contorno/estado/estrella.svg" alt="Estrella" class="${tamaño} svg-yellow">`);
+        }
+    }
+    
+    return estrellas.join('');
+}
 
 // Generar productos para el perfil
 function generarProductosPerfil() {
@@ -150,7 +155,9 @@ function generarProductosPerfil() {
                     <div class="flex items-center justify-between">
                         <p class="text-base text-green mb-0">${producto.estado}</p>
                         <div class="flex items-center gap-2">
-                            <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
+                            <div class="flex items-center space-x-1">
+                                ${generarEstrellas(producto.calificacion, 'w-4 h-4')}
+                            </div>
                             <span class="text-base text-gray-500">${producto.calificacion} (${producto.resenas})</span>
                         </div>
                     </div>
@@ -168,7 +175,7 @@ function generarResenasPerfil() {
     const contenedorMovil = document.getElementById('mobile-profile-reviews');
 
     const resenasHTML = resenas.map(resena => `
-            <div class="bg-white rounded-lg border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div class="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition-shadow">
                 <div class="flex items-start space-x-4">
                     <img src="${resena.avatar}" alt="${resena.usuario}" class="w-12 h-12 rounded-full object-cover">
                     <div class="flex-1">
@@ -178,41 +185,28 @@ function generarResenasPerfil() {
                                 <p class="text-sm text-gray-500">${resena.fecha}</p>
                             </div>
                             <div class="flex items-center space-x-1">
-                                ${Array.from({ length: 5 }, (_, i) => `
-                                    <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" 
-                                         class="w-4 h-4 ${i < resena.calificacion ? 'svg-yellow' : 'svg-gray-300'}">
-                                `).join('')}
+                                ${generarEstrellas(resena.calificacion, 'w-4 h-4')}
                             </div>
                         </div>
-                        <h5 class="font-medium text-gray-800 mb-2">${resena.titulo}</h5>
                         <p class="text-gray-600 mb-3">${resena.comentario}</p>
-                        <div class="flex items-center text-sm text-gray-500">
-                            <img src="recursos/iconos/solido/general/caja.svg" alt="Producto" class="w-4 h-4 mr-1 svg-gray-500">
-                            <span>Producto: ${resena.producto}</span>
-                        </div>
                     </div>
                 </div>
             </div>
         `).join('');
 
     const resenasMovilHTML = resenas.map(resena => `
-            <div class="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+            <div class="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
                 <div class="flex items-start space-x-3">
                     <img src="${resena.avatar}" alt="${resena.usuario}" class="w-10 h-10 rounded-full object-cover">
                     <div class="flex-1">
                         <div class="flex items-center justify-between mb-1">
                             <h4 class="font-medium text-gray-800 text-sm">${resena.usuario}</h4>
                             <div class="flex items-center space-x-1">
-                                ${Array.from({ length: 5 }, (_, i) => `
-                                    <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" 
-                                         class="w-3 h-3 ${i < resena.calificacion ? 'svg-yellow' : 'svg-gray-300'}">
-                                `).join('')}
+                                ${generarEstrellas(resena.calificacion, 'w-3 h-3')}
                             </div>
                         </div>
                         <p class="text-xs text-gray-500 mb-2">${resena.fecha}</p>
-                        <h5 class="font-medium text-gray-800 text-sm mb-2">${resena.titulo}</h5>
                         <p class="text-gray-600 text-sm mb-2">${resena.comentario}</p>
-                        <p class="text-xs text-gray-500">Producto: ${resena.producto}</p>
                     </div>
                 </div>
             </div>
@@ -220,6 +214,32 @@ function generarResenasPerfil() {
 
     if (contenedor) contenedor.innerHTML = resenasHTML;
     if (contenedorMovil) contenedorMovil.innerHTML = resenasMovilHTML;
+}
+
+// Actualizar iconos de tabs según el estado
+function updateTabIcons(activeTab, platform) {
+    const productosIcon = document.getElementById(`${platform}-icon-productos`);
+    const resenasIcon = document.getElementById(`${platform}-icon-resenas`);
+    const productosTab = document.getElementById(`${platform}-tab-productos`);
+    const resenasTab = document.getElementById(`${platform}-tab-resenas`);
+
+    if (activeTab === 'productos') {
+        // Tab Productos activo
+        productosIcon.src = "recursos/iconos/solido/estado/cuadricula.svg";
+        productosTab.querySelector('span').classList.add('font-medium');
+        
+        // Tab Reseñas inactivo
+        resenasIcon.src = "recursos/iconos/contorno/estado/estrella.svg";
+        resenasTab.querySelector('span').classList.remove('font-medium');
+    } else if (activeTab === 'resenas') {
+        // Tab Reseñas activo
+        resenasIcon.src = "recursos/iconos/solido/estado/estrella.svg";
+        resenasTab.querySelector('span').classList.add('font-medium');
+        
+        // Tab Productos inactivo
+        productosIcon.src = "recursos/iconos/contorno/estado/cuadricula.svg";
+        productosTab.querySelector('span').classList.remove('font-medium');
+    }
 }
 
 // Cambiar tab en móvil
@@ -233,6 +253,9 @@ function switchMobileTab(tab, element) {
     });
     element.classList.remove('tab-inactive');
     element.classList.add('tab-active');
+
+    // Actualizar iconos dinámicamente
+    updateTabIcons(tab, 'mobile');
 
     // Mostrar/ocultar contenido
     document.querySelectorAll('.mobile-content').forEach(content => {
@@ -260,6 +283,9 @@ function switchDesktopTab(tab, element) {
     });
     element.classList.remove('tab-inactive');
     element.classList.add('tab-active');
+
+    // Actualizar iconos dinámicamente
+    updateTabIcons(tab, 'desktop');
 
     // Mostrar/ocultar contenido
     document.querySelectorAll('.desktop-content').forEach(content => {
@@ -305,4 +331,8 @@ document.addEventListener('click', function (event) {
 document.addEventListener('DOMContentLoaded', function () {
     generarProductosPerfil();
     generarResenasPerfil();
+    
+    // Asegurar que el estado inicial sea correcto
+    updateTabIcons('productos', 'mobile');
+    updateTabIcons('productos', 'desktop');
 });

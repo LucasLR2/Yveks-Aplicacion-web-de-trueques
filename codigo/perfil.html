@@ -7,115 +7,8 @@
   <title>Tienda Móvil - Perfil</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/estilos-generales.css">
+  <link rel="stylesheet" href="css/perfil.css">
   <link rel="stylesheet" href="css/inicio.css">
-  <style>
-    .tab-active {
-      border-bottom-color: #719177;
-      border-bottom-width: 2px;
-      color: #1F2937;
-    }
-    
-    .tab-inactive {
-      border-bottom-color: transparent;
-      border-bottom-width: 2px;
-      color: #1F2937;
-    }
-    
-    /* Transiciones suaves */
-    .smooth-transition {
-      transition: all 0.3s ease;
-    }
-    
-    /* Filtros SVG */
-    .svg-green {
-      filter: brightness(0) saturate(100%) invert(48%) sepia(12%) saturate(1012%) hue-rotate(88deg) brightness(95%) contrast(86%);
-    }
-    
-    .svg-gray-600 {
-      filter: brightness(0) saturate(100%) invert(47%) sepia(8%) saturate(378%) hue-rotate(202deg) brightness(91%) contrast(88%);
-    }
-    
-    .svg-gray-800 {
-      filter: brightness(0) saturate(100%) invert(31%) sepia(6%) saturate(394%) hue-rotate(202deg) brightness(94%) contrast(93%);
-    }
-    
-    .svg-gray-300 {
-      filter: brightness(0) saturate(100%) invert(80%) sepia(6%) saturate(213%) hue-rotate(202deg) brightness(94%) contrast(91%);
-    }
-    
-    .svg-white {
-      filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7500%) hue-rotate(321deg) brightness(101%) contrast(104%);
-    }
-    
-    .svg-yellow {
-      filter: brightness(0) saturate(100%) invert(87%) sepia(32%) saturate(2000%) hue-rotate(345deg) brightness(105%) contrast(101%);
-    }
-    
-    .svg-red-400 {
-      filter: brightness(0) saturate(100%) invert(47%) sepia(91%) saturate(2569%) hue-rotate(338deg) brightness(98%) contrast(89%);
-    }
-    
-    .svg-gray-400 {
-      filter: brightness(0) saturate(100%) invert(62%) sepia(4%) saturate(372%) hue-rotate(202deg) brightness(91%) contrast(90%);
-    }
-    
-    .svg-gray-500 {
-      filter: brightness(0) saturate(100%) invert(52%) sepia(6%) saturate(370%) hue-rotate(202deg) brightness(91%) contrast(89%);
-    }
-    
-    /* Colores de fondo y texto */
-    .bg-green {
-      background-color: #719177;
-    }
-    
-    .text-green {
-      color: #719177;
-    }
-    
-    .bg-gray-custom {
-      background-color: #F3F4F6;
-    }
-    
-    /* Burbuja en forma de U */
-    .bubble-u-shape {
-      border-radius: 0 0 50% 50%;
-    }
-    
-    /* Estilos para desktop */
-    @media (min-width: 1024px) {
-      .desktop-sidebar {
-        position: fixed;
-        left: 0;
-        top: 0;
-        height: 100vh;
-        width: 280px;
-        background: white;
-        border-right: 1px solid #e5e7eb;
-        z-index: 50;
-      }
-
-      .desktop-main {
-        margin-left: 280px;
-        min-height: 100vh;
-      }
-
-      .custom-scrollbar::-webkit-scrollbar {
-        width: 0px;
-      }
-    }
-    
-    /* Ocultar contenido por defecto */
-    .content-fade {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    
-    .content-show {
-      opacity: 1;
-      transform: translateY(0);
-      transition: all 0.3s ease;
-    }
-  </style>
 </head>
 
 <body class="bg-white lg:bg-gray-50">
@@ -162,12 +55,12 @@
 
           <!-- Mobile Profile Tabs -->
           <div class="flex">
-            <button id="mobile-tab-productos" class="mobile-tab flex items-center space-x-2 px-4 py-3 border-b-2 tab-active smooth-transition" 
+            <button id="mobile-tab-productos" class="mobile-tab flex items-center space-x-2 px-4 py-3 tab-active smooth-transition" 
                     onclick="switchMobileTab('productos', this)">
               <img id="mobile-icon-productos" src="recursos/iconos/solido/estado/cuadricula.svg" alt="Productos" class="w-5 h-5">
               <span class="font-medium text-gray-800">Productos</span>
             </button>
-            <button id="mobile-tab-resenas" class="mobile-tab flex items-center space-x-2 px-4 py-3 border-b-2 tab-inactive smooth-transition" 
+            <button id="mobile-tab-resenas" class="mobile-tab flex items-center space-x-2 px-4 py-3 tab-inactive smooth-transition" 
                     onclick="switchMobileTab('resenas', this)">
               <img id="mobile-icon-resenas" src="recursos/iconos/contorno/estado/estrella.svg" alt="Reseñas" class="w-5 h-5">
               <span class="text-gray-800">Reseñas</span>
@@ -368,12 +261,12 @@
             
             <!-- Profile Tabs -->
             <div class="flex">
-              <button id="desktop-tab-productos" class="desktop-tab flex items-center space-x-2 px-6 py-3 border-b-2 tab-active smooth-transition" 
+              <button id="desktop-tab-productos" class="desktop-tab flex items-center space-x-2 px-6 py-3 tab-active smooth-transition" 
                       onclick="switchDesktopTab('productos', this)">
                 <img id="desktop-icon-productos" src="recursos/iconos/solido/estado/cuadricula.svg" alt="Productos" class="w-5 h-5">
                 <span class="font-medium text-gray-800">Productos</span>
               </button>
-              <button id="desktop-tab-resenas" class="desktop-tab flex items-center space-x-2 px-6 py-3 border-b-2 tab-inactive smooth-transition" 
+              <button id="desktop-tab-resenas" class="desktop-tab flex items-center space-x-2 px-6 py-3 tab-inactive smooth-transition" 
                       onclick="switchDesktopTab('resenas', this)">
                 <img id="desktop-icon-resenas" src="recursos/iconos/contorno/estado/estrella.svg" alt="Reseñas" class="w-5 h-5">
                 <span class="text-gray-800">Reseñas</span>

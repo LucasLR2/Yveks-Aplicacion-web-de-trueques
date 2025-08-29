@@ -1106,4 +1106,65 @@ document.addEventListener('DOMContentLoaded', function() {
         slider.addEventListener('scroll', updateCarets);
         updateCarets();
     }
+}
+    
+    slider.addEventListener('scroll', updateCarets);
+    updateCarets();
+});
+
+// funcion del chatbot
+let botInitialized = false;
+
+document.addEventListener("DOMContentLoaded", function () {
+  const chatbotBtn = document.getElementById("chatbot-btn");
+  const chatbotContainer = document.getElementById("chatbot-container");
+
+  chatbotBtn.addEventListener("click", function (event) {
+    event.preventDefault();
+    chatbotContainer.classList.toggle("hidden"); // abre/cierra panel
+
+    if (!botInitialized) {
+      var botui = new BotUI('botui-app');
+
+      botui.message.add({
+        content: '¡Hola! Soy tu asistente de trueques 🤝'
+      }).then(() => botui.message.add({
+        delay: 500,
+        content: 'Escribí el producto que querés intercambiar y te diré qué podrías pedir a cambio.'
+      }))
+      .then(() => {
+        // Pedimos input al usuario
+        return botui.action.text({
+          action: { placeholder: 'Ej: auriculares' }
+        });
+      })
+      .then(res => {
+        const productoConsultado = res.value.toLowerCase();
+
+        // Lista simulada de productos ofrecidos a cambio
+        const sugerencias = {
+          'auriculares': ['Libro', 'Mouse', 'Tarjeta de regalo'],
+          'camiseta': ['Gorra', 'Bufanda', 'Pulsera'],
+          'telefono': ['Audífonos', 'Cargador portátil', 'Smartwatch']
+        };
+
+        // Mostramos las sugerencias o mensaje de error
+        if (sugerencias[productoConsultado]) {
+          sugerencias[productoConsultado].forEach((item, index) => {
+            botui.message.add({
+              delay: 500 * (index + 1),
+              content: item
+            });
+          });
+        } else {
+          botui.message.add({
+            delay: 500,
+            content: 'Lo siento, no tengo sugerencias para ese producto por ahora.'
+          });
+        }
+      });
+
+      botInitialized = true;
+    }
+  });
 });

@@ -1106,10 +1106,6 @@ document.addEventListener('DOMContentLoaded', function() {
         slider.addEventListener('scroll', updateCarets);
         updateCarets();
     }
-}
-    
-    slider.addEventListener('scroll', updateCarets);
-    updateCarets();
 });
 
 // funcion del chatbot

@@ -1,114 +1,183 @@
 /* Importación de fuentes */
-@font-face {
-    font-family: 'Lao Sans Pro';
-    src: url('../assets/fonts/lao-sans-pro.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
+    @font-face {
+        font-family: 'Lao Sans Pro';
+        src: url('../assets/fonts/lao-sans-pro.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
 
-@font-face {
-    font-family: 'Roboto';
-    src: url('../assets/fonts/Roboto-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
+    @font-face {
+        font-family: 'Roboto';
+        src: url('../assets/fonts/Roboto-Regular.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
 
-/* Aplicación de fuentes */
-html, body {
-    font-family: 'Lao Sans Pro', 'Roboto', sans-serif !important;
-}
+    /* Aplicación de fuentes */
+    html, body {
+        font-family: 'Lao Sans Pro', 'Roboto', sans-serif !important;
+    }
 
-/* Clases específicas para fuentes */
-.font-lao {
-    font-family: 'Lao Sans Pro', sans-serif !important;
-}
+    /* Clases específicas para fuentes */
+    .font-lao {
+        font-family: 'Lao Sans Pro', sans-serif !important;
+    }
 
-.font-roboto {
-    font-family: 'Roboto', sans-serif !important;
-}
+    .font-roboto {
+        font-family: 'Roboto', sans-serif !important;
+    }
 
-.text-green {
-  color: #719177;
-}
+    .text-green {
+      color: #719177;
+    }
 
-.bg-green {
-  background-color: #719177;
-}
+    .bg-green {
+      background-color: #719177;
+    }
 
-.ring-green {
-  border: 2px solid #719177;
-}
+    .ring-green {
+      border: 2px solid #719177;
+    }
 
-.svg-green {
-  filter: brightness(0) saturate(100%) invert(48%) sepia(12%) saturate(1012%) hue-rotate(88deg) brightness(95%) contrast(86%);
-}
+    .svg-green {
+      filter: brightness(0) saturate(100%) invert(48%) sepia(12%) saturate(1012%) hue-rotate(88deg) brightness(95%) contrast(86%);
+    }
 
-.svg-yellow {
-  filter: brightness(0) saturate(100%) invert(87%) sepia(32%) saturate(2000%) hue-rotate(345deg) brightness(105%) contrast(101%);
-}
+    .svg-yellow {
+      filter: brightness(0) saturate(100%) invert(87%) sepia(32%) saturate(2000%) hue-rotate(345deg) brightness(105%) contrast(101%);
+    }
 
-.text-underline {
-  text-decoration: underline;
-}
+    .svg-white {
+      filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7500%) hue-rotate(109deg) brightness(105%) contrast(105%);
+    }
 
-.bubble-u-shape {
-  border-radius: 0 0 50% 50%;
-}
+    .svg-gray-800 {
+      filter: brightness(0) saturate(100%) invert(13%) sepia(7%) saturate(1026%) hue-rotate(169deg) brightness(96%) contrast(94%);
+    }
 
-/* Estilos específicos para desktop */
-@media (min-width: 1024px) {
-  .desktop-sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    height: 100vh;
-    width: 280px;
-    background: white;
-    border-right: 1px solid #e5e7eb;
-    z-index: 50;
-  }
+    .svg-gray-300 {
+      filter: brightness(0) saturate(100%) invert(83%) sepia(6%) saturate(394%) hue-rotate(169deg) brightness(91%) contrast(86%);
+    }
 
-  .desktop-main {
-    margin-left: 280px;
-    min-height: 100vh;
-  }
+    .svg-gray-600 {
+      filter: brightness(0) saturate(100%) invert(41%) sepia(4%) saturate(1159%) hue-rotate(169deg) brightness(98%) contrast(86%);
+    }
 
-  .desktop-grid {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  }
+    .svg-gray-400 {
+      filter: brightness(0) saturate(100%) invert(62%) sepia(4%) saturate(394%) hue-rotate(169deg) brightness(91%) contrast(86%);
+    }
 
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 0px;
-  }
-}
+    .bg-gray-custom {
+      background-color: #f3f4f6;
+    }
 
-/* Transiciones suaves */
-.smooth-transition {
-  transition: all 0.3s ease;
-}
+    .text-underline {
+      text-decoration: underline;
+    }
 
-/* Estilos de la barra de desplazamiento general */
-::-webkit-scrollbar {
-  width: 8px;
-}
+    .bubble-u-shape {
+      border-radius: 0 0 50% 50%;
+    }
 
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
+    /* Estilos específicos para desktop */
+    @media (min-width: 1024px) {
+      .desktop-sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        width: 280px;
+        background: white;
+        border-right: 1px solid #e5e7eb;
+        z-index: 50;
+      }
 
-::-webkit-scrollbar-thumb {
-  background: #719177;
-  border-radius: 3px;
-}
+      .desktop-main {
+        margin-left: 280px;
+        min-height: 100vh;
+      }
 
-/* Ocultar scrollbar pero mantener funcionalidad */
-.scrollbar-hide {
-  -ms-overflow-style: none;  /* IE y Edge */
-  scrollbar-width: none;  /* Firefox */
-}
+      .desktop-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      }
 
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari y Opera */
-}
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 0px;
+      }
+    }
+
+    /* Transiciones suaves */
+    .smooth-transition {
+      transition: all 0.3s ease;
+    }
+
+    /* Estilos de la barra de desplazamiento general */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #719177;
+      border-radius: 3px;
+    }
+
+    /* Ocultar scrollbar pero mantener funcionalidad */
+    .scrollbar-hide {
+      -ms-overflow-style: none;  /* IE y Edge */
+      scrollbar-width: none;  /* Firefox */
+    }
+
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;  /* Chrome, Safari y Opera */
+    }
+
+    /* Estilos del modal */
+    .modal-overlay {
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-content {
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-content.show {
+      transform: translateY(0);
+    }
+
+    .product-detail-map {
+      height: 200px;
+      border-radius: 12px;
+    }
+
+    /* Indicadores de las estrellas */
+    .rating-stars {
+      display: flex;
+      gap: 2px;
+    }
+
+    .star {
+      width: 16px;
+      height: 16px;
+    }
+
+    .star.filled {
+      filter: brightness(0) saturate(100%) invert(87%) sepia(32%) saturate(2000%) hue-rotate(345deg) brightness(105%) contrast(101%);
+    }
+
+    .star.empty {
+      filter: brightness(0) saturate(100%) invert(83%) sepia(6%) saturate(394%) hue-rotate(169deg) brightness(91%) contrast(86%);
+    }
+
+    /* Scroll suave para el modal */
+    .modal-scroll {
+      scroll-behavior: smooth;
+    }

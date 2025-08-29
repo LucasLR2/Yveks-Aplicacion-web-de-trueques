@@ -484,7 +484,6 @@ function generarProductosEscritorio() {
         productosFiltrados = productos.filter(p => categoriasSeleccionadas.has(p.categoria));
     }
     
-    // Cambiar la clase del contenedor para mostrar 3 columnas
     contenedor.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
     
     contenedor.innerHTML = productosFiltrados.map(producto => `

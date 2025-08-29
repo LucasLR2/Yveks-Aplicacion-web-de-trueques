@@ -368,20 +368,50 @@
 
       <!-- Content -->
       <main class="p-20">
-        <!-- Sección de bienvenida -->
-        <div class="mb-8">
-          <h1 class="text-3xl text-gray-800 mb-4">¡Bienvenido de vuelta!</h1>
-          <p class="text-gray-600">Descubre los mejores productos para ti</p>
-          <a href="#" id="chatbot-btn" class="chatbot-btn">
-            <i class="bi bi-chatbot"></i>
-          </a>
-        </div>
-      <!-- contenedor chatbot -->
-<div id="chatbot-container" class="hidden fixed w-80 h-96 bg-white rounded-lg shadow-xl border p-4 overflow-y-auto z-50 bottom-[5.75rem] right-0 -translate-x-[10px]">
-  <div id="botui-app">
+<!-- Sección de bienvenida -->
+<div class="mb-8">
+  <h1 class="text-3xl text-gray-800 mb-4">¡Bienvenido de vuelta!</h1>
+  <p class="text-gray-600">Descubre los mejores productos para ti</p>
+<a href="#" id="chatbot-btn" class="chatbot-btn">
+  <img src="recursos/iconos/contorno/comunicacion/chatbot.svg" alt="Chatbot" class="chatbot-icon">
+</a>
+</div>
+
+<!-- Contenedor del chatbot -->
+<div id="chatbot-container" class="hidden fixed w-80 h-96 bg-white rounded-lg shadow-xl border z-50 bottom-[5.75rem] right-0 -translate-x-[10px] flex flex-col">
+
+  <!-- Header del chatbot -->
+<div class="chatbot-header text-white font-semibold text-center py-2 rounded-t-lg" style="background-color: #3866389d;">
+  ChatAI
+</div>
+
+
+  <!-- Cuerpo con scroll -->
+  <div id="botui-app" class="chatbot-body flex-1 overflow-y-auto px-3 py-2">
     <bot-ui></bot-ui>
+
+    <!-- Opciones en fila horizontal con scroll -->
+    <div class="chat-options mt-3">
+      <button class="option-btn" data-value="intercambiar">Qué puedo intercambiar por…</button>
+      <button class="option-btn" data-value="solicitados">Qué productos la gente solicita</button>
+      <button class="option-btn" data-value="otro">Otro</button>
+    </div>
+  </div>
+
+  <!-- Input con icono de enviar adaptado -->
+  <div class="chatbot-input flex items-center border-t bg-gray-50 px-2 py-2">
+    <input 
+      type="text" 
+      id="chatbot-input" 
+      placeholder="Escribe tu mensaje..." 
+      class="flex-1 text-sm px-3 py-2 rounded-full border focus:outline-none focus:ring focus:ring-blue-300"
+    >
+    <button id="chatbot-send" class="ml-2 p-2 rounded-full hover:bg-gray-200">
+      <img src="recursos/iconos/contorno/comunicacion/enviar.svg" alt="Enviar" class="w-5 h-5">
+    </button>
   </div>
 </div>
+
 
         <!-- Categorías destacadas (desktop) -->
         <div class="mb-12 categories-section">

@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="css/estilos-generales.css">
     <link rel="stylesheet" href="css/inicio.css">
     <link rel="stylesheet" href="css/ofertas.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/botui/0.2.1/botui.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/botui/0.2.1/botui-theme-default.css" rel="stylesheet">
 </head>
 
 <body class="bg-gray-50">
@@ -157,7 +160,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#"
+                        <a href="perfil.html"
                             class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-green hover:bg-gray-50 smooth-transition"
                             onclick="setDesktopActiveNav(this)">
                             <img src="recursos/iconos/contorno/comunicacion/usuario.svg" alt="Perfil"
@@ -167,6 +170,7 @@
                     </li>
                 </ul>
             </nav>
+                    <div class="p-6 border-t border-gray-100 mt-4"></div>
         </div>
 
         <!-- Main Content Area -->
@@ -265,12 +269,22 @@
                 <div class="grid grid-cols-1 xl:grid-cols-2 gap-8" id="desktop-offers">
                     <!-- Las ofertas se generarán dinámicamente -->
                 </div>
-            </main>
+                <a href="#" id="chatbot-btn" class="chatbot-btn">
+            <i class="bi bi-chatbot"></i>
+          </a>
         </div>
-    </div>
-
+      <!-- contenedor chatbot -->
+<div id="chatbot-container" class="hidden fixed w-80 h-96 bg-white rounded-lg shadow-xl border p-4 overflow-y-auto z-50 bottom-[5.75rem] right-0 -translate-x-[10px]">
+  <div id="botui-app">
+    <bot-ui></bot-ui>
+  </div>
+</div>
+    </main>
+  </div>
+</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/botui/0.2.1/botui.min.js"></script>
     <script src="js/ofertas.js"></script>
     <script src="js/principal.js"></script>
+    <script src="js/inicio.js"></script>
 </body>
-
 </html>

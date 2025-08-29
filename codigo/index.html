@@ -6,8 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tienda Móvil</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="css/estilos-generales.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="css/inicio.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 
 <body class="bg-white lg:bg-gray-50">
@@ -359,6 +360,8 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
       </header>
 
       <!-- Content -->
@@ -384,6 +387,32 @@
           </div>
         </div>
       </main>
+    </div>
+  </div>
+
+  <!-- Modal de detalle de producto -->
+  <div id="product-modal" class="fixed inset-0 z-50 hidden modal-overlay">
+    <div class="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+      <!-- Overlay -->
+      <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" onclick="closeProductModal()"></div>
+      
+      <!-- Modal content -->
+      <div class="inline-block w-full max-w-lg mx-auto overflow-hidden text-left align-bottom transition-all transform bg-white rounded-t-2xl shadow-xl modal-content sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full sm:rounded-2xl">
+        <!-- Header del modal -->
+        <div class="flex items-center justify-between p-4 border-b border-gray-200">
+          <h3 class="text-lg font-medium text-gray-900">Detalle del producto</h3>
+          <button onclick="closeProductModal()" class="p-1 text-gray-400 hover:text-gray-600 transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Contenido del modal -->
+        <div class="max-h-96 overflow-y-auto modal-scroll" id="modal-content">
+          <!-- El contenido se generará dinámicamente -->
+        </div>
+      </div>
     </div>
   </div>
 

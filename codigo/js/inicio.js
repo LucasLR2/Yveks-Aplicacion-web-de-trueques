@@ -300,7 +300,7 @@ const productos = [
     {
         id: 34,
         nombre: "Morral High negro",
-        estado: "Usadoo",
+        estado: "Usado",
         calificacion: 4.5,
         resenas: 20,
         imagenes: [{ imagen: "recursos/imagenes/34.jpg" }],

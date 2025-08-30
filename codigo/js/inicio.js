@@ -1,3 +1,5 @@
+const baseUrl = 'http://localhost:8888/Yveks-Aplicacion-web-de-trueques';
+
 // Datos de notificaciones
 const notificaciones = [
     { id: 1, tipo: "solicitud_chat", titulo: "Solicitud de chat", descripcion: "Tienes una solicitud de chat de José Martínez", tiempo: "20s", icono: "recursos/iconos/solido/comunicacion/comentario.svg", leida: false, usuario: "José Martínez" },
@@ -8,7 +10,6 @@ const notificaciones = [
     { id: 6, tipo: "resena", titulo: "Nueva reseña", descripcion: "Obtuviste 5 estrellas de una reseña de Pedro López", tiempo: "8sem", icono: "recursos/iconos/solido/estado/estrella.svg", leida: true, usuario: "Pedro López" }
 ];
 
-// Datos de productos ampliados con información detallada
 const productos = [
     {
         id: 1,
@@ -1111,55 +1112,187 @@ document.addEventListener('DOMContentLoaded', function() {
 let botInitialized = false;
 
 document.addEventListener("DOMContentLoaded", function () {
+  
   const chatbotBtn = document.getElementById("chatbot-btn");
   const chatbotContainer = document.getElementById("chatbot-container");
+  const inputField = document.getElementById('chatbot-input'); 
+  const sendBtn = document.getElementById('chatbot-send');     
+  let botInitialized = false;
+  let botui;
+  let esperandoProducto = false; 
+
+  function normalizarTexto(texto) {
+    return texto
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, ""); 
+  }
+
+  function procesarRespuesta(producto, resultados) {
+    const productoNormalizado = normalizarTexto(producto);
+
+    const filtrados = resultados.filter(item => {
+      return normalizarTexto(item) !== productoNormalizado;
+    });
+
+    if (filtrados.length > 0) {
+      return filtrados;
+    } else {
+      return [];
+    }
+  }
 
   chatbotBtn.addEventListener("click", function (event) {
     event.preventDefault();
-    chatbotContainer.classList.toggle("hidden"); // abre/cierra panel
+    chatbotContainer.classList.toggle("hidden");
 
     if (!botInitialized) {
-      var botui = new BotUI('botui-app');
+      botui = new BotUI('botui-app');
 
-      botui.message.add({
-        content: '¡Hola! Soy tu asistente de trueques 🤝'
-      }).then(() => botui.message.add({
-        delay: 500,
-        content: 'Escribí el producto que querés intercambiar y te diré qué podrías pedir a cambio.'
-      }))
-      .then(() => {
-        // Pedimos input al usuario
-        return botui.action.text({
-          action: { placeholder: 'Ej: auriculares' }
-        });
-      })
-      .then(res => {
-        const productoConsultado = res.value.toLowerCase();
-
-        // Lista simulada de productos ofrecidos a cambio
-        const sugerencias = {
-          'auriculares': ['Libro', 'Mouse', 'Tarjeta de regalo'],
-          'camiseta': ['Gorra', 'Bufanda', 'Pulsera'],
-          'telefono': ['Audífonos', 'Cargador portátil', 'Smartwatch']
-        };
-
-        // Mostramos las sugerencias o mensaje de error
-        if (sugerencias[productoConsultado]) {
-          sugerencias[productoConsultado].forEach((item, index) => {
-            botui.message.add({
-              delay: 500 * (index + 1),
-              content: item
-            });
-          });
-        } else {
-          botui.message.add({
-            delay: 500,
-            content: 'Lo siento, no tengo sugerencias para ese producto por ahora.'
-          });
-        }
-      });
+      botui.message.add({ content: '¡Hola! Soy tu asistente de trueques 🤝' })
+        .then(() => botui.message.add({
+          delay: 500,
+          content: 'Elegí cómo iniciar la conversación:'
+        }))
+        .then(() => mostrarMenu());
 
       botInitialized = true;
     }
   });
+
+  function mostrarMenu() {
+    const botonesOpciones = document.querySelectorAll('.chat-options .option-btn');
+
+    botonesOpciones.forEach(boton => {
+      boton.addEventListener('click', function () {
+        const valor = boton.dataset.value;
+
+        botonesOpciones.forEach(b => b.disabled = true);
+
+        switch (valor) {
+          case 'intercambiar':
+            botui.message.add({ content: 'Escribí un producto y descubrí opciones de intercambio' });
+            esperandoProducto = true; 
+            break;
+          case 'solicitados':
+            if (typeof mostrarProductosSolicitados === 'function') {
+              mostrarProductosSolicitados();
+            } else {
+              botui.message.add({ content: 'Función mostrarProductosSolicitados() no definida.' });
+            }
+            break;
+          case 'otro':
+            botui.message.add({ content: 'Funcionalidad en desarrollo.' });
+            break;
+          default:
+            console.log('Opción no definida');
+        }
+
+        setTimeout(() => {
+          botonesOpciones.forEach(b => b.disabled = false);
+        }, 500);
+      });
+    });
+  }
+
+  sendBtn.addEventListener('click', enviarMensaje);
+  inputField.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') enviarMensaje();
+  });
+
+  function enviarMensaje() {
+    const mensaje = inputField.value.trim();
+    if (!mensaje) return;
+
+    botui.message.add({ content: mensaje, human: true });
+    inputField.value = '';
+
+    if (esperandoProducto) {
+      fetch(`${baseUrl}/codigo/php/chatbot.php?producto=${encodeURIComponent(mensaje)}`)
+        .then(res => res.json())
+        .then(data => {
+          esperandoProducto = false;
+
+          if (data.error) {
+            botui.message.add({ content: data.error });
+          } else if (data.mensaje) {
+            botui.message.add({ content: data.mensaje });
+          } else if (data.categorias) {
+            let fetches = data.categorias.map(cat =>
+              fetch(`${baseUrl}/codigo/php/chatbot.php?categoria=${encodeURIComponent(cat)}`)
+                .then(r => r.json())
+                .then(catData => ({ categoria: cat, productos: catData.productos || [] }))
+            );
+
+            Promise.all(fetches).then(results => {
+              let todosProductos = [];
+              results.forEach(r => { todosProductos.push(...r.productos); });
+
+              const productosFiltrados = procesarRespuesta(mensaje, todosProductos);
+
+              if (productosFiltrados.length === 0) {
+                botui.message.add({ content: `No encontré productos para intercambiar por ${mensaje}.` });
+                return;
+              }
+
+              botui.message.add({ content: `A cambio de ${mensaje} podés intercambiar:` }).then(() => {
+                productosFiltrados.forEach(prod => {
+                  botui.message.add({
+                    content: prod,
+                    delay: 200,
+                    cssClass: 'chatbot-producto',
+                    click: () => {
+                      alert(`Mostrar info de la publicación de: ${prod}`);
+                    }
+                  });
+                });
+              });
+            });
+          }
+        })
+        .catch(err => {
+          botui.message.add({ content: 'Hubo un error al conectarse con el servidor.' });
+          console.error(err);
+        });
+    } else {
+      fetch(`${baseUrl}/codigo/php/chatbot.php?mensaje=${encodeURIComponent(mensaje)}`)
+        .then(res => res.json())
+        .then(data => {
+          botui.message.add({ content: data.respuesta || 'No hay respuesta.' });
+        })
+        .catch(err => {
+          botui.message.add({ content: 'Error al conectarse al servidor.' });
+          console.error(err);
+        });
+    }
+  }
+
+  function mostrarProductosSolicitados() {
+    fetch(`${baseUrl}/codigo/php/chatbot.php?productos_solicitados=1`)
+      .then(res => res.json())
+      .then(data => {
+        if (!data.productos || data.productos.length === 0) {
+          botui.message.add({ content: 'No hay productos solicitados en este momento.' });
+          return;
+        }
+
+        botui.message.add({ content: 'Los productos que la gente solicita actualmente son:' }).then(() => {
+          data.productos.forEach(prod => {
+            botui.message.add({
+              content: prod,
+              delay: 200,
+              cssClass: 'chatbot-producto'
+            });
+          });
+        });
+      })
+      .catch(err => {
+        botui.message.add({ content: 'Hubo un error al conectarse con el servidor.' });
+        console.error(err);
+      });
+  }
+      botInitialized = true;
+    }
+  });
 });
+

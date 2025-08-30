@@ -14,7 +14,7 @@ require 'database.php'; // Abre conexión $conn
 
 // Función pequeña para redirigir con código de estado y terminar.
 function redir($code){
-    header('Location: registrarse.html?estado='.$code);
+    header('Location: /app/App_web_de_trueques/codigo/registrarse.html?estado='.$code);
     exit;
 }
 
@@ -43,7 +43,9 @@ $nombreEsc = $conn->real_escape_string($nombre);
 // Insertar nuevo usuario con rol fijo 'usuario'
 $sql = "INSERT INTO Usuario (nombre_comp, correo, contrasena, rol) VALUES ('$nombreEsc', '$correoEsc', '$hash', 'usuario')";
 if ($conn->query($sql)) {
-    redir('ok');
+    // Registro exitoso: enviar directo a la página de inicio de sesión
+    header('Location: /app/App_web_de_trueques/codigo/iniciarsesion.php');
+    exit;
 } else {
     redir('error');
 }

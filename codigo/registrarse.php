@@ -19,20 +19,21 @@
           <p class="text-[#8C8C8C] mb-6 text-center">Completa tus datos o usa una cuenta social para registrarte fácilmente.</p>
 
           <!-- FORMULARIO MÓVIL -->
-          <form class="w-full max-w-sm form-registro-movil">
+          <form class="w-full max-w-sm form-registro-movil registro-form" action="registrar.php" method="post" novalidate>
+            <div id="alerta-registro-mobile" class="hidden mb-4 text-sm rounded-lg px-4 py-3 border" role="alert"></div>
             <div class="mb-4">
               <label for="nombre-movil" class="block text-sm font-medium text-gray-700">Nombre</label>
-              <input type="text" id="nombre-movil" class="mt-1 block w-full border border-[#8C8C8C] rounded-full p-2" placeholder="Juan Pérez" required>
+              <input type="text" id="nombre-movil" name="nombre" class="mt-1 block w-full border border-[#8C8C8C] rounded-full p-2" placeholder="Juan Pérez">
             </div>
 
             <div class="mb-4">
               <label for="email-movil" class="block text-sm font-medium text-gray-700">Email</label>
-              <input type="email" id="email-movil" class="mt-1 block w-full border border-[#8C8C8C] rounded-full p-2" placeholder="ejemplo@gmail.com" required>
+              <input type="email" id="email-movil" name="correo" class="mt-1 block w-full border border-[#8C8C8C] rounded-full p-2" placeholder="ejemplo@gmail.com">
             </div>
 
             <div class="mb-4 relative">
               <label for="password-movil" class="block text-sm font-medium text-gray-700">Contraseña</label>
-              <input type="password" id="password-movil" class="mt-1 block w-full border border-[#8C8C8C] rounded-full p-2 pr-10" placeholder="••••••••••••" required>
+              <input type="password" id="password-movil" name="contrasena" class="mt-1 block w-full border border-[#8C8C8C] rounded-full p-2 pr-10" placeholder="••••••••••••">
               <button type="button" id="togglePassword-movil" class="absolute right-3 top-[34px] text-gray-500 hover:text-gray-700">
                 <i class="far fa-eye-slash"></i>
               </button>
@@ -40,7 +41,7 @@
 
             <!-- Aceptar términos -->
             <div class="mb-4 flex items-center">
-              <input id="terminos-movil" type="checkbox" class="h-4 w-4 text-green border-gray-300 rounded focus:ring-green" required>
+              <input id="terminos-movil" name="terminos" type="checkbox" class="h-4 w-4 text-green border-gray-300 rounded focus:ring-green">
               <label for="terminos-movil" class="ml-2 block text-sm text-gray-700">Acepto los <a href="#" class="text-green underline">términos y condiciones</a>.</label>
             </div>
 
@@ -103,20 +104,21 @@
             <h1 class="text-2xl font-bold mb-4 text-center">Crear cuenta</h1>
             <p class="text-[#8C8C8C] mb-6 text-center">Por favor completa los campos para registrarte.</p>
 
-            <form id="form-registro-desktop">
+            <form id="form-registro-desktop" class="registro-form" action="registrar.php" method="post" novalidate>
+              <div id="alerta-registro-desktop" class="hidden mb-4 text-sm rounded-lg px-4 py-3 border" role="alert"></div>
               <div class="mb-4">
                 <label for="nombre-escritorio" class="block text-sm font-medium text-gray-700">Nombre</label>
-                <input type="text" id="nombre-escritorio" class="mt-1 block w-full border border-[#8C8C8C] rounded-full p-2" placeholder="Juan Pérez" required>
+                <input type="text" id="nombre-escritorio" name="nombre" class="mt-1 block w-full border border-[#8C8C8C] rounded-full p-2" placeholder="Juan Pérez">
               </div>
 
               <div class="mb-4">
                 <label for="email-escritorio" class="block text-sm font-medium text-gray-700">Email</label>
-                <input type="email" id="email-escritorio" class="mt-1 block w-full border border-[#8C8C8C] rounded-full p-2" placeholder="ejemplo@gmail.com" required>
+                <input type="email" id="email-escritorio" name="correo" class="mt-1 block w-full border border-[#8C8C8C] rounded-full p-2" placeholder="ejemplo@gmail.com">
               </div>
 
               <div class="mb-4 relative">
                 <label for="password-escritorio" class="block text-sm font-medium text-gray-700">Contraseña</label>
-                <input type="password" id="password-escritorio" class="mt-1 block w-full border border-[#8C8C8C] rounded-full p-2 pr-10" placeholder="••••••••••••" required>
+                <input type="password" id="password-escritorio" name="contrasena" class="mt-1 block w-full border border-[#8C8C8C] rounded-full p-2 pr-10" placeholder="••••••••••••">
                 <button type="button" id="togglePassword-escritorio" class="absolute right-3 top-[34px] text-gray-500 hover:text-gray-700">
                   <i class="far fa-eye-slash"></i>
                 </button>
@@ -124,7 +126,7 @@
 
               <!-- Checkbox términos -->
               <div class="mb-4 flex items-center">
-                <input id="terminos-escritorio" type="checkbox" class="h-4 w-4 text-green border-gray-300 rounded focus:ring-green" required>
+                <input id="terminos-escritorio" name="terminos" type="checkbox" class="h-4 w-4 text-green border-gray-300 rounded focus:ring-green">
                 <label for="terminos-escritorio" class="ml-2 block text-sm text-gray-700">Acepto los <a href="#" class="text-green underline">términos y condiciones</a>.</label>
               </div>
 

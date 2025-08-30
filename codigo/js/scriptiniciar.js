@@ -1,75 +1,4 @@
-let usuarios = [
-    {
-      id: 1,
-      nombre: "Juan Perez",
-      email: "juan@example.com",
-      contrasena: "123456",
-      fechnacimiento: "26/04/1990",
-      ubicacion: "Montevideo, Uruguay",
-      rol: "usuario-verificado"
-    },
-    {
-      id: 2,
-      nombre: "Lucia Fernandez",
-      email: "lucia@example.com",
-      contrasena: "lucia789",
-      fechnacimiento: "15/08/1995",
-      ubicacion: "Canelones, Uruguay",
-      rol: "usuario-no-verificado"
-    },
-    {
-      id: 3,
-      nombre: "ALberto Gomez",
-      email: "agomez@example.com",
-      contrasena: "admin123",
-      fechnacimiento: "01/01/1980",
-      ubicacion: "Montevideo, Uruguay",
-      rol: "moderador"
-    }
-];
-
-// Combinar usuarios definidos en JS con los del localStorage (sin duplicados por email)
-let usuariosGuardados = localStorage.getItem("usuarios");
-let usuariosLocal = usuariosGuardados ? JSON.parse(usuariosGuardados) : [];
-// Evitar duplicados por email
-let emailsJS = new Set(usuarios.map(u => u.email));
-let usuariosCombinados = usuarios.concat(
-  usuariosLocal.filter(u => !emailsJS.has(u.email))
-);
-usuarios = usuariosCombinados;
-
-document.addEventListener("DOMContentLoaded", function () {
-  const anchoPantalla = window.innerWidth;
-
-  // Usar el formulario que está visible
-  const formulario =
-    anchoPantalla >= 1024
-      ? document.getElementById("form-login-desktop")
-      : document.getElementById("form-login-mobile");
-
-  if (!formulario) {
-    console.error("No se encontró el formulario correspondiente");
-    return;
-  }
-
-  formulario.addEventListener("submit", function (evento) {
-    evento.preventDefault();
-
-    const correo = formulario.querySelector("input[type='email']").value.trim();
-    const clave = formulario.querySelector("input[type='password']").value.trim();
-
-    const usuarioValido = usuarios.find(
-      (usuario) => usuario.email === correo && usuario.contrasena === clave
-    );
-
-    if (usuarioValido) {
-      window.location.href = "index.html"; // Redirigir a la página principal
-    } else {
-      alert("Credenciales incorrectas. Por favor, verifica tu email y contraseña.");
-      console.error("Credenciales incorrectas");
-    }
-  });
-});
+// Lógica de autenticación eliminada: ahora todo se procesa en logear.php.
 
 // Configuración de visibilidad de contraseña para escritorio y móvil
 function configurarVisibilidadPassword(idInput, idBoton) {
@@ -89,12 +18,90 @@ function configurarVisibilidadPassword(idInput, idBoton) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Configurar visibilidad para desktop
-    configurarVisibilidadPassword('password-escritorio', 'togglePassword-escritorio');
+  configurarVisibilidadPassword('password-escritorio', 'togglePassword-escritorio');
+  configurarVisibilidadPassword('password-movil', 'togglePassword-movil');
 
-    // Configurar visibilidad para móvil
-    configurarVisibilidadPassword('password-movil', 'togglePassword-movil');
+  // Mostrar mensajes de error según la URL (error=...)
+  const params = new URLSearchParams(window.location.search);
+  const error = params.get('error');
+  if (error) {
+    if (error === 'credenciales') {
+      mostrarAlerta('No coincide el email o la contraseña.', 'error');
+    } else if (error === 'campos') {
+      mostrarAlerta('Todos los campos son obligatorios.', 'error');
+    } else if (error === 'consulta') {
+      mostrarAlerta('Error interno. Intenta nuevamente.', 'error');
+    }
+  }
+
+  // Validación manual en formularios antes de enviar
+  const forms = document.querySelectorAll('.login-form');
+  forms.forEach(form => {
+    form.addEventListener('submit', function (e) {
+      const correo = form.querySelector('input[name="identificador"]');
+      const pass = form.querySelector('input[name="contrasena"]');
+      if (!correo.value.trim() || !pass.value.trim()) {
+        e.preventDefault();
+        mostrarAlerta('Todos los campos son obligatorios.', 'error', form);
+      }
+    });
+  });
 });
+
+function mostrarAlerta(mensaje, tipo = 'info', contextoFormulario) {
+  // Seleccionar el contenedor adecuado (mobile o desktop) en base al formulario o viewport
+  let contenedor;
+  if (contextoFormulario) {
+    contenedor = contextoFormulario.querySelector('[id^="alerta-login-"]');
+  } else {
+    // fallback: elegir según ancho
+    if (window.innerWidth >= 1024) {
+      contenedor = document.getElementById('alerta-login-desktop');
+    } else {
+      contenedor = document.getElementById('alerta-login-mobile');
+    }
+  }
+  if (!contenedor) return;
+
+  const estilos = {
+    error: {
+      fondo: '#FEE2E2',
+      borde: '#F87171',
+      texto: '#7F1D1D'
+    },
+    info: {
+      fondo: '#DBEAFE',
+      borde: '#60A5FA',
+      texto: '#1E3A8A'
+    },
+    ok: {
+      fondo: '#D1FAE5',
+      borde: '#34D399',
+      texto: '#065F46'
+    }
+  };
+
+  const cfg = estilos[tipo] || estilos.info;
+  contenedor.textContent = mensaje;
+  contenedor.style.backgroundColor = cfg.fondo;
+  contenedor.style.borderColor = cfg.borde;
+  contenedor.style.color = cfg.texto;
+  contenedor.classList.remove('hidden');
+  contenedor.classList.add('animate-fade');
+
+  clearTimeout(contenedor._timeoutId);
+  contenedor._timeoutId = setTimeout(() => {
+    contenedor.classList.add('hidden');
+  }, 5000);
+}
+
+// Animación simple vía CSS inline si no existe
+if (!document.getElementById('login-alert-style')) {
+  const style = document.createElement('style');
+  style.id = 'login-alert-style';
+  style.textContent = `.animate-fade{animation:fadeIn 0.3s ease;}@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}`;
+  document.head.appendChild(style);
+}
 
 
 window.addEventListener("DOMContentLoaded", () => {

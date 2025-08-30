@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,7 +58,8 @@
             <div class="flex flex-col items-center space-y-2 cursor-pointer mobile-category min-w-[72px]"
               onclick="seleccionarCategoria(this)" data-category="tecnologia">
               <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                <img src="recursos/iconos/contorno/dispositivos/procesador.svg" alt="Tecnología" class="w-5 h-5 svg-green">
+                <img src="recursos/iconos/contorno/dispositivos/procesador.svg" alt="Tecnología"
+                  class="w-5 h-5 svg-green">
               </div>
               <span class="text-xs text-gray-600 text-center truncate w-full block" title="Tecnología">Tecnología</span>
             </div>
@@ -85,7 +87,7 @@
               </div>
               <span class="text-xs text-gray-600 text-center truncate w-full block" title="Accesorios">Accesorios</span>
             </div>
-            
+
             <!-- Deportes -->
             <div
               class="flex flex-col items-center space-y-2 cursor-pointer mobile-category flex-shrink-0 w-20 snap-start"
@@ -101,7 +103,8 @@
               class="flex flex-col items-center space-y-2 cursor-pointer mobile-category flex-shrink-0 w-20 snap-start"
               onclick="seleccionarCategoria(this)" data-category="entretenimiento">
               <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                <img src="recursos/iconos/contorno/dispositivos/dado.svg" alt="Entretenimiento" class="w-5 h-5 svg-green">
+                <img src="recursos/iconos/contorno/dispositivos/dado.svg" alt="Entretenimiento"
+                  class="w-5 h-5 svg-green">
               </div>
               <span class="text-xs text-gray-600 text-center">Entretenimiento</span>
             </div>
@@ -121,7 +124,8 @@
               class="flex flex-col items-center space-y-2 cursor-pointer mobile-category flex-shrink-0 w-20 snap-start"
               onclick="seleccionarCategoria(this)" data-category="herramientas">
               <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center transition-colors">
-                <img src="recursos/iconos/contorno/dispositivos/herramientas.svg" alt="Herramientas" class="w-5 h-5 svg-green">
+                <img src="recursos/iconos/contorno/dispositivos/herramientas.svg" alt="Herramientas"
+                  class="w-5 h-5 svg-green">
               </div>
               <span class="text-xs text-gray-600 text-center">Herramientas</span>
             </div>
@@ -175,7 +179,8 @@
             </button>
             <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
               onclick="setActiveTab(this, 4, 'mobile')">
-              <img src="recursos/iconos/contorno/comunicacion/usuario.svg" alt="Usuario" class="w-6 h-6 mb-1 svg-gray-300">
+              <img src="recursos/iconos/contorno/comunicacion/usuario.svg" alt="Usuario"
+                class="w-6 h-6 mb-1 svg-gray-300">
             </button>
           </div>
         </div>
@@ -289,7 +294,8 @@
           <div
             class="desktop-category flex items-center space-x-3 px-4 py-3 rounded-lg cursor-pointer hover:bg-gray-50 smooth-transition"
             onclick="seleccionarCategoriaEscritorio(this, 'herramientas')">
-            <img src="recursos/iconos/contorno/dispositivos/herramientas.svg" alt="Herramientas" class="w-4 h-4 svg-green">
+            <img src="recursos/iconos/contorno/dispositivos/herramientas.svg" alt="Herramientas"
+              class="w-4 h-4 svg-green">
             <span class="text-sm text-green">Herramientas</span>
           </div>
           <div
@@ -329,7 +335,8 @@
           <!-- Acciones del header -->
           <div class="flex items-center space-x-4">
             <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition">
-              <img src="recursos/iconos/solido/comunicacion/comentario.svg" alt="Comentarios" class="w-5 h-5 svg-gray-800">
+              <img src="recursos/iconos/solido/comunicacion/comentario.svg" alt="Comentarios"
+                class="w-5 h-5 svg-gray-800">
             </button>
             <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition">
               <img src="recursos/iconos/solido/estado/notificacion.svg" alt="Notificaciones"
@@ -380,12 +387,13 @@
             <i class="bi bi-chatbot"></i>
           </a>
         </div>
-      <!-- contenedor chatbot -->
-<div id="chatbot-container" class="hidden fixed w-80 h-96 bg-white rounded-lg shadow-xl border p-4 overflow-y-auto z-50 bottom-[5.75rem] right-0 -translate-x-[10px]">
-  <div id="botui-app">
-    <bot-ui></bot-ui>
-  </div>
-</div>
+        <!-- contenedor chatbot -->
+        <div id="chatbot-container"
+          class="hidden fixed w-80 h-96 bg-white rounded-lg shadow-xl border p-4 overflow-y-auto z-50 bottom-[5.75rem] right-0 -translate-x-[10px]">
+          <div id="botui-app">
+            <bot-ui></bot-ui>
+          </div>
+        </div>
 
         <!-- Categorías destacadas (desktop) -->
         <div class="mb-12 categories-section">
@@ -410,9 +418,10 @@
     <div class="flex items-end justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
       <!-- Overlay -->
       <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" onclick="closeProductModal()"></div>
-      
+
       <!-- Modal content -->
-      <div class="inline-block w-full max-w-lg mx-auto overflow-hidden text-left align-bottom transition-all transform bg-white rounded-t-2xl shadow-xl modal-content sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full sm:rounded-2xl">
+      <div
+        class="inline-block w-full max-w-lg mx-auto overflow-hidden text-left align-bottom transition-all transform bg-white rounded-t-2xl shadow-xl modal-content sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full sm:rounded-2xl">
         <!-- Header del modal -->
         <div class="flex items-center justify-between p-4 border-b border-gray-200">
           <h3 class="text-lg font-medium text-gray-900">Detalle del producto</h3>
@@ -431,8 +440,9 @@
     </div>
   </div>
 
-  </body>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/botui/0.2.1/botui.min.js"></script>
-  <script src="js/principal.js"></script>
-  <script src="js/inicio.js"></script>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/botui/0.2.1/botui.min.js"></script>
+<script src="js/principal.js"></script>
+<script src="js/inicio.js"></script>
+
 </html>

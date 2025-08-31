@@ -27,8 +27,9 @@ document.addEventListener('DOMContentLoaded', function () {
   if (error) {
     if (error === 'credenciales') {
       mostrarAlerta('No coincide el email o la contraseña.', 'error');
+      header ('Location: /app/App_web_de_trueques/codigo/iniciarsesion.php');
     } else if (error === 'campos') {
-      mostrarAlerta('Todos los campos son obligatorios.', 'error');
+      mostrarAlerta('Todos los campos son obligatoriosss.', 'error');
     } else if (error === 'consulta') {
       mostrarAlerta('Error interno. Intenta nuevamente.', 'error');
     }
@@ -42,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const pass = form.querySelector('input[name="contrasena"]');
       if (!correo.value.trim() || !pass.value.trim()) {
         e.preventDefault();
-        mostrarAlerta('Todos los campos son obligatorios.', 'error', form);
+        mostrarAlerta('Todos los campos son obligatoriosasd.', 'error', form);
       }
     });
   });

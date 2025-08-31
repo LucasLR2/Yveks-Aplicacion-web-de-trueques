@@ -19,7 +19,7 @@ $pass   = isset($_POST['contrasena']) ? trim($_POST['contrasena']) : '';
 
 // Validación simple: ambos campos son obligatorios
 if ($correo === '' || $pass === '') {
-	header('Location: /app/App_web_de_trueques/codigo/iniciarsesion.html?error=campos');
+	header('Location: /app/App_web_de_trueques/codigo/iniciarsesion.php?error=campos');
 	exit; 
 }
 
@@ -29,7 +29,7 @@ $hash = hash('sha256', $pass);
 // Traer todos los usuarios (solo columnas necesarias)
 $res = $conn->query("SELECT correo, contrasena, nombre_comp FROM Usuario");
 if (!$res) { // Si la consulta falla
-	header('Location: /app/App_web_de_trueques/codigo/iniciarsesion.html?error=consulta');
+	header('Location: /app/App_web_de_trueques/codigo/iniciarsesion.php?error=consulta');
 	exit; 
 }
 
@@ -51,7 +51,8 @@ $conn->close();    // Cerrar conexión
 if ($ok) {
 	header('Location: /app/App_web_de_trueques/codigo/index.html');
 } else {
-	header('Location: /app/App_web_de_trueques/codigo/iniciarsesion.html?error=credenciales');
+	header('Location: /app/App_web_de_trueques/codigo/iniciarsesion.php?error=credenciales');
+	
 }
 exit; // Terminar script
 ?>

@@ -54,15 +54,8 @@
               <span class="text-xs text-gray-500" id="photoCounter">0/10</span>
             </div>
             <p class="text-sm text-gray-600 mb-3">Puedes agregar un máximo de 10 fotos</p>
-            <div class="grid grid-cols-3 gap-3" id="imagePreview">
-              <div class="aspect-square border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-green-500 transition-colors" onclick="document.getElementById('imageInput').click()">
-                <svg class="w-8 h-8 text-gray-400 mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                </svg>
-                <span class="text-xs text-gray-500">Agregar foto</span>
-              </div>
-            </div>
-            <input type="file" id="imageInput" class="hidden" multiple accept="image/*" onchange="handleImageUpload(event)" max="10">
+            <div class="grid grid-cols-3 gap-3 imagePreview"></div>
+            <input type="file" class="imageInput hidden" multiple accept="image/*" onchange="handleImageUpload(event)">
           </div>
 
           <!-- Información del producto -->
@@ -295,15 +288,8 @@
                 <span class="text-sm text-gray-500" id="photoCounter">0/10</span>
               </div>
               <p class="text-gray-600 mb-6">Puedes agregar un máximo de 10 fotos</p>
-              <div class="grid grid-cols-5 gap-4" id="imagePreview">
-                <div class="aspect-square border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-green-500 transition-colors" onclick="document.getElementById('imageInput').click()">
-                  <svg class="w-12 h-12 text-gray-400 mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                  </svg>
-                  <span class="text-sm text-gray-500">Agregar foto</span>
-                </div>
-              </div>
-              <input type="file" id="imageInput" class="hidden" multiple accept="image/*" onchange="handleImageUpload(event)" max="10">
+              <div class="grid grid-cols-5 gap-4 imagePreview"></div>
+              <input type="file" class="imageInput hidden" multiple accept="image/*" onchange="handleImageUpload(event)">
             </div>
 
             <!-- Grid del formulario -->

@@ -38,22 +38,33 @@ function removeImage(id) {
 }
 
 function updateImagePreview() {
-  const container = document.getElementById("imagePreview");
-  container.innerHTML = "";
-  uploadedImages.forEach(img => {
-    const div = document.createElement("div");
-    div.className = "image-item";
-    div.innerHTML = `<img src="${img.url}" class="w-full h-full object-cover">
-      <button type="button" class="remove-image" onclick="removeImage(${img.id})">×</button>`;
-    container.appendChild(div);
+  document.querySelectorAll(".imagePreview").forEach(container => {
+    container.innerHTML = "";
+
+    uploadedImages.forEach(img => {
+      const div = document.createElement("div");
+      div.className = "image-item relative";
+      div.innerHTML = `
+        <img src="${img.url}" class="w-full h-full object-cover rounded-lg">
+        <button type="button" class="remove-image absolute top-1 right-1 bg-white rounded-full px-2" onclick="removeImage(${img.id})">×</button>`;
+      container.appendChild(div);
+    });
+
+    if (uploadedImages.length < 10) {
+      const add = document.createElement("div");
+      add.className = "upload-placeholder aspect-square border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-green-500 transition-colors";
+      add.innerHTML = `
+        <svg viewBox="0 0 24 24" class="w-8 h-8 text-gray-400 mb-2" fill="none" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        </svg>
+        <span class="text-xs text-gray-500">Agregar foto</span>`;
+
+      // 🔑 Busca el input de archivo dentro del mismo form
+      add.onclick = () => container.parentElement.querySelector(".imageInput").click();
+
+      container.appendChild(add);
+    }
   });
-  if (uploadedImages.length < 10) {
-    const add = document.createElement("div");
-    add.className = "upload-placeholder";
-    add.onclick = () => document.getElementById("imageInput").click();
-    add.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg><span>Agregar foto</span>`;
-    container.appendChild(add);
-  }
 }
 
 function updatePhotoCounter() {
@@ -121,4 +132,5 @@ document.addEventListener("DOMContentLoaded", () => {
   cargarCategorias();
   cargarDepartamentos();
   updatePhotoCounter();
+  updateImagePreview();
 });

@@ -68,7 +68,9 @@ function updateImagePreview() {
 }
 
 function updatePhotoCounter() {
-  document.getElementById("photoCounter").textContent = `${uploadedImages.length}/10`;
+  document.querySelectorAll(".photoCounter").forEach(counter => {
+    counter.textContent = `${uploadedImages.length}/10`;
+  });
 }
 
 function submitForm(e) {

@@ -147,7 +147,7 @@ html, body {
 .text-red {
   color: #DD3D3D !important;
 }
-/* estilos chatbot-btn */
+/* === Botón flotante del chatbot === */
 .chatbot-btn {
   position: fixed;
   bottom: 20px;
@@ -156,32 +156,126 @@ html, body {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background-color: #262826;
+  background-color: #95b79a; /* color de fondo del btn */
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  animation: breathe 2s ease-in-out infinite;
+  box-shadow: 0 2px 5px rgba(8, 253, 249, 0.3); /* color de animacion */
+  animation: breathe 2s ease-in-out infinite; /* animación solo del btn */
+  cursor: pointer;
 }
 
-/*Estilos solo al icono chatbot*/
-.chatbot-btn i {
-  color: #fff;
-  font-size: 24px;
-  animation: beat 2s ease-in-out infinite;
-  text-decoration: none;
+/* Estilos solo al icono chatbot (ahora imagen SVG) */
+.chatbot-btn img.chatbot-icon {
+  width: 30px;   /* ajusta tamaño de tu SVG */
+  height: 30px;
+  display: block;
+  filter: brightness(0) invert(1); /* convierte el SVG a blanco si no es editable */
 }
+
+/* Header fijo */
+.chatbot-header {
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+/* === Contenedor del cuerpo del chatbot === */
+.chatbot-body {
+  flex: 1;
+  overflow-y: auto;       /* Scroll vertical activado */
+  padding: 4px 8px;       /* Reducido para acercar los botones al inicio */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Alinea contenido arriba */
+
+  /* Para Firefox: hace el scrollbar más corto visualmente */
+  scrollbar-width: thin;
+  scrollbar-color: #719177;;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/* Ajuste de mensajes de bienvenida de BotUI */
+.botui-message-content {
+  margin-bottom: 4px; /* espacio reducido entre mensajes */
+  line-height: 1.3;   /* más compacto */
+}
+
+/* Scroll vertical dentro del chatbot (más delgado y más corto) */
+.chatbot-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative; /* necesario para pseudo-elementos */
+}
+.chatbot-body::-webkit-scrollbar {
+  width: 4px;
+}
+
+.chatbot-body::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+  min-height: 30px; /* establece la altura mínima del thumb */
+}
+/* === Opciones del chatbot (fila horizontal con scroll) === */
+.chat-options {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  overflow-x: auto;        /* Scroll horizontal permitido */
+  padding: 4px 2px;
+  margin-top: 4px;         
+  -ms-overflow-style: none;  /* IE y Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+.option-btn {
+  white-space: nowrap;
+  text-align: center;
+  background: #f2f2f2;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.option-btn:hover {
+  background: #e0e0e0;
+}
+
+/* Scrollbar opcional para las opciones (horizontal) */
+.chat-options::-webkit-scrollbar {
+  height: 6px;
+}
+.chat-options::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+.chat-options::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+/* Icono de enviar del chatbot */
+#chatbot-send img {
+  filter: invert(41%) sepia(33%) saturate(518%) hue-rotate(79deg) brightness(93%) contrast(88%);
+}
+
 
 /*Estilos con animation contorno respirando*/
 @keyframes breathe {
   0% {
-    box-shadow: 0 0 0 0 rgba(31, 32, 31, 0.5);
+    box-shadow: 0 0 0 0 #6ec66e80;
   }
   70% {
-    box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+    box-shadow: 0 0 0 15px rgba(72, 171, 109, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 0 0 0 rgba(97, 156, 79, 0);
   }
 }
 

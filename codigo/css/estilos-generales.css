@@ -104,8 +104,7 @@ html, body {
   filter: brightness(0) saturate(100%) invert(20%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(90%) contrast(90%);
 }
 .svg-red-400 {
-  filter: brightness(1) saturate(10) sepia(1) hue-rotate(0deg);
-  opacity: 0.5;
+  filter: brightness(0) saturate(100%) invert(47%) sepia(91%) saturate(2569%) hue-rotate(338deg) brightness(98%) contrast(89%);
 }
 
 /* Botones reutilizables */

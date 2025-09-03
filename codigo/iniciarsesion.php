@@ -20,7 +20,7 @@
                     <p class="text-[#8C8C8C] mb-6 text-center">Bienvenido de vuelta, inicia sesión para continuar.</p>
 
                     <!-- Sección de inicio de sesión -->
-                    <form class="w-full form-login-mobile pl-[32px] pr-[32px] login-form" action="logear.php" method="post" novalidate>
+                    <form id="form-login-mobile" class="w-full form-login-mobile pl-[32px] pr-[32px] login-form" novalidate>
                         <div id="alerta-login-mobile" class="hidden mb-4 text-sm rounded-lg px-4 py-3 border" role="alert"></div>
                         <div class="mb-4 pb-[10px]">
                             <label for="email-movil" class="block text-sm font-medium text-gray-700">Email</label>
@@ -106,7 +106,7 @@
                         <p class="text-[#8C8C8C] mb-6 text-center">Bienvenido de vuelta, te estábamos esperando.</p>
 
                         <!-- Sección de inicio de sesión -->
-                        <form id="form-login-desktop" class="login-form" action="logear.php" method="post" novalidate>
+                        <form id="form-login-desktop" class="login-form" novalidate>
                             <div id="alerta-login-desktop" class="hidden mb-4 text-sm rounded-lg px-4 py-3 border" role="alert"></div>
                             <div class="mb-4 pb-[10px]">
                                 <label for="email-escritorio" class="block text-sm font-medium text-gray-700">Email</label>

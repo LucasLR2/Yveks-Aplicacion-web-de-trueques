@@ -1,46 +1,67 @@
-
 document.addEventListener('DOMContentLoaded', () => {
   const formularios = document.querySelectorAll('.registro-form');
   formularios.forEach(form => {
     form.addEventListener('submit', e => {
+      e.preventDefault();
       const nombre = form.querySelector('input[name="nombre"]');
       const correo = form.querySelector('input[name="correo"]');
       const pass = form.querySelector('input[name="contrasena"]');
       const terminos = form.querySelector('input[name="terminos"]');
       if (!nombre.value.trim() || !correo.value.trim() || !pass.value.trim() || !terminos.checked) {
-        e.preventDefault();
-        mostrarAlertaRegistro('Todos los campos y aceptar términos son obligatorios.', 'error', form);
+        mostrarAlertaRegistro('Llenar todos los campos y aceptar términos son obligatorios.', form);
+        return;
       }
+      const data = new FormData(form);
+      fetch('registrar.php', {
+        method: 'POST',
+        body: data
+      })
+      .then(res => res.json())
+      .then(resp => {
+        if (resp.success) {
+          window.location.href = resp.redirect;
+        } else {
+          mostrarAlertaRegistro(resp.message || 'Error al registrar. Intenta de nuevo.', form);
+        }
+      })
+      .catch(() => {
+        mostrarAlertaRegistro('Error de conexión con el servidor.', form);
+      });
     });
   });
-
-  // Mensajes según estado en URL
-  const p = new URLSearchParams(window.location.search);
-  const estado = p.get('estado');
-  if (estado) {
-    if (estado === 'ok') mostrarAlertaRegistro('Registro exitoso. Ahora puedes iniciar sesión.', 'ok');
-    else if (estado === 'campos') mostrarAlertaRegistro('Completa todos los campos y acepta los términos.', 'error');
-    else if (estado === 'dup') mostrarAlertaRegistro('Ese correo ya está registrado.', 'error');
-    else if (estado === 'error') mostrarAlertaRegistro('Error al registrar. Intenta de nuevo.', 'error');
-  }
 });
 
-function mostrarAlertaRegistro(msg, tipo='info', form) {
+function mostrarAlertaRegistro(mensaje, form) {
+  // Seleccionar el contenedor adecuado (mobile o desktop) en base al formulario o viewport
   let contenedor;
-  if (form) contenedor = form.querySelector('[id^="alerta-registro-"]');
-  if (!contenedor) {
-    contenedor = window.innerWidth >= 1024 ? document.getElementById('alerta-registro-desktop') : document.getElementById('alerta-registro-mobile');
+  if (form) {
+    contenedor = form.querySelector('[id^="alerta-registro-"]');
+  } else {
+    if (window.innerWidth >= 1024) {
+      contenedor = document.getElementById('alerta-registro-desktop');
+    } else {
+      contenedor = document.getElementById('alerta-registro-mobile');
+    }
   }
   if (!contenedor) return;
-  const estilos = { error:{f:'#FEE2E2',b:'#F87171',t:'#7F1D1D'}, ok:{f:'#D1FAE5',b:'#34D399',t:'#065F46'}, info:{f:'#DBEAFE',b:'#60A5FA',t:'#1E3A8A'} };
-  const c = estilos[tipo]||estilos.info;
-  contenedor.textContent = msg;
-  contenedor.style.background=c.f; contenedor.style.borderColor=c.b; contenedor.style.color=c.t;
+
+  contenedor.textContent = mensaje;
+  contenedor.style.backgroundColor = '#FEE2E2';
+  contenedor.style.borderColor = '#F87171';
+  contenedor.style.color = '#7F1D1D';
   contenedor.classList.remove('hidden');
-  clearTimeout(contenedor._t);
-  contenedor._t = setTimeout(()=>contenedor.classList.add('hidden'),6000);
-  if (!document.getElementById('registro-alert-style')){
-    const st=document.createElement('style'); st.id='registro-alert-style'; st.textContent='.fadeIn{animation:fadeIn .3s ease}@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}'; document.head.appendChild(st);
+  contenedor.classList.add('fadeIn');
+
+  clearTimeout(contenedor._timeoutId);
+  contenedor._timeoutId = setTimeout(() => {
+    contenedor.classList.add('hidden');
+  }, 6000);
+
+  if (!document.getElementById('registro-alert-style')) {
+    const style = document.createElement('style');
+    style.id = 'registro-alert-style';
+    style.textContent = '.fadeIn{animation:fadeIn .3s ease}@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}';
+    document.head.appendChild(style);
   }
 }
 

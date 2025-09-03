@@ -1,5 +1,3 @@
-// Lógica de autenticación eliminada: ahora todo se procesa en logear.php.
-
 // Configuración de visibilidad de contraseña para escritorio y móvil
 function configurarVisibilidadPassword(idInput, idBoton) {
     const input = document.getElementById(idInput);
@@ -17,45 +15,50 @@ function configurarVisibilidadPassword(idInput, idBoton) {
     });
 }
 
+
+
 document.addEventListener('DOMContentLoaded', function () {
   configurarVisibilidadPassword('password-escritorio', 'togglePassword-escritorio');
   configurarVisibilidadPassword('password-movil', 'togglePassword-movil');
 
-  // Mostrar mensajes de error según la URL (error=...)
-  const params = new URLSearchParams(window.location.search);
-  const error = params.get('error');
-  if (error) {
-    if (error === 'credenciales') {
-      mostrarAlerta('No coincide el email o la contraseña.', 'error');
-      header ('Location: /app/App_web_de_trueques/codigo/iniciarsesion.php');
-    } else if (error === 'campos') {
-      mostrarAlerta('Todos los campos son obligatoriosss.', 'error');
-    } else if (error === 'consulta') {
-      mostrarAlerta('Error interno. Intenta nuevamente.', 'error');
-    }
-  }
-
-  // Validación manual en formularios antes de enviar
+  // Listener para login por fetch (AJAX)
   const forms = document.querySelectorAll('.login-form');
   forms.forEach(form => {
     form.addEventListener('submit', function (e) {
+      e.preventDefault();
       const correo = form.querySelector('input[name="identificador"]');
       const pass = form.querySelector('input[name="contrasena"]');
       if (!correo.value.trim() || !pass.value.trim()) {
-        e.preventDefault();
-        mostrarAlerta('Todos los campos son obligatoriosasd.', 'error', form);
+        mostrarAlerta('Todos los campos son obligatorios.',form);
+        return;
       }
+      const data = new FormData(form);
+      fetch('logear.php', {
+        method: 'POST',
+        body: data
+      })
+      .then(res => res.json())
+      .then(resp => {
+        if (resp.success) {
+          window.location.href = resp.redirect;
+        } else {
+          mostrarAlerta(resp.message || 'Error de autenticación.', form);
+        }
+      })
+      .catch(() => {
+        mostrarAlerta('Error de conexión con el servidor.', form);
+      });
     });
   });
 });
 
-function mostrarAlerta(mensaje, tipo = 'info', contextoFormulario) {
+function mostrarAlerta(mensaje, contextoFormulario) {
   // Seleccionar el contenedor adecuado (mobile o desktop) en base al formulario o viewport
   let contenedor;
   if (contextoFormulario) {
     contenedor = contextoFormulario.querySelector('[id^="alerta-login-"]');
   } else {
-    // fallback: elegir según ancho
+    // Elegir según ancho
     if (window.innerWidth >= 1024) {
       contenedor = document.getElementById('alerta-login-desktop');
     } else {
@@ -64,29 +67,10 @@ function mostrarAlerta(mensaje, tipo = 'info', contextoFormulario) {
   }
   if (!contenedor) return;
 
-  const estilos = {
-    error: {
-      fondo: '#FEE2E2',
-      borde: '#F87171',
-      texto: '#7F1D1D'
-    },
-    info: {
-      fondo: '#DBEAFE',
-      borde: '#60A5FA',
-      texto: '#1E3A8A'
-    },
-    ok: {
-      fondo: '#D1FAE5',
-      borde: '#34D399',
-      texto: '#065F46'
-    }
-  };
-
-  const cfg = estilos[tipo] || estilos.info;
   contenedor.textContent = mensaje;
-  contenedor.style.backgroundColor = cfg.fondo;
-  contenedor.style.borderColor = cfg.borde;
-  contenedor.style.color = cfg.texto;
+  contenedor.style.backgroundColor = '#FEE2E2';
+  contenedor.style.borderColor = '#F87171';
+  contenedor.style.color = '#7F1D1D';
   contenedor.classList.remove('hidden');
   contenedor.classList.add('animate-fade');
 
@@ -95,8 +79,33 @@ function mostrarAlerta(mensaje, tipo = 'info', contextoFormulario) {
     contenedor.classList.add('hidden');
   }, 5000);
 }
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const correo = form.querySelector('input[name="identificador"]');
+      const pass = form.querySelector('input[name="contrasena"]');
+      if (!correo.value.trim() || !pass.value.trim()) {
+        mostrarAlerta('Todos los campos son obligatorios.', form);
+        return;
+      }
+      const data = new FormData(form);
+      fetch('logear.php', {
+        method: 'POST',
+        body: data
+      })
+      .then(res => res.json())
+      .then(resp => {
+        if (resp.success) {
+          window.location.href = resp.redirect;
+        } else {
+          mostrarAlerta(resp.message || 'Error de autenticación.', form);
+        }
+      })
+      .catch(() => {
+        mostrarAlerta('Error de conexión con el servidor.', form);
+      });
+    });
 
-// Animación simple vía CSS inline si no existe
+// Animación simple vía CSS inline
 if (!document.getElementById('login-alert-style')) {
   const style = document.createElement('style');
   style.id = 'login-alert-style';

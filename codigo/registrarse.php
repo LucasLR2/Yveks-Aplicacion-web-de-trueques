@@ -19,7 +19,7 @@
           <p class="text-[#8C8C8C] mb-6 text-center">Completa tus datos o usa una cuenta social para registrarte fácilmente.</p>
 
           <!-- FORMULARIO MÓVIL -->
-          <form class="w-full max-w-sm form-registro-movil registro-form" action="registrar.php" method="post" novalidate>
+          <form id="form-registro-mobile" class="w-full max-w-sm form-registro-movil registro-form" novalidate>
             <div id="alerta-registro-mobile" class="hidden mb-4 text-sm rounded-lg px-4 py-3 border" role="alert"></div>
             <div class="mb-4">
               <label for="nombre-movil" class="block text-sm font-medium text-gray-700">Nombre</label>
@@ -104,7 +104,7 @@
             <h1 class="text-2xl font-bold mb-4 text-center">Crear cuenta</h1>
             <p class="text-[#8C8C8C] mb-6 text-center">Por favor completa los campos para registrarte.</p>
 
-            <form id="form-registro-desktop" class="registro-form" action="registrar.php" method="post" novalidate>
+            <form id="form-registro-desktop" class="registro-form" novalidate>
               <div id="alerta-registro-desktop" class="hidden mb-4 text-sm rounded-lg px-4 py-3 border" role="alert"></div>
               <div class="mb-4">
                 <label for="nombre-escritorio" class="block text-sm font-medium text-gray-700">Nombre</label>

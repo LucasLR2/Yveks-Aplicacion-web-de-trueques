@@ -15,8 +15,6 @@ function configurarVisibilidadPassword(idInput, idBoton) {
     });
 }
 
-
-
 document.addEventListener('DOMContentLoaded', function () {
   configurarVisibilidadPassword('password-escritorio', 'togglePassword-escritorio');
   configurarVisibilidadPassword('password-movil', 'togglePassword-movil');
@@ -79,31 +77,7 @@ function mostrarAlerta(mensaje, contextoFormulario) {
     contenedor.classList.add('hidden');
   }, 5000);
 }
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const correo = form.querySelector('input[name="identificador"]');
-      const pass = form.querySelector('input[name="contrasena"]');
-      if (!correo.value.trim() || !pass.value.trim()) {
-        mostrarAlerta('Todos los campos son obligatorios.', form);
-        return;
-      }
-      const data = new FormData(form);
-      fetch('logear.php', {
-        method: 'POST',
-        body: data
-      })
-      .then(res => res.json())
-      .then(resp => {
-        if (resp.success) {
-          window.location.href = resp.redirect;
-        } else {
-          mostrarAlerta(resp.message || 'Error de autenticación.', form);
-        }
-      })
-      .catch(() => {
-        mostrarAlerta('Error de conexión con el servidor.', form);
-      });
-    });
+// ...existing code...
 
 // Animación simple vía CSS inline
 if (!document.getElementById('login-alert-style')) {

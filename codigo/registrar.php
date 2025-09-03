@@ -22,7 +22,7 @@ $nombreEsc = $conn->real_escape_string($nombre);
 $sql = "INSERT INTO Usuario (nombre_comp, correo, contrasena, rol) VALUES ('$nombreEsc', '$correoEsc', '$hash', 'usuario')";
 if ($conn->query($sql)) {
     // Registro exitoso: responder con JSON para JS
-    echo json_encode(['success' => true, 'redirect' => 'iniciarsesion.php']);
+    echo json_encode(['success' => true, 'redirect' => 'iniciar-sesion.php']);
     exit;
 } else {
     echo json_encode(['success' => false, 'message' => 'Error al registrar. Intenta de nuevo.']);

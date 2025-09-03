@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="css/estilos-generales.css">
     <link rel="stylesheet" href="css/inicio.css">
     <link rel="stylesheet" href="css/ofertas.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/botui/0.2.1/botui.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/botui/0.2.1/botui-theme-default.css" rel="stylesheet">
 </head>
 
 <body class="bg-gray-50">
@@ -68,7 +71,7 @@
                 </div>
             </div>
 
-            <!-- Bottom Navigation -->
+            <!-- Bottom Nav -->
             <div class="fixed bottom-0 left-0 w-screen z-50 right-0">
                 <div class="w-full h-3 bg-white"></div>
                 <div class="relative bg-green overflow-hidden">
@@ -88,7 +91,9 @@
                             <img src="recursos/iconos/solido/general/etiqueta.svg" alt="Ofertas"
                                 class="w-6 h-6 mb-1 svg-gray-300">
                         </button>
-                        <button class="w-10 h-10 flex items-center justify-center bg-white text-green rounded-full shadow-lg transition-colors relative z-20 mx-auto" onclick="setActiveTab(this, 2, 'mobile')">
+                        <button
+                            class="w-10 h-10 flex items-center justify-center bg-white text-green rounded-full shadow-lg transition-colors relative z-20 mx-auto"
+                            onclick="setActiveTab(this, 2, 'mobile')">
                             <img src="recursos/iconos/solido/interfaz/mas.svg" alt="Agregar" class="w-4 h-4 svg-green">
                         </button>
                         <button class="flex flex-col items-center py-2 text-gray-300 transition-colors"
@@ -109,7 +114,7 @@
 
     <!-- LAYOUT DESKTOP (lg y superior) -->
     <div class="hidden lg:block">
-        <!-- Sidebar Navigation -->
+        <!-- Sidebar Nav -->
         <div class="desktop-sidebar bg-white border-r border-gray-200 custom-scrollbar overflow-y-auto">
             <!-- Header del sidebar -->
             <div class="p-6 border-b border-gray-100">
@@ -144,7 +149,8 @@
                         <a href="index.html"
                             class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-green hover:bg-gray-50 smooth-transition"
                             onclick="setDesktopActiveNav(this)">
-                            <img src="recursos/iconos/contorno/general/inicio.svg" alt="Inicio" class="w-5 h-5 svg-green">
+                            <img src="recursos/iconos/contorno/general/inicio.svg" alt="Inicio"
+                                class="w-5 h-5 svg-green">
                             <span>Inicio</span>
                         </a>
                     </li>
@@ -152,12 +158,13 @@
                         <a href="ofertas.html"
                             class="desktop-nav-item active flex items-center space-x-3 px-4 py-3 rounded-lg bg-green text-white"
                             onclick="setDesktopActiveNav(this)">
-                            <img src="recursos/iconos/solido/general/etiqueta.svg" alt="Ofertas" class="w-5 h-5 svg-white">
+                            <img src="recursos/iconos/solido/general/etiqueta.svg" alt="Ofertas"
+                                class="w-5 h-5 svg-white">
                             <span>Ofertas</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#"
+                        <a href="perfil.html"
                             class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-green hover:bg-gray-50 smooth-transition"
                             onclick="setDesktopActiveNav(this)">
                             <img src="recursos/iconos/contorno/comunicacion/usuario.svg" alt="Perfil"
@@ -167,11 +174,12 @@
                     </li>
                 </ul>
             </nav>
+            <div class="p-6 border-t border-gray-100 mt-4"></div>
         </div>
 
-        <!-- Main Content Area -->
+        <!-- Contenido principal -->
         <div class="desktop-main custom-scrollbar overflow-y-auto">
-            <!-- Top Header -->
+            <!-- Top -->
             <header class="bg-white border-b border-gray-200 px-20 py-4 sticky top-0 z-40">
                 <div class="flex items-center justify-between">
                     <!-- Barra de búsqueda expandida -->
@@ -187,7 +195,8 @@
                     <!-- Botón Nueva publicación centrado -->
                     <div class="mx-8">
                         <button
-                            class="bg-green text-white px-4 h-8 rounded-full smooth-transition flex items-center text-sm">
+                            class="bg-green text-white px-4 h-8 rounded-full smooth-transition flex items-center text-sm"
+                            onclick="window.location.href='nuevo_producto.html'">
                             <img src="recursos/iconos/solido/interfaz/mas.svg" alt="Publicar"
                                 class="w-3 h-3 svg-white mr-2">
                             Nueva publicación
@@ -211,38 +220,32 @@
                                 <button
                                     class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition"
                                     id="menu-button" onclick="showDropdown()" aria-expanded="true" aria-haspopup="true">
-                                        <img src="recursos/iconos/solido/comunicacion/usuario.svg" alt="Usuario"
+                                    <img src="recursos/iconos/solido/comunicacion/usuario.svg" alt="Usuario"
                                         class="w-5 h-5 svg-gray-800">
                                 </button>
                             </div>
                             <div id="menu"
-                                class="hidden absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden"
-                                role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                                <div class="flex dropDownProfileConteiner">
-                                    <img class="rounded-full w-12 h-12 ml-2 mt-2 mb-2"
-                                        src="recursos/imagenes/josegimenez.jpg">
-                                    <div>
-                                        <div class="mt-5 ml-4">José Martínez</div>
-                                        <p class="ml-4 text-xs text-green">jsemartinez@gmail</p>
-                                    </div>
-                                </div>
-                                <div class="py-1" role="none">
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 flex" role="menuitem"
-                                        tabindex="-1" id="menu-item-5">
-                                        <img src="recursos/iconos/contorno/interfaz/configuracion.svg" alt="Configuración"
-                                            class="w-4 h-4 svg-gray-400 mr-2">
-                                        Configuración
-                                    </a>
-                                </div>
-                                <div class="py-1" role="none">
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 flex" role="menuitem"
-                                        tabindex="-1" id="menu-item-6" onclick="window.location.href='iniciarsesion.html'">
-                                        <img src="recursos/iconos/contorno/interfaz/cerrar_sesion.svg" alt="Cerrar sesión"
-                                            class="w-4 h-4 svg-red-400 mr-2">
-                                        Cerrar sesión
-                                    </a>
-                                </div>
-                            </div>
+                class="hidden absolute right-4 z-10 mt-2 w-72 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden p-6 pr-6"
+                role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                <div class="flex items-center gap-x-4 mb-4 dropDownProfileConteiner">
+                  <img class="rounded-full w-12 h-12" src="recursos/imagenes/josegimenez.jpg">
+                  <div>
+                    <div class="font-medium text-base text-gray-800">José Martínez</div>
+                    <p class="text-xs text-green">jsemartinez@gmail</p>
+                  </div>
+                </div>
+                <div class="py-1" role="none">
+                  <a href="#" class="block px-4 py-2 text-sm text-gray-600 flex items-center" role="menuitem" tabindex="-1"
+                    id="menu-item-5"> <img src="recursos/iconos/contorno/interfaz/configuracion.svg" alt="Configuración"
+                      class="w-4 h-4 svg-gray-800 mr-2 mb-3 mt-3">Configuración</a>
+                </div>
+                <div class="py-1 pt-3" role="none">
+                  <a href="#" class="block px-4 py-2 text-sm text-gray-600 flex items-center" role="menuitem" tabindex="-1"
+                    id="menu-item-6" onclick="window.location.href='iniciarsesion.html'">
+                    <img src="recursos/iconos/contorno/interfaz/cerrar_sesion.svg" alt="Cerrar sesión"
+                      class="w-4 h-4 svg-red-400 mr-2 self-center">Cerrar sesión</a>
+                </div>
+              </div>
                         </div>
                     </div>
                 </div>
@@ -265,12 +268,21 @@
                 <div class="grid grid-cols-1 xl:grid-cols-2 gap-8" id="desktop-offers">
                     <!-- Las ofertas se generarán dinámicamente -->
                 </div>
-            </main>
         </div>
+        <!-- contenedor chatbot -->
+        <div id="chatbot-container"
+            class="hidden fixed w-80 h-96 bg-white rounded-lg shadow-xl border p-4 overflow-y-auto z-50 bottom-[5.75rem] right-0 -translate-x-[10px]">
+            <div id="botui-app">
+                <bot-ui></bot-ui>
+            </div>
+        </div>
+        </main>
     </div>
-
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/botui/0.2.1/botui.min.js"></script>
     <script src="js/ofertas.js"></script>
     <script src="js/principal.js"></script>
+    <script src="js/inicio.js"></script>
 </body>
 
 </html>

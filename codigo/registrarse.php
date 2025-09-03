@@ -160,6 +160,6 @@
     </div>
   </div>
 
-  <script src="js/scriptregistrar.js"></script>
+  <script src="js/registrarse.js"></script>
 </body>
 </html>

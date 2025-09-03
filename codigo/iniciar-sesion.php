@@ -161,6 +161,6 @@
         </div>
     </div>
 
-    <script src="js/scriptiniciar.js"></script>
+    <script src="js/inicio-sesion.js"></script>
 </body>
 </html>

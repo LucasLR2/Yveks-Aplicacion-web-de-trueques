@@ -1,3 +1,7 @@
+<?php
+  session_start();
+  $usuarioLogeado = isset($_SESSION['nombre']);
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -157,7 +161,7 @@
           </div>
           <div class="flex py-2 relative z-10">
             <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
-              onclick="setActiveTab(this, 0, 'mobile'); window.location.href='index.html'">
+              onclick="setActiveTab(this, 0, 'mobile'); window.location.href='index.php'">
               <img src="recursos/iconos/contorno/general/inicio.svg" alt="Inicio" class="w-6 h-6 mb-1 svg-gray-300">
             </button>
             <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
@@ -215,7 +219,7 @@
       <nav class="p-6">
         <ul class="space-y-2">
           <li>
-            <a href="index.html"
+            <a href="index.php"
               class="desktop-nav-item active flex items-center space-x-3 px-4 py-3 rounded-lg bg-green text-white"
               onclick="setDesktopActiveNav(this)">
               <img src="recursos/iconos/solido/general/inicio.svg" alt="Inicio" class="w-5 h-5 svg-white">
@@ -309,7 +313,7 @@
       <header class="bg-white border-b border-gray-200 px-20 py-4 sticky top-0 z-40">
         <div class="flex items-center justify-between">
           <!-- Barra de búsqueda expandida -->
-          <div class="flex-1 max-w-2xl">
+          <div class="flex-1 max-w-2xl mr-6">
             <div class="relative">
               <img src="recursos/iconos/solido/interfaz/buscar.svg" alt="Buscar"
                 class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 svg-green">
@@ -318,17 +322,16 @@
             </div>
           </div>
 
-          <!-- Botón Nueva publicación centrado -->
-          <div class="mx-8">
-            <button class="bg-green text-white px-4 h-8 rounded-full smooth-transition flex items-center text-sm"
+          <!-- Contenedor derecho con botón y acciones -->
+          <div class="flex items-center space-x-4 flex-shrink-0">
+            <!-- Botón Nueva publicación -->
+            <button class="bg-green text-white px-4 h-8 rounded-full smooth-transition flex items-center text-sm whitespace-nowrap"
               onclick="window.location.href='nuevo_producto.html'">
               <img src="recursos/iconos/solido/interfaz/mas.svg" alt="Publicar" class="w-3 h-3 svg-white mr-2">
               Nueva publicación
             </button>
-          </div>
 
-          <!-- Acciones del header -->
-          <div class="flex items-center space-x-4">
+            <!-- Acciones del header -->
             <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition">
               <img src="recursos/iconos/solido/comunicacion/comentario.svg" alt="Comentarios" class="w-5 h-5 svg-gray-800">
             </button>

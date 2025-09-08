@@ -1028,27 +1028,51 @@ function filtrarProductos(consulta) {
     }
 }
 
-// Función para mostrar/ocultar dropdown del menú
+// Función para mostrar/ocultar dropdown del menú - Mejorada para elementos dinámicos
 function showDropdown() {
     const menu = document.getElementById('menu');
-    menu.classList.toggle('hidden');
+    if (menu) {
+        // Si el menú existe, alternar su visibilidad
+        if (menu.classList.contains('hidden')) {
+            menu.classList.remove('hidden');
+        } else {
+            // Si el menú ya está visible, ocultarlo
+            menu.classList.add('hidden');
+        }
+    } else {
+        // Si el menú no existe, significa que el HTML se generó dinámicamente
+        // y necesitamos esperar un momento para que esté disponible
+        setTimeout(() => {
+            const menuRetry = document.getElementById('menu');
+            if (menuRetry) {
+                menuRetry.classList.remove('hidden');
+            }
+        }, 10);
+    }
+}
+
+// Función auxiliar para cerrar todos los dropdowns abiertos
+function cerrarTodosLosDropdowns() {
+    // Cerrar menú si está abierto
+    const menu = document.getElementById('menu');
+    if (menu && !menu.classList.contains('hidden')) {
+        menu.classList.add('hidden');
+    }
+    
+    // Cerrar notificaciones desktop
+    const desktopDropdown = document.getElementById('desktop-notifications-dropdown');
+    if (desktopDropdown && !desktopDropdown.classList.contains('hidden')) {
+        toggleNotificationsDesktop();
+    }
 }
 
 // ========== EVENT LISTENERS ==========
 
 // Close notifications when clicking outside
 document.addEventListener('click', function(event) {
-    const mobileDropdown = document.getElementById('mobile-notifications-dropdown');
+    // === NOTIFICACIONES ===
     const desktopDropdown = document.getElementById('desktop-notifications-dropdown');
-    const mobileButton = document.querySelector('[onclick="toggleNotificationsMobile()"]');
     const desktopButton = document.querySelector('[onclick="toggleNotificationsDesktop()"]');
-    
-    // Close mobile dropdown if clicking outside
-    if (mobileDropdown && !mobileDropdown.classList.contains('hidden')) {
-        if (!mobileDropdown.contains(event.target) && !mobileButton.contains(event.target)) {
-            toggleNotificationsMobile();
-        }
-    }
     
     // Close desktop dropdown if clicking outside
     if (desktopDropdown && !desktopDropdown.classList.contains('hidden')) {
@@ -1057,11 +1081,18 @@ document.addEventListener('click', function(event) {
         }
     }
     
-    // Close menu dropdown when clicking outside
+    // === MENÚ DROPDOWN (usando event delegation) ===
     const menu = document.getElementById('menu');
     const menuButton = document.getElementById('menu-button');
     
-    if (menu && !menu.contains(event.target) && (!menuButton || !menuButton.contains(event.target))) {
+    // Usar event delegation para manejar clics en el botón del menú
+    if (event.target.closest('#menu-button') || event.target.closest('[onclick*="showDropdown"]')) {
+        // Si se hace clic en el botón del menú, no hacer nada aquí (será manejado por showDropdown())
+        return;
+    }
+    
+    // Cerrar menú si se hace clic fuera y el menú existe
+    if (menu && !menu.contains(event.target)) {
         menu.classList.add('hidden');
     }
 });
@@ -1137,9 +1168,86 @@ function crearPopupAccesoRestringido() {
     }
 }
 
-// Llamar a la función para crear el popup al cargar la página
+// Verificación de sesión mejorada con manejo de dropdown
 document.addEventListener('DOMContentLoaded', function() {
+    const contenedor = document.getElementById('desktop-header-actions');
     
+    // Se verifica sesión en el servidor
+    fetch('verificar-sesion.php')
+        .then(response => response.json())
+        .then(data => {
+            if(data.logueado) {
+                // Usuario con sesión
+                contenedor.innerHTML = `
+                    <!-- Botón Nueva publicación -->
+                    <button class="bg-green text-white px-4 h-8 rounded-full smooth-transition flex items-center text-sm whitespace-nowrap"
+                    onclick="window.location.href='nuevo_producto.html'">
+                    <img src="recursos/iconos/solido/interfaz/mas.svg" alt="Publicar" class="w-3 h-3 svg-white mr-2">
+                    Nueva publicación
+                    </button>
+
+                    <!-- Boton chat -->
+                    <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition">
+                    <img src="recursos/iconos/solido/comunicacion/comentario.svg" alt="Comentarios" class="w-5 h-5 svg-gray-800">
+                    </button>
+
+                    <!-- Boton notificaciones -->
+                    <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition">
+                    <img src="recursos/iconos/solido/estado/notificacion.svg" alt="Notificaciones"
+                        class="w-5 h-5 svg-gray-800">
+                    </button>
+                    
+                    <!-- Perfil con dropdown -->
+                    <div class="relative inline-block text-left">
+                    <div>
+                        <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition"
+                        id="menu-button" onclick="showDropdown()" aria-expanded="true" aria-haspopup="true">
+                        <img src="recursos/iconos/solido/comunicacion/usuario.svg" alt="Usuario" class="w-5 h-5 svg-gray-800">
+                        </button>
+                    </div>
+
+                    <div id="menu"
+                        class="hidden absolute right-4 z-10 mt-2 w-72 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden p-6 pr-6"
+                        role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                        <div class="flex items-center gap-x-4 mb-4 dropDownProfileConteiner">
+                        <img class="rounded-full w-12 h-12" src="recursos/imagenes/josegimenez.jpg">
+                        <div>
+                            <div class="font-medium text-base text-gray-800">José Martínez</div>
+                            <p class="text-xs text-green">jsemartinez@gmail</p>
+                        </div>
+                        </div>
+                        <div class="py-1" role="none">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-600 flex items-center" role="menuitem" tabindex="-1"
+                            id="menu-item-5"> <img src="recursos/iconos/contorno/interfaz/configuracion.svg" alt="Configuración"
+                            class="w-4 h-4 svg-gray-800 mr-2 mb-3 mt-3">Configuración</a>
+                        </div>
+                        <div class="py-1 pt-3" role="none">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-600 flex items-center" role="menuitem" tabindex="-1"
+                            id="menu-item-6" onclick="window.location.href='iniciar-sesion.php'"> <!-- En el futuro cambiar a cerrar-sesion.php, por ahora no -->
+                            <img src="recursos/iconos/contorno/interfaz/cerrar_sesion.svg" alt="Cerrar sesión"
+                            class="w-4 h-4 svg-red-400 mr-2 self-center">Cerrar sesión</a>
+                        </div>
+                    </div>
+                    </div>
+                `;
+            } else {
+                // Usuario sin sesión → se muestran botones de iniciar sesión y registrarse
+                contenedor.innerHTML = `
+                    <button class="bg-green text-white px-4 h-8 rounded-full smooth-transition flex items-center text-sm whitespace-nowrap mr-2"
+                      onclick="window.location.href='iniciar-sesion.php'">
+                      <img src="recursos/iconos/solido/comunicacion/usuario.svg" alt="Iniciar sesión" class="w-3 h-3 svg-white mr-2">
+                      Iniciar sesión
+                    </button>
+                    <button class="bg-white text-green border border-green px-4 h-8 rounded-full smooth-transition flex items-center text-sm whitespace-nowrap hover:bg-green hover:text-white group"
+                      onclick="window.location.href='registrarse.php'">
+                      <img src="recursos/iconos/solido/interfaz/mas.svg" alt="Registrarse" class="w-3 h-3 svg-green group-hover:svg-white mr-2">
+                      Registrarse
+                    </button>
+                `;
+                
+            }
+        })
+    .catch(error => console.error('Error verificando sesión:', error));
 });
 
 // chatbot

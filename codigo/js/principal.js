@@ -173,16 +173,3 @@ document.addEventListener("DOMContentLoaded", function () {
     setActiveTab(primerTabMovil, 0, "mobile");
   }
 });
-
-const menu = document.getElementById("menu");
-const button = document.getElementById("menu-button");
-
-function showDropdown() {
-  menu.classList.toggle("hidden");
-}
-
-document.addEventListener("click", (event) => {
-  if (!menu.contains(event.target) && !button.contains(event.target)) {
-    menu.classList.add("hidden");
-  }
-});

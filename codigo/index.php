@@ -323,53 +323,8 @@
           </div>
 
           <!-- Contenedor derecho con botón y acciones -->
-          <div class="flex items-center space-x-4 flex-shrink-0">
-            <!-- Botón Nueva publicación -->
-            <button class="bg-green text-white px-4 h-8 rounded-full smooth-transition flex items-center text-sm whitespace-nowrap"
-              onclick="window.location.href='nuevo_producto.html'">
-              <img src="recursos/iconos/solido/interfaz/mas.svg" alt="Publicar" class="w-3 h-3 svg-white mr-2">
-              Nueva publicación
-            </button>
-
-            <!-- Acciones del header -->
-            <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition">
-              <img src="recursos/iconos/solido/comunicacion/comentario.svg" alt="Comentarios" class="w-5 h-5 svg-gray-800">
-            </button>
-            <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition">
-              <img src="recursos/iconos/solido/estado/notificacion.svg" alt="Notificaciones"
-                class="w-5 h-5 svg-gray-800">
-            </button>
-            <div class="relative inline-block text-left">
-              <div>
-                <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition"
-                  id="menu-button" onclick="showDropdown()" aria-expanded="true" aria-haspopup="true">
-                  <img src="recursos/iconos/solido/comunicacion/usuario.svg" alt="Usuario" class="w-5 h-5 svg-gray-800">
-                </button>
-              </div>
-
-              <div id="menu"
-                class="hidden absolute right-4 z-10 mt-2 w-72 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden p-6 pr-6"
-                role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                <div class="flex items-center gap-x-4 mb-4 dropDownProfileConteiner">
-                  <img class="rounded-full w-12 h-12" src="recursos/imagenes/josegimenez.jpg">
-                  <div>
-                    <div class="font-medium text-base text-gray-800">José Martínez</div>
-                    <p class="text-xs text-green">jsemartinez@gmail</p>
-                  </div>
-                </div>
-                <div class="py-1" role="none">
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-600 flex items-center" role="menuitem" tabindex="-1"
-                    id="menu-item-5"> <img src="recursos/iconos/contorno/interfaz/configuracion.svg" alt="Configuración"
-                      class="w-4 h-4 svg-gray-800 mr-2 mb-3 mt-3">Configuración</a>
-                </div>
-                <div class="py-1 pt-3" role="none">
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-600 flex items-center" role="menuitem" tabindex="-1"
-                    id="menu-item-6" onclick="window.location.href='iniciar-sesion.php'"> <!-- En el futuro cambiar a cerrar-sesion.php, por ahora no -->
-                    <img src="recursos/iconos/contorno/interfaz/cerrar_sesion.svg" alt="Cerrar sesión"
-                      class="w-4 h-4 svg-red-400 mr-2 self-center">Cerrar sesión</a>
-                </div>
-              </div>
-            </div>
+          <div class="flex items-center space-x-4 flex-shrink-0" id="desktop-header-actions">
+            
           </div>
         </div>
       </header>

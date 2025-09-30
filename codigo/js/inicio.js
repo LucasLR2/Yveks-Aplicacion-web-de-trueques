@@ -1028,27 +1028,51 @@ function filtrarProductos(consulta) {
     }
 }
 
-// Función para mostrar/ocultar dropdown del menú
+// Función para mostrar/ocultar dropdown del menú - Mejorada para elementos dinámicos
 function showDropdown() {
     const menu = document.getElementById('menu');
-    menu.classList.toggle('hidden');
+    if (menu) {
+        // Si el menú existe, alternar su visibilidad
+        if (menu.classList.contains('hidden')) {
+            menu.classList.remove('hidden');
+        } else {
+            // Si el menú ya está visible, ocultarlo
+            menu.classList.add('hidden');
+        }
+    } else {
+        // Si el menú no existe, significa que el HTML se generó dinámicamente
+        // y necesitamos esperar un momento para que esté disponible
+        setTimeout(() => {
+            const menuRetry = document.getElementById('menu');
+            if (menuRetry) {
+                menuRetry.classList.remove('hidden');
+            }
+        }, 10);
+    }
+}
+
+// Función auxiliar para cerrar todos los dropdowns abiertos
+function cerrarTodosLosDropdowns() {
+    // Cerrar menú si está abierto
+    const menu = document.getElementById('menu');
+    if (menu && !menu.classList.contains('hidden')) {
+        menu.classList.add('hidden');
+    }
+    
+    // Cerrar notificaciones desktop
+    const desktopDropdown = document.getElementById('desktop-notifications-dropdown');
+    if (desktopDropdown && !desktopDropdown.classList.contains('hidden')) {
+        toggleNotificationsDesktop();
+    }
 }
 
 // ========== EVENT LISTENERS ==========
 
 // Close notifications when clicking outside
 document.addEventListener('click', function(event) {
-    const mobileDropdown = document.getElementById('mobile-notifications-dropdown');
+    // === NOTIFICACIONES ===
     const desktopDropdown = document.getElementById('desktop-notifications-dropdown');
-    const mobileButton = document.querySelector('[onclick="toggleNotificationsMobile()"]');
     const desktopButton = document.querySelector('[onclick="toggleNotificationsDesktop()"]');
-    
-    // Close mobile dropdown if clicking outside
-    if (mobileDropdown && !mobileDropdown.classList.contains('hidden')) {
-        if (!mobileDropdown.contains(event.target) && !mobileButton.contains(event.target)) {
-            toggleNotificationsMobile();
-        }
-    }
     
     // Close desktop dropdown if clicking outside
     if (desktopDropdown && !desktopDropdown.classList.contains('hidden')) {
@@ -1057,11 +1081,18 @@ document.addEventListener('click', function(event) {
         }
     }
     
-    // Close menu dropdown when clicking outside
+    // === MENÚ DROPDOWN (usando event delegation) ===
     const menu = document.getElementById('menu');
     const menuButton = document.getElementById('menu-button');
     
-    if (menu && !menu.contains(event.target) && (!menuButton || !menuButton.contains(event.target))) {
+    // Usar event delegation para manejar clics en el botón del menú
+    if (event.target.closest('#menu-button') || event.target.closest('[onclick*="showDropdown"]')) {
+        // Si se hace clic en el botón del menú, no hacer nada aquí (será manejado por showDropdown())
+        return;
+    }
+    
+    // Cerrar menú si se hace clic fuera y el menú existe
+    if (menu && !menu.contains(event.target)) {
         menu.classList.add('hidden');
     }
 });
@@ -1107,39 +1138,190 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+
+
 // Funcion para impedir el acceso a usuarios no registrados
-function crearPopupAccesoRestringido() {
-    // Crear el elemento del popup
-    const popup = document.createElement('div');
-    popup.id = 'popup';
-    popup.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-    
-    popup.innerHTML = `
-        <div class="bg-white rounded-xl p-6 shadow-lg text-center max-w-sm">
-            <h2 class="text-xl font-bold mb-4">Acceso restringido</h2>
-            <p class="mb-4">Debes iniciar sesión para acceder a esta sección.</p>
-            <div class="flex justify-center gap-4">
-                <a href="iniciarsesion.html" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Iniciar sesión</a>
-                <button id="cerrarPopup" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Volver</button>
-            </div>
-        </div>
-    `;
-    
-    // Añadir el popup como hijo del body
-    document.body.appendChild(popup);
-    
-    // Añadir evento al botón de cerrar
-    const botonCerrar = document.getElementById('cerrarPopup');
-    if (botonCerrar) {
-        botonCerrar.addEventListener('click', function() {
-            popup.remove();
-        });
-    }
+function Verificacion(destino, elemento) {
+    // Se verifica sesión en el servidor
+    fetch('verificar-sesion.php')
+        .then(response => response.json())
+        .then(data => {
+            if(data.logueado) {
+                // Usuario con sesión
+                console.log('Usuario con sesión, no se muestra popup.');
+                window.location.href = destino; // Redirigir a la página de destino
+            } else {
+                // Usuario sin sesión → se muestra popup y se bloquea interacción
+                console.log('Usuario sin sesión, mostrando popup de acceso restringido.');
+                // Crear el elemento del popup
+                const popup = document.createElement('div');
+                popup.id = 'popup';
+                popup.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+
+                popup.innerHTML = `
+                    <div class="bg-white rounded-xl p-6 shadow-lg text-center max-w-sm">
+                        <h2 class="text-xl font-bold mb-4">Acceso restringido</h2>
+                        <p class="mb-4">Debes iniciar sesión para acceder a esta sección.</p>
+                        <div class="flex justify-center gap-4">
+                            <a href="iniciarsesion.html" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Iniciar sesión</a>
+                            <button id="cerrarPopup" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Volver</button>
+                        </div>
+                    </div>
+                `;
+
+                // Añadir el popup como hijo del body
+                document.body.appendChild(popup);
+
+                // Añadir evento al botón de cerrar
+                const botonCerrar = document.getElementById('cerrarPopup');
+                if (botonCerrar) {
+                    botonCerrar.addEventListener('click', function() {
+                        popup.remove();
+                        // Activar el botón de Inicio después de cerrar el popup
+                        const botonInicio = document.getElementById('inicio');
+                        if (botonInicio) {
+                            setDesktopActiveNav(botonInicio);
+                        }
+                    });
+                }
+            }
+        })
+    .catch(error => console.error('Error verificando sesión:', error));
 }
 
-// Llamar a la función para crear el popup al cargar la página
+// Función de navegación escritorio
+function setDesktopActiveNav(elemento) {
+  document.querySelectorAll(".desktop-nav-item").forEach((item) => {
+    item.classList.remove("active", "bg-green", "text-white");
+    item.classList.add("text-green", "hover:bg-gray-50");
+    // Cambiar iconos a Outline
+    const icono = item.querySelector("img");
+    if (icono) {
+      cambiarIconoAOutline(icono);
+      icono.classList.remove("svg-white");
+      icono.classList.add("svg-green");
+    }
+  });
+  elemento.classList.remove("text-green", "hover:bg-gray-50");
+  elemento.classList.add("active", "bg-green", "text-white");
+  // Cambiar icono a Solid
+  const icono = elemento.querySelector("img");
+  if (icono) {
+    cambiarIconoASolid(icono);
+    icono.classList.remove("svg-green");
+    icono.classList.add("svg-white");
+  }
+}
+
+// Función para cambiar icono a Outline
+function cambiarIconoAOutline(icono) {
+  const src = icono.src;
+  if (src.includes("/solido/")) {
+    const nuevoSrc = src.replace("/solido/", "/contorno/");
+    icono.src = nuevoSrc;
+  }
+}
+
+// Función para cambiar icono a Solid
+function cambiarIconoASolid(icono) {
+  const src = icono.src;
+  if (src.includes("/contorno/")) {
+    const nuevoSrc = src.replace("/contorno/", "/solido/");
+    icono.src = nuevoSrc;
+  }
+}
+
+// Función genérica para manejar iconos SVG
+function obtenerIconoVectorial(nombre, opciones = {}) {
+  const {
+    tamano = "w-5 h-5",
+    color = "primario",
+    alt = nombre,
+    colorPersonalizado = null,
+  } = opciones;
+  return `<img src="recursos/iconos/contorno/${nombre}.svg" alt="${alt}" class="${tamano} svg-green">`;
+}
+
+// Verificación de sesión para mostrar botones de usuario en el header
 document.addEventListener('DOMContentLoaded', function() {
+    const contenedor = document.getElementById('desktop-header-actions');
     
+    // Se verifica sesión en el servidor
+    fetch('verificar-sesion.php')
+        .then(response => response.json())
+        .then(data => {
+            if(data.logueado) {
+                // Usuario con sesión
+                contenedor.innerHTML = `
+                    <!-- Botón Nueva publicación -->
+                    <button class="bg-green text-white px-4 h-8 rounded-full smooth-transition flex items-center text-sm whitespace-nowrap"
+                    onclick="window.location.href='nuevo_producto.html'">
+                    <img src="recursos/iconos/solido/interfaz/mas.svg" alt="Publicar" class="w-3 h-3 svg-white mr-2">
+                    Nueva publicación
+                    </button>
+
+                    <!-- Boton chat -->
+                    <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition">
+                    <img src="recursos/iconos/solido/comunicacion/comentario.svg" alt="Comentarios" class="w-5 h-5 svg-gray-800">
+                    </button>
+
+                    <!-- Boton notificaciones -->
+                    <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition">
+                    <img src="recursos/iconos/solido/estado/notificacion.svg" alt="Notificaciones"
+                        class="w-5 h-5 svg-gray-800">
+                    </button>
+                    
+                    <!-- Perfil con dropdown -->
+                    <div class="relative inline-block text-left">
+                    <div>
+                        <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition"
+                        id="menu-button" onclick="showDropdown()" aria-expanded="true" aria-haspopup="true">
+                        <img src="recursos/iconos/solido/comunicacion/usuario.svg" alt="Usuario" class="w-5 h-5 svg-gray-800">
+                        </button>
+                    </div>
+
+                    <div id="menu"
+                        class="hidden absolute right-4 z-10 mt-2 w-72 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden p-6 pr-6"
+                        role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                        <div class="flex items-center gap-x-4 mb-4 dropDownProfileConteiner">
+                        <img class="rounded-full w-12 h-12" src="recursos/imagenes/josegimenez.jpg">
+                        <div>
+                            <div class="font-medium text-base text-gray-800">José Martínez</div>
+                            <p class="text-xs text-green">jsemartinez@gmail</p>
+                        </div>
+                        </div>
+                        <div class="py-1" role="none">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-600 flex items-center" role="menuitem" tabindex="-1"
+                            id="menu-item-5"> <img src="recursos/iconos/contorno/interfaz/configuracion.svg" alt="Configuración"
+                            class="w-4 h-4 svg-gray-800 mr-2 mb-3 mt-3">Configuración</a>
+                        </div>
+                        <div class="py-1 pt-3" role="none">
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-600 flex items-center" role="menuitem" tabindex="-1"
+                            id="menu-item-6" onclick="window.location.href='cerrar-sesion.php'">
+                            <img src="recursos/iconos/contorno/interfaz/cerrar_sesion.svg" alt="Cerrar sesión"
+                            class="w-4 h-4 svg-red-400 mr-2 self-center">Cerrar sesión</a>
+                        </div>
+                    </div>
+                    </div>
+                `;
+            } else {
+                // Usuario sin sesión → se muestran botones de iniciar sesión y registrarse
+                contenedor.innerHTML = `
+                    <button class="bg-green text-white px-4 h-8 rounded-full smooth-transition flex items-center text-sm whitespace-nowrap mr-2"
+                      onclick="window.location.href='iniciar-sesion.php'">
+                      <img src="recursos/iconos/solido/comunicacion/usuario.svg" alt="Iniciar sesión" class="w-3 h-3 svg-white mr-2">
+                      Iniciar sesión
+                    </button>
+                    <button class="bg-white text-green border border-green px-4 h-8 rounded-full smooth-transition flex items-center text-sm whitespace-nowrap hover:bg-green hover:text-white group"
+                      onclick="window.location.href='registrarse.php'">
+                      <img src="recursos/iconos/solido/interfaz/mas.svg" alt="Registrarse" class="w-3 h-3 svg-green group-hover:svg-white mr-2">
+                      Registrarse
+                    </button>
+                `;
+                
+            }
+        })
+    .catch(error => console.error('Error verificando sesión:', error));
 });
 
 // chatbot

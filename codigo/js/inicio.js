@@ -1184,13 +1184,6 @@ function Verificacion(destino, elemento) {
                         }
                     });
                 }
-                /*
-                // Activar el botón de Inicio inmediatamente cuando se muestra el popup
-                const botonInicio = document.getElementById('inicio');
-                if (botonInicio) {
-                    setDesktopActiveNav(botonInicio);
-                }
-                    */
             }
         })
     .catch(error => console.error('Error verificando sesión:', error));

@@ -27,9 +27,6 @@ Crear una aplicación web que permita a los usuarios intercambiar artículos de 
     - **vistas/**: Contienen la interfaz de usuario (HTML con PHP). Se dividen en:  
       - **layouts/** → plantillas generales como *header, footer y menú dinámico*.  
       - **componentes/** → piezas reutilizables como *alertas, botones y modales*.  
-      - **usuario/** → vistas específicas para usuarios (*login, registro, perfil*).  
-      - **item/** → vistas de productos (*crear, ver, editar*).  
-      - **trueque/** → vistas de los intercambios (*crear propuesta, ver detalles*).  
 
   - **publico/**: Carpeta accesible desde el navegador.  
     - **css/** → hojas de estilo.  

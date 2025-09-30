@@ -104,59 +104,6 @@ function setActiveTab(elemento, indice, dispositivo) {
   }
 }
 
-// Función de navegación escritorio
-function setDesktopActiveNav(elemento) {
-  document.querySelectorAll(".desktop-nav-item").forEach((item) => {
-    item.classList.remove("active", "bg-green", "text-white");
-    item.classList.add("text-green", "hover:bg-gray-50");
-    // Cambiar iconos a Outline
-    const icono = item.querySelector("img");
-    if (icono) {
-      cambiarIconoAOutline(icono);
-      icono.classList.remove("svg-white");
-      icono.classList.add("svg-green");
-    }
-  });
-  elemento.classList.remove("text-green", "hover:bg-gray-50");
-  elemento.classList.add("active", "bg-green", "text-white");
-  // Cambiar icono a Solid
-  const icono = elemento.querySelector("img");
-  if (icono) {
-    cambiarIconoASolid(icono);
-    icono.classList.remove("svg-green");
-    icono.classList.add("svg-white");
-  }
-}
-
-// Función para cambiar icono a Outline
-function cambiarIconoAOutline(icono) {
-  const src = icono.src;
-  if (src.includes("/solido/")) {
-    const nuevoSrc = src.replace("/solido/", "/contorno/");
-    icono.src = nuevoSrc;
-  }
-}
-
-// Función para cambiar icono a Solid
-function cambiarIconoASolid(icono) {
-  const src = icono.src;
-  if (src.includes("/contorno/")) {
-    const nuevoSrc = src.replace("/contorno/", "/solido/");
-    icono.src = nuevoSrc;
-  }
-}
-
-// Función genérica para manejar iconos SVG
-function obtenerIconoVectorial(nombre, opciones = {}) {
-  const {
-    tamano = "w-5 h-5",
-    color = "primario",
-    alt = nombre,
-    colorPersonalizado = null,
-  } = opciones;
-  return `<img src="recursos/iconos/contorno/${nombre}.svg" alt="${alt}" class="${tamano} svg-green">`;
-}
-
 // Evento de redimensionamiento global
 window.addEventListener("resize", function () {
   // Aquí puedes agregar lógica global para el redimensionamiento

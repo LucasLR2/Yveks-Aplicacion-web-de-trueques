@@ -1138,37 +1138,118 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+
+
 // Funcion para impedir el acceso a usuarios no registrados
-function crearPopupAccesoRestringido() {
-    // Crear el elemento del popup
-    const popup = document.createElement('div');
-    popup.id = 'popup';
-    popup.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-    
-    popup.innerHTML = `
-        <div class="bg-white rounded-xl p-6 shadow-lg text-center max-w-sm">
-            <h2 class="text-xl font-bold mb-4">Acceso restringido</h2>
-            <p class="mb-4">Debes iniciar sesión para acceder a esta sección.</p>
-            <div class="flex justify-center gap-4">
-                <a href="iniciarsesion.html" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Iniciar sesión</a>
-                <button id="cerrarPopup" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Volver</button>
-            </div>
-        </div>
-    `;
-    
-    // Añadir el popup como hijo del body
-    document.body.appendChild(popup);
-    
-    // Añadir evento al botón de cerrar
-    const botonCerrar = document.getElementById('cerrarPopup');
-    if (botonCerrar) {
-        botonCerrar.addEventListener('click', function() {
-            popup.remove();
-        });
-    }
+function Verificacion(destino, elemento) {
+    // Se verifica sesión en el servidor
+    fetch('verificar-sesion.php')
+        .then(response => response.json())
+        .then(data => {
+            if(data.logueado) {
+                // Usuario con sesión
+                console.log('Usuario con sesión, no se muestra popup.');
+                window.location.href = destino; // Redirigir a la página de destino
+            } else {
+                // Usuario sin sesión → se muestra popup y se bloquea interacción
+                console.log('Usuario sin sesión, mostrando popup de acceso restringido.');
+                // Crear el elemento del popup
+                const popup = document.createElement('div');
+                popup.id = 'popup';
+                popup.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+
+                popup.innerHTML = `
+                    <div class="bg-white rounded-xl p-6 shadow-lg text-center max-w-sm">
+                        <h2 class="text-xl font-bold mb-4">Acceso restringido</h2>
+                        <p class="mb-4">Debes iniciar sesión para acceder a esta sección.</p>
+                        <div class="flex justify-center gap-4">
+                            <a href="iniciarsesion.html" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Iniciar sesión</a>
+                            <button id="cerrarPopup" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Volver</button>
+                        </div>
+                    </div>
+                `;
+
+                // Añadir el popup como hijo del body
+                document.body.appendChild(popup);
+
+                // Añadir evento al botón de cerrar
+                const botonCerrar = document.getElementById('cerrarPopup');
+                if (botonCerrar) {
+                    botonCerrar.addEventListener('click', function() {
+                        popup.remove();
+                        // Activar el botón de Inicio después de cerrar el popup
+                        const botonInicio = document.getElementById('inicio');
+                        if (botonInicio) {
+                            setDesktopActiveNav(botonInicio);
+                        }
+                    });
+                }
+                /*
+                // Activar el botón de Inicio inmediatamente cuando se muestra el popup
+                const botonInicio = document.getElementById('inicio');
+                if (botonInicio) {
+                    setDesktopActiveNav(botonInicio);
+                }
+                    */
+            }
+        })
+    .catch(error => console.error('Error verificando sesión:', error));
 }
 
-// Verificación de sesión mejorada con manejo de dropdown
+// Función de navegación escritorio
+function setDesktopActiveNav(elemento) {
+  document.querySelectorAll(".desktop-nav-item").forEach((item) => {
+    item.classList.remove("active", "bg-green", "text-white");
+    item.classList.add("text-green", "hover:bg-gray-50");
+    // Cambiar iconos a Outline
+    const icono = item.querySelector("img");
+    if (icono) {
+      cambiarIconoAOutline(icono);
+      icono.classList.remove("svg-white");
+      icono.classList.add("svg-green");
+    }
+  });
+  elemento.classList.remove("text-green", "hover:bg-gray-50");
+  elemento.classList.add("active", "bg-green", "text-white");
+  // Cambiar icono a Solid
+  const icono = elemento.querySelector("img");
+  if (icono) {
+    cambiarIconoASolid(icono);
+    icono.classList.remove("svg-green");
+    icono.classList.add("svg-white");
+  }
+}
+
+// Función para cambiar icono a Outline
+function cambiarIconoAOutline(icono) {
+  const src = icono.src;
+  if (src.includes("/solido/")) {
+    const nuevoSrc = src.replace("/solido/", "/contorno/");
+    icono.src = nuevoSrc;
+  }
+}
+
+// Función para cambiar icono a Solid
+function cambiarIconoASolid(icono) {
+  const src = icono.src;
+  if (src.includes("/contorno/")) {
+    const nuevoSrc = src.replace("/contorno/", "/solido/");
+    icono.src = nuevoSrc;
+  }
+}
+
+// Función genérica para manejar iconos SVG
+function obtenerIconoVectorial(nombre, opciones = {}) {
+  const {
+    tamano = "w-5 h-5",
+    color = "primario",
+    alt = nombre,
+    colorPersonalizado = null,
+  } = opciones;
+  return `<img src="recursos/iconos/contorno/${nombre}.svg" alt="${alt}" class="${tamano} svg-green">`;
+}
+
+// Verificación de sesión para mostrar botones de usuario en el header
 document.addEventListener('DOMContentLoaded', function() {
     const contenedor = document.getElementById('desktop-header-actions');
     
@@ -1223,7 +1304,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <div class="py-1 pt-3" role="none">
                         <a href="#" class="block px-4 py-2 text-sm text-gray-600 flex items-center" role="menuitem" tabindex="-1"
-                            id="menu-item-6" onclick="window.location.href='iniciar-sesion.php'"> <!-- En el futuro cambiar a cerrar-sesion.php, por ahora no -->
+                            id="menu-item-6" onclick="window.location.href='cerrar-sesion.php'">
                             <img src="recursos/iconos/contorno/interfaz/cerrar_sesion.svg" alt="Cerrar sesión"
                             class="w-4 h-4 svg-red-400 mr-2 self-center">Cerrar sesión</a>
                         </div>

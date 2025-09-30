@@ -77,7 +77,6 @@ function mostrarAlerta(mensaje, contextoFormulario) {
     contenedor.classList.add('hidden');
   }, 5000);
 }
-// ...existing code...
 
 // Animación simple vía CSS inline
 if (!document.getElementById('login-alert-style')) {

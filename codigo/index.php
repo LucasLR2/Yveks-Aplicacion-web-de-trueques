@@ -219,28 +219,25 @@
       <nav class="p-6">
         <ul class="space-y-2">
           <li>
-            <a href="index.php"
-              class="desktop-nav-item active flex items-center space-x-3 px-4 py-3 rounded-lg bg-green text-white"
+            <div id="inicio" class="desktop-nav-item active flex items-center space-x-3 px-4 py-3 rounded-lg bg-green text-white cursor-pointer hover:bg-green-600 smooth-transition"
               onclick="setDesktopActiveNav(this)">
               <img src="recursos/iconos/solido/general/inicio.svg" alt="Inicio" class="w-5 h-5 svg-white">
               <span>Inicio</span>
-            </a>
+            </div>
           </li>
           <li>
-            <a href="ofertas.html"
-              class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-green hover:bg-gray-50 smooth-transition"
-              onclick="setDesktopActiveNav(this);">
+            <div class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-green hover:bg-gray-50 smooth-transition cursor-pointer"
+              onclick="Verificacion('ofertas.html', this); setDesktopActiveNav(this);">
               <img src="recursos/iconos/contorno/general/etiqueta.svg" alt="Ofertas" class="w-5 h-5 svg-green">
               <span>Ofertas</span>
-            </a>
+            </div>
           </li>
           <li>
-            <a href="perfil.html"
-              class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-green hover:bg-gray-50 smooth-transition"
-              onclick="crearPopupAccesoRestringido(this)">
+            <div class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-green hover:bg-gray-50 smooth-transition cursor-pointer"
+              onclick="Verificacion('perfil.html', this); setDesktopActiveNav(this)">
               <img src="recursos/iconos/contorno/comunicacion/usuario.svg" alt="Perfil" class="w-5 h-5 svg-green">
               <span>Perfil</span>
-            </a>
+            </div>
           </li>
         </ul>
       </nav>

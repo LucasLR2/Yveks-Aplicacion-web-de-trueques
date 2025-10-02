@@ -10,6 +10,33 @@ const mapaColores = {
   gris: "text-gray-600",
 };
 
+// Funciones para cambiar iconos entre solid y outline
+function cambiarIconoASolid(icono) {
+  if (!icono || !icono.src) return;
+  
+  const rutaActual = icono.src;
+  
+  // Si ya es solid, no hacer nada
+  if (rutaActual.includes('/solido/')) return;
+  
+  // Cambiar de contorno a sólido
+  const nuevaRuta = rutaActual.replace('/contorno/', '/solido/');
+  icono.src = nuevaRuta;
+}
+
+function cambiarIconoAOutline(icono) {
+  if (!icono || !icono.src) return;
+  
+  const rutaActual = icono.src;
+  
+  // Si ya es outline (contorno), no hacer nada
+  if (rutaActual.includes('/contorno/')) return;
+  
+  // Cambiar de sólido a contorno
+  const nuevaRuta = rutaActual.replace('/solido/', '/contorno/');
+  icono.src = nuevaRuta;
+}
+
 // Función de navegación móvil
 function setActiveTab(elemento, indice, dispositivo) {
   const idBurbuja =
@@ -112,11 +139,15 @@ window.addEventListener("resize", function () {
 
 // Inicialización global
 document.addEventListener("DOMContentLoaded", function () {
-  // Activar primera pestaña móvil por defecto
+  // Activar primera pestaña móvil por defecto (solo si existe)
   const primerTabMovil = document.querySelector(
     '[onclick*="setActiveTab"][onclick*="mobile"]'
   );
   if (primerTabMovil) {
-    setActiveTab(primerTabMovil, 0, "mobile");
+    try {
+      setActiveTab(primerTabMovil, 0, "mobile");
+    } catch(error) {
+      console.warn("Error al activar tab móvil:", error);
+    }
   }
 });

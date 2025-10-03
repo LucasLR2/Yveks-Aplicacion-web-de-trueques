@@ -23,23 +23,6 @@
   <div class="lg:hidden">
     <!-- Container principal para móvil -->
     <div class="w-full bg-white min-h-screen relative">
-      <!-- Header con ubicación -->
-      <div class="bg-white px-6 md:px-16 pb-2 pt-3">
-        <div class="flex flex-col">
-          <span class="text-xs text-gray-600 mb-0">Ubicación</span>
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-              <img src="recursos/iconos/solido/navegacion/ubicacion.svg" alt="Ubicación" class="w-5 h-5 svg-green">
-              <span class="text-sm text-gray-800">Montevideo, Uruguay</span>
-              <img src="recursos/iconos/solido/interfaz/flecha_abajo.svg" alt="Expandir" class="w-6 h-6 svg-gray-800">
-            </div>
-            <div class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center">
-              <img src="recursos/iconos/solido/estado/notificacion.svg" alt="Notificaciones"
-                class="w-5 h-5 svg-gray-800">
-            </div>
-          </div>
-        </div>
-      </div>
       <!-- Categorías -->
       <div class="px-6 md:px-16 mb-6">
         <h3 class="text-lg text-gray-800 mb-4">Categorías</h3>

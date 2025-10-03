@@ -27,7 +27,7 @@
 </div>
 
 <!-- HEADER DESKTOP -->
-<header class="bg-white border-b border-gray-200 px-20 py-4 sticky top-0 z-40" style="margin-left: 280px;">
+<header class="hidden lg:block bg-white border-b border-gray-200 px-20 py-4 sticky top-0 z-40" style="margin-left: 280px;">
   <div class="flex items-center justify-between">
     <!-- Barra de búsqueda expandida -->
     <div class="flex-1 max-w-2xl mr-6">

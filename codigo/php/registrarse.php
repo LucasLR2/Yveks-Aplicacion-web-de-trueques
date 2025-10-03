@@ -6,7 +6,7 @@
   <title>Registrarse</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
-  <link rel="stylesheet" href="css/estilos-generales.css"/>
+  <link rel="stylesheet" href="../css/estilos-generales.css"/>
 </head>
 <body class="bg-[#719177]">
 
@@ -57,13 +57,13 @@
           <!-- Iconos -->
           <div class="flex justify-center space-x-6">
             <button class="w-[64px] h-[64px] rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition">
-              <img src="recursos/iconos/apple.svg" alt="Apple" class="w-6 h-6">
+              <img src="../recursos/iconos/apple.svg" alt="Apple" class="w-6 h-6">
             </button>
             <button class="w-[64px] h-[64px] rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition">
-              <img src="recursos/iconos/google.svg" alt="Google" class="w-6 h-6">
+              <img src="../recursos/iconos/google.svg" alt="Google" class="w-6 h-6">
             </button>
             <button class="w-[64px] h-[64px] rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition">
-              <img src="recursos/iconos/microsoft.svg" alt="Microsoft" class="w-6 h-6">
+              <img src="../recursos/iconos/microsoft.svg" alt="Microsoft" class="w-6 h-6">
             </button>
           </div>
 
@@ -84,9 +84,9 @@
             <div id="carrusel" class="relative w-full h-full overflow-hidden rounded-[20px]">
                 <!-- Slides (sin imagenes aún) -->
                 <div class="flex transition-transform duration-700 ease-in-out w-full items-center" id="diapositivas">
-                    <img src="" class="w-full flex-shrink-0 object-cover" alt="Imagen de carrusel 1">
-                    <img src="" class="w-full flex-shrink-0 object-cover" alt="Imagen de carrusel 2">
-                    <img src="" class="w-full flex-shrink-0 object-cover" alt="Imagen de carrusel 3">
+                    <img src="../" class="w-full flex-shrink-0 object-cover" alt="Imagen de carrusel 1">
+                    <img src="../" class="w-full flex-shrink-0 object-cover" alt="Imagen de carrusel 2">
+                    <img src="../" class="w-full flex-shrink-0 object-cover" alt="Imagen de carrusel 3">
                 </div>
 
                 <!-- Indicadores -->
@@ -141,18 +141,18 @@
 
             <div class="flex justify-center space-x-6">
               <button class="w-[64px] h-[64px] rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition">
-                <img src="recursos/iconos/apple.svg" alt="Apple" class="w-6 h-6">
+                <img src="../recursos/iconos/apple.svg" alt="Apple" class="w-6 h-6">
               </button>
               <button class="w-[64px] h-[64px] rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition">
-                <img src="recursos/iconos/google.svg" alt="Google" class="w-6 h-6">
+                <img src="../recursos/iconos/google.svg" alt="Google" class="w-6 h-6">
               </button>
               <button class="w-[64px] h-[64px] rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition">
-                <img src="recursos/iconos/microsoft.svg" alt="Microsoft" class="w-6 h-6">
+                <img src="../recursos/iconos/microsoft.svg" alt="Microsoft" class="w-6 h-6">
               </button>
             </div>
 
             <div class="mt-4 text-center">
-              <p class="text-sm text-gray-600">¿Ya tienes una cuenta? <a href="iniciarsesion.html" class="text-green">Inicia sesión</a></p>
+              <p class="text-sm text-gray-600">¿Ya tienes una cuenta? <a href="iniciar-sesion.php" class="text-green">Inicia sesión</a></p>
             </div>
           </div>
         </div>
@@ -160,6 +160,6 @@
     </div>
   </div>
 
-  <script src="js/registrarse.js"></script>
+  <script src="../js/registrarse.js"></script>
 </body>
 </html>

@@ -1247,7 +1247,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const contenedor = document.getElementById('desktop-header-actions');
     
     // Se verifica sesión en el servidor
-    fetch('verificar-sesion.php')
+    fetch('php/verificar-sesion.php')
         .then(response => response.json())
         .then(data => {
             if(data.logueado) {
@@ -1297,7 +1297,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <div class="py-1 pt-3" role="none">
                         <a href="#" class="block px-4 py-2 text-sm text-gray-600 flex items-center" role="menuitem" tabindex="-1"
-                            id="menu-item-6" onclick="window.location.href='cerrar-sesion.php'">
+                            id="menu-item-6" onclick="window.location.href='php/cerrar-sesion.php'">
                             <img src="recursos/iconos/contorno/interfaz/cerrar_sesion.svg" alt="Cerrar sesión"
                             class="w-4 h-4 svg-red-400 mr-2 self-center">Cerrar sesión</a>
                         </div>
@@ -1308,12 +1308,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Usuario sin sesión → se muestran botones de iniciar sesión y registrarse
                 contenedor.innerHTML = `
                     <button class="bg-green text-white px-4 h-8 rounded-full smooth-transition flex items-center text-sm whitespace-nowrap mr-2"
-                      onclick="window.location.href='iniciar-sesion.php'">
+                      onclick="window.location.href='php/iniciar-sesion.php'">
                       <img src="recursos/iconos/solido/comunicacion/usuario.svg" alt="Iniciar sesión" class="w-3 h-3 svg-white mr-2">
                       Iniciar sesión
                     </button>
                     <button class="bg-white text-green border border-green px-4 h-8 rounded-full smooth-transition flex items-center text-sm whitespace-nowrap hover:bg-green hover:text-white group"
-                      onclick="window.location.href='registrarse.php'">
+                      onclick="window.location.href='php/registrarse.php'">
                       <img src="recursos/iconos/solido/interfaz/mas.svg" alt="Registrarse" class="w-3 h-3 svg-green group-hover:svg-white mr-2">
                       Registrarse
                     </button>

@@ -1143,7 +1143,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // Funcion para impedir el acceso a usuarios no registrados
 function Verificacion(destino, elemento) {
     // Se verifica sesión en el servidor
-    fetch('verificar-sesion.php')
+    fetch('php/verificar-sesion.php')
         .then(response => response.json())
         .then(data => {
             if(data.logueado) {

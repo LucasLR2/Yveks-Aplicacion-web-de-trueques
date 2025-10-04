@@ -100,6 +100,7 @@ CREATE TABLE ubicacion (
 CREATE TABLE categoria (
     id_categoria INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL
+    url_imagen VARCHAR(255) NOT NULL,
 );
 
 -- Tabla intermedia Pertenece (Producto-Categoria)

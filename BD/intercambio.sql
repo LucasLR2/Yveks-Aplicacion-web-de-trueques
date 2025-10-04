@@ -99,8 +99,9 @@ CREATE TABLE ubicacion (
 
 CREATE TABLE categoria (
     id_categoria INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL
-    url_imagen VARCHAR(255) NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    slug VARCHAR(100) NOT NULL UNIQUE,
+    url_imagen VARCHAR(255) NOT NULL
 );
 
 -- Tabla intermedia Pertenece (Producto-Categoria)
@@ -130,3 +131,13 @@ CREATE TABLE Genera (
     FOREIGN KEY (id_incidencia) REFERENCES Incidencia(id_incidencia)
 );
 
+INSERT INTO categoria (nombre, slug, url_imagen) VALUES
+('Tecnología', 'tecnologia', 'recursos/iconos/contorno/dispositivos/procesador.svg'),
+('Hogar', 'hogar', 'recursos/iconos/contorno/dispositivos/sillon.svg'),
+('Ropa', 'ropa', 'recursos/iconos/contorno/dispositivos/remera.svg'),
+('Accesorios', 'accesorios', 'recursos/iconos/contorno/dispositivos/lentes.svg'),
+('Deportes', 'deportes', 'recursos/iconos/contorno/dispositivos/pelota.svg'),
+('Entretenimiento', 'entretenimiento', 'recursos/iconos/contorno/dispositivos/dado.svg'),
+('Mascotas', 'mascotas', 'recursos/iconos/contorno/dispositivos/pata.svg'),
+('Herramientas', 'herramientas', 'recursos/iconos/contorno/dispositivos/herramientas.svg'),
+('Servicios', 'servicios', 'recursos/iconos/contorno/dispositivos/servicio.svg');

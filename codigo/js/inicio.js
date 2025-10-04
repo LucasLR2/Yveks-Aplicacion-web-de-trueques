@@ -1138,8 +1138,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-
-
 // Funcion para impedir el acceso a usuarios no registrados
 function Verificacion(destino, elemento) {
     // Se verifica sesión en el servidor
@@ -1162,8 +1160,8 @@ function Verificacion(destino, elemento) {
                     <div class="bg-white rounded-xl p-6 shadow-lg text-center max-w-sm">
                         <h2 class="text-xl font-bold mb-4">Acceso restringido</h2>
                         <p class="mb-4">Debes iniciar sesión para acceder a esta sección.</p>
-                        <div class="flex justify-center gap-4">
-                            <a href="php/iniciar-sesion" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Iniciar sesión</a>
+                        <div class="flex justify-center gap-4">                               
+                            <a href="iniciarsesion.html" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Iniciar sesión</a>
                             <button id="cerrarPopup" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Volver</button>
                         </div>
                     </div>

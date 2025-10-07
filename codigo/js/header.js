@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     <!-- Perfil con dropdown -->
                     <div class="relative inline-block text-left">
+                        <!-- config-funcionalidad: aqui debes hacer que el boton configuracion funcione y que aparezcan las opciones de configuracion en el dropdown (esto es de escritorio)-->
                         <div>
                             <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition"
                                 id="menu-button" onclick="showDropdown()" aria-expanded="true" aria-haspopup="true">

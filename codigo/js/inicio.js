@@ -1,220 +1,48 @@
-// Datos de notificaciones
-const notificaciones = [
-    { id: 1, tipo: "solicitud_chat", titulo: "Solicitud de chat", descripcion: "Tienes una solicitud de chat de José Martínez", tiempo: "20s", icono: "recursos/iconos/solido/comunicacion/comentario.svg", leida: false, usuario: "José Martínez" },
-    { id: 2, tipo: "oferta", titulo: "Oferta por remera adidas", descripcion: "Cristian Ramírez ofertó por tu remera adidas", tiempo: "4min", icono: "recursos/iconos/contorno/general/etiqueta.svg", leida: false, usuario: "Cristian Ramírez" },
-    { id: 3, tipo: "mensaje", titulo: "Nuevo mensaje", descripcion: "Tienes un nuevo mensaje de Roberto Pérez", tiempo: "12h", icono: "recursos/iconos/solido/comunicacion/comentario.svg", leida: false, usuario: "Roberto Pérez" },
-    { id: 4, tipo: "oferta_cancelada", titulo: "Oferta cancelada", descripcion: "Julieta González canceló su oferta por tu remera adidas", tiempo: "2d", icono: "recursos/iconos/solido/interfaz/cerrar.svg", leida: true, usuario: "Julieta González" },
-    { id: 5, tipo: "oferta_aceptada", titulo: "Oferta aceptada", descripcion: "Martín Piña aceptó tu oferta para auriculares inalámbricos", tiempo: "8sem", icono: "recursos/iconos/solido/estado/verificado.svg", leida: true, usuario: "Martín Piña" },
-    { id: 6, tipo: "resena", titulo: "Nueva reseña", descripcion: "Obtuviste 5 estrellas de una reseña de Pedro López", tiempo: "8sem", icono: "recursos/iconos/solido/estado/estrella.svg", leida: true, usuario: "Pedro López" }
-];
-
-// Datos de productos ampliados con información detallada
-const productos = [
-    {
-        id: 1,
-        nombre: "Lentes retro rojos",
-        estado: "Usado",
-        calificacion: 4.5,
-        resenas: 12,
-        imagenes: [{ imagen: "recursos/imagenes/1.jpg" }],
-        categoria: "accesorios",
-        publicadoHace: "2 días",
-        vendedor: {
-            nombre: "María González",
-            reputacion: 4.8,
-            ventas: 45,
-            avatar: "recursos/avatars/mg.jpg"
-        },
-        ubicacion: "Pocitos, Montevideo",
-        coordenadas: [-34.9175, -56.1500],
-        descripcion: "Lentes de sol retro en perfecto estado. Muy cómodos y con protección UV. Ideales para el verano.",
-        preferenciasIntercambio: ["Remera estilizada", "Pañuelo original", "Gadget tecnológico"]
-    },
-    {
-        id: 2,
-        nombre: "Auriculares inalámbricos",
-        estado: "Nuevo",
-        calificacion: 4.2,
-        resenas: 32,
-        imagenes: [{ imagen: "recursos/imagenes/2.jpg" }],
-        categoria: "tecnologia",
-        publicadoHace: "1 hora",
-        vendedor: {
-            nombre: "Carlos Rodríguez",
-            reputacion: 4.9,
-            ventas: 128,
-            avatar: "recursos/avatars/cr.jpg"
-        },
-        ubicacion: "Ciudad Vieja, Montevideo",
-        coordenadas: [-34.9058, -56.2017],
-        descripcion: "Auriculares Bluetooth de alta calidad. Batería de larga duración y excelente calidad de sonido.",
-        preferenciasIntercambio: ["Cargador magnético", "Proyector pequeño", "Powerbank"],
-    },
-    {
-        id: 3,
-        nombre: "Cargador magnético",
-        estado: "Usado",
-        calificacion: 4.8,
-        resenas: 8,
-        imagenes: [{ imagen: "recursos/imagenes/3.jpg" }],
-        categoria: "tecnologia",
-        publicadoHace: "5 horas",
-        vendedor: {
-            nombre: "Ana Silva",
-            reputacion: 4.6,
-            ventas: 67,
-            avatar: "recursos/avatars/as.jpg"
-        },
-        ubicacion: "Cordón, Montevideo",
-        coordenadas: [-34.9011, -56.1914],
-        descripcion: "Cargador magnético original, funciona perfectamente. Compatible con múltiples dispositivos.",
-        preferenciasIntercambio: ["Auriculares inalámbricos", "Cable USB de calidad", "Powerbank"],
-    },
-    {
-        id: 4,
-        nombre: "Proyector",
-        estado: "Nuevo",
-        calificacion: 4.3,
-        resenas: 15,
-        imagenes: [{ imagen: "recursos/imagenes/4.jpg" }],
-        categoria: "tecnologia",
-        publicadoHace: "3 días",
-        vendedor: {
-            nombre: "Roberto Fernández",
-            reputacion: 4.7,
-            ventas: 23,
-            avatar: "recursos/avatars/rf.jpg"
-        },
-        ubicacion: "Punta Carretas, Montevideo",
-        coordenadas: [-34.9217, -56.1533],
-        descripcion: "Proyector HD portátil, ideal para presentaciones o entretenimiento en casa. Incluye cables.",
-        preferenciasIntercambio: ["Auriculares inalámbricos", "Pantalla portátil", "Smart TV Box"],
-    },
-    {
-        id: 5,
-        nombre: "Remera Suzuki con estampado",
-        estado: "Nuevo",
-        calificacion: 4.6,
-        resenas: 23,
-        imagenes: [{ imagen: "recursos/imagenes/5.jpg" }],
-        categoria: "ropa",
-        publicadoHace: "1 día",
-        vendedor: {
-            nombre: "Diego Martínez",
-            reputacion: 4.5,
-            ventas: 89,
-            avatar: "recursos/avatars/dm.jpg"
-        },
-        ubicacion: "Tres Cruces, Montevideo",
-        coordenadas: [-34.8941, -56.1706],
-        descripcion: "Remera original Suzuki, talla M. Material de alta calidad, nunca usada.",
-        preferenciasIntercambio: ["Otra remera", "Pañuelo de diseño", "Gorra de moda"],
-    },
-    {
-        id: 6,
-        nombre: "Sillón naranja",
-        estado: "Usado",
-        calificacion: 4.4,
-        resenas: 18,
-        imagenes: [{ imagen: "recursos/imagenes/6.jpg" }],
-        categoria: "hogar",
-        publicadoHace: "4 días",
-        vendedor: {
-            nombre: "Laura Pérez",
-            reputacion: 4.8,
-            ventas: 34,
-            avatar: "recursos/avatars/lp.jpg"
-        },
-        ubicacion: "Malvín, Montevideo",
-        coordenadas: [-34.8889, -56.1056],
-        descripcion: "Sillón cómodo en buen estado, color naranja vibrante. Perfecto para sala de estar.",
-        preferenciasIntercambio: ["Sillón cómodo", "Silla de oficina premium", "Mueble de almacenamiento"],
-    },
-    {
-        id: 7,
-        nombre: "Zapatillas Adidas Aggresive",
-        estado: "Usado",
-        calificacion: 4.9,
-        resenas: 11,
-        imagenes: [{ imagen: "recursos/imagenes/7.jpg" }],
-        categoria: "ropa",
-        publicadoHace: "2 días",
-        vendedor: {
-            nombre: "Fernando Suárez",
-            reputacion: 4.7,
-            ventas: 56,
-            avatar: "recursos/avatars/fs.jpg"
-        },
-        ubicacion: "Buceo, Montevideo",
-        coordenadas: [-34.9089, -56.1389],
-        descripcion: "Zapatillas Adidas en buen estado, talla 42. Muy cómodas para deportes.",
-        preferenciasIntercambio: ["Otra zapatilla deportiva", "Gorra de marca", "Mochila deportiva"],
-    },
-    {
-        id: 8,
-        nombre: "Libro The Laws of Human Nature",
-        estado: "Nuevo",
-        calificacion: 3.8,
-        resenas: 5,
-        imagenes: [{ imagen: "recursos/imagenes/8.jpg" }],
-        categoria: "entretenimiento",
-        publicadoHace: "1 semana",
-        vendedor: {
-            nombre: "Patricia Morales",
-            reputacion: 4.6,
-            ventas: 23,
-            avatar: "recursos/avatars/pm.jpg"
-        },
-        ubicacion: "Centro, Montevideo",
-        coordenadas: [-34.9045, -56.1917],
-        descripcion: "Libro nuevo, nunca leído. Excelente para desarrollo personal.",
-        preferenciasIntercambio: ["Otro libro", "Cuaderno de notas", "Marcadores/bolígrafos de calidad"],
-    },
-    {
-        id: 9,
-        nombre: "Remera Illicit Bloc denim claro",
-        estado: "Nuevo",
-        calificacion: 5.0,
-        resenas: 15,
-        imagenes: [{ imagen: "recursos/imagenes/9.jpg" }],
-        categoria: "ropa",
-        publicadoHace: "3 horas",
-        vendedor: {
-            nombre: "Andrés Vega",
-            reputacion: 4.9,
-            ventas: 78,
-            avatar: "recursos/avatars/av.jpg"
-        },
-        ubicacion: "Parque Rodó, Montevideo",
-        coordenadas: [-34.9167, -56.1639],
-        descripcion: "Remera nueva con etiqueta, talla L. Diseño exclusivo y material premium.",
-       preferenciasIntercambio: ["Remera estampada", "Pañuelo de diseño", "Gorra de moda"],
-    },
-    {
-        id: 10,
-        nombre: "Lámpara de escritorio",
-        estado: "Usado",
-        calificacion: 3.9,
-        resenas: 7,
-        imagenes: [{ imagen: "recursos/imagenes/10.jpg" }],
-        categoria: "hogar",
-        publicadoHace: "5 días",
-        vendedor: {
-            nombre: "Carmen López",
-            reputacion: 4.4,
-            ventas: 29,
-            avatar: "recursos/avatars/cl.jpg"
-        },
-        ubicacion: "Aguada, Montevideo",
-        coordenadas: [-34.8889, -56.1944],
-        descripcion: "Lámpara LED ajustable, perfecta para estudiar o trabajar. Funciona perfectamente.",
-        preferenciasIntercambio: ["Lámpara LED", "Organizador de escritorio", "Gadget tecnológico pequeño"],
-    }
-];
+// Variables globales para datos dinámicos
+let notificaciones = [];
+let productos = [];
 
 let categoriaActual = 'todas';
 let categoriasSeleccionadas = new Set();
 let vistaAnterior = null; // Para guardar el estado anterior
+
+// ========== FUNCIONES DE CARGA DE DATOS ==========
+
+// Cargar productos desde la base de datos
+async function cargarProductos() {
+    try {
+        const response = await fetch('obtener-productos.php');
+        const data = await response.json();
+        
+        if (data.success) {
+            productos = data.productos;
+            // Regenerar productos en ambas vistas
+            generarProductosMovil();
+            generarProductosEscritorio();
+        } else {
+            console.error('Error al cargar productos:', data.message);
+        }
+    } catch (error) {
+        console.error('Error al conectar con el servidor:', error);
+    }
+}
+
+// Cargar notificaciones desde la base de datos
+async function cargarNotificaciones() {
+    try {
+        const response = await fetch('obtener-notificaciones.php');
+        const data = await response.json();
+        
+        if (data.success) {
+            notificaciones = data.notificaciones;
+            updateNotificationBadge();
+        } else {
+            console.error('Error al cargar notificaciones:', data.message);
+        }
+    } catch (error) {
+        console.error('Error al conectar con el servidor:', error);
+    }
+}
 
 // ========== FUNCIONES DE NOTIFICACIONES ==========
 
@@ -359,12 +187,44 @@ function getIconColor(tipo, leida) {
 }
 
 // Handle notification click
-function handleNotificationClick(notifId) {
+async function handleNotificationClick(notifId) {
     const notif = notificaciones.find(n => n.id === notifId);
     if (!notif) return;
     
-    notif.leida = true;
+    // Si no está leída, marcarla como leída
+    if (!notif.leida) {
+        try {
+            const response = await fetch('marcar-notificacion-leida.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ notificacion_id: notifId })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                notif.leida = true;
+                updateNotificationBadge();
+                
+                // Regenerar contenido si están abiertos
+                const mobileContent = document.getElementById('mobile-notifications-content');
+                const desktopContent = document.getElementById('desktop-notifications-content');
+                
+                if (mobileContent && !document.getElementById('mobile-notifications-dropdown').classList.contains('hidden')) {
+                    generateNotificationsContent('mobile-notifications-content');
+                }
+                if (desktopContent && !document.getElementById('desktop-notifications-dropdown').classList.contains('hidden')) {
+                    generateNotificationsContent('desktop-notifications-content');
+                }
+            }
+        } catch (error) {
+            console.error('Error al marcar notificación:', error);
+        }
+    }
     
+    // Manejar la acción según el tipo de notificación
     switch(notif.tipo) {
         case 'solicitud_chat':
             console.log(`Abriendo chat con ${notif.usuario}`);
@@ -378,35 +238,44 @@ function handleNotificationClick(notifId) {
         default:
             console.log(`Manejando notificación: ${notif.titulo}`);
     }
-    
-    updateNotificationBadge();
-    
-    const mobileContent = document.getElementById('mobile-notifications-content');
-    const desktopContent = document.getElementById('desktop-notifications-content');
-    
-    if (mobileContent && !document.getElementById('mobile-notifications-dropdown').classList.contains('hidden')) {
-        generateNotificationsContent('mobile-notifications-content');
-    }
-    if (desktopContent && !document.getElementById('desktop-notifications-dropdown').classList.contains('hidden')) {
-        generateNotificationsContent('desktop-notifications-content');
-    }
 }
 
 // Mark all notifications as read
-function markAllAsRead() {
-    notificaciones.forEach(notif => notif.leida = true);
-    updateNotificationBadge();
-    
-    const mobileContent = document.getElementById('mobile-notifications-content');
-    const desktopContent = document.getElementById('desktop-notifications-content');
-    
-    if (mobileContent && !document.getElementById('mobile-notifications-dropdown').classList.contains('hidden')) {
-        generateNotificationsContent('mobile-notifications-content');
-    }
-    if (desktopContent && !document.getElementById('desktop-notifications-dropdown').classList.contains('hidden')) {
-        generateNotificationsContent('desktop-notifications-content');
+async function markAllAsRead() {
+    try {
+        const response = await fetch('marcar-notificacion-leida.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ marcar_todas: true })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Actualizar estado local
+            notificaciones.forEach(notif => notif.leida = true);
+            updateNotificationBadge();
+            
+            // Regenerar contenido de notificaciones
+            const mobileContent = document.getElementById('mobile-notifications-content');
+            const desktopContent = document.getElementById('desktop-notifications-content');
+            
+            if (mobileContent && !document.getElementById('mobile-notifications-dropdown').classList.contains('hidden')) {
+                generateNotificationsContent('mobile-notifications-content');
+            }
+            if (desktopContent && !document.getElementById('desktop-notifications-dropdown').classList.contains('hidden')) {
+                generateNotificationsContent('desktop-notifications-content');
+            }
+        } else {
+            console.error('Error al marcar notificaciones:', data.message);
+        }
+    } catch (error) {
+        console.error('Error al conectar con el servidor:', error);
     }
 }
+
 
 // Update notification badge
 function updateNotificationBadge() {
@@ -1107,10 +976,12 @@ document.addEventListener('keydown', function(event) {
 });
 
 // Initialize notification system and products when DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    // Cargar datos desde la base de datos
+    await cargarProductos();
+    await cargarNotificaciones();
+    
     updateNotificationBadge();
-    generarProductosMovil();
-    generarProductosEscritorio();
     configurarBusqueda();
     
     // Category slider indicators

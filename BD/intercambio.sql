@@ -11,7 +11,8 @@ CREATE TABLE Usuario (
     rol VARCHAR(50),
     ubicacion VARCHAR(100),
     f_nacimiento DATE,
-    intereses VARCHAR(100)
+    intereses VARCHAR(100),
+    resenas INT
 );
 
 CREATE TABLE Producto (
@@ -19,7 +20,6 @@ CREATE TABLE Producto (
     nombre VARCHAR(100) NOT NULL,
     estado VARCHAR(50),
     calificacion DECIMAL(2,1),
-    resenas INT,
     categoria VARCHAR(50),
     f_publicacion DATE,
     descripcion TEXT,

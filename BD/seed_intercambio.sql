@@ -1,25 +1,35 @@
 USE dreva;
 
 -- =============================================================
--- USUARIOS (1..34) - uno por producto para permitir calificaciones distintas
+-- LIMPIAR TABLAS PARA INSERCIÓN LIMPIA
 -- =============================================================
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE Genera;
 TRUNCATE TABLE Valoracion;
 TRUNCATE TABLE Publica;
+TRUNCATE TABLE PropuestaIntercambio;
+TRUNCATE TABLE Mensaje;
 TRUNCATE TABLE ImagenProducto;
 TRUNCATE TABLE Producto;
 TRUNCATE TABLE Usuario;
+SET FOREIGN_KEY_CHECKS = 1;
 
+-- =============================================================
+-- USUARIOS - Combinando datos únicos de ambas fuentes
+-- =============================================================
 INSERT INTO Usuario (id_usuario, nombre_comp, correo, contrasena, rol, ubicacion, f_nacimiento) VALUES
-(1,'Usuario 1','u1@example.com',SHA2('pass1',256),'usuario','Montevideo','1990-01-01'),
-(2,'Usuario 2','u2@example.com',SHA2('pass2',256),'usuario','Montevideo','1990-01-02'),
-(3,'Usuario 3','u3@example.com',SHA2('pass3',256),'usuario','Montevideo','1990-01-03'),
-(4,'Usuario 4','u4@example.com',SHA2('pass4',256),'usuario','Montevideo','1990-01-04'),
-(5,'Usuario 5','u5@example.com',SHA2('pass5',256),'usuario','Montevideo','1990-01-05'),
-(6,'Usuario 6','u6@example.com',SHA2('pass6',256),'usuario','Montevideo','1990-01-06'),
-(7,'Usuario 7','u7@example.com',SHA2('pass7',256),'usuario','Montevideo','1990-01-07'),
-(8,'Usuario 8','u8@example.com',SHA2('pass8',256),'usuario','Montevideo','1990-01-08'),
-(9,'Usuario 9','u9@example.com',SHA2('pass9',256),'usuario','Montevideo','1990-01-09'),
-(10,'Usuario 10','u10@example.com',SHA2('pass10',256),'usuario','Montevideo','1990-01-10'),
+-- Usuarios con nombres de vendedores del JS y algunos del archivo antiguo
+(1,'María González','maria.gonzalez@example.com',SHA2('123456',256),'usuario','Montevideo, Uruguay','1985-03-15'),
+(2,'Carlos Rodríguez','carlos.rodriguez@example.com',SHA2('lucia789',256),'usuario','Montevideo, Uruguay','1988-07-22'),
+(3,'Ana Silva','ana.silva@example.com',SHA2('admin123',256),'usuario','Montevideo, Uruguay','1992-11-08'),
+(4,'Roberto Fernández','roberto.fernandez@example.com',SHA2('password1',256),'usuario','Montevideo, Uruguay','1987-04-26'),
+(5,'Diego Martínez','diego.martinez@example.com',SHA2('password2',256),'usuario','Montevideo, Uruguay','1990-12-03'),
+(6,'Laura Pérez','laura.perez@example.com',SHA2('password3',256),'usuario','Montevideo, Uruguay','1989-09-18'),
+-- Más usuarios del JS y usuarios adicionales para completar hasta 34 productos
+(7,'Fernando Suárez','fernando.suarez@example.com',SHA2('pass7',256),'usuario','Montevideo','1986-05-14'),
+(8,'Patricia Morales','patricia.morales@example.com',SHA2('pass8',256),'usuario','Montevideo','1991-08-27'),
+(9,'Andrés Vega','andres.vega@example.com',SHA2('pass9',256),'usuario','Montevideo','1993-02-10'),
+(10,'Carmen López','carmen.lopez@example.com',SHA2('pass10',256),'usuario','Montevideo','1987-10-05'),
 (11,'Usuario 11','u11@example.com',SHA2('pass11',256),'usuario','Montevideo','1990-01-11'),
 (12,'Usuario 12','u12@example.com',SHA2('pass12',256),'usuario','Montevideo','1990-01-12'),
 (13,'Usuario 13','u13@example.com',SHA2('pass13',256),'usuario','Montevideo','1990-01-13'),
@@ -46,43 +56,84 @@ INSERT INTO Usuario (id_usuario, nombre_comp, correo, contrasena, rol, ubicacion
 (34,'Usuario 34','u34@example.com',SHA2('pass34',256),'usuario','Montevideo','1990-02-03');
 
 -- =============================================================
--- PRODUCTOS (34) usando columna nombre
+-- PRODUCTOS (34) - Con datos completos del JS y calificaciones/reseñas calculadas
 -- =============================================================
-INSERT INTO Producto (id_producto, nombre, estado, categoria, descripcion, f_publicacion) VALUES
-(1,'Lentes retro rojos','Usado','accesorios','Lentes estilo retro color rojo. Buen estado.','2025-08-01'),
-(2,'Auriculares inalámbricos','Nuevo','tecnologia','Auriculares bluetooth, buena autonomía.','2025-07-28'),
-(3,'Cargador magnético','Usado','tecnologia','Cargador magnético universal.','2025-07-15'),
-(4,'Proyector','Nuevo','tecnologia','Proyector portátil hogar.','2025-06-30'),
-(5,'Remera Suzuki con estampado','Nuevo','ropa','Remera Suzuki original.','2025-06-22'),
-(6,'Sillón naranja','Usado','hogar','Sillón un cuerpo color naranja.','2025-05-18'),
-(7,'Zapatillas Adidas Aggresive','Usado','ropa','Zapatillas usadas buen estado.','2025-05-27'),
-(8,'Libro The Laws of Human Nature','Nuevo','entretenimiento','Libro sobre naturaleza humana.','2025-04-10'),
-(9,'Remera Illicit Bloc denim claro','Nuevo','ropa','Remera denim claro.','2025-03-12'),
-(10,'Lámpara de escritorio','Usado','hogar','Lámpara LED escritorio.','2025-02-05'),
-(11,'Remera blanca con estampado azul','Nuevo','ropa','Remera con estampado azul.','2025-01-20'),
-(12,'Remera marrón Illicit Bloc','Nuevo','ropa','Remera marrón colección.','2024-12-11'),
-(13,'Cámara fotográfica Canon','Usado','tecnologia','Cámara Canon funcional.','2024-11-10'),
-(14,'Remera blanca con estampado rojo','Usado','ropa','Remera blanca estampado rojo.','2024-11-05'),
-(15,'iPad mini','Usado','tecnologia','iPad mini en buen estado.','2024-10-22'),
-(16,'Cámara fotográfica Sony','Usado','tecnologia','Cámara Sony con lente.','2024-10-10'),
-(17,'Remera Umbro azul y blanca','Nuevo','ropa','Remera deportiva Umbro.','2024-09-25'),
-(18,'AirPods','Nuevo','tecnologia','Auriculares AirPods.','2024-09-15'),
-(19,'Remera negra con estampado beige vintage','Nuevo','ropa','Remera negra vintage.','2024-09-05'),
-(20,'Remera Nike blanca con estampado lila','Nuevo','ropa','Remera Nike blanca lila.','2024-08-28'),
-(21,'Lentes retro amarillos','Usado','accesorios','Lentes amarillos retro.','2024-08-15'),
-(22,'Remera ArtTheMoment blanca','Nuevo','ropa','Remera ArtTheMoment blanca.','2024-08-01'),
-(23,'Teclado Clicky verde','Usado','tecnologia','Teclado clicky verde.','2024-07-20'),
-(24,'Mouse y soporte inalámbrico led','Nuevo','tecnologia','Mouse + soporte LED.','2024-07-10'),
-(25,'AirPods Max negros','Usado','tecnologia','Auriculares AirPods Max.','2024-07-01'),
-(26,'Samsung Galaxy Book','Usado','tecnologia','Laptop Samsung Galaxy Book.','2024-06-20'),
-(27,'Bicileta rodado 27','Usado','deportes','Bicicleta rodado 27.','2024-06-10'),
-(28,'Guitarra eléctrica naranja','Nuevo','tecnologia','Guitarra eléctrica naranja.','2024-05-30'),
-(29,'Apple Watch con cadena','Usado','tecnologia','Apple Watch con cadena.','2024-05-15'),
-(30,'Dron','Usado','tecnologia','Dron compacto funcional.','2024-05-05'),
-(31,'Buzo Nike azul','Nuevo','ropa','Buzo Nike azul.','2024-04-25'),
-(32,'Buzo Salomon negro','Usado','ropa','Buzo Salomon negro.','2024-04-15'),
-(33,'Cinto de cuero negro','Usado','accesorios','Cinto cuero negro.','2024-04-05'),
-(34,'Morral High negro','Usado','accesorios','Morral High color negro.','2024-03-28');
+INSERT INTO Producto (id_producto, nombre, estado, calificacion, resenas, categoria, descripcion, preferencias, f_publicacion, id_ubicacion) VALUES
+-- Los primeros 10 productos con datos del JS
+(1,'Lentes retro rojos','Usado',4.5,12,'accesorios','Lentes de sol retro en perfecto estado. Muy cómodos y con protección UV. Ideales para el verano.','Remera estilizada,Pañuelo original,Gadget tecnológico','2025-10-04',1),
+(2,'Auriculares inalámbricos','Nuevo',4.2,32,'tecnologia','Auriculares Bluetooth de alta calidad. Batería de larga duración y excelente calidad de sonido.','Cargador magnético,Proyector pequeño,Powerbank','2025-10-06',2),
+(3,'Cargador magnético','Usado',4.8,8,'tecnologia','Cargador magnético original, funciona perfectamente. Compatible con múltiples dispositivos.','Auriculares inalámbricos,Cable USB de calidad,Powerbank','2025-10-06',3),
+(4,'Proyector','Nuevo',4.3,15,'tecnologia','Proyector HD portátil, ideal para presentaciones o entretenimiento en casa. Incluye cables.','Auriculares inalámbricos,Pantalla portátil,Smart TV Box','2025-10-03',4),
+(5,'Remera Suzuki con estampado','Nuevo',4.6,23,'ropa','Remera original Suzuki, talla M. Material de alta calidad, nunca usada.','Otra remera,Pañuelo de diseño,Gorra de moda','2025-10-05',5),
+(6,'Sillón naranja','Usado',4.4,18,'hogar','Sillón cómodo en buen estado, color naranja vibrante. Perfecto para sala de estar.','Sillón cómodo,Silla de oficina premium,Mueble de almacenamiento','2025-10-02',6),
+(7,'Zapatillas Adidas Aggresive','Usado',4.9,11,'ropa','Zapatillas Adidas en buen estado, talla 42. Muy cómodas para deportes.','Otra zapatilla deportiva,Gorra de marca,Mochila deportiva','2025-10-04',7),
+(8,'Libro The Laws of Human Nature','Nuevo',3.8,5,'entretenimiento','Libro nuevo, nunca leído. Excelente para desarrollo personal.','Otro libro,Cuaderno de notas,Marcadores/bolígrafos de calidad','2025-09-29',8),
+(9,'Remera Illicit Bloc denim claro','Nuevo',5.0,15,'ropa','Remera nueva con etiqueta, talla L. Diseño exclusivo y material premium.','Remera estampada,Pañuelo de diseño,Gorra de moda','2025-10-06',9),
+(10,'Lámpara de escritorio','Usado',3.9,7,'hogar','Lámpara LED ajustable, perfecta para estudiar o trabajar. Funciona perfectamente.','Lámpara LED,Organizador de escritorio,Gadget tecnológico pequeño','2025-10-01',10),
+-- Productos adicionales para completar hasta 34 (con calificaciones calculadas automáticamente)
+(11,'Remera blanca con estampado azul','Nuevo',1.8,4,'ropa','Remera con estampado azul.','Remera casual,Accesorio de moda','2025-01-20',11),
+(12,'Remera marrón Illicit Bloc','Nuevo',5.0,17,'ropa','Remera marrón de la colección.','Remera de marca,Accesorio casual','2024-12-11',12),
+(13,'Cámara fotográfica Canon','Usado',4.8,21,'tecnologia','Cámara Canon funcional.','Lente adicional,Trípode,Memoria SD','2024-11-10',13),
+(14,'Remera blanca con estampado rojo','Usado',3.6,13,'ropa','Remera blanca estampado rojo.','Remera deportiva,Gorra','2024-11-05',14),
+(15,'iPad mini','Usado',4.7,24,'tecnologia','iPad mini en buen estado.','Funda para tablet,Stylus,Cargador','2024-10-22',15),
+(16,'Cámara fotográfica Sony','Usado',4.8,19,'tecnologia','Cámara Sony con lente.','Lente zoom,Batería extra,Bolso','2024-10-10',16),
+(17,'Remera Umbro azul y blanca','Nuevo',4.9,18,'ropa','Remera deportiva Umbro.','Short deportivo,Zapatillas','2024-09-25',17),
+(18,'AirPods','Nuevo',4.8,25,'tecnologia','Auriculares AirPods.','Funda protectora,Powerbank','2024-09-15',18),
+(19,'Remera negra con estampado beige vintage','Nuevo',5.0,22,'ropa','Remera negra vintage.','Pantalón vintage,Accesorio retro','2024-09-05',19),
+(20,'Remera Nike blanca con estampado lila','Nuevo',4.9,16,'ropa','Remera Nike blanca lila.','Zapatillas Nike,Short deportivo','2024-08-28',20),
+(21,'Lentes retro amarillos','Usado',2.7,10,'accesorios','Lentes amarillos retro.','Funda para lentes,Otro accesorio','2024-08-15',21),
+(22,'Remera ArtTheMoment blanca','Nuevo',4.0,9,'ropa','Remera ArtTheMoment blanca.','Remera artística,Accesorio creativo','2024-08-01',22),
+(23,'Teclado Clicky verde','Usado',5.0,19,'tecnologia','Teclado clicky verde.','Mouse gaming,Pad de mouse','2024-07-20',23),
+(24,'Mouse y soporte inalámbrico led','Nuevo',4.2,27,'tecnologia','Mouse + soporte LED.','Teclado,Auriculares gaming','2024-07-10',24),
+(25,'AirPods Max negros','Usado',4.5,20,'tecnologia','Auriculares AirPods Max.','Funda premium,Soporte para auriculares','2024-07-01',25),
+(26,'Samsung Galaxy Book','Usado',4.1,31,'tecnologia','Laptop Samsung Galaxy Book.','Mouse inalámbrico,Funda para laptop','2024-06-20',26),
+(27,'Bicileta rodado 27','Usado',4.9,23,'deportes','Bicicleta rodado 27.','Casco de ciclismo,Luces LED','2024-06-10',27),
+(28,'Guitarra eléctrica naranja','Nuevo',4.6,15,'tecnologia','Guitarra eléctrica naranja.','Amplificador,Correa para guitarra','2024-05-30',28),
+(29,'Apple Watch con cadena','Usado',3.7,14,'tecnologia','Apple Watch con cadena.','Pulsera adicional,Cargador magnético','2024-05-15',29),
+(30,'Dron','Usado',4.0,9,'tecnologia','Dron compacto funcional.','Batería extra,Hélices de repuesto','2024-05-05',30),
+(31,'Buzo Nike azul','Nuevo',5.0,29,'ropa','Buzo Nike azul.','Pantalón deportivo,Zapatillas Nike','2024-04-25',31),
+(32,'Buzo Salomon negro','Usado',4.4,22,'ropa','Buzo Salomon negro.','Pantalón outdoor,Botas de trekking','2024-04-15',32),
+(33,'Cinto de cuero negro','Usado',2.8,10,'accesorios','Cinto cuero negro.','Billetera de cuero,Otro accesorio','2024-04-05',33),
+(34,'Morral High negro','Usado',4.5,20,'accesorios','Morral High color negro.','Billetera,Organizador de viaje','2024-03-28',34);
+
+-- =============================================================
+-- UBICACIONES - Datos de coordenadas de los productos del JS
+-- =============================================================
+INSERT INTO ubicacion (id, nombre, lat, lng) VALUES
+(1, 'Pocitos, Montevideo', -34.9175, -56.1500),
+(2, 'Ciudad Vieja, Montevideo', -34.9058, -56.2017),
+(3, 'Cordón, Montevideo', -34.9011, -56.1914),
+(4, 'Punta Carretas, Montevideo', -34.9217, -56.1533),
+(5, 'Tres Cruces, Montevideo', -34.8941, -56.1706),
+(6, 'Malvín, Montevideo', -34.8889, -56.1056),
+(7, 'Buceo, Montevideo', -34.9089, -56.1389),
+(8, 'Centro, Montevideo', -34.9045, -56.1917),
+(9, 'Parque Rodó, Montevideo', -34.9167, -56.1639),
+(10, 'Aguada, Montevideo', -34.8889, -56.1944),
+(11, 'Montevideo', -34.9011, -56.1645),
+(12, 'Montevideo', -34.9011, -56.1645),
+(13, 'Montevideo', -34.9011, -56.1645),
+(14, 'Montevideo', -34.9011, -56.1645),
+(15, 'Montevideo', -34.9011, -56.1645),
+(16, 'Montevideo', -34.9011, -56.1645),
+(17, 'Montevideo', -34.9011, -56.1645),
+(18, 'Montevideo', -34.9011, -56.1645),
+(19, 'Montevideo', -34.9011, -56.1645),
+(20, 'Montevideo', -34.9011, -56.1645),
+(21, 'Montevideo', -34.9011, -56.1645),
+(22, 'Montevideo', -34.9011, -56.1645),
+(23, 'Montevideo', -34.9011, -56.1645),
+(24, 'Montevideo', -34.9011, -56.1645),
+(25, 'Montevideo', -34.9011, -56.1645),
+(26, 'Montevideo', -34.9011, -56.1645),
+(27, 'Montevideo', -34.9011, -56.1645),
+(28, 'Montevideo', -34.9011, -56.1645),
+(29, 'Montevideo', -34.9011, -56.1645),
+(30, 'Montevideo', -34.9011, -56.1645),
+(31, 'Montevideo', -34.9011, -56.1645),
+(32, 'Montevideo', -34.9011, -56.1645),
+(33, 'Montevideo', -34.9011, -56.1645),
+(34, 'Montevideo', -34.9011, -56.1645);
 
 -- =============================================================
 -- IMÁGENES (una por producto)
@@ -105,6 +156,22 @@ INSERT INTO Publica (id_usuario, id_producto) VALUES
 (1,1),(2,2),(3,3),(4,4),(5,5),(6,6),(7,7),(8,8),(9,9),(10,10),(11,11),(12,12),(13,13),(14,14),(15,15),(16,16),
 (17,17),(18,18),(19,19),(20,20),(21,21),(22,22),(23,23),(24,24),(25,25),(26,26),(27,27),(28,28),(29,29),(30,30),
 (31,31),(32,32),(33,33),(34,34);
+
+-- =============================================================
+-- MENSAJES - Datos del archivo antiguo
+-- =============================================================
+INSERT INTO Mensaje (id_mensaje, contenido, f_envio, id_emisor, id_receptor) VALUES
+(1, 'Hola, estoy interesado en tu producto. ¿Está disponible?', '2025-08-11 10:12:00', 5, 2),
+(2, 'Sí, sigue disponible. Podemos coordinar entrega.', '2025-08-11 10:20:00', 2, 5),
+(3, 'Gracias, quedo a la espera.', '2025-08-11 10:25:00', 5, 2);
+
+-- =============================================================
+-- PROPUESTAS DE INTERCAMBIO - Datos del archivo antiguo
+-- =============================================================
+INSERT INTO PropuestaIntercambio (id_propuesta, id_prod_solicitado, id_prod_ofrecido, estado, fecha, id_usuario) VALUES
+(1, 2, 1, 'pending', '2025-08-10', 5),
+(2, 4, 3, 'accepted', '2025-07-20', 2),
+(3, 7, 6, 'cancelled', '2025-06-01', 1);
 
 -- =============================================================
 -- VALORACIONES
@@ -200,7 +267,24 @@ INSERT INTO Valoracion (puntuacion, comentario, fecha, id_usuario_emisor, id_usu
 -- 33: 2.8 (10) -> 6x3 +4x2 = (18+8)=26/10=2.6; 7x3+3x2=(21+6)=27/10=2.7; 8x3+2x2=(24+4)=28/10=2.8 exacto
  (3,'',CURDATE(),1,33),(3,'',CURDATE(),2,33),(3,'',CURDATE(),3,33),(3,'',CURDATE(),4,33),(3,'',CURDATE(),5,33),(3,'',CURDATE(),6,33),(3,'',CURDATE(),7,33),(3,'',CURDATE(),8,33),(2,'',CURDATE(),9,33),(2,'',CURDATE(),10,33),
 -- 34: 4.5 (20) -> 10x5 +10x4
- (5,'',CURDATE(),1,34),(5,'',CURDATE(),2,34),(5,'',CURDATE(),3,34),(5,'',CURDATE(),4,34),(5,'',CURDATE(),5,34),(5,'',CURDATE(),6,34),(5,'',CURDATE(),7,34),(5,'',CURDATE(),8,34),(5,'',CURDATE(),9,34),(5,'',CURDATE(),10,34),(4,'',CURDATE(),11,34),(4,'',CURDATE(),12,34),(4,'',CURDATE(),13,34),(4,'',CURDATE(),14,34),(4,'',CURDATE(),15,34),(4,'',CURDATE(),16,34),(4,'',CURDATE(),17,34),(4,'',CURDATE(),18,34),(4,'',CURDATE(),19,34),(4,'',CURDATE(),20,34);
+ (5,'',CURDATE(),1,34),(5,'',CURDATE(),2,34),(5,'',CURDATE(),3,34),(5,'',CURDATE(),4,34),(5,'',CURDATE(),5,34),(5,'',CURDATE(),6,34),(5,'',CURDATE(),7,34),(5,'',CURDATE(),8,34),(5,'',CURDATE(),9,34),(5,'',CURDATE(),10,34),(4,'',CURDATE(),11,34),(4,'',CURDATE(),12,34),(4,'',CURDATE(),13,34),(4,'',CURDATE(),14,34),(4,'',CURDATE(),15,34),(4,'',CURDATE(),16,34),(4,'',CURDATE(),17,34),(4,'',CURDATE(),18,34),(4,'',CURDATE(),19,34),(4,'',CURDATE(),20,34),
+-- Valoraciones adicionales del archivo antiguo (adaptadas a las nuevas fechas)
+(5,'Excelente producto y comunicación.','2025-08-12',2,1),
+(4,'Todo bien, recomendado.','2025-07-22',1,4),
+(3,'Producto correcto, pero llegó con retraso.','2025-06-05',6,3);
 
+-- =============================================================
+-- NOTIFICACIONES - Datos del JS
+-- =============================================================
+INSERT INTO Notificacion (id_notificacion, tipo, titulo, descripcion, fecha, leida, id_usuario) VALUES
+(1, 'solicitud_chat', 'Solicitud de chat', 'Tienes una solicitud de chat de José Martínez', '2025-10-06', FALSE, 1),
+(2, 'oferta', 'Oferta por remera adidas', 'Cristian Ramírez ofertó por tu remera adidas', '2025-10-06', FALSE, 1),
+(3, 'mensaje', 'Nuevo mensaje', 'Tienes un nuevo mensaje de Roberto Pérez', '2025-10-05', FALSE, 1),
+(4, 'oferta_cancelada', 'Oferta cancelada', 'Julieta González canceló su oferta por tu remera adidas', '2025-10-04', TRUE, 1),
+(5, 'oferta_aceptada', 'Oferta aceptada', 'Martín Piña aceptó tu oferta para auriculares inalámbricos', '2025-08-28', TRUE, 2),
+(6, 'resena', 'Nueva reseña', 'Obtuviste 5 estrellas de una reseña de Pedro López', '2025-08-28', TRUE, 2);
 
+-- =============================================================
+-- ACTIVAR FOREIGN KEY CHECKS
+-- =============================================================
 SET FOREIGN_KEY_CHECKS = 1;

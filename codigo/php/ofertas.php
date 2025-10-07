@@ -24,6 +24,7 @@
     <div class="lg:hidden">
         <!-- Container principal para móvil -->
         <div class="w-full bg-white min-h-screen relative">
+            <div id="mobile-offers"></div>
         </div>
     </div>
 

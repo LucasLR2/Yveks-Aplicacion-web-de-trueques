@@ -1,5 +1,4 @@
 // Datos de ofertas
-console.log("ESTE ARCHIVO SI SE ESTA LLAMANDO")
 const offers = {
     received: [
         {
@@ -164,7 +163,7 @@ function generateMobileOffers(type) {
             <div class="offer-card bg-transparent rounded-2xl shadow-sm ring-green p-4 mb-4 w-full">
                 <div class="flex space-x-4">
                     <div class="flex-shrink-0">
-                        <img src="recursos/imagenes/${offer.id}.jpg" alt="${offer.product}" class="w-40 h-40 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg lg:rounded-xl">
+                        <img src="../recursos/imagenes/${offer.id}.jpg" alt="${offer.product}" class="w-40 h-40 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg lg:rounded-xl">
                     </div>
                     <div class="flex-1 min-w-0">
                         <h3 class="text-2xl text-gray-800 mb-1 text-left truncate">${offer.product}</h3>
@@ -172,7 +171,7 @@ function generateMobileOffers(type) {
                         <div class="flex flex-col space-y-2">
                             <span class="text-xs text-black">Por</span>
                             <div class="flex items-center space-x-2">
-                                <img src="recursos/imagenes/${offer.id + 5}.jpg" alt="Mi producto" class="w-16 h-16 md:w-10 md:h-10 lg:w-16 lg:h-16 object-cover rounded lg:rounded-lg flex-shrink-0">
+                                <img src="../recursos/imagenes/${offer.id + 5}.jpg" alt="Mi producto" class="w-16 h-16 md:w-10 md:h-10 lg:w-16 lg:h-16 object-cover rounded lg:rounded-lg flex-shrink-0">
                                 <span class="text-xs md:text-sm lg:text-base text-black">Mi Producto</span>
                             </div>
                         </div>
@@ -187,7 +186,7 @@ function generateMobileOffers(type) {
                         <span class="text-xs text-black truncate">${offer.seller}</span>
                     </div>
                     <div class="flex items-center space-x-1">
-                        <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-3 h-3 svg-yellow">
+                        <img src="../recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-3 h-3 svg-yellow">
                         <span class="text-xs text-black">${offer.rating} (${offer.reviews})</span>
                     </div>
                 </div>
@@ -206,7 +205,7 @@ function generateMobileOffers(type) {
         <div class="offer-card bg-transparent rounded-2xl shadow-sm ring-green p-4 mb-4 w-full">
             <div class="flex space-x-4">
                 <div class="flex-shrink-0">
-                    <img src="recursos/imagenes/${offer.id}.jpg" alt="${offer.product}" class="w-40 h-40 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg lg:rounded-xl">
+                    <img src="../recursos/imagenes/${offer.id}.jpg" alt="${offer.product}" class="w-40 h-40 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg lg:rounded-xl">
                 </div>
                 <div class="flex-1 min-w-0">
                     <h3 class="text-2xl text-gray-800 mb-1 text-left truncate">${offer.product}</h3>
@@ -214,7 +213,7 @@ function generateMobileOffers(type) {
                     <div class="flex flex-col space-y-2">
                         <span class="text-xs text-black">Por</span>
                         <div class="flex items-center space-x-2">
-                            <img src="recursos/imagenes/${offer.id + 5}.jpg" alt="Mi producto" class="w-16 h-16 md:w-10 md:h-10 lg:w-16 lg:h-16 object-cover rounded lg:rounded-lg flex-shrink-0">
+                            <img src="../recursos/imagenes/${offer.id + 5}.jpg" alt="Mi producto" class="w-16 h-16 md:w-10 md:h-10 lg:w-16 lg:h-16 object-cover rounded lg:rounded-lg flex-shrink-0">
                             <span class="text-xs md:text-sm lg:text-base text-black">Mi Producto</span>
                         </div>
                     </div>
@@ -229,7 +228,7 @@ function generateMobileOffers(type) {
                     <span class="text-xs text-black truncate">${offer.buyer || offer.seller}</span>
                 </div>
                 <div class="flex items-center space-x-1">
-                    <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-3 h-3 svg-yellow">
+                    <img src="../recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-3 h-3 svg-yellow">
                     <span class="text-xs text-black">${offer.rating} (${offer.reviews})</span>
                 </div>
             </div>
@@ -271,7 +270,7 @@ function generateDesktopOffers(type) {
             <div class="offer-card bg-transparent rounded-3xl shadow-sm ring-green p-8 w-full">
                 <div class="flex space-x-8">
                     <div class="flex-shrink-0">
-                        <img src="recursos/imagenes/${offer.id}.jpg" alt="${offer.product}" class="w-20 h-20 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg lg:rounded-xl">
+                        <img src="../recursos/imagenes/${offer.id}.jpg" alt="${offer.product}" class="w-20 h-20 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg lg:rounded-xl">
                     </div>
                     <div class="flex-1 min-w-0">
                         <h3 class="text-2xl text-gray-800 mb-3 text-left">${offer.product}</h3>
@@ -279,7 +278,7 @@ function generateDesktopOffers(type) {
                         <div class="flex flex-col space-y-3">
                             <span class="text-base text-black">Por</span>
                             <div class="flex items-center space-x-3">
-                                <img src="recursos/imagenes/${offer.id + 5}.jpg" alt="Mi producto" class="w-6 h-6 md:w-10 md:h-10 lg:w-16 lg:h-16 object-cover rounded lg:rounded-lg flex-shrink-0">
+                                <img src="../recursos/imagenes/${offer.id + 5}.jpg" alt="Mi producto" class="w-6 h-6 md:w-10 md:h-10 lg:w-16 lg:h-16 object-cover rounded lg:rounded-lg flex-shrink-0">
                                 <span class="text-xs md:text-sm lg:text-base text-black">Mi Producto</span>
                             </div>
                         </div>
@@ -294,7 +293,7 @@ function generateDesktopOffers(type) {
                         <span class="text-base text-black">${offer.seller}</span>
                     </div>
                     <div class="flex items-center space-x-3">
-                        <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-6 h-6 svg-yellow">
+                        <img src="../recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-6 h-6 svg-yellow">
                         <span class="text-base text-black">${offer.rating} (${offer.reviews})</span>
                     </div>
                 </div>
@@ -313,7 +312,7 @@ function generateDesktopOffers(type) {
         <div class="offer-card bg-transparent rounded-3xl shadow-sm ring-green p-8 w-full">
             <div class="flex space-x-8">
                 <div class="flex-shrink-0">
-                    <img src="recursos/imagenes/${offer.id}.jpg" alt="${offer.product}" class="w-20 h-20 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg lg:rounded-xl">
+                    <img src="../recursos/imagenes/${offer.id}.jpg" alt="${offer.product}" class="w-20 h-20 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg lg:rounded-xl">
                 </div>
                 <div class="flex-1 min-w-0">
                     <h3 class="text-2xl text-gray-800 mb-3 text-left">${offer.product}</h3>
@@ -321,7 +320,7 @@ function generateDesktopOffers(type) {
                     <div class="flex flex-col space-y-3">
                         <span class="text-base text-black">Por</span>
                         <div class="flex items-center space-x-3">
-                            <img src="recursos/imagenes/${offer.id + 5}.jpg" alt="Mi producto" class="w-6 h-6 md:w-10 md:h-10 lg:w-16 lg:h-16 object-cover rounded lg:rounded-lg flex-shrink-0">
+                            <img src="../recursos/imagenes/${offer.id + 5}.jpg" alt="Mi producto" class="w-6 h-6 md:w-10 md:h-10 lg:w-16 lg:h-16 object-cover rounded lg:rounded-lg flex-shrink-0">
                             <span class="text-xs md:text-sm lg:text-base text-black">Mi Producto</span>
                         </div>
                     </div>
@@ -336,7 +335,7 @@ function generateDesktopOffers(type) {
                     <span class="text-base text-black">${offer.buyer || offer.seller}</span>
                 </div>
                 <div class="flex items-center space-x-3">
-                    <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-6 h-6 svg-yellow">
+                    <img src="../recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-6 h-6 svg-yellow">
                     <span class="text-base text-black">${offer.rating} (${offer.reviews})</span>
                 </div>
             </div>
@@ -391,3 +390,7 @@ function messageUser(id) {
     console.log('Enviar mensaje:', id);
     // Aquí iría la lógica para enviar mensaje
 }
+document.addEventListener('DOMContentLoaded', function() {
+    generateMobileOffers(currentOfferType);
+    generateDesktopOffers(currentOfferType);
+});

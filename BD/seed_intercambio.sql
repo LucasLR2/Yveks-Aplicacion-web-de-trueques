@@ -56,45 +56,45 @@ INSERT INTO Usuario (id_usuario, nombre_comp, correo, contrasena, rol, ubicacion
 (34,'Usuario 34','u34@example.com',SHA2('pass34',256),'usuario','Montevideo','1990-02-03');
 
 -- =============================================================
--- PRODUCTOS (34) - Con datos completos del JS y calificaciones/reseñas calculadas
+-- PRODUCTOS (34) - Con datos completos del JS (calificaciones calculadas dinámicamente desde Valoracion)
 -- =============================================================
-INSERT INTO Producto (id_producto, nombre, estado, calificacion, resenas, categoria, descripcion, preferencias, f_publicacion, id_ubicacion) VALUES
+INSERT INTO Producto (id_producto, nombre, estado, categoria, descripcion, preferencias, f_publicacion, id_ubicacion) VALUES
 -- Los primeros 10 productos con datos del JS
-(1,'Lentes retro rojos','Usado',4.5,12,'accesorios','Lentes de sol retro en perfecto estado. Muy cómodos y con protección UV. Ideales para el verano.','Remera estilizada,Pañuelo original,Gadget tecnológico','2025-10-04',1),
-(2,'Auriculares inalámbricos','Nuevo',4.2,32,'tecnologia','Auriculares Bluetooth de alta calidad. Batería de larga duración y excelente calidad de sonido.','Cargador magnético,Proyector pequeño,Powerbank','2025-10-06',2),
-(3,'Cargador magnético','Usado',4.8,8,'tecnologia','Cargador magnético original, funciona perfectamente. Compatible con múltiples dispositivos.','Auriculares inalámbricos,Cable USB de calidad,Powerbank','2025-10-06',3),
-(4,'Proyector','Nuevo',4.3,15,'tecnologia','Proyector HD portátil, ideal para presentaciones o entretenimiento en casa. Incluye cables.','Auriculares inalámbricos,Pantalla portátil,Smart TV Box','2025-10-03',4),
-(5,'Remera Suzuki con estampado','Nuevo',4.6,23,'ropa','Remera original Suzuki, talla M. Material de alta calidad, nunca usada.','Otra remera,Pañuelo de diseño,Gorra de moda','2025-10-05',5),
-(6,'Sillón naranja','Usado',4.4,18,'hogar','Sillón cómodo en buen estado, color naranja vibrante. Perfecto para sala de estar.','Sillón cómodo,Silla de oficina premium,Mueble de almacenamiento','2025-10-02',6),
-(7,'Zapatillas Adidas Aggresive','Usado',4.9,11,'ropa','Zapatillas Adidas en buen estado, talla 42. Muy cómodas para deportes.','Otra zapatilla deportiva,Gorra de marca,Mochila deportiva','2025-10-04',7),
-(8,'Libro The Laws of Human Nature','Nuevo',3.8,5,'entretenimiento','Libro nuevo, nunca leído. Excelente para desarrollo personal.','Otro libro,Cuaderno de notas,Marcadores/bolígrafos de calidad','2025-09-29',8),
-(9,'Remera Illicit Bloc denim claro','Nuevo',5.0,15,'ropa','Remera nueva con etiqueta, talla L. Diseño exclusivo y material premium.','Remera estampada,Pañuelo de diseño,Gorra de moda','2025-10-06',9),
-(10,'Lámpara de escritorio','Usado',3.9,7,'hogar','Lámpara LED ajustable, perfecta para estudiar o trabajar. Funciona perfectamente.','Lámpara LED,Organizador de escritorio,Gadget tecnológico pequeño','2025-10-01',10),
+(1,'Lentes retro rojos','Usado','accesorios','Lentes de sol retro en perfecto estado. Muy cómodos y con protección UV. Ideales para el verano.','Remera estilizada,Pañuelo original,Gadget tecnológico','2025-10-04 10:30:00',1),
+(2,'Auriculares inalámbricos','Nuevo','tecnologia','Auriculares Bluetooth de alta calidad. Batería de larga duración y excelente calidad de sonido.','Cargador magnético,Proyector pequeño,Powerbank','2025-10-06 14:15:00',2),
+(3,'Cargador magnético','Usado','tecnologia','Cargador magnético original, funciona perfectamente. Compatible con múltiples dispositivos.','Auriculares inalámbricos,Cable USB de calidad,Powerbank','2025-10-06 09:45:00',3),
+(4,'Proyector','Nuevo','tecnologia','Proyector HD portátil, ideal para presentaciones o entretenimiento en casa. Incluye cables.','Auriculares inalámbricos,Pantalla portátil,Smart TV Box','2025-10-03 16:20:00',4),
+(5,'Remera Suzuki con estampado','Nuevo','ropa','Remera original Suzuki, talla M. Material de alta calidad, nunca usada.','Otra remera,Pañuelo de diseño,Gorra de moda','2025-10-05 11:00:00',5),
+(6,'Sillón naranja','Usado','hogar','Sillón cómodo en buen estado, color naranja vibrante. Perfecto para sala de estar.','Sillón cómodo,Silla de oficina premium,Mueble de almacenamiento','2025-10-02 13:30:00',6),
+(7,'Zapatillas Adidas Aggresive','Usado','ropa','Zapatillas Adidas en buen estado, talla 42. Muy cómodas para deportes.','Otra zapatilla deportiva,Gorra de marca,Mochila deportiva','2025-10-04 15:45:00',7),
+(8,'Libro The Laws of Human Nature','Nuevo','entretenimiento','Libro nuevo, nunca leído. Excelente para desarrollo personal.','Otro libro,Cuaderno de notas,Marcadores/bolígrafos de calidad','2025-09-29 12:10:00',8),
+(9,'Remera Illicit Bloc denim claro','Nuevo','ropa','Remera nueva con etiqueta, talla L. Diseño exclusivo y material premium.','Remera estampada,Pañuelo de diseño,Gorra de moda','2025-10-06 17:00:00',9),
+(10,'Lámpara de escritorio','Usado','hogar','Lámpara LED ajustable, perfecta para estudiar o trabajar. Funciona perfectamente.','Lámpara LED,Organizador de escritorio,Gadget tecnológico pequeño','2025-10-01 08:20:00',10),
 -- Productos adicionales para completar hasta 34 (con calificaciones calculadas automáticamente)
-(11,'Remera blanca con estampado azul','Nuevo',1.8,4,'ropa','Remera con estampado azul.','Remera casual,Accesorio de moda','2025-01-20',11),
-(12,'Remera marrón Illicit Bloc','Nuevo',5.0,17,'ropa','Remera marrón de la colección.','Remera de marca,Accesorio casual','2024-12-11',12),
-(13,'Cámara fotográfica Canon','Usado',4.8,21,'tecnologia','Cámara Canon funcional.','Lente adicional,Trípode,Memoria SD','2024-11-10',13),
-(14,'Remera blanca con estampado rojo','Usado',3.6,13,'ropa','Remera blanca estampado rojo.','Remera deportiva,Gorra','2024-11-05',14),
-(15,'iPad mini','Usado',4.7,24,'tecnologia','iPad mini en buen estado.','Funda para tablet,Stylus,Cargador','2024-10-22',15),
-(16,'Cámara fotográfica Sony','Usado',4.8,19,'tecnologia','Cámara Sony con lente.','Lente zoom,Batería extra,Bolso','2024-10-10',16),
-(17,'Remera Umbro azul y blanca','Nuevo',4.9,18,'ropa','Remera deportiva Umbro.','Short deportivo,Zapatillas','2024-09-25',17),
-(18,'AirPods','Nuevo',4.8,25,'tecnologia','Auriculares AirPods.','Funda protectora,Powerbank','2024-09-15',18),
-(19,'Remera negra con estampado beige vintage','Nuevo',5.0,22,'ropa','Remera negra vintage.','Pantalón vintage,Accesorio retro','2024-09-05',19),
-(20,'Remera Nike blanca con estampado lila','Nuevo',4.9,16,'ropa','Remera Nike blanca lila.','Zapatillas Nike,Short deportivo','2024-08-28',20),
-(21,'Lentes retro amarillos','Usado',2.7,10,'accesorios','Lentes amarillos retro.','Funda para lentes,Otro accesorio','2024-08-15',21),
-(22,'Remera ArtTheMoment blanca','Nuevo',4.0,9,'ropa','Remera ArtTheMoment blanca.','Remera artística,Accesorio creativo','2024-08-01',22),
-(23,'Teclado Clicky verde','Usado',5.0,19,'tecnologia','Teclado clicky verde.','Mouse gaming,Pad de mouse','2024-07-20',23),
-(24,'Mouse y soporte inalámbrico led','Nuevo',4.2,27,'tecnologia','Mouse + soporte LED.','Teclado,Auriculares gaming','2024-07-10',24),
-(25,'AirPods Max negros','Usado',4.5,20,'tecnologia','Auriculares AirPods Max.','Funda premium,Soporte para auriculares','2024-07-01',25),
-(26,'Samsung Galaxy Book','Usado',4.1,31,'tecnologia','Laptop Samsung Galaxy Book.','Mouse inalámbrico,Funda para laptop','2024-06-20',26),
-(27,'Bicileta rodado 27','Usado',4.9,23,'deportes','Bicicleta rodado 27.','Casco de ciclismo,Luces LED','2024-06-10',27),
-(28,'Guitarra eléctrica naranja','Nuevo',4.6,15,'tecnologia','Guitarra eléctrica naranja.','Amplificador,Correa para guitarra','2024-05-30',28),
-(29,'Apple Watch con cadena','Usado',3.7,14,'tecnologia','Apple Watch con cadena.','Pulsera adicional,Cargador magnético','2024-05-15',29),
-(30,'Dron','Usado',4.0,9,'tecnologia','Dron compacto funcional.','Batería extra,Hélices de repuesto','2024-05-05',30),
-(31,'Buzo Nike azul','Nuevo',5.0,29,'ropa','Buzo Nike azul.','Pantalón deportivo,Zapatillas Nike','2024-04-25',31),
-(32,'Buzo Salomon negro','Usado',4.4,22,'ropa','Buzo Salomon negro.','Pantalón outdoor,Botas de trekking','2024-04-15',32),
-(33,'Cinto de cuero negro','Usado',2.8,10,'accesorios','Cinto cuero negro.','Billetera de cuero,Otro accesorio','2024-04-05',33),
-(34,'Morral High negro','Usado',4.5,20,'accesorios','Morral High color negro.','Billetera,Organizador de viaje','2024-03-28',34);
+(11,'Remera blanca con estampado azul','Nuevo','ropa','Remera con estampado azul.','Remera casual,Accesorio de moda','2025-01-20 14:30:00',11),
+(12,'Remera marrón Illicit Bloc','Nuevo','ropa','Remera marrón de la colección.','Remera de marca,Accesorio casual','2024-12-11 10:15:00',12),
+(13,'Cámara fotográfica Canon','Usado','tecnologia','Cámara Canon funcional.','Lente adicional,Trípode,Memoria SD','2024-11-10 16:45:00',13),
+(14,'Remera blanca con estampado rojo','Usado','ropa','Remera blanca estampado rojo.','Remera deportiva,Gorra','2024-11-05 11:20:00',14),
+(15,'iPad mini','Usado','tecnologia','iPad mini en buen estado.','Funda para tablet,Stylus,Cargador','2024-10-22 13:00:00',15),
+(16,'Cámara fotográfica Sony','Usado','tecnologia','Cámara Sony con lente.','Lente zoom,Batería extra,Bolso','2024-10-10 09:30:00',16),
+(17,'Remera Umbro azul y blanca','Nuevo','ropa','Remera deportiva Umbro.','Short deportivo,Zapatillas','2024-09-25 15:10:00',17),
+(18,'AirPods','Nuevo','tecnologia','Auriculares AirPods.','Funda protectora,Powerbank','2024-09-15 12:40:00',18),
+(19,'Remera negra con estampado beige vintage','Nuevo','ropa','Remera negra vintage.','Pantalón vintage,Accesorio retro','2024-09-05 17:25:00',19),
+(20,'Remera Nike blanca con estampado lila','Nuevo','ropa','Remera Nike blanca lila.','Zapatillas Nike,Short deportivo','2024-08-28 14:50:00',20),
+(21,'Lentes retro amarillos','Usado','accesorios','Lentes amarillos retro.','Funda para lentes,Otro accesorio','2024-08-15 11:35:00',21),
+(22,'Remera ArtTheMoment blanca','Nuevo','ropa','Remera ArtTheMoment blanca.','Remera artística,Accesorio creativo','2024-08-01 08:45:00',22),
+(23,'Teclado Clicky verde','Usado','tecnologia','Teclado clicky verde.','Mouse gaming,Pad de mouse','2024-07-20 16:00:00',23),
+(24,'Mouse y soporte inalámbrico led','Nuevo','tecnologia','Mouse + soporte LED.','Teclado,Auriculares gaming','2024-07-10 13:15:00',24),
+(25,'AirPods Max negros','Usado','tecnologia','Auriculares AirPods Max.','Funda premium,Soporte para auriculares','2024-07-01 10:55:00',25),
+(26,'Samsung Galaxy Book','Usado','tecnologia','Laptop Samsung Galaxy Book.','Mouse inalámbrico,Funda para laptop','2024-06-20 15:30:00',26),
+(27,'Bicileta rodado 27','Usado','deportes','Bicicleta rodado 27.','Casco de ciclismo,Luces LED','2024-06-10 12:20:00',27),
+(28,'Guitarra eléctrica naranja','Nuevo','tecnologia','Guitarra eléctrica naranja.','Amplificador,Correa para guitarra','2024-05-30 09:10:00',28),
+(29,'Apple Watch con cadena','Usado','tecnologia','Apple Watch con cadena.','Pulsera adicional,Cargador magnético','2024-05-15 14:40:00',29),
+(30,'Dron','Usado','tecnologia','Dron compacto funcional.','Batería extra,Hélices de repuesto','2024-05-05 11:25:00',30),
+(31,'Buzo Nike azul','Nuevo','ropa','Buzo Nike azul.','Pantalón deportivo,Zapatillas Nike','2024-04-25 16:15:00',31),
+(32,'Buzo Salomon negro','Usado','ropa','Buzo Salomon negro.','Pantalón outdoor,Botas de trekking','2024-04-15 13:50:00',32),
+(33,'Cinto de cuero negro','Usado','accesorios','Cinto cuero negro.','Billetera de cuero,Otro accesorio','2024-04-05 10:05:00',33),
+(34,'Morral High negro','Usado','accesorios','Morral High color negro.','Billetera,Organizador de viaje','2024-03-28 17:35:00',34);
 
 -- =============================================================
 -- UBICACIONES - Datos de coordenadas de los productos del JS

@@ -1,7 +1,7 @@
 <?php
 // =============================
 // obtener-productos.php
-// API para obtener productos desde la base de datos
+// Obtener productos desde la base de datos
 // Reemplaza los datos estáticos del JavaScript
 // =============================
 
@@ -14,13 +14,13 @@ try {
                 p.id_producto as id,
                 p.nombre,
                 p.estado,
-                p.calificacion,
-                p.resenas,
                 p.categoria,
                 p.descripcion,
                 p.preferencias,
                 p.f_publicacion,
+                u.id_usuario as vendedor_id,
                 u.nombre_comp as vendedor_nombre,
+                u.img_usuario as vendedor_avatar,
                 ub.nombre as ubicacion_nombre,
                 ub.lat as coordenadas_lat,
                 ub.lng as coordenadas_lng,
@@ -46,14 +46,18 @@ try {
         
         if ($diff->days == 0) {
             if ($diff->h == 0) {
-                $publicadoHace = $diff->i . " minutos";
+            if ($diff->i == 0) {
+                $publicadoHace = "Ahora";
             } else {
-                $publicadoHace = $diff->h . " horas";
+                $publicadoHace = $diff->i . " minuto" . ($diff->i > 1 ? "s" : "");
+            }
+            } else {
+            $publicadoHace = $diff->h . " hora" . ($diff->h > 1 ? "s" : "");
             }
         } elseif ($diff->days == 1) {
             $publicadoHace = "1 día";
         } elseif ($diff->days < 7) {
-            $publicadoHace = $diff->days . " días";
+            $publicadoHace = $diff->days . " día" . ($diff->days > 1 ? "s" : "");
         } elseif ($diff->days < 30) {
             $semanas = floor($diff->days / 7);
             $publicadoHace = $semanas . " semana" . ($semanas > 1 ? "s" : "");
@@ -62,14 +66,28 @@ try {
             $publicadoHace = $meses . " mes" . ($meses > 1 ? "es" : "");
         }
         
-        // Calcular reputación del vendedor (promedio de valoraciones recibidas)
-        $sqlReputacion = "SELECT AVG(puntuacion) as reputacion, COUNT(*) as total_ventas 
-                         FROM Valoracion 
-                         WHERE id_usuario_receptor = (SELECT id_usuario FROM Publica WHERE id_producto = ?)";
-        $stmtRep = $conn->prepare($sqlReputacion);
-        $stmtRep->bind_param('i', $row['id']);
-        $stmtRep->execute();
-        $reputacion = $stmtRep->get_result()->fetch_assoc();
+        // Obtener calificación y reseñas del vendedor desde la tabla Valoracion
+        $vendedor_id = $row['vendedor_id'];
+        
+        // Calcular calificación promedio y cantidad de reseñas del vendedor
+        $sqlVendedor = "SELECT 
+                          AVG(puntuacion) as calificacion_promedio, 
+                          COUNT(*) as total_resenas 
+                        FROM Valoracion 
+                        WHERE id_usuario_receptor = ?";
+        $stmtVendedor = $conn->prepare($sqlVendedor);
+        $stmtVendedor->bind_param('i', $vendedor_id);
+        $stmtVendedor->execute();
+        $datosVendedor = $stmtVendedor->get_result()->fetch_assoc();
+        
+        // Contar ventas (total de productos publicados por el vendedor)
+        $sqlVentas = "SELECT COUNT(*) as total_ventas 
+                      FROM Publica 
+                      WHERE id_usuario = ?";
+        $stmtVentas = $conn->prepare($sqlVentas);
+        $stmtVentas->bind_param('i', $vendedor_id);
+        $stmtVentas->execute();
+        $ventas = $stmtVentas->get_result()->fetch_assoc();
         
         // Convertir preferencias de string a array
         $preferenciasArray = !empty($row['preferencias']) ? explode(',', $row['preferencias']) : [];
@@ -78,16 +96,14 @@ try {
             'id' => (int)$row['id'],
             'nombre' => $row['nombre'],
             'estado' => $row['estado'],
-            'calificacion' => (float)$row['calificacion'],
-            'resenas' => (int)$row['resenas'],
+            'calificacion' => round((float)$datosVendedor['calificacion_promedio'], 1) ?: 0,
+            'resenas' => (int)$datosVendedor['total_resenas'] ?: 0,
             'imagenes' => [['imagen' => $row['url_imagen'] ?: 'recursos/imagenes/default.jpg']],
             'categoria' => $row['categoria'],
             'publicadoHace' => $publicadoHace,
             'vendedor' => [
                 'nombre' => $row['vendedor_nombre'],
-                'reputacion' => round((float)$reputacion['reputacion'], 1) ?: 0,
-                'ventas' => (int)$reputacion['total_ventas'] ?: 0,
-                'avatar' => 'recursos/avatars/default.jpg' // Placeholder por ahora
+                'avatar' => $row['vendedor_avatar'] ?: 'recursos/avatars/default.jpg'
             ],
             'ubicacion' => $row['ubicacion_nombre'] ?: 'Montevideo',
             'coordenadas' => [
@@ -99,7 +115,8 @@ try {
         ];
         
         $productos[] = $producto;
-        $stmtRep->close();
+        $stmtVendedor->close();
+        $stmtVentas->close();
     }
     
     echo json_encode([

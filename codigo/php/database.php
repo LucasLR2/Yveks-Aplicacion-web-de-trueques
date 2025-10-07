@@ -1,6 +1,6 @@
 <?php
 $host = "localhost";
-$db_name = "intercambio";
+$db_name = "dreva";
 $username = "root";
 $password = "";
 

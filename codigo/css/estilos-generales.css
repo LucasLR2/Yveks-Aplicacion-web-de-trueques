@@ -32,6 +32,9 @@ html, body {
 .text-green {
   color: #719177 !important;
 }
+.text-white {
+  color: #ffffff !important;
+}
 .bg-green {
   background-color: #719177;
 }

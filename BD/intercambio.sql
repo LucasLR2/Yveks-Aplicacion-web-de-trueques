@@ -102,6 +102,8 @@ CREATE TABLE categoria (
     nombre VARCHAR(100) NOT NULL,
     slug VARCHAR(100) NOT NULL UNIQUE,
     url_imagen VARCHAR(255) NOT NULL
+    descripcion TEXT
+
 );
 
 -- Tabla intermedia Pertenece (Producto-Categoria)
@@ -131,13 +133,22 @@ CREATE TABLE Genera (
     FOREIGN KEY (id_incidencia) REFERENCES Incidencia(id_incidencia)
 );
 
-INSERT INTO categoria (nombre, slug, url_imagen) VALUES
-('Tecnología', 'tecnologia', 'recursos/iconos/contorno/dispositivos/procesador.svg'),
-('Hogar', 'hogar', 'recursos/iconos/contorno/dispositivos/sillon.svg'),
-('Ropa', 'ropa', 'recursos/iconos/contorno/dispositivos/remera.svg'),
-('Accesorios', 'accesorios', 'recursos/iconos/contorno/dispositivos/lentes.svg'),
-('Deportes', 'deportes', 'recursos/iconos/contorno/dispositivos/pelota.svg'),
-('Entretenimiento', 'entretenimiento', 'recursos/iconos/contorno/dispositivos/dado.svg'),
-('Mascotas', 'mascotas', 'recursos/iconos/contorno/dispositivos/pata.svg'),
-('Herramientas', 'herramientas', 'recursos/iconos/contorno/dispositivos/herramientas.svg'),
-('Servicios', 'servicios', 'recursos/iconos/contorno/dispositivos/servicio.svg');
+INSERT INTO categoria (nombre, slug, url_imagen, descripcion) VALUES
+('Tecnología', 'tecnologia', 'recursos/iconos/contorno/dispositivos/procesador.svg',
+ 'Celulares, computadoras, consolas, accesorios y todo tipo de dispositivos electrónicos.'),
+('Hogar', 'hogar', 'recursos/iconos/contorno/dispositivos/sillon.svg',
+ 'Artículos y mobiliario para el hogar, decoración y electrodomésticos.'),
+('Ropa', 'ropa', 'recursos/iconos/contorno/dispositivos/remera.svg',
+ 'Prendas de vestir y calzado para todas las edades y estilos.'),
+('Accesorios', 'accesorios', 'recursos/iconos/contorno/dispositivos/lentes.svg',
+ 'Complementos de moda como lentes, relojes, joyas y más.'),
+('Deportes', 'deportes', 'recursos/iconos/contorno/dispositivos/pelota.svg',
+ 'Equipamiento, indumentaria y artículos deportivos para distintas disciplinas.'),
+('Entretenimiento', 'entretenimiento', 'recursos/iconos/contorno/dispositivos/dado.svg',
+ 'Juegos, música, películas, consolas y pasatiempos en general.'),
+('Mascotas', 'mascotas', 'recursos/iconos/contorno/dispositivos/pata.svg',
+ 'Productos y accesorios para el cuidado y diversión de tus mascotas.'),
+('Herramientas', 'herramientas', 'recursos/iconos/contorno/dispositivos/herramientas.svg',
+ 'Herramientas para el hogar, la construcción y proyectos de bricolaje.'),
+('Servicios', 'servicios', 'recursos/iconos/contorno/dispositivos/servicio.svg',
+ 'Ofrecé o encontrá servicios profesionales, técnicos o personales.');

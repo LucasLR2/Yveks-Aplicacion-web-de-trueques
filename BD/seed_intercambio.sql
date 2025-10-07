@@ -1,4 +1,4 @@
-USE intercambio;
+USE dreva;
 
 -- =============================================================
 -- USUARIOS (1..34) - uno por producto para permitir calificaciones distintas

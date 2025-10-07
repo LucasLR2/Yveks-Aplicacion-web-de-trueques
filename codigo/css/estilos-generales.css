@@ -32,6 +32,9 @@ html, body {
 .text-green {
   color: #719177 !important;
 }
+.text-white {
+  color: #ffffff !important;
+}
 .bg-green {
   background-color: #719177;
 }
@@ -290,4 +293,16 @@ html, body {
   100% {
     transform: scale(1);
   }
+}
+
+.boton-sidebar-seleccionado{
+  background-color: #719177 !important;
+  color: #ffffff !important;
+}
+.boton-sidebar-seleccionado:hover{
+  background-color: #95b79a !important;
+}
+.boton-sidebar-deseleccionado:hover{
+  background-color: #f3f4f6 !important;
+  color: #5a7a5f !important;
 }

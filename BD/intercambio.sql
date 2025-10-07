@@ -1,10 +1,11 @@
-CREATE DATABASE intercambio;
+CREATE DATABASE dreva;
 
-USE intercambio;
+USE dreva;
 
 CREATE TABLE Usuario (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     nombre_comp VARCHAR(100) NOT NULL,
+    img_usuario VARCHAR(255),
     correo VARCHAR(100) UNIQUE NOT NULL,
     contrasena VARCHAR(255) NOT NULL,
     rol VARCHAR(50),
@@ -20,9 +21,11 @@ CREATE TABLE Producto (
     calificacion DECIMAL(2,1),
     resenas INT,
     categoria VARCHAR(50),
-    descripcion TEXT,
     f_publicacion DATE,
-    preferencias VARCHAR(100)
+    descripcion TEXT,
+    preferencias VARCHAR(100),
+    id_ubicacion INT,
+    FOREIGN KEY (id_ubicacion) REFERENCES ubicacion(id)
 );
 
 CREATE TABLE ImagenProducto (
@@ -76,11 +79,40 @@ CREATE TABLE Valoracion (
 
 CREATE TABLE Notificacion (
     id_notificacion INT AUTO_INCREMENT PRIMARY KEY,
-    contenido TEXT,
     tipo VARCHAR(50),
+    titulo VARCHAR(100),
+    descripcion VARCHAR(255),
     fecha DATE,
+    leida BOOLEAN,
     id_usuario INT,
     FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
+);
+
+CREATE TABLE ubicacion (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255),
+    lat DECIMAL(10,7),
+    lng DECIMAL(10,7),
+    place_id VARCHAR(100)
+
+);
+
+CREATE TABLE categoria (
+    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    slug VARCHAR(100) NOT NULL UNIQUE,
+    url_imagen VARCHAR(255) NOT NULL
+    descripcion TEXT
+
+);
+
+-- Tabla intermedia Pertenece (Producto-Categoria)
+CREATE TABLE Pertenece (
+    id_producto INT,
+    id_categoria INT,
+    PRIMARY KEY (id_producto, id_categoria),
+    FOREIGN KEY (id_producto) REFERENCES Producto(id_producto),
+    FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
 );
 
 -- Tabla intermedia Publica (Usuario-Producto)
@@ -101,3 +133,22 @@ CREATE TABLE Genera (
     FOREIGN KEY (id_incidencia) REFERENCES Incidencia(id_incidencia)
 );
 
+INSERT INTO categoria (nombre, slug, url_imagen, descripcion) VALUES
+('Tecnología', 'tecnologia', 'recursos/iconos/contorno/dispositivos/procesador.svg',
+ 'Celulares, computadoras, consolas, accesorios y todo tipo de dispositivos electrónicos.'),
+('Hogar', 'hogar', 'recursos/iconos/contorno/dispositivos/sillon.svg',
+ 'Artículos y mobiliario para el hogar, decoración y electrodomésticos.'),
+('Ropa', 'ropa', 'recursos/iconos/contorno/dispositivos/remera.svg',
+ 'Prendas de vestir y calzado para todas las edades y estilos.'),
+('Accesorios', 'accesorios', 'recursos/iconos/contorno/dispositivos/lentes.svg',
+ 'Complementos de moda como lentes, relojes, joyas y más.'),
+('Deportes', 'deportes', 'recursos/iconos/contorno/dispositivos/pelota.svg',
+ 'Equipamiento, indumentaria y artículos deportivos para distintas disciplinas.'),
+('Entretenimiento', 'entretenimiento', 'recursos/iconos/contorno/dispositivos/dado.svg',
+ 'Juegos, música, películas, consolas y pasatiempos en general.'),
+('Mascotas', 'mascotas', 'recursos/iconos/contorno/dispositivos/pata.svg',
+ 'Productos y accesorios para el cuidado y diversión de tus mascotas.'),
+('Herramientas', 'herramientas', 'recursos/iconos/contorno/dispositivos/herramientas.svg',
+ 'Herramientas para el hogar, la construcción y proyectos de bricolaje.'),
+('Servicios', 'servicios', 'recursos/iconos/contorno/dispositivos/servicio.svg',
+ 'Ofrecé o encontrá servicios profesionales, técnicos o personales.');

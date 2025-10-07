@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
       const data = new FormData(form);
-      fetch('logear.php', {
+      fetch('loguear.php', {
         method: 'POST',
         body: data
       })

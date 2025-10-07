@@ -163,7 +163,7 @@ function generateMobileOffers(type) {
             <div class="offer-card bg-transparent rounded-2xl shadow-sm ring-green p-4 mb-4 w-full">
                 <div class="flex space-x-4">
                     <div class="flex-shrink-0">
-                        <img src="recursos/imagenes/${offer.id}.jpg" alt="${offer.product}" class="w-40 h-40 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg lg:rounded-xl">
+                        <img src="../recursos/imagenes/${offer.id}.jpg" alt="${offer.product}" class="w-40 h-40 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg lg:rounded-xl">
                     </div>
                     <div class="flex-1 min-w-0">
                         <h3 class="text-2xl text-gray-800 mb-1 text-left truncate">${offer.product}</h3>
@@ -171,7 +171,7 @@ function generateMobileOffers(type) {
                         <div class="flex flex-col space-y-2">
                             <span class="text-xs text-black">Por</span>
                             <div class="flex items-center space-x-2">
-                                <img src="recursos/imagenes/${offer.id + 5}.jpg" alt="Mi producto" class="w-16 h-16 md:w-10 md:h-10 lg:w-16 lg:h-16 object-cover rounded lg:rounded-lg flex-shrink-0">
+                                <img src="../recursos/imagenes/${offer.id + 5}.jpg" alt="Mi producto" class="w-16 h-16 md:w-10 md:h-10 lg:w-16 lg:h-16 object-cover rounded lg:rounded-lg flex-shrink-0">
                                 <span class="text-xs md:text-sm lg:text-base text-black">Mi Producto</span>
                             </div>
                         </div>
@@ -186,7 +186,7 @@ function generateMobileOffers(type) {
                         <span class="text-xs text-black truncate">${offer.seller}</span>
                     </div>
                     <div class="flex items-center space-x-1">
-                        <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-3 h-3 svg-yellow">
+                        <img src="../recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-3 h-3 svg-yellow">
                         <span class="text-xs text-black">${offer.rating} (${offer.reviews})</span>
                     </div>
                 </div>
@@ -205,7 +205,7 @@ function generateMobileOffers(type) {
         <div class="offer-card bg-transparent rounded-2xl shadow-sm ring-green p-4 mb-4 w-full">
             <div class="flex space-x-4">
                 <div class="flex-shrink-0">
-                    <img src="recursos/imagenes/${offer.id}.jpg" alt="${offer.product}" class="w-40 h-40 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg lg:rounded-xl">
+                    <img src="../recursos/imagenes/${offer.id}.jpg" alt="${offer.product}" class="w-40 h-40 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg lg:rounded-xl">
                 </div>
                 <div class="flex-1 min-w-0">
                     <h3 class="text-2xl text-gray-800 mb-1 text-left truncate">${offer.product}</h3>
@@ -213,7 +213,7 @@ function generateMobileOffers(type) {
                     <div class="flex flex-col space-y-2">
                         <span class="text-xs text-black">Por</span>
                         <div class="flex items-center space-x-2">
-                            <img src="recursos/imagenes/${offer.id + 5}.jpg" alt="Mi producto" class="w-16 h-16 md:w-10 md:h-10 lg:w-16 lg:h-16 object-cover rounded lg:rounded-lg flex-shrink-0">
+                            <img src="../recursos/imagenes/${offer.id + 5}.jpg" alt="Mi producto" class="w-16 h-16 md:w-10 md:h-10 lg:w-16 lg:h-16 object-cover rounded lg:rounded-lg flex-shrink-0">
                             <span class="text-xs md:text-sm lg:text-base text-black">Mi Producto</span>
                         </div>
                     </div>
@@ -228,7 +228,7 @@ function generateMobileOffers(type) {
                     <span class="text-xs text-black truncate">${offer.buyer || offer.seller}</span>
                 </div>
                 <div class="flex items-center space-x-1">
-                    <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-3 h-3 svg-yellow">
+                    <img src="../recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-3 h-3 svg-yellow">
                     <span class="text-xs text-black">${offer.rating} (${offer.reviews})</span>
                 </div>
             </div>
@@ -270,7 +270,7 @@ function generateDesktopOffers(type) {
             <div class="offer-card bg-transparent rounded-3xl shadow-sm ring-green p-8 w-full">
                 <div class="flex space-x-8">
                     <div class="flex-shrink-0">
-                        <img src="recursos/imagenes/${offer.id}.jpg" alt="${offer.product}" class="w-20 h-20 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg lg:rounded-xl">
+                        <img src="../recursos/imagenes/${offer.id}.jpg" alt="${offer.product}" class="w-20 h-20 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg lg:rounded-xl">
                     </div>
                     <div class="flex-1 min-w-0">
                         <h3 class="text-2xl text-gray-800 mb-3 text-left">${offer.product}</h3>
@@ -278,7 +278,7 @@ function generateDesktopOffers(type) {
                         <div class="flex flex-col space-y-3">
                             <span class="text-base text-black">Por</span>
                             <div class="flex items-center space-x-3">
-                                <img src="recursos/imagenes/${offer.id + 5}.jpg" alt="Mi producto" class="w-6 h-6 md:w-10 md:h-10 lg:w-16 lg:h-16 object-cover rounded lg:rounded-lg flex-shrink-0">
+                                <img src="../recursos/imagenes/${offer.id + 5}.jpg" alt="Mi producto" class="w-6 h-6 md:w-10 md:h-10 lg:w-16 lg:h-16 object-cover rounded lg:rounded-lg flex-shrink-0">
                                 <span class="text-xs md:text-sm lg:text-base text-black">Mi Producto</span>
                             </div>
                         </div>
@@ -293,7 +293,7 @@ function generateDesktopOffers(type) {
                         <span class="text-base text-black">${offer.seller}</span>
                     </div>
                     <div class="flex items-center space-x-3">
-                        <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-6 h-6 svg-yellow">
+                        <img src="../recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-6 h-6 svg-yellow">
                         <span class="text-base text-black">${offer.rating} (${offer.reviews})</span>
                     </div>
                 </div>
@@ -312,7 +312,7 @@ function generateDesktopOffers(type) {
         <div class="offer-card bg-transparent rounded-3xl shadow-sm ring-green p-8 w-full">
             <div class="flex space-x-8">
                 <div class="flex-shrink-0">
-                    <img src="recursos/imagenes/${offer.id}.jpg" alt="${offer.product}" class="w-20 h-20 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg lg:rounded-xl">
+                    <img src="../recursos/imagenes/${offer.id}.jpg" alt="${offer.product}" class="w-20 h-20 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg lg:rounded-xl">
                 </div>
                 <div class="flex-1 min-w-0">
                     <h3 class="text-2xl text-gray-800 mb-3 text-left">${offer.product}</h3>
@@ -320,7 +320,7 @@ function generateDesktopOffers(type) {
                     <div class="flex flex-col space-y-3">
                         <span class="text-base text-black">Por</span>
                         <div class="flex items-center space-x-3">
-                            <img src="recursos/imagenes/${offer.id + 5}.jpg" alt="Mi producto" class="w-6 h-6 md:w-10 md:h-10 lg:w-16 lg:h-16 object-cover rounded lg:rounded-lg flex-shrink-0">
+                            <img src="../recursos/imagenes/${offer.id + 5}.jpg" alt="Mi producto" class="w-6 h-6 md:w-10 md:h-10 lg:w-16 lg:h-16 object-cover rounded lg:rounded-lg flex-shrink-0">
                             <span class="text-xs md:text-sm lg:text-base text-black">Mi Producto</span>
                         </div>
                     </div>
@@ -335,7 +335,7 @@ function generateDesktopOffers(type) {
                     <span class="text-base text-black">${offer.buyer || offer.seller}</span>
                 </div>
                 <div class="flex items-center space-x-3">
-                    <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-6 h-6 svg-yellow">
+                    <img src="../recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-6 h-6 svg-yellow">
                     <span class="text-base text-black">${offer.rating} (${offer.reviews})</span>
                 </div>
             </div>
@@ -390,127 +390,7 @@ function messageUser(id) {
     console.log('Enviar mensaje:', id);
     // Aquí iría la lógica para enviar mensaje
 }
-
-// Función para manejar navegación móvil
-function setActiveTab(elemento, indice, dispositivo) {
-    const idBurbuja = dispositivo === "mobile" ? "mobile-bubble" : "desktop-bubble";
-    const burbuja = document.getElementById(idBurbuja);
-    const botones = document.querySelectorAll(`[onclick*="setActiveTab"][onclick*="${dispositivo}"]`);
-
-    // Navegación solo para Inicio y Ofertas
-    const rutas = [
-        "index.html",
-        "ofertas.html"
-    ];
-    const paginaActual = window.location.pathname.split("/").pop();
-    if ((indice === 0 || indice === 1) && rutas[indice] !== paginaActual) {
-        window.location.href = rutas[indice];
-        return;
-    }
-
-    if (indice === 2) {
-        burbuja.style.opacity = "0";
-        const botonCentral = botones[2];
-        botonCentral.style.transform = "scale(1.2)";
-        botonCentral.style.transition = "transform 0.3s ease";
-
-        botones.forEach((btn, i) => {
-            const icono = btn.querySelector("img");
-            if (i === 2) return; // No cambiar el plus
-            btn.classList.remove("text-green");
-            btn.classList.add("text-gray-300");
-            icono.classList.remove("svg-green");
-            icono.classList.add("svg-white");
-            icono.style.transform = "translateY(0)";
-            icono.style.transition = "transform 0.3s ease";
-            cambiarIconoAOutline(icono);
-            icono.classList.remove(
-                "svg-green",
-                "svg-gray-300",
-                "svg-gray-400",
-                "svg-gray-600",
-                "svg-gray-800",
-                "svg-yellow"
-            );
-        });
-    } else {
-        burbuja.style.opacity = "1";
-        const botonCentral = botones[2];
-        botonCentral.style.transform = "scale(1)";
-        botonCentral.style.transition = "transform 0.3s ease";
-        const contenedorVerde = burbuja.parentElement;
-        const anchoContenedor = contenedorVerde.offsetWidth;
-        const cantidadBotones = botones.length;
-        const anchoBoton = anchoContenedor / cantidadBotones;
-        const leftBurbuja = (indice + 0.5) * anchoBoton - burbuja.offsetWidth / 2;
-        burbuja.style.left = leftBurbuja + "px";
-        burbuja.style.transform = "translateY(11px)";
-        botones.forEach((btn, i) => {
-            const icono = btn.querySelector("img");
-            if (i === 2) return;
-            if (btn.classList.contains("bg-white")) {
-                return;
-            }
-            if (i === indice) {
-                btn.classList.remove("text-gray-300");
-                btn.classList.add("text-green");
-                icono.classList.remove(
-                    "svg-white",
-                    "svg-gray-300",
-                    "svg-gray-400",
-                    "svg-gray-600",
-                    "svg-gray-800",
-                    "svg-yellow",
-                    "svg-green"
-                );
-                icono.classList.add("svg-green");
-                icono.style.transform = "translateY(-8px)";
-                icono.style.transition = "transform 0.3s ease";
-                cambiarIconoASolid(icono);
-            } else {
-                btn.classList.remove("text-green");
-                btn.classList.add("text-gray-300");
-                icono.classList.remove(
-                    "svg-green",
-                    "svg-gray-300",
-                    "svg-gray-400",
-                    "svg-gray-600",
-                    "svg-gray-800",
-                    "svg-yellow",
-                    "svg-white"
-                );
-                icono.classList.add("svg-white");
-                icono.style.transform = "translateY(0)";
-                icono.style.transition = "transform 0.3s ease";
-                cambiarIconoAOutline(icono);
-            }
-        });
-    }
-}
-
-function cambiarIconoAOutline(icono) {
-    const src = icono.src;
-    if (src.includes("/solido/")) {
-        const nuevoSrc = src.replace("/solido/", "/contorno/");
-        icono.src = nuevoSrc;
-    }
-}
-
-function cambiarIconoASolid(icono) {
-    const src = icono.src;
-    if (src.includes("/contorno/")) {
-        const nuevoSrc = src.replace("/contorno/", "/solido/");
-        icono.src = nuevoSrc;
-    }
-}
-
-// Inicialización
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     generateMobileOffers(currentOfferType);
     generateDesktopOffers(currentOfferType);
-    // Activar el tab de Ofertas (índice 1)
-    const tabOfertas = document.querySelectorAll('[onclick*="setActiveTab"][onclick*="mobile"]')[1];
-    if (tabOfertas) {
-        setActiveTab(tabOfertas, 1, 'mobile');
-    }
 });

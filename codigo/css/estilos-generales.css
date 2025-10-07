@@ -294,3 +294,15 @@ html, body {
     transform: scale(1);
   }
 }
+
+.boton-sidebar-seleccionado{
+  background-color: #719177 !important;
+  color: #ffffff !important;
+}
+.boton-sidebar-seleccionado:hover{
+  background-color: #95b79a !important;
+}
+.boton-sidebar-deseleccionado:hover{
+  background-color: #f3f4f6 !important;
+  color: #5a7a5f !important;
+}

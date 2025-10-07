@@ -75,35 +75,35 @@ $baseURL = '/Yveks-Aplicacion-web-de-trueques/codigo/';
       <nav class="p-6">
         <ul class="space-y-2">
           <li>
-            <a href="<?= $baseURL ?>index.php"
-               class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-green hover:bg-gray-50 smooth-transition <?= $rutaActual === 'index' ? 'bg-green text-white' : '' ?>">
-              <img src="<?= $baseURL ?>recursos/iconos/contorno/general/inicio.svg"
-                   alt="Inicio"
-                   class="w-5 h-5 <?= $rutaActual === 'index' ? 'svg-white' : 'svg-green' ?>">
-              <span>Inicio</span>
-            </a>
+      <a href="<?= $baseURL ?>index.php"
+      class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg smooth-transition <?= $rutaActual === 'index' ? 'boton-sidebar-seleccionado text-green' : 'boton-sidebar-deseleccionado text-green' ?>">
+        <img src="<?= $baseURL ?>recursos/iconos/contorno/general/inicio.svg"
+          alt="Inicio"
+          class="w-5 h-5 <?= $rutaActual === 'index' ? 'svg-white' : 'svg-green' ?>">
+        <span>Inicio</span>
+      </a>
           </li>
 
           <li>
-            <a href="javascript:void(0)"
-               class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-green hover:bg-gray-50 smooth-transition <?= $rutaActual === 'ofertas' ? 'bg-green text-white' : '' ?>"
-               onclick="Verificacion('<?= $baseURL ?>php/ofertas.php', this)">
-              <img src="<?= $baseURL ?>recursos/iconos/contorno/general/etiqueta.svg"
-                   alt="Ofertas"
-                   class="w-5 h-5 <?= $rutaActual === 'ofertas' ? 'svg-white' : 'svg-green' ?>">
-              <span>Ofertas</span>
-            </a>
+      <a href="javascript:void(0)"
+      class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg smooth-transition <?= $rutaActual === 'ofertas' ? 'boton-sidebar-seleccionado text-green' : 'boton-sidebar-deseleccionado text-green' ?>"
+      onclick="Verificacion('<?= $baseURL ?>php/ofertas.php', this)">
+        <img src="<?= $baseURL ?>recursos/iconos/contorno/general/etiqueta.svg"
+          alt="Ofertas"
+          class="w-5 h-5 <?= $rutaActual === 'ofertas' ? 'svg-white' : 'svg-green' ?>">
+        <span>Ofertas</span>
+      </a>
           </li>
 
           <li>
-            <a href="javascript:void(0)"
-               class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-green hover:bg-gray-50 smooth-transition <?= $rutaActual === 'perfil' ? 'bg-green text-white' : '' ?>"
-               onclick="Verificacion('<?= $baseURL ?>php/perfil.php', this)">
-              <img src="<?= $baseURL ?>recursos/iconos/contorno/comunicacion/usuario.svg"
-                   alt="Perfil"
-                   class="w-5 h-5 <?= $rutaActual === 'perfil' ? 'svg-white' : 'svg-green' ?>">
-              <span>Perfil</span>
-            </a>
+      <a href="javascript:void(0)"
+      class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg smooth-transition <?= $rutaActual === 'perfil' ? 'boton-sidebar-seleccionado text-green' : 'boton-sidebar-deseleccionado text-green' ?>"
+      onclick="Verificacion('<?= $baseURL ?>php/perfil.php', this)">
+        <img src="<?= $baseURL ?>recursos/iconos/contorno/comunicacion/usuario.svg"
+          alt="Perfil"
+          class="w-5 h-5 <?= $rutaActual === 'perfil' ? 'svg-white' : 'svg-green' ?>">
+        <span>Perfil</span>
+      </a>
           </li>
         </ul>
       </nav>

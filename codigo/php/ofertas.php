@@ -24,20 +24,6 @@
     <div class="lg:hidden">
         <!-- Container principal para móvil -->
         <div class="w-full bg-white min-h-screen relative">
-
-            <!-- Título y switch de ofertas -->
-            <div class="px-6 md:px-16 mb-6">
-                <h1 class="text-2xl text-black mb-4">Ofertas</h1>
-                <!-- Switch de ofertas móvil -->
-                <div class="switch-button flex mb-4">
-                    <div class="switch-option active" onclick="switchOfferType('received', this)">
-                        Recibidas
-                    </div>
-                    <div class="switch-option" onclick="switchOfferType('made', this)">
-                        Hechas
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -76,7 +62,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/botui/0.2.1/botui.min.js"></script>
     <script src="../js/ofertas.js"></script>
     <script src="../js/principal.js"></script>
-    <script src="../js/inicio.js"></script>
 </body>
 
 </html>

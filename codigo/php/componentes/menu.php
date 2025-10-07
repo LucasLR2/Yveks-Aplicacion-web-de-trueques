@@ -107,7 +107,7 @@ $baseURL = '/Yveks-Aplicacion-web-de-trueques/codigo/';
           </li>
         </ul>
       </nav>
-
+        
       <!-- Categorías solo en index -->
       <div id="categorias-desktop">
         <?php if ($rutaActual === 'index'): ?>

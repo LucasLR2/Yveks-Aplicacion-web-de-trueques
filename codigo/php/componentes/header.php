@@ -17,7 +17,7 @@ if ($paginaActual === 'index') {
 <!-- ================= HEADER MOBILE ================= -->
 <div class="lg:hidden bg-white px-6 md:px-16 pb-2 pt-8 relative">
     <!-- Botón notificaciones fijo a la derecha -->
-    <button onclick="toggleNotificationsMobile()" class="absolute right-6 top-8 w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center z-10 relative">
+    <button onclick="toggleNotificationsMobile()" class="absolute right-6 top-8 w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center z-10 ">
         <img src="<?= $baseURL ?>recursos/iconos/solido/estado/notificacion.svg" alt="Notificaciones"
             class="w-5 h-5 svg-gray-800">
         <!-- Badge contador -->

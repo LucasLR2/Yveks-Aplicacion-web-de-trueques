@@ -1,12 +1,23 @@
 // Datos de notificaciones
-const notificaciones = [
-    { id: 1, tipo: "solicitud_chat", titulo: "Solicitud de chat", descripcion: "Tienes una solicitud de chat de José Martínez", tiempo: "20s", icono: "recursos/iconos/solido/comunicacion/comentario.svg", leida: false, usuario: "José Martínez" },
-    { id: 2, tipo: "oferta", titulo: "Oferta por remera adidas", descripcion: "Cristian Ramírez ofertó por tu remera adidas", tiempo: "4min", icono: "recursos/iconos/contorno/general/etiqueta.svg", leida: false, usuario: "Cristian Ramírez" },
-    { id: 3, tipo: "mensaje", titulo: "Nuevo mensaje", descripcion: "Tienes un nuevo mensaje de Roberto Pérez", tiempo: "12h", icono: "recursos/iconos/solido/comunicacion/comentario.svg", leida: false, usuario: "Roberto Pérez" },
-    { id: 4, tipo: "oferta_cancelada", titulo: "Oferta cancelada", descripcion: "Julieta González canceló su oferta por tu remera adidas", tiempo: "2d", icono: "recursos/iconos/solido/interfaz/cerrar.svg", leida: true, usuario: "Julieta González" },
-    { id: 5, tipo: "oferta_aceptada", titulo: "Oferta aceptada", descripcion: "Martín Piña aceptó tu oferta para auriculares inalámbricos", tiempo: "8sem", icono: "recursos/iconos/solido/estado/verificado.svg", leida: true, usuario: "Martín Piña" },
-    { id: 6, tipo: "resena", titulo: "Nueva reseña", descripcion: "Obtuviste 5 estrellas de una reseña de Pedro López", tiempo: "8sem", icono: "recursos/iconos/solido/estado/estrella.svg", leida: true, usuario: "Pedro López" }
-];
+let notificaciones = [];
+
+// Función para cargar notificaciones desde la base de datos
+function cargarNotificaciones() {
+    fetch(baseURL + 'php/obtener-notificaciones.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error('Error al cargar notificaciones:', data.error);
+                return;
+            }
+            
+            if (data.notificaciones) {
+                notificaciones = data.notificaciones;
+                updateNotificationBadge();
+            }
+        })
+        .catch(error => console.error('Error en fetch de notificaciones:', error));
+}
 
 // Datos de productos ampliados con información detallada
 const productos = [
@@ -361,49 +372,74 @@ function handleNotificationClick(notifId) {
     const notif = notificaciones.find(n => n.id === notifId);
     if (!notif) return;
     
-    notif.leida = true;
+    // Marcar como leída en la base de datos
+    const formData = new FormData();
+    formData.append('id_notificacion', notifId);
     
-    switch(notif.tipo) {
-        case 'solicitud_chat':
-            console.log(`Abriendo chat con ${notif.usuario}`);
-            break;
-        case 'oferta':
-            console.log(`Viendo oferta de ${notif.usuario}`);
-            break;
-        case 'mensaje':
-            console.log(`Abriendo mensaje de ${notif.usuario}`);
-            break;
-        default:
-            console.log(`Manejando notificación: ${notif.titulo}`);
-    }
-    
-    updateNotificationBadge();
-    
-    const mobileContent = document.getElementById('mobile-notifications-content');
-    const desktopContent = document.getElementById('desktop-notifications-content');
-    
-    if (mobileContent && !document.getElementById('mobile-notifications-dropdown').classList.contains('hidden')) {
-        generateNotificationsContent('mobile-notifications-content');
-    }
-    if (desktopContent && !document.getElementById('desktop-notifications-dropdown').classList.contains('hidden')) {
-        generateNotificationsContent('desktop-notifications-content');
-    }
+    fetch(baseURL + 'php/marcar-notificacion-leida.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            notif.leida = true;
+            updateNotificationBadge();
+            
+            // Actualizar UI
+            const mobileContent = document.getElementById('mobile-notifications-content');
+            const desktopContent = document.getElementById('desktop-notifications-content');
+            
+            if (mobileContent && !document.getElementById('mobile-notifications-dropdown').classList.contains('hidden')) {
+                generateNotificationsContent('mobile-notifications-content');
+            }
+            if (desktopContent && !document.getElementById('desktop-notifications-dropdown').classList.contains('hidden')) {
+                generateNotificationsContent('desktop-notifications-content');
+            }
+            
+            // Acciones según tipo
+            switch(notif.tipo) {
+                case 'solicitud_chat':
+                    console.log(`Abriendo chat con ${notif.usuario || 'usuario'}`);
+                    break;
+                case 'oferta':
+                    console.log(`Viendo oferta`);
+                    break;
+                case 'mensaje':
+                    console.log(`Abriendo mensaje`);
+                    break;
+                default:
+                    console.log(`Manejando notificación: ${notif.titulo}`);
+            }
+        }
+    })
+    .catch(error => console.error('Error al marcar notificación:', error));
 }
 
 // Mark all notifications as read
 function markAllAsRead() {
-    notificaciones.forEach(notif => notif.leida = true);
-    updateNotificationBadge();
-    
-    const mobileContent = document.getElementById('mobile-notifications-content');
-    const desktopContent = document.getElementById('desktop-notifications-content');
-    
-    if (mobileContent && !document.getElementById('mobile-notifications-dropdown').classList.contains('hidden')) {
-        generateNotificationsContent('mobile-notifications-content');
-    }
-    if (desktopContent && !document.getElementById('desktop-notifications-dropdown').classList.contains('hidden')) {
-        generateNotificationsContent('desktop-notifications-content');
-    }
+    fetch(baseURL + 'php/marcar-todas-leidas.php', {
+        method: 'POST'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            notificaciones.forEach(notif => notif.leida = true);
+            updateNotificationBadge();
+            
+            // Actualizar UI
+            const mobileContent = document.getElementById('mobile-notifications-content');
+            const desktopContent = document.getElementById('desktop-notifications-content');
+            
+            if (mobileContent && !document.getElementById('mobile-notifications-dropdown').classList.contains('hidden')) {
+                generateNotificationsContent('mobile-notifications-content');
+            }
+            if (desktopContent && !document.getElementById('desktop-notifications-dropdown').classList.contains('hidden')) {
+                generateNotificationsContent('desktop-notifications-content');
+            }
+        }
+    })
+    .catch(error => console.error('Error al marcar todas como leídas:', error));
 }
 
 // Update notification badge
@@ -971,6 +1007,7 @@ document.addEventListener('keydown', function(event) {
 
 // Initialize notification system and products when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
+    cargarNotificaciones();
     updateNotificationBadge();
     generarProductosMovil();
     generarProductosEscritorio();

@@ -17,10 +17,12 @@ if ($paginaActual === 'index') {
 <!-- ================= HEADER MOBILE ================= -->
 <div class="lg:hidden bg-white px-6 md:px-16 pb-2 pt-8 relative">
     <!-- Botón notificaciones fijo a la derecha -->
-    <div class="absolute right-6 top-8 w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center z-10">
+    <button onclick="toggleNotificationsMobile()" class="absolute right-6 top-8 w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center z-10 relative">
         <img src="<?= $baseURL ?>recursos/iconos/solido/estado/notificacion.svg" alt="Notificaciones"
-             class="w-5 h-5 svg-gray-800">
-    </div>
+            class="w-5 h-5 svg-gray-800">
+        <!-- Badge contador -->
+        <span id="mobile-notification-badge" class="hidden absolute -top-1 -right-1 bg-green text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">0</span>
+    </button>
 
     <!-- Contenido del header a la izquierda -->
     <div class="flex flex-col">
@@ -66,6 +68,27 @@ if ($paginaActual === 'index') {
         </div>
     <?php endif; ?>
     <!-- config-funcionalidad: si la página actual de móvil (usar variable $paginaActual) es perfil, debes agregar el botón hamburguer/configuración a la derecha del botón notificaciones, al tocarlo, en perfil.php se mostrará la sección Configuración, que ocupará toda la pantalla, tal cual figma, debe superponer lo de atrás. Para eso deberás trabajar en perfil.php -->
+</div>
+
+<!-- Dropdown de notificaciones móvil -->
+<div id="mobile-notifications-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300"></div>
+<div id="mobile-notifications-dropdown" class="hidden fixed inset-0 bg-white z-50 transform translate-y-full transition-transform duration-300">
+    <div class="h-full flex flex-col">
+        <!-- Header -->
+        <div class="flex items-center p-4 border-b border-gray-200">
+            <button onclick="toggleNotificationsMobile()" class="w-8 h-8 flex items-center justify-center mr-3">
+                <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+            </button>
+            <h2 class="text-lg font-semibold text-gray-800 flex-1">Notificaciones</h2>
+            <span id="mobile-notification-count" class="bg-green text-white text-xs font-bold rounded-full px-2 py-1">+2</span>
+        </div>
+        <!-- Content -->
+        <div id="mobile-notifications-content" class="flex-1 overflow-y-auto">
+            <!-- Las notificaciones se generarán dinámicamente -->
+        </div>
+    </div>
 </div>
 
 <!-- ================= HEADER DESKTOP ================= -->

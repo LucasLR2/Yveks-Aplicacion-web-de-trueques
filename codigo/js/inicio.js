@@ -451,18 +451,13 @@ function generarProductosMovil() {
             </div>
         </div>
         <div class="p-3"> 
-            <div class="flex items-center justify-between mb-3">
-                <h4 class="text-sm font-semibold text-gray-800">${producto.nombre}</h4>
-                <span class="px-2 py-1 text-xs rounded-full 
-                             ${producto.estado === 'Nuevo' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}">
-                    ${producto.estado}
-                </span>
-            </div>
-            
-            <!-- Calificación -->
-            <div class="flex items-center gap-2">
-                <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
-                <span class="text-base text-gray-500">${producto.calificacion} (${producto.resenas})</span>
+            <h4 class="text-sm font-medium text-gray-800 mb-3">${producto.nombre}</h4>
+            <div class="flex items-center justify-between mb-1">
+                <p class="text-base text-green">${producto.estado}</p>
+                <div class="flex items-center gap-1">
+                    <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-4 h-4 svg-yellow align-middle">
+                    <span class="text-base text-gray-500">${producto.calificacion} (${producto.resenas})</span>
+                </div>
             </div>
         </div>
     </div>

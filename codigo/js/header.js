@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Usuario con sesión
                 contenedor.innerHTML = `
                     <!-- Botón Nueva publicación -->
-                    <button class="bg-green text-white px-6 h-10 smooth-transition rounded-lg primary-button flex items-center text-sm whitespace-nowrap"
+                    <button class="bg-green text-white px-6 h-10 smooth-transition redondeado-personalizado primary-button flex items-center text-sm whitespace-nowrap"
                         onclick="window.location.href='${baseURL}php/nuevo_producto.php'">
                         <img src="${baseURL}recursos/iconos/solido/interfaz/mas.svg" alt="Publicar" class="w-3 h-3 svg-white mr-2">
                         Nueva publicación
@@ -65,11 +65,11 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 // Usuario sin sesión → botones iniciar sesión y registrarse
                 contenedor.innerHTML = `
-                    <button class="bg-green text-white px-8 h-10 rounded-lg smooth-transition primary-button flex items-center text-sm whitespace-nowrap mr-2"
+                    <button class="bg-green text-white px-8 h-10 redondeado-personalizado smooth-transition primary-button flex items-center text-sm whitespace-nowrap mr-2"
                         onclick="window.location.href='${baseURL}php/iniciar-sesion.php'">
                         Iniciar sesión
                     </button>
-                    <button class="bg-white text-green border border-green px-8 h-10 rounded-lg secondary-button smooth-transition flex items-center text-sm whitespace-nowrap hover:bg-green hover:text-white group"
+                    <button class="bg-white text-green border border-green px-8 h-10 redondeado-personalizado secondary-button smooth-transition flex items-center text-sm whitespace-nowrap hover:bg-green hover:text-white group"
                         onclick="window.location.href='${baseURL}php/registrarse.php'">
                         Registrarse
                     </button>

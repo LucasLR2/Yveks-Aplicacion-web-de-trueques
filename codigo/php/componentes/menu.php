@@ -76,7 +76,7 @@ $baseURL = '/Yveks-Aplicacion-web-de-trueques/codigo/';
         <ul class="space-y-2">
           <li>
       <a href="<?= $baseURL ?>index.php"
-      class="desktop-nav-item flex items-center space-x-3 px-6 py-3 rounded-lg smooth-transition <?= $rutaActual === 'index' ? 'boton-sidebar-seleccionado text-green' : 'boton-sidebar-deseleccionado text-green' ?>">
+      class="desktop-nav-item flex items-center space-x-3 px-6 py-3 redondeado-personalizado smooth-transition <?= $rutaActual === 'index' ? 'boton-sidebar-seleccionado text-green' : 'boton-sidebar-deseleccionado text-green' ?>">
         <img src="<?= $baseURL ?>recursos/iconos/contorno/general/inicio.svg"
           alt="Inicio"
           class="w-5 h-5 <?= $rutaActual === 'index' ? 'svg-white' : 'svg-green' ?>">
@@ -86,7 +86,7 @@ $baseURL = '/Yveks-Aplicacion-web-de-trueques/codigo/';
 
           <li>
       <a href="javascript:void(0)"
-      class="desktop-nav-item flex items-center space-x-3 px-6 py-3 rounded-lg smooth-transition <?= $rutaActual === 'ofertas' ? 'boton-sidebar-seleccionado text-green' : 'boton-sidebar-deseleccionado text-green' ?>"
+      class="desktop-nav-item flex items-center space-x-3 px-6 py-3 redondeado-personalizado smooth-transition <?= $rutaActual === 'ofertas' ? 'boton-sidebar-seleccionado text-green' : 'boton-sidebar-deseleccionado text-green' ?>"
       onclick="Verificacion('<?= $baseURL ?>php/ofertas.php', this)">
         <img src="<?= $baseURL ?>recursos/iconos/contorno/general/etiqueta.svg"
           alt="Ofertas"
@@ -97,7 +97,7 @@ $baseURL = '/Yveks-Aplicacion-web-de-trueques/codigo/';
 
           <li>
       <a href="javascript:void(0)"
-      class="desktop-nav-item flex items-center space-x-3 px-6 py-3 rounded-lg smooth-transition <?= $rutaActual === 'perfil' ? 'boton-sidebar-seleccionado text-green' : 'boton-sidebar-deseleccionado text-green' ?>"
+      class="desktop-nav-item flex items-center space-x-3 px-6 py-3 redondeado-personalizado smooth-transition <?= $rutaActual === 'perfil' ? 'boton-sidebar-seleccionado text-green' : 'boton-sidebar-deseleccionado text-green' ?>"
       onclick="Verificacion('<?= $baseURL ?>php/perfil.php', this)">
         <img src="<?= $baseURL ?>recursos/iconos/contorno/comunicacion/usuario.svg"
           alt="Perfil"

@@ -306,13 +306,13 @@ html, body {
   background-color: #f3f4f6 !important;
   color: #5a7a5f !important;
 }
-.rounded-lg{
-  border-radius:100px !important;
-}
 .secondary-button{
   background-color: #ffffff !important;
   color: #719177 !important;
 }
 .secondary-button:hover{
   background-color: #E8E8E8 !important;
+}
+.redondeado-personalizado{
+  border-radius:100px !important;
 }

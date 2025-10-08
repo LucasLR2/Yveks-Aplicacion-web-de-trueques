@@ -274,6 +274,17 @@ function generateNotificationsContent(containerId) {
     const notificacionesRecientes = notificaciones.filter(n => !n.leida);
     const notificacionesAnteriores = notificaciones.filter(n => n.leida);
     
+    // Si no hay notificaciones en absoluto
+    if (notificaciones.length === 0) {
+        container.innerHTML = `
+            <div class="flex flex-col items-center justify-center h-96 px-4">
+                <img src="recursos/iconos/solido/estado/notificacion.svg" alt="Sin notificaciones" class="w-16 h-16 svg-gray-400 mb-4 opacity-50">
+                <p class="text-gray-500 text-center text-base">No tienes notificaciones en este momento</p>
+            </div>
+        `;
+        return;
+    }
+    
     let html = `
         <div class="p-4 border-b border-gray-200">
             <div class="flex items-center justify-between">
@@ -447,6 +458,7 @@ function updateNotificationBadge() {
     const unreadCount = notificaciones.filter(n => !n.leida).length;
     const mobileBadge = document.getElementById('mobile-notification-badge');
     const desktopBadge = document.getElementById('desktop-notification-badge');
+    const mobileCount = document.getElementById('mobile-notification-count');
     
     if (unreadCount > 0) {
         const badgeText = unreadCount > 9 ? '9+' : unreadCount.toString();
@@ -458,9 +470,14 @@ function updateNotificationBadge() {
             desktopBadge.textContent = badgeText;
             desktopBadge.classList.remove('hidden');
         }
+        if (mobileCount) {
+            mobileCount.textContent = `+${unreadCount}`;
+            mobileCount.classList.remove('hidden');
+        }
     } else {
         if (mobileBadge) mobileBadge.classList.add('hidden');
         if (desktopBadge) desktopBadge.classList.add('hidden');
+        if (mobileCount) mobileCount.classList.add('hidden');
     }
 }
 

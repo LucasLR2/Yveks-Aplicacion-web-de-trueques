@@ -295,14 +295,24 @@ html, body {
   }
 }
 
-.boton-sidebar-seleccionado{
+.boton-sidebar-seleccionado, .primary-button{
   background-color: #719177 !important;
   color: #ffffff !important;
 }
-.boton-sidebar-seleccionado:hover{
+.boton-sidebar-seleccionado:hover, .primary-button:hover{
   background-color: #95b79a !important;
 }
 .boton-sidebar-deseleccionado:hover{
   background-color: #f3f4f6 !important;
   color: #5a7a5f !important;
+}
+.rounded-lg{
+  border-radius:100px !important;
+}
+.secondary-button{
+  background-color: #ffffff !important;
+  color: #719177 !important;
+}
+.secondary-button:hover{
+  background-color: #E8E8E8 !important;
 }

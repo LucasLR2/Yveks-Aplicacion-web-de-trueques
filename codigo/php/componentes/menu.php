@@ -57,7 +57,7 @@ $baseURL = '/Yveks-Aplicacion-web-de-trueques/codigo/';
   <div class="desktop-sidebar bg-white border-r border-gray-200 custom-scrollbar overflow-y-auto h-screen fixed left-0 top-0 w-[280px] flex flex-col justify-between">
     <div>
       <!-- Logo -->
-      <div class="p-6 flex items-center">
+      <div class="p-6 pl-6 flex items-center">
         <img src="<?= $baseURL ?>recursos/iconos/dreva.svg" alt="Dreva">
       </div>
 
@@ -72,11 +72,11 @@ $baseURL = '/Yveks-Aplicacion-web-de-trueques/codigo/';
       </div>
 
       <!-- Navegación -->
-      <nav class="p-6">
+      <nav class="p-4">
         <ul class="space-y-2">
           <li>
       <a href="<?= $baseURL ?>index.php"
-      class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg smooth-transition <?= $rutaActual === 'index' ? 'boton-sidebar-seleccionado text-green' : 'boton-sidebar-deseleccionado text-green' ?>">
+      class="desktop-nav-item flex items-center space-x-3 px-6 py-3 rounded-lg smooth-transition <?= $rutaActual === 'index' ? 'boton-sidebar-seleccionado text-green' : 'boton-sidebar-deseleccionado text-green' ?>">
         <img src="<?= $baseURL ?>recursos/iconos/contorno/general/inicio.svg"
           alt="Inicio"
           class="w-5 h-5 <?= $rutaActual === 'index' ? 'svg-white' : 'svg-green' ?>">
@@ -86,7 +86,7 @@ $baseURL = '/Yveks-Aplicacion-web-de-trueques/codigo/';
 
           <li>
       <a href="javascript:void(0)"
-      class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg smooth-transition <?= $rutaActual === 'ofertas' ? 'boton-sidebar-seleccionado text-green' : 'boton-sidebar-deseleccionado text-green' ?>"
+      class="desktop-nav-item flex items-center space-x-3 px-6 py-3 rounded-lg smooth-transition <?= $rutaActual === 'ofertas' ? 'boton-sidebar-seleccionado text-green' : 'boton-sidebar-deseleccionado text-green' ?>"
       onclick="Verificacion('<?= $baseURL ?>php/ofertas.php', this)">
         <img src="<?= $baseURL ?>recursos/iconos/contorno/general/etiqueta.svg"
           alt="Ofertas"
@@ -97,7 +97,7 @@ $baseURL = '/Yveks-Aplicacion-web-de-trueques/codigo/';
 
           <li>
       <a href="javascript:void(0)"
-      class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg smooth-transition <?= $rutaActual === 'perfil' ? 'boton-sidebar-seleccionado text-green' : 'boton-sidebar-deseleccionado text-green' ?>"
+      class="desktop-nav-item flex items-center space-x-3 px-6 py-3 rounded-lg smooth-transition <?= $rutaActual === 'perfil' ? 'boton-sidebar-seleccionado text-green' : 'boton-sidebar-deseleccionado text-green' ?>"
       onclick="Verificacion('<?= $baseURL ?>php/perfil.php', this)">
         <img src="<?= $baseURL ?>recursos/iconos/contorno/comunicacion/usuario.svg"
           alt="Perfil"
@@ -139,9 +139,9 @@ function Verificacion(destino, elemento) {
                         <p class="mb-4">Debes iniciar sesión para acceder a esta sección.</p>
                         <div class="flex justify-center gap-4">
                             <a href="<?= $baseURL ?>php/iniciar-sesion.php"
-                               class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Iniciar sesión</a>
+                               class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">Iniciar sesión</a>
                             <a href="<?= $baseURL ?>index.php"
-                               class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Volver</a>
+                               class="bg-gray-300 text-gray-800 px-6 py-2 rounded hover:bg-gray-400">Volver</a>
                         </div>
                     </div>
                 `;

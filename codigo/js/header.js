@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Usuario con sesión
                 contenedor.innerHTML = `
                     <!-- Botón Nueva publicación -->
-                    <button class="bg-green text-white px-4 h-8 rounded-full smooth-transition flex items-center text-sm whitespace-nowrap"
+                    <button class="bg-green text-white px-6 h-10 smooth-transition rounded-lg primary-button flex items-center text-sm whitespace-nowrap"
                         onclick="window.location.href='${baseURL}php/nuevo_producto.php'">
                         <img src="${baseURL}recursos/iconos/solido/interfaz/mas.svg" alt="Publicar" class="w-3 h-3 svg-white mr-2">
                         Nueva publicación
@@ -65,14 +65,12 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 // Usuario sin sesión → botones iniciar sesión y registrarse
                 contenedor.innerHTML = `
-                    <button class="bg-green text-white px-4 h-8 rounded-full smooth-transition flex items-center text-sm whitespace-nowrap mr-2"
+                    <button class="bg-green text-white px-8 h-10 rounded-lg smooth-transition primary-button flex items-center text-sm whitespace-nowrap mr-2"
                         onclick="window.location.href='${baseURL}php/iniciar-sesion.php'">
-                        <img src="${baseURL}recursos/iconos/solido/comunicacion/usuario.svg" alt="Iniciar sesión" class="w-3 h-3 svg-white mr-2">
                         Iniciar sesión
                     </button>
-                    <button class="bg-white text-green border border-green px-4 h-8 rounded-full smooth-transition flex items-center text-sm whitespace-nowrap hover:bg-green hover:text-white group"
+                    <button class="bg-white text-green border border-green px-8 h-10 rounded-lg secondary-button smooth-transition flex items-center text-sm whitespace-nowrap hover:bg-green hover:text-white group"
                         onclick="window.location.href='${baseURL}php/registrarse.php'">
-                        <img src="${baseURL}recursos/iconos/solido/interfaz/mas.svg" alt="Registrarse" class="w-3 h-3 svg-green group-hover:svg-white mr-2">
                         Registrarse
                     </button>
                 `;

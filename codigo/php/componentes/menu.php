@@ -14,43 +14,67 @@ $baseURL = '/Yveks-Aplicacion-web-de-trueques/codigo/';
 <div class="lg:hidden">
   <div class="fixed bottom-0 left-0 w-screen z-50 right-0">
     <div class="w-full h-3 bg-white"></div>
-    <div class="relative bg-green overflow-hidden">
-      <div id="mobile-bubble" class="absolute left-1/2 bottom-7 -translate-x-1/2 w-12 h-12 bg-white bubble-u-shape"></div>
-
+    <div class="relative bg-green">
       <div class="flex py-2 relative z-10">
         <!-- INICIO -->
-        <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
-          onclick="window.location.href='<?= $baseURL ?>index.php'">
-          <img src="<?= $baseURL ?>recursos/iconos/contorno/general/inicio.svg" alt="Inicio" class="w-6 h-6 mb-1 svg-gray-300">
+        <button class="mobile-nav-btn flex flex-col items-center py-2 text-gray-300 transition-colors" 
+                style="width: 20%;"
+                data-page="index"
+                data-index="0"
+                onclick="window.location.href='<?= $baseURL ?>index.php'">
+          <img src="<?= $baseURL ?>recursos/iconos/<?= $rutaActual === 'index' ? 'solido' : 'contorno' ?>/general/inicio.svg" 
+               alt="Inicio" 
+               class="w-6 h-6 mb-1 svg-white">
         </button>
 
         <!-- OFERTAS -->
-        <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
-          onclick="Verificacion('<?= $baseURL ?>php/ofertas.php', this)">
-          <img src="<?= $baseURL ?>recursos/iconos/solido/general/etiqueta.svg" alt="Ofertas" class="w-6 h-6 mb-1 svg-gray-300">
+        <button class="mobile-nav-btn flex flex-col items-center py-2 text-gray-300 transition-colors" 
+                style="width: 20%;"
+                data-page="ofertas"
+                data-index="1"
+                onclick="Verificacion('<?= $baseURL ?>php/ofertas.php', this)">
+          <img src="<?= $baseURL ?>recursos/iconos/<?= $rutaActual === 'ofertas' ? 'solido' : 'contorno' ?>/general/etiqueta.svg" 
+               alt="Ofertas" 
+               class="w-6 h-6 mb-1 svg-white">
         </button>
 
         <!-- NUEVA PUBLICACIÓN -->
         <button class="w-10 h-10 flex items-center justify-center bg-white text-green rounded-full shadow-lg transition-colors relative z-20 mx-auto"
-          onclick="Verificacion('<?= $baseURL ?>php/nuevo_producto.php', this)">
+                data-index="2"
+                onclick="Verificacion('<?= $baseURL ?>php/nuevo_producto.php', this)">
           <img src="<?= $baseURL ?>recursos/iconos/solido/interfaz/mas.svg" alt="Agregar" class="w-4 h-4 svg-green">
         </button>
 
         <!-- COMENTARIOS / MENSAJES -->
-        <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
-          onclick="Verificacion('<?= $baseURL ?>php/mensajes.php', this)">
-          <img src="<?= $baseURL ?>recursos/iconos/contorno/comunicacion/comentario.svg" alt="Comentarios" class="w-6 h-6 mb-1 svg-gray-300">
+        <button class="mobile-nav-btn flex flex-col items-center py-2 text-gray-300 transition-colors" 
+                style="width: 20%;"
+                data-page="mensajes"
+                data-index="3"
+                onclick="Verificacion('<?= $baseURL ?>php/mensajes.php', this)">
+          <img src="<?= $baseURL ?>recursos/iconos/<?= $rutaActual === 'mensajes' ? 'solido' : 'contorno' ?>/comunicacion/comentario.svg" 
+               alt="Comentarios" 
+               class="w-6 h-6 mb-1 svg-white">
         </button>
 
         <!-- PERFIL / USUARIO -->
-        <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
-          onclick="Verificacion('<?= $baseURL ?>php/perfil.php', this)">
-          <img src="<?= $baseURL ?>recursos/iconos/contorno/comunicacion/usuario.svg" alt="Usuario" class="w-6 h-6 mb-1 svg-gray-300">
+        <button class="mobile-nav-btn flex flex-col items-center py-2 text-gray-300 transition-colors" 
+                style="width: 20%;"
+                data-page="perfil"
+                data-index="4"
+                onclick="Verificacion('<?= $baseURL ?>php/perfil.php', this)">
+          <img src="<?= $baseURL ?>recursos/iconos/<?= $rutaActual === 'perfil' ? 'solido' : 'contorno' ?>/comunicacion/usuario.svg" 
+               alt="Usuario" 
+               class="w-6 h-6 mb-1 svg-white">
         </button>
       </div>
     </div>
   </div>
 </div>
+
+<!-- Pasar la ruta actual a JavaScript -->
+<script>
+  window.rutaActual = '<?= $rutaActual ?>';
+</script>
 
 <!-- MENÚ DESKTOP -->
 <div class="hidden lg:block">

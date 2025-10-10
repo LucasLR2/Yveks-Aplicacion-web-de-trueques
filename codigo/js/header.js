@@ -22,8 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     </button>
 
                     <!-- Botón notificaciones -->
-                    <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition">
+                    <button onclick="toggleNotificationsDesktop()" class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition relative">
                         <img src="${baseURL}recursos/iconos/solido/estado/notificacion.svg" alt="Notificaciones" class="w-5 h-5 svg-gray-800">
+                        <span id="desktop-notification-badge" class="hidden absolute -top-1 -right-1 bg-green text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">0</span>
                     </button>
 
                     <!-- Perfil con dropdown -->
@@ -62,6 +63,21 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                     </div>
                 `;
+
+                // Agregar dropdown de notificaciones desktop
+                setTimeout(() => {
+                    const headerElement = document.querySelector('header.hidden.lg\\:block');
+                    if (headerElement && !document.getElementById('desktop-notifications-dropdown')) {
+                        const dropdownHTML = `
+                            <div id="desktop-notifications-dropdown" class="hidden absolute right-20 top-16 w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 z-50 overflow-hidden transition-all duration-300 opacity-0">
+                                <div id="desktop-notifications-content">
+                                    <!-- Las notificaciones se generarán dinámicamente -->
+                                </div>
+                            </div>
+                        `;
+                        headerElement.insertAdjacentHTML('beforeend', dropdownHTML);
+                    }
+                }, 100);
             } else {
                 // Usuario sin sesión → botones iniciar sesión y registrarse
                 contenedor.innerHTML = `

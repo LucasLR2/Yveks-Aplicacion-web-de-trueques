@@ -37,69 +37,36 @@ function cambiarIconoAOutline(icono) {
   icono.src = nuevaRuta;
 }
 
-// Función mejorada para navegación móvil
-function posicionarBurbuja(indice) {
-  const burbuja = document.getElementById('mobile-bubble');
-  if (!burbuja) return;
-  
-  const botones = document.querySelectorAll('.mobile-nav-btn, [data-index="2"]');
-  if (!botones.length) return;
-  
-  const contenedor = burbuja.parentElement;
-  const anchoContenedor = contenedor.offsetWidth;
-  const anchoBoton = anchoContenedor / 5; // 5 botones en total
-  
-  // Calcular posición horizontal de la burbuja
-  // Usamos el centro exacto del botón
-  const centroBoton = (indice * anchoBoton) + (anchoBoton / 2);
-  
-  // Centramos la burbuja usando transform para mayor precisión
-  burbuja.style.left = centroBoton + 'px';
-  burbuja.style.transform = 'translateX(-50%)';
-  burbuja.style.transition = 'left 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-  
-  // Ajustar posición vertical
-  burbuja.style.bottom = '18px';
-}
-
 function activarTabMovil(indiceActivo) {
   const botones = document.querySelectorAll('.mobile-nav-btn, [data-index="2"]');
   if (!botones.length) return;
   
-  botones.forEach((btn, i) => {
+  botones.forEach((btn) => {
     const icono = btn.querySelector('img');
     if (!icono) return;
     
-    // Saltar el botón central (nuevo_producto)
-    if (i === 2) return;
+    const btnIndex = parseInt(btn.getAttribute('data-index')) || 0;
+    const esCentral = btnIndex === 2;
     
-    if (i === indiceActivo) {
+    if (btnIndex === indiceActivo) {
       // Botón activo
-      btn.classList.remove('text-gray-300');
-      btn.classList.add('text-green');
-      
-      icono.classList.remove('svg-white', 'svg-gray-300');
-      icono.classList.add('svg-green');
-      icono.style.transform = 'translateY(-8px)';
-      icono.style.transition = 'transform 0.3s ease';
-      
-      cambiarIconoASolid(icono);
+      if (!esCentral) {
+        btn.classList.remove('text-gray-300');
+        btn.classList.add('text-white');
+        icono.classList.add('svg-white');
+        cambiarIconoASolid(icono);
+      }
     } else {
       // Botones inactivos
-      btn.classList.remove('text-green');
-      btn.classList.add('text-gray-300');
-      
-      icono.classList.remove('svg-green');
-      icono.classList.add('svg-white');
-      icono.style.transform = 'translateY(0)';
-      icono.style.transition = 'transform 0.3s ease';
-      
-      cambiarIconoAOutline(icono);
+      if (!esCentral) {
+        btn.classList.remove('text-white');
+        btn.classList.add('text-gray-300');
+        icono.classList.add('svg-white');
+        cambiarIconoAOutline(icono);
+      }
     }
   });
   
-  // Posicionar la burbuja
-  posicionarBurbuja(indiceActivo);
 }
 
 // Inicializar menú móvil según la página actual
@@ -123,13 +90,13 @@ function inicializarMenuMovil() {
 
 // Evento de redimensionamiento
 window.addEventListener('resize', function () {
-  // Reposicionar la burbuja al redimensionar
+    // Mantener el estado activo de los iconos al redimensionar
   const botones = document.querySelectorAll('.mobile-nav-btn');
-  botones.forEach((btn, i) => {
+  botones.forEach((btn) => {
     const icono = btn.querySelector('img');
-    if (icono && icono.classList.contains('svg-green')) {
-      const indice = parseInt(btn.getAttribute('data-index'));
-      posicionarBurbuja(indice);
+    if (icono && icono.classList.contains('svg-white')) {
+      const indiceActivo = parseInt(btn.getAttribute('data-index'));
+      activarTabMovil(indiceActivo);
     }
   });
 });

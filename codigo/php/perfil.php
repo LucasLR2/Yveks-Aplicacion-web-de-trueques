@@ -44,7 +44,7 @@
           </div>
 
           <!-- Mobile Profile Tabs -->
-          <div class="flex border-b border-gray-200">
+          <div class="flex">
             <button id="mobile-tab-productos" class="mobile-tab flex items-center space-x-2 px-4 py-3 tab-active smooth-transition" 
                     onclick="switchMobileTab('productos', this)">
               <img id="mobile-icon-productos" src="../recursos/iconos/solido/estado/cuadricula.svg" alt="Productos" class="w-5 h-5">

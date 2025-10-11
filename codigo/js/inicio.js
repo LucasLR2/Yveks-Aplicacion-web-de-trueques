@@ -712,23 +712,23 @@ function openProductDetail(productId) {
                 
                 <!-- Related products - no cards, simple grid -->
                 ${productosRelacionados.length > 0 ? `
-                <div class="mb-4 px-4">
-                    <h2 class="text-xl font-semibold text-gray-900 mb-6">Productos relacionados</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div>
+                    <h2 class="text-2xl text-black mb-6 mt-6">Productos relacionados</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4">
                         ${productosRelacionados.map(prod => `
-                            <div class="cursor-pointer hover:opacity-90 transition-opacity" onclick="openProductDetail(${prod.id})">
-                                <div class="aspect-square bg-gray-200 rounded-2xl overflow-hidden mb-3">
-                                    <img src="${prod.imagenes[0].imagen}" alt="${prod.nombre}" class="w-full h-full object-cover">
+                            <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition-shadow product-card w-full" onclick="openProductDetail(${prod.id})">
+                                <div class="aspect-square bg-gray-200 relative">
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <img src="${prod.imagenes[0].imagen}" alt="${prod.nombre}" class="w-full h-full object-cover">
+                                    </div>
                                 </div>
-                                <div class="space-y-2">
-                                    <h3 class="font-medium text-gray-900 truncate">${prod.nombre}</h3>
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-sm px-3 py-1 rounded-full ${prod.estado === 'Nuevo' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}">${prod.estado}</span>
-                                        <div class="flex items-center space-x-1">
-                                            <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                            </svg>
-                                            <span class="text-sm text-gray-600">${prod.calificacion} (${prod.resenas})</span>
+                                <div class="p-3">
+                                    <h4 class="text-sm font-medium text-gray-800 mb-3">${prod.nombre}</h4>
+                                    <div class="flex items-center justify-between mb-1">
+                                        <p class="text-base text-green">${prod.estado}</p>
+                                        <div class="flex items-center gap-1">
+                                            <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-4 h-4 svg-yellow align-middle">
+                                            <span class="text-base text-gray-500">${prod.calificacion} (${prod.resenas})</span>
                                         </div>
                                     </div>
                                 </div>

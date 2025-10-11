@@ -24,24 +24,27 @@
       <!-- Mobile Profile Content -->
       <div class="px-6 md:px-16 mb-20">
         <!-- Profile Header Mobile -->
-        <div class="flex flex-col items-center mb-6">
-          <div class="relative mb-4">
-            <img src="../recursos/imagenes/josegimenez.jpg" alt="José Giménez" class="w-24 h-24 rounded-full object-cover">
-            <div class="absolute bottom-1 right-1 w-6 h-6 bg-green rounded-full flex items-center justify-center border-2 border-white">
-              <img src="../recursos/iconos/contorno/interfaz/editar2.svg" alt="Editar" class="w-3 h-3 svg-white">
+        <div class="mb-6">
+          <!-- Profile Info -->
+          <div class="flex items-center mb-6">
+            <div class="relative">
+              <img src="../recursos/imagenes/josegimenez.jpg" alt="José Giménez" class="w-20 h-20 rounded-full object-cover">
+              <div class="absolute bottom-1 -right-2 w-7 h-7 bg-green rounded-full flex items-center justify-center border-2 border-white shadow-sm">
+                <img src="../recursos/iconos/contorno/interfaz/editar2.svg" alt="Editar" class="w-4 h-4 svg-white">
+              </div>
             </div>
-          </div>
-          
-          <div class="text-center">
-            <h1 class="text-xl font-medium text-gray-800 mb-1">José Giménez</h1>
-            <div class="flex items-center justify-center text-gray-600 mb-4">
-              <img src="../recursos/iconos/solido/navegacion/ubicacion.svg" alt="Ubicación" class="w-4 h-4 svg-gray-600 mr-1">
-              <span class="text-sm">Montevideo, Uruguay</span>
+            
+            <div class="flex flex-col justify-center ml-4">
+              <h1 class="text-lg font-medium text-gray-800 mb-1">José Giménez</h1>
+              <div class="flex items-center text-gray-600">
+                <img src="../recursos/iconos/solido/navegacion/ubicacion.svg" alt="Ubicación" class="w-4 h-4 svg-gray-600 mr-1">
+                <span class="text-sm">Montevideo, Uruguay</span>
+              </div>
             </div>
           </div>
 
           <!-- Mobile Profile Tabs -->
-          <div class="flex">
+          <div class="flex border-b border-gray-200">
             <button id="mobile-tab-productos" class="mobile-tab flex items-center space-x-2 px-4 py-3 tab-active smooth-transition" 
                     onclick="switchMobileTab('productos', this)">
               <img id="mobile-icon-productos" src="../recursos/iconos/solido/estado/cuadricula.svg" alt="Productos" class="w-5 h-5">

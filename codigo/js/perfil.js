@@ -637,7 +637,7 @@ function generarProductosPerfil() {
                 </div>
                 <div class="p-4">
                     <h3 class="font-medium text-gray-800 mb-1">${producto.nombre}</h3>
-                    <p class="text-sm text-gray-600">${producto.estado}</p>
+                    <p class="text-sm text-green">${producto.estado}</p>
                 </div>
             </div>
         `).join('');
@@ -652,12 +652,6 @@ function generarProductosPerfil() {
                     <h4 class="text-sm text-gray-800 mb-3">${producto.nombre}</h4>
                     <div class="flex items-center justify-between">
                         <p class="text-base text-green mb-0">${producto.estado}</p>
-                        <div class="flex items-center gap-2">
-                            <div class="flex items-center space-x-1">
-                                ${generarEstrellas(producto.calificacion, 'w-4 h-4')}
-                            </div>
-                            <span class="text-base text-gray-500">${producto.calificacion} (${producto.resenas})</span>
-                        </div>
                     </div>
                 </div>
             </div>

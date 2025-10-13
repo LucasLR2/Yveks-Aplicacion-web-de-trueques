@@ -91,7 +91,7 @@
           </div>
           <div class="flex py-2 relative z-10">
             <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
-              onclick="window.location.href='index.html'">
+              onclick="window.location.href='index.php'">
               <img src="recursos/iconos/contorno/general/inicio.svg" alt="Inicio" class="w-6 h-6 mb-1 svg-gray-300">
             </button>
             <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
@@ -146,7 +146,7 @@
       <nav class="p-6">
         <ul class="space-y-2">
           <li>
-            <a href="index.html"
+            <a href="index.php"
               class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-green hover:bg-gray-50 smooth-transition">
               <img src="recursos/iconos/contorno/general/inicio.svg" alt="Inicio" class="w-5 h-5 svg-green">
               <span>Inicio</span>

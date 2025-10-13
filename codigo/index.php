@@ -203,7 +203,7 @@
           </li>
           <li>
             <div class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-green hover:bg-gray-50 smooth-transition cursor-pointer"
-              onclick="Verificacion('perfil.html', this); setDesktopActiveNav(this)">
+              onclick="Verificacion('perfil.php', this); setDesktopActiveNav(this)">
               <img src="recursos/iconos/contorno/comunicacion/usuario.svg" alt="Perfil" class="w-5 h-5 svg-green">
               <span>Perfil</span>
             </div>

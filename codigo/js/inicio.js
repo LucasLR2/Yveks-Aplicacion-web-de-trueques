@@ -27,23 +27,6 @@ async function cargarProductos() {
     }
 }
 
-// Cargar notificaciones desde la base de datos
-async function cargarNotificaciones() {
-    try {
-        const response = await fetch('obtener-notificaciones.php');
-        const data = await response.json();
-        
-        if (data.success) {
-            notificaciones = data.notificaciones;
-            updateNotificationBadge();
-        } else {
-            console.error('Error al cargar notificaciones:', data.message);
-        }
-    } catch (error) {
-        console.error('Error al conectar con el servidor:', error);
-    }
-}
-
 // ========== FUNCIONES DE NOTIFICACIONES ==========
 
 // Toggle notification dropdown for mobile

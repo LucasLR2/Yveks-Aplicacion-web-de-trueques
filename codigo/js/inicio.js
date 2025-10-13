@@ -267,6 +267,10 @@ async function markAllAsRead() {
             // Actualizar estado local
             notificaciones.forEach(notif => notif.leida = true);
             updateNotificationBadge();
+        }
+    } catch (error) {
+        console.error('Error al marcar todas como leídas:', error);
+    }
 }
 
 // Mark all notifications as read

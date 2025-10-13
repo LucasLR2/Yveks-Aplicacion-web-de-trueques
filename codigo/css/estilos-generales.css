@@ -32,6 +32,9 @@ html, body {
 .text-green {
   color: #719177 !important;
 }
+.text-white {
+  color: #ffffff !important;
+}
 .bg-green {
   background-color: #719177;
 }
@@ -290,4 +293,150 @@ html, body {
   100% {
     transform: scale(1);
   }
+}
+
+.boton-sidebar-seleccionado, .primary-button{
+  background-color: #719177 !important;
+  color: #ffffff !important;
+}
+.boton-sidebar-seleccionado:hover, .primary-button:hover{
+  background-color: #95b79a !important;
+}
+.boton-sidebar-deseleccionado:hover{
+  background-color: #f3f4f6 !important;
+  color: #5a7a5f !important;
+}
+.secondary-button{
+  background-color: #ffffff !important;
+  color: #719177 !important;
+}
+.secondary-button:hover{
+  background-color: #E8E8E8 !important;
+}
+.redondeado-personalizado{
+  border-radius:100px !important;
+}
+
+/* ========================================
+   ESTILOS DE NOTIFICACIONES
+   ======================================== */
+
+/* Animaciones para dropdowns */
+#desktop-notifications-dropdown.show {
+  opacity: 1 !important;
+}
+
+#mobile-notifications-dropdown.show {
+  transform: translateY(0) !important;
+}
+
+#mobile-notifications-overlay.show {
+  opacity: 1 !important;
+}
+
+/* Scrollbar personalizada para notificaciones desktop */
+#desktop-notifications-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+#desktop-notifications-content::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+#desktop-notifications-content::-webkit-scrollbar-thumb {
+  background: #719177;
+  border-radius: 3px;
+}
+
+#desktop-notifications-content::-webkit-scrollbar-thumb:hover {
+  background: #5a7a5f;
+}
+
+/* Contenedor de notificaciones desktop */
+#desktop-notifications-content {
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+/* Estilos de items de notificación */
+.notification-item {
+  transition: background-color 0.2s ease;
+}
+
+.notification-item:hover {
+  background-color: #f9fafb;
+}
+
+/* Iconos de notificaciones según tipo */
+.svg-blue-600 {
+  filter: brightness(0) saturate(100%) invert(37%) sepia(93%) saturate(3562%) hue-rotate(201deg) brightness(97%) contrast(101%);
+}
+
+.svg-green-600 {
+  filter: brightness(0) saturate(100%) invert(48%) sepia(12%) saturate(1012%) hue-rotate(88deg) brightness(95%) contrast(86%);
+}
+
+.svg-red-600 {
+  filter: brightness(0) saturate(100%) invert(33%) sepia(93%) saturate(2569%) hue-rotate(338deg) brightness(98%) contrast(89%);
+}
+
+.svg-yellow-600 {
+  filter: brightness(0) saturate(100%) invert(87%) sepia(50%) saturate(1352%) hue-rotate(15deg) brightness(105%) contrast(101%);
+}
+
+/* Badges de contador de notificaciones */
+#mobile-notification-badge,
+#desktop-notification-badge {
+  font-size: 10px;
+  min-width: 20px;
+  height: 20px;
+  line-height: 20px;
+}
+
+/* Badge verde en header móvil de notificaciones */
+#mobile-notification-count {
+  font-size: 11px;
+  min-width: 28px;
+  padding: 2px 8px;
+}
+
+/* Line clamp para descripciones largas */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Estilos responsive para notificaciones móviles */
+@media (max-width: 1023px) {
+  #mobile-notifications-dropdown {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  #mobile-notifications-overlay {
+    transition: opacity 0.3s ease;
+  }
+}
+
+/* Ajustes para el check verde en notificaciones leídas */
+.notification-check {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 20px;
+  height: 20px;
+  background-color: #719177;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.notification-check img {
+  width: 12px;
+  height: 12px;
 }

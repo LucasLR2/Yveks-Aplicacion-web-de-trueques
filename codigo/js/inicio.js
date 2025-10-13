@@ -2,9 +2,25 @@
 let notificaciones = [];
 let productos = [];
 
-let categoriaActual = 'todas';
-let categoriasSeleccionadas = new Set();
-let vistaAnterior = null; // Para guardar el estado anterior
+// Función para cargar notificaciones desde la base de datos
+function cargarNotificaciones() {
+    fetch('php/obtener-notificaciones.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error('Error al cargar notificaciones:', data.error);
+                return;
+            }
+            
+            if (data.notificaciones) {
+                notificaciones = data.notificaciones;
+                updateNotificationBadge();
+            }
+        })
+        .catch(error => console.error('Error en fetch de notificaciones:', error));
+}
+
+const BASE_URL = '/Yveks-Aplicacion-web-de-trueques/codigo/'; // desde la raíz del servidor
 
 // ========== FUNCIONES DE CARGA DE DATOS ==========
 
@@ -75,6 +91,17 @@ function generateNotificationsContent(containerId) {
     const container = document.getElementById(containerId);
     const notificacionesRecientes = notificaciones.filter(n => !n.leida);
     const notificacionesAnteriores = notificaciones.filter(n => n.leida);
+    
+    // Si no hay notificaciones en absoluto
+    if (notificaciones.length === 0) {
+        container.innerHTML = `
+            <div class="flex flex-col items-center justify-center h-96 px-4">
+                <img src="recursos/iconos/solido/estado/notificacion.svg" alt="Sin notificaciones" class="w-16 h-16 svg-gray-400 mb-4 opacity-50">
+                <p class="text-gray-500 text-center text-base">No tienes notificaciones en este momento</p>
+            </div>
+        `;
+        return;
+    }
     
     let html = `
         <div class="p-4 border-b border-gray-200">
@@ -177,7 +204,7 @@ async function handleNotificationClick(notifId) {
     // Si no está leída, marcarla como leída
     if (!notif.leida) {
         try {
-            const response = await fetch('marcar-notificacion-leida.php', {
+            const response = await fetch('php/marcar-notificacion-leida.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -240,6 +267,24 @@ async function markAllAsRead() {
             // Actualizar estado local
             notificaciones.forEach(notif => notif.leida = true);
             updateNotificationBadge();
+}
+
+// Mark all notifications as read
+async function markAllAsRead() {
+    try {
+        const response = await fetch('php/marcar-todas-leidas.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Actualizar estado local
+            notificaciones.forEach(notif => notif.leida = true);
+            updateNotificationBadge();
             
             // Regenerar contenido de notificaciones
             const mobileContent = document.getElementById('mobile-notifications-content');
@@ -265,6 +310,7 @@ function updateNotificationBadge() {
     const unreadCount = notificaciones.filter(n => !n.leida).length;
     const mobileBadge = document.getElementById('mobile-notification-badge');
     const desktopBadge = document.getElementById('desktop-notification-badge');
+    const mobileCount = document.getElementById('mobile-notification-count');
     
     if (unreadCount > 0) {
         const badgeText = unreadCount > 9 ? '9+' : unreadCount.toString();
@@ -276,9 +322,14 @@ function updateNotificationBadge() {
             desktopBadge.textContent = badgeText;
             desktopBadge.classList.remove('hidden');
         }
+        if (mobileCount) {
+            mobileCount.textContent = `+${unreadCount}`;
+            mobileCount.classList.remove('hidden');
+        }
     } else {
         if (mobileBadge) mobileBadge.classList.add('hidden');
         if (desktopBadge) desktopBadge.classList.add('hidden');
+        if (mobileCount) mobileCount.classList.add('hidden');
     }
 }
 
@@ -305,18 +356,13 @@ function generarProductosMovil() {
             </div>
         </div>
         <div class="p-3"> 
-            <div class="flex items-center justify-between mb-3">
-                <h4 class="text-sm font-semibold text-gray-800">${producto.nombre}</h4>
-                <span class="px-2 py-1 text-xs rounded-full 
-                             ${producto.estado === 'Nuevo' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}">
-                    ${producto.estado}
-                </span>
-            </div>
-            
-            <!-- Calificación -->
-            <div class="flex items-center gap-2">
-                <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-4 h-4 svg-yellow">
-                <span class="text-base text-gray-500">${producto.calificacion} (${producto.resenas})</span>
+            <h4 class="text-sm font-medium text-gray-800 mb-3">${producto.nombre}</h4>
+            <div class="flex items-center justify-between mb-1">
+                <p class="text-base text-green">${producto.estado}</p>
+                <div class="flex items-center gap-1">
+                    <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-4 h-4 svg-yellow align-middle">
+                    <span class="text-base text-gray-500">${producto.calificacion} (${producto.resenas})</span>
+                </div>
             </div>
         </div>
     </div>
@@ -518,23 +564,23 @@ function openProductDetail(productId) {
                 
                 <!-- Related products - no cards, simple grid -->
                 ${productosRelacionados.length > 0 ? `
-                <div class="mb-4 px-4">
-                    <h2 class="text-xl font-semibold text-gray-900 mb-6">Productos relacionados</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div>
+                    <h2 class="text-2xl text-black mb-6 mt-6">Productos relacionados</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4">
                         ${productosRelacionados.map(prod => `
-                            <div class="cursor-pointer hover:opacity-90 transition-opacity" onclick="openProductDetail(${prod.id})">
-                                <div class="aspect-square bg-gray-200 rounded-2xl overflow-hidden mb-3">
-                                    <img src="${prod.imagenes[0].imagen}" alt="${prod.nombre}" class="w-full h-full object-cover">
+                            <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition-shadow product-card w-full" onclick="openProductDetail(${prod.id})">
+                                <div class="aspect-square bg-gray-200 relative">
+                                    <div class="absolute inset-0 flex items-center justify-center">
+                                        <img src="${prod.imagenes[0].imagen}" alt="${prod.nombre}" class="w-full h-full object-cover">
+                                    </div>
                                 </div>
-                                <div class="space-y-2">
-                                    <h3 class="font-medium text-gray-900 truncate">${prod.nombre}</h3>
-                                    <div class="flex items-center justify-between">
-                                        <span class="text-sm px-3 py-1 rounded-full ${prod.estado === 'Nuevo' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}">${prod.estado}</span>
-                                        <div class="flex items-center space-x-1">
-                                            <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                            </svg>
-                                            <span class="text-sm text-gray-600">${prod.calificacion} (${prod.resenas})</span>
+                                <div class="p-3">
+                                    <h4 class="text-sm font-medium text-gray-800 mb-3">${prod.nombre}</h4>
+                                    <div class="flex items-center justify-between mb-1">
+                                        <p class="text-base text-green">${prod.estado}</p>
+                                        <div class="flex items-center gap-1">
+                                            <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-4 h-4 svg-yellow align-middle">
+                                            <span class="text-base text-gray-500">${prod.calificacion} (${prod.resenas})</span>
                                         </div>
                                     </div>
                                 </div>
@@ -666,136 +712,6 @@ function initProductDetailMap(coordinates, locationName) {
 // Función para hacer oferta
 function hacerOferta(productId) {
     alert('Funcionalidad de hacer oferta - Producto ID: ' + productId);
-}
-
-// Selección de categoría móvil
-function seleccionarCategoria(elemento) {
-    const nombreCategoria = elemento.querySelector('span').textContent.trim().toLowerCase();
-    const mapCategoria = {
-        'tecnología': 'tecnologia',
-        'hogar': 'hogar',
-        'ropa': 'ropa',
-        'accesorios': 'accesorios'
-    };
-    const categoria = mapCategoria[nombreCategoria] || nombreCategoria;
-    
-    if (categoriasSeleccionadas.has(categoria)) {
-        categoriasSeleccionadas.delete(categoria);
-        elemento.querySelector('div').classList.remove('bg-green');
-        elemento.querySelector('div').classList.add('bg-gray-100');
-        const img = elemento.querySelector('img');
-        img.classList.remove('svg-white');
-        img.classList.add('svg-green');
-        elemento.querySelector('span').classList.remove('text-green');
-        elemento.querySelector('span').classList.add('text-gray-600');
-    } else {
-        categoriasSeleccionadas.add(categoria);
-        elemento.querySelector('div').classList.remove('bg-gray-100');
-        elemento.querySelector('div').classList.add('bg-green');
-        const img = elemento.querySelector('img');
-        img.classList.remove('svg-green');
-        img.classList.add('svg-white');
-        elemento.querySelector('span').classList.remove('text-gray-600');
-        elemento.querySelector('span').classList.add('text-green');
-    }
-    generarProductosMovil();
-    generarProductosEscritorio();
-}
-
-// Selección de categoría escritorio
-function seleccionarCategoriaEscritorio(elemento, categoria) {
-    const mainContent = document.querySelector('.desktop-main main');
-    const nombreCategoria = elemento.querySelector('span').textContent;
-    
-    if (categoriasSeleccionadas.has(categoria)) {
-        categoriasSeleccionadas.delete(categoria);
-        elemento.classList.remove('bg-gray-100');
-        const tarjetaCategoria = document.querySelector(`[data-category="${categoria}"]`);
-        if (tarjetaCategoria) {
-            tarjetaCategoria.remove();
-        }
-    } else {
-        categoriasSeleccionadas.add(categoria);
-        elemento.classList.add('bg-gray-100');
-        
-        let seccionCategorias = document.querySelector('.categories-section');
-        if (!seccionCategorias) {
-            seccionCategorias = document.createElement('div');
-            seccionCategorias.className = 'categories-section mb-12';
-            seccionCategorias.innerHTML = `
-                <h2 class="text-2xl text-gray-800 mb-6">Explorar por categoría</h2>
-                <div class="overflow-x-auto scrollbar-hide">
-                    <div class="flex space-x-4" id="selected-categories"></div>
-                </div>
-            `;
-            const seccionBienvenida = document.querySelector('.mb-8');
-            if (seccionBienvenida) {
-                seccionBienvenida.after(seccionCategorias);
-            }
-        }
-        
-        const gridCategorias = document.getElementById('selected-categories');
-        if (gridCategorias) {
-            const tarjetaCategoria = document.createElement('div');
-            tarjetaCategoria.className = 'desktop-category-card bg-gray-100 p-4 rounded-2xl cursor-pointer hover:shadow-lg smooth-transition flex-shrink-0 min-w-[280px]';
-            tarjetaCategoria.setAttribute('data-category', categoria);
-            tarjetaCategoria.innerHTML = `
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm flex-shrink-0">
-                        ${obtenerIconoCategoria(categoria)}
-                    </div>
-                    <div class="flex-1">
-                        <h3 class="text-green text-base mb-1">${nombreCategoria}</h3>
-                        <p class="text-sm text-gray-600">${obtenerDescripcionCategoria(categoria)}</p>
-                    </div>
-                </div>
-            `;
-            gridCategorias.appendChild(tarjetaCategoria);
-        }
-    }
-    
-    generarProductosMovil();
-    generarProductosEscritorio();
-    
-    if (categoriasSeleccionadas.size === 0) {
-        const seccionCategorias = document.querySelector('.categories-section');
-        if (seccionCategorias) {
-            seccionCategorias.remove();
-        }
-    }
-}
-
-// Iconos de categoría
-function obtenerIconoCategoria(categoria) {
-    const iconosCategoria = {
-        'tecnologia': { icono: 'Processor' },
-        'hogar': { icono: 'armchair' },
-        'ropa': { icono: 'shirt' },
-        'accesorios': { icono: 'glasses' },
-        'deportes': { icono: 'Voleibol' },
-        'entretenimiento': { icono: 'dado' },
-        'mascotas': { icono: 'Pata' },
-        'herramientas': { icono: 'herramientas' },
-        'servicios': { icono: 'servicio' }
-    };
-    
-    const config = iconosCategoria[categoria] || { icono: 'tag' };
-    return `<img src="recursos/iconos/contorno/dispositivos/${config.icono}.svg" alt="${categoria.charAt(0).toUpperCase() + categoria.slice(1)}" class="w-5 h-5 svg-green">`;
-}
-
-function obtenerDescripcionCategoria(categoria) {
-    const descripciones = {
-        'tecnologia': 'Laptops, móviles y más',
-        'hogar': 'Muebles y decoración',
-        'ropa': 'Moda y accesorios',
-        'accesorios': 'Auto y más',
-        'deportes': 'Equipamiento deportivo',
-        'entretenimiento': 'Juegos y diversión',
-        'mascotas': 'Mascotas y accesorios',
-        'herramientas': 'Herramientas y bricolaje',
-        'servicios': 'Servicios profesionales'
-    };
-    return descripciones[categoria] || '';
 }
 
 // Búsqueda
@@ -962,8 +878,7 @@ document.addEventListener('keydown', function(event) {
 document.addEventListener('DOMContentLoaded', async function() {
     // Cargar datos desde la base de datos
     await cargarProductos();
-    await cargarNotificaciones();
-    
+    cargarNotificaciones();
     updateNotificationBadge();
     configurarBusqueda();
     
@@ -991,80 +906,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         updateCarets();
     }
 });
-
-// Funcion para impedir el acceso a usuarios no registrados
-function Verificacion(destino, elemento) {
-    // Se verifica sesión en el servidor
-    fetch('php/verificar-sesion.php')
-        .then(response => response.json())
-        .then(data => {
-            if(data.logueado) {
-                // Usuario con sesión
-                console.log('Usuario con sesión, no se muestra popup.');
-                window.location.href = destino; // Redirigir a la página de destino
-            } else {
-                // Usuario sin sesión → se muestra popup y se bloquea interacción
-                console.log('Usuario sin sesión, mostrando popup de acceso restringido.');
-                // Crear el elemento del popup
-                const popup = document.createElement('div');
-                popup.id = 'popup';
-                popup.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-
-                popup.innerHTML = `
-                    <div class="bg-white rounded-xl p-6 shadow-lg text-center max-w-sm">
-                        <h2 class="text-xl font-bold mb-4">Acceso restringido</h2>
-                        <p class="mb-4">Debes iniciar sesión para acceder a esta sección.</p>
-                        <div class="flex justify-center gap-4">                               
-                            <a href="iniciarsesion.html" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Iniciar sesión</a>
-                            <button id="cerrarPopup" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Volver</button>
-                        </div>
-                    </div>
-                `;
-
-                // Añadir el popup como hijo del body
-                document.body.appendChild(popup);
-
-                // Añadir evento al botón de cerrar
-                const botonCerrar = document.getElementById('cerrarPopup');
-                if (botonCerrar) {
-                    botonCerrar.addEventListener('click', function() {
-                        popup.remove();
-                        // Activar el botón de Inicio después de cerrar el popup
-                        const botonInicio = document.getElementById('inicio');
-                        if (botonInicio) {
-                            setDesktopActiveNav(botonInicio);
-                        }
-                    });
-                }
-            }
-        })
-    .catch(error => console.error('Error verificando sesión:', error));
-}
-
-// Función de navegación escritorio
-function setDesktopActiveNav(elemento) {
-  document.querySelectorAll(".desktop-nav-item").forEach((item) => {
-    item.classList.remove("active", "bg-green", "text-white");
-    item.classList.add("text-green", "hover:bg-gray-50");
-    // Cambiar iconos a Outline
-    const icono = item.querySelector("img");
-    if (icono) {
-      cambiarIconoAOutline(icono);
-      icono.classList.remove("svg-white");
-      icono.classList.add("svg-green");
-    }
-  });
-  elemento.classList.remove("text-green", "hover:bg-gray-50");
-  elemento.classList.add("active", "bg-green", "text-white");
-  // Cambiar icono a Solid
-  const icono = elemento.querySelector("img");
-  if (icono) {
-    cambiarIconoASolid(icono);
-    icono.classList.remove("svg-green");
-    icono.classList.add("svg-white");
-  }
-}
-
 // Función para cambiar icono a Outline
 function cambiarIconoAOutline(icono) {
   const src = icono.src;
@@ -1093,88 +934,6 @@ function obtenerIconoVectorial(nombre, opciones = {}) {
   } = opciones;
   return `<img src="recursos/iconos/contorno/${nombre}.svg" alt="${alt}" class="${tamano} svg-green">`;
 }
-
-// Verificación de sesión para mostrar botones de usuario en el header
-document.addEventListener('DOMContentLoaded', function() {
-    const contenedor = document.getElementById('desktop-header-actions');
-    
-    // Se verifica sesión en el servidor
-    fetch('php/verificar-sesion.php')
-        .then(response => response.json())
-        .then(data => {
-            if(data.logueado) {
-                // Usuario con sesión
-                contenedor.innerHTML = `
-                    <!-- Botón Nueva publicación -->
-                    <button class="bg-green text-white px-4 h-8 rounded-full smooth-transition flex items-center text-sm whitespace-nowrap"
-                    onclick="window.location.href='nuevo_producto.html'">
-                    <img src="recursos/iconos/solido/interfaz/mas.svg" alt="Publicar" class="w-3 h-3 svg-white mr-2">
-                    Nueva publicación
-                    </button>
-
-                    <!-- Boton chat -->
-                    <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition">
-                    <img src="recursos/iconos/solido/comunicacion/comentario.svg" alt="Comentarios" class="w-5 h-5 svg-gray-800">
-                    </button>
-
-                    <!-- Boton notificaciones -->
-                    <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition">
-                    <img src="recursos/iconos/solido/estado/notificacion.svg" alt="Notificaciones"
-                        class="w-5 h-5 svg-gray-800">
-                    </button>
-                    
-                    <!-- Perfil con dropdown -->
-                    <div class="relative inline-block text-left">
-                    <div>
-                        <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition"
-                        id="menu-button" onclick="showDropdown()" aria-expanded="true" aria-haspopup="true">
-                        <img src="recursos/iconos/solido/comunicacion/usuario.svg" alt="Usuario" class="w-5 h-5 svg-gray-800">
-                        </button>
-                    </div>
-
-                    <div id="menu"
-                        class="hidden absolute right-4 z-10 mt-2 w-72 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden p-6 pr-6"
-                        role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                        <div class="flex items-center gap-x-4 mb-4 dropDownProfileConteiner">
-                        <img class="rounded-full w-12 h-12" src="recursos/imagenes/josegimenez.jpg">
-                        <div>
-                            <div class="font-medium text-base text-gray-800">José Martínez</div>
-                            <p class="text-xs text-green">jsemartinez@gmail</p>
-                        </div>
-                        </div>
-                        <div class="py-1" role="none">
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-600 flex items-center" role="menuitem" tabindex="-1"
-                            id="menu-item-5"> <img src="recursos/iconos/contorno/interfaz/configuracion.svg" alt="Configuración"
-                            class="w-4 h-4 svg-gray-800 mr-2 mb-3 mt-3">Configuración</a>
-                        </div>
-                        <div class="py-1 pt-3" role="none">
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-600 flex items-center" role="menuitem" tabindex="-1"
-                            id="menu-item-6" onclick="window.location.href='php/cerrar-sesion.php'">
-                            <img src="recursos/iconos/contorno/interfaz/cerrar_sesion.svg" alt="Cerrar sesión"
-                            class="w-4 h-4 svg-red-400 mr-2 self-center">Cerrar sesión</a>
-                        </div>
-                    </div>
-                    </div>
-                `;
-            } else {
-                // Usuario sin sesión → se muestran botones de iniciar sesión y registrarse
-                contenedor.innerHTML = `
-                    <button class="bg-green text-white px-4 h-8 rounded-full smooth-transition flex items-center text-sm whitespace-nowrap mr-2"
-                      onclick="window.location.href='php/iniciar-sesion.php'">
-                      <img src="recursos/iconos/solido/comunicacion/usuario.svg" alt="Iniciar sesión" class="w-3 h-3 svg-white mr-2">
-                      Iniciar sesión
-                    </button>
-                    <button class="bg-white text-green border border-green px-4 h-8 rounded-full smooth-transition flex items-center text-sm whitespace-nowrap hover:bg-green hover:text-white group"
-                      onclick="window.location.href='php/registrarse.php'">
-                      <img src="recursos/iconos/solido/interfaz/mas.svg" alt="Registrarse" class="w-3 h-3 svg-green group-hover:svg-white mr-2">
-                      Registrarse
-                    </button>
-                `;
-                
-            }
-        })
-    .catch(error => console.error('Error verificando sesión:', error));
-});
 
 // chatbot
 document.addEventListener("DOMContentLoaded", function () {

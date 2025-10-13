@@ -288,3 +288,17 @@ INSERT INTO Notificacion (id_notificacion, tipo, titulo, descripcion, fecha, lei
 -- ACTIVAR FOREIGN KEY CHECKS
 -- =============================================================
 SET FOREIGN_KEY_CHECKS = 1;
+
+DELETE FROM Notificacion WHERE id_usuario = 1;
+
+-- Insertar notificaciones de prueba para el Usuario 1
+INSERT INTO Notificacion (tipo, titulo, descripcion, fecha, leida, id_usuario) VALUES
+-- Notificaciones NO LEÍDAS (HOY)
+('solicitud_chat', 'Solicitud de chat', 'Tienes una solicitud de chat de José Martínez', DATE_SUB(NOW(), INTERVAL 20 SECOND), 0, 1),
+('oferta', 'Oferta por remera adidas', 'Cristian Ramírez ofertó por tu remera adidas', DATE_SUB(NOW(), INTERVAL 4 MINUTE), 0, 1),
+('mensaje', 'Nuevo mensaje', 'Tienes un nuevo mensaje de Roberto Pérez', DATE_SUB(NOW(), INTERVAL 12 HOUR), 0, 1),
+
+-- Notificaciones LEÍDAS (ANTERIORES)
+('oferta_cancelada', 'Oferta cancelada', 'Julieta González canceló su oferta por tu remera adidas', DATE_SUB(NOW(), INTERVAL 2 DAY), 1, 1),
+('oferta_aceptada', 'Oferta aceptada', 'Martín Piña aceptó tu oferta para auriculares inalámbricos', DATE_SUB(NOW(), INTERVAL 8 WEEK), 1, 1),
+('resena', 'Nueva reseña', 'Obtuviste 5 estrellas de una reseña de Pedro López', DATE_SUB(NOW(), INTERVAL 8 WEEK), 1, 1);

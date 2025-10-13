@@ -5,14 +5,14 @@ const productos = [
         estado: "Usado",
         calificacion: 4.5,
         resenas: 12,
-        imagenes: [{ imagen: "recursos/imagenes/1.jpg" }],
+        imagenes: [{ imagen: "../recursos/imagenes/1.jpg" }],
         categoria: "accesorios",
         publicadoHace: "2 días",
         vendedor: {
             nombre: "José Martínez",
             reputacion: 4.8,
             ventas: 45,
-            avatar: "recursos/avatars/jm.jpg"
+            avatar: "../recursos/avatars/jm.jpg"
         },
         ubicacion: "Pocitos, Montevideo",
         coordenadas: [-34.9175, -56.1500],
@@ -25,14 +25,14 @@ const productos = [
         estado: "Nuevo",
         calificacion: 4.2,
         resenas: 32,
-        imagenes: [{ imagen: "recursos/imagenes/2.jpg" }],
+        imagenes: [{ imagen: "../recursos/imagenes/2.jpg" }],
         categoria: "tecnologia",
         publicadoHace: "1 hora",
         vendedor: {
             nombre: "José Martínez",
             reputacion: 4.8,
             ventas: 45,
-            avatar: "recursos/avatars/jm.jpg"
+            avatar: "../recursos/avatars/jm.jpg"
         },
         ubicacion: "Ciudad Vieja, Montevideo",
         coordenadas: [-34.9058, -56.2017],
@@ -45,14 +45,14 @@ const productos = [
         estado: "Usado",
         calificacion: 4.8,
         resenas: 8,
-        imagenes: [{ imagen: "recursos/imagenes/3.jpg" }],
+        imagenes: [{ imagen: "../recursos/imagenes/3.jpg" }],
         categoria: "tecnologia",
         publicadoHace: "5 horas",
         vendedor: {
             nombre: "José Martínez",
             reputacion: 4.8,
             ventas: 45,
-            avatar: "recursos/avatars/jm.jpg"
+            avatar: "../recursos/avatars/jm.jpg"
         },
         ubicacion: "Cordón, Montevideo",
         coordenadas: [-34.9011, -56.1914],
@@ -65,14 +65,14 @@ const productos = [
         estado: "Nuevo",
         calificacion: 4.3,
         resenas: 15,
-        imagenes: [{ imagen: "recursos/imagenes/4.jpg" }],
+        imagenes: [{ imagen: "../recursos/imagenes/4.jpg" }],
         categoria: "tecnologia",
         publicadoHace: "3 días",
         vendedor: {
             nombre: "José Martínez",
             reputacion: 4.8,
             ventas: 45,
-            avatar: "recursos/avatars/jm.jpg"
+            avatar: "../recursos/avatars/jm.jpg"
         },
         ubicacion: "Punta Carretas, Montevideo",
         coordenadas: [-34.9217, -56.1533],
@@ -85,14 +85,14 @@ const productos = [
         estado: "Nuevo",
         calificacion: 4.6,
         resenas: 23,
-        imagenes: [{ imagen: "recursos/imagenes/5.jpg" }],
+        imagenes: [{ imagen: "../recursos/imagenes/5.jpg" }],
         categoria: "ropa",
         publicadoHace: "1 día",
         vendedor: {
             nombre: "José Martínez",
             reputacion: 4.8,
             ventas: 45,
-            avatar: "recursos/avatars/jm.jpg"
+            avatar: "../recursos/avatars/jm.jpg"
         },
         ubicacion: "Tres Cruces, Montevideo",
         coordenadas: [-34.8941, -56.1706],
@@ -105,14 +105,14 @@ const productos = [
         estado: "Usado",
         calificacion: 4.4,
         resenas: 18,
-        imagenes: [{ imagen: "recursos/imagenes/6.jpg" }],
+        imagenes: [{ imagen: "../recursos/imagenes/6.jpg" }],
         categoria: "hogar",
         publicadoHace: "4 días",
         vendedor: {
             nombre: "José Martínez",
             reputacion: 4.8,
             ventas: 45,
-            avatar: "recursos/avatars/jm.jpg"
+            avatar: "../recursos/avatars/jm.jpg"
         },
         ubicacion: "Malvín, Montevideo",
         coordenadas: [-34.8889, -56.1056],
@@ -125,7 +125,7 @@ const resenas = [
     {
         id: 1,
         usuario: "María Rodríguez",
-        avatar: "recursos/imagenes/angelaleman.jpg",
+        avatar: "../recursos/imagenes/angelaleman.jpg",
         fecha: "15 de abril de 2024",
         calificacion: 5,
         comentario: "José fue muy amable y profesional. El producto llegó exactamente como se describía y en perfectas condiciones."
@@ -133,7 +133,7 @@ const resenas = [
     {
         id: 2,
         usuario: "Carlos Mendoza",
-        avatar: "recursos/imagenes/angelaleman.jpg",
+        avatar: "../recursos/imagenes/angelaleman.jpg",
         fecha: "8 de abril de 2024",
         calificacion: 4,
         comentario: "El cargador magnético funciona perfectamente. El envío fue más rápido de lo esperado."
@@ -141,7 +141,7 @@ const resenas = [
     {
         id: 3,
         usuario: "Ana Gutierrez",
-        avatar: "recursos/imagenes/angelaleman.jpg",
+        avatar: "../recursos/imagenes/angelaleman.jpg",
         fecha: "2 de abril de 2024",
         calificacion: 5,
         comentario: "Los lentes llegaron en perfectas condiciones. José fue súper honesto sobre el estado del producto y me dio muchos consejos sobre su cuidado."
@@ -149,7 +149,7 @@ const resenas = [
     {
         id: 4,
         usuario: "Diego Silva",
-        avatar: "recursos/imagenes/angelaleman.jpg",
+        avatar: "../recursos/imagenes/angelaleman.jpg",
         fecha: "28 de marzo de 2024",
         calificacion: 4,
         comentario: "El proyector funciona muy bien. José me explicó detalladamente cómo usarlo y me dio algunos accesorios extra sin costo."
@@ -157,7 +157,7 @@ const resenas = [
     {
         id: 5,
         usuario: "Sofia López",
-        avatar: "recursos/imagenes/angelaleman.jpg",
+        avatar: "../recursos/imagenes/angelaleman.jpg",
         fecha: "20 de marzo de 2024",
         calificacion: 5,
         comentario: "La remera está en excelente estado. José fue muy detallado en la descripción y las fotos coinciden perfectamente con el producto real."
@@ -165,7 +165,7 @@ const resenas = [
     {
         id: 6,
         usuario: "Roberto Martínez",
-        avatar: "recursos/imagenes/angelaleman.jpg",
+        avatar: "../recursos/imagenes/angelaleman.jpg",
         fecha: "15 de marzo de 2024",
         calificacion: 4,
         comentario: "El sillón llegó en buen estado general. José me ayudó con la entrega y fue muy amable."
@@ -183,10 +183,10 @@ function generarEstrellas(calificacion, tamaño = 'w-4 h-4') {
     for (let i = 1; i <= 5; i++) {
         if (i <= calificacionEntera) {
             // Estrella sólida (amarilla)
-            estrellas.push(`<img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="${tamaño} svg-yellow">`);
+            estrellas.push(`<img src="../recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="${tamaño} svg-yellow">`);
         } else {
             // Estrella de contorno (gris)
-            estrellas.push(`<img src="recursos/iconos/contorno/estado/estrella.svg" alt="Estrella" class="${tamaño} svg-yellow">`);
+            estrellas.push(`<img src="../recursos/iconos/contorno/estado/estrella.svg" alt="Estrella" class="${tamaño} svg-yellow">`);
         }
     }
     
@@ -637,7 +637,7 @@ function generarProductosPerfil() {
                 </div>
                 <div class="p-4">
                     <h3 class="font-medium text-gray-800 mb-1">${producto.nombre}</h3>
-                    <p class="text-sm text-gray-600">${producto.estado}</p>
+                    <p class="text-sm text-green">${producto.estado}</p>
                 </div>
             </div>
         `).join('');
@@ -652,12 +652,6 @@ function generarProductosPerfil() {
                     <h4 class="text-sm text-gray-800 mb-3">${producto.nombre}</h4>
                     <div class="flex items-center justify-between">
                         <p class="text-base text-green mb-0">${producto.estado}</p>
-                        <div class="flex items-center gap-2">
-                            <div class="flex items-center space-x-1">
-                                ${generarEstrellas(producto.calificacion, 'w-4 h-4')}
-                            </div>
-                            <span class="text-base text-gray-500">${producto.calificacion} (${producto.resenas})</span>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -723,19 +717,19 @@ function updateTabIcons(activeTab, platform) {
 
     if (activeTab === 'productos') {
         // Tab Productos activo
-        productosIcon.src = "recursos/iconos/solido/estado/cuadricula.svg";
+        productosIcon.src = "../recursos/iconos/solido/estado/cuadricula.svg";
         productosTab.querySelector('span').classList.add('font-medium');
         
         // Tab Reseñas inactivo
-        resenasIcon.src = "recursos/iconos/contorno/estado/estrella.svg";
+        resenasIcon.src = "../recursos/iconos/contorno/estado/estrella.svg";
         resenasTab.querySelector('span').classList.remove('font-medium');
     } else if (activeTab === 'resenas') {
         // Tab Reseñas activo
-        resenasIcon.src = "recursos/iconos/solido/estado/estrella.svg";
+        resenasIcon.src = "../recursos/iconos/solido/estado/estrella.svg";
         resenasTab.querySelector('span').classList.add('font-medium');
         
         // Tab Productos inactivo
-        productosIcon.src = "recursos/iconos/contorno/estado/cuadricula.svg";
+        productosIcon.src = "../recursos/iconos/contorno/estado/cuadricula.svg";
         productosTab.querySelector('span').classList.remove('font-medium');
     }
 }

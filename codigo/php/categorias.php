@@ -1,5 +1,5 @@
 <?php
-include 'php/database.php';
+include 'database.php';
 
 // --- Obtener categorías (MySQLi) ---
 try {

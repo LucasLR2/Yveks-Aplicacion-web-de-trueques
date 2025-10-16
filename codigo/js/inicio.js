@@ -537,7 +537,7 @@ function openProductDetail(productId) {
                             </div>
                             
                             <!-- Map -->
-                            <div id="product-detail-map" class="w-full h-32 bg-white bg-opacity-50 rounded-lg"></div>
+                            <div id="product-detail-map" class="w-full h-32 bg-white bg-opacity-50 rounded-lg z-10"></div>
 
                             <!-- Product details -->
                             <div class="space-y-4">

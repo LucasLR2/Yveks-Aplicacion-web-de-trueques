@@ -481,88 +481,89 @@ function openProductDetail(productId) {
                 <!-- Main product card -->
                 <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-4" style="background: linear-gradient(135deg, #719177 0%, #8fa685 100%);">
                     <div class="p-4">
-                        <div class="grid lg:grid-cols-2 gap-6">
-                            <!-- Product image section - larger -->
-                            <div class="relative lg:col-span-1">
-                                <!-- Back arrow on image -->
-                                <button onclick="volverVistaAnterior()" class="absolute left-4 top-4 w-10 h-10 bg-white bg-opacity-90 rounded-full flex items-center justify-center z-10 shadow-md hover:bg-opacity-100 transition-all">
-                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        <div class="grid lg:grid-cols-2 gap-6 items-stretch">
+                        <!-- Product image section -->
+                        <div class="relative lg:col-span-1 flex items-center justify-center bg-white rounded-2xl overflow-hidden shadow-inner">
+                            <!-- Back arrow on image -->
+                            <button onclick="volverVistaAnterior()" class="absolute left-4 top-4 w-10 h-10 bg-white bg-opacity-90 rounded-full flex items-center justify-center z-10 shadow-md hover:bg-opacity-100 transition-all">
+                                <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                            </button>
+                            
+                            <!-- Options button -->
+                            <button class="absolute right-4 top-4 w-10 h-10 bg-white bg-opacity-90 rounded-full flex items-center justify-center z-10 shadow-md hover:bg-opacity-100 transition-all">
+                                <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"></path>
+                                </svg>
+                            </button>
+
+                            <!-- Main image -->
+                            <img src="${producto.imagenes?.[0]?.imagen || 'ruta/placeholder.png'}"
+                                alt="${producto.nombre}"
+                                class="h-full w-auto object-cover" />
+                        </div>
+
+                        <!-- Product information -->
+                        <div class="text-white space-y-3 flex flex-col justify-between">
+                            <!-- Title and time -->
+                            <div>
+                                <h1 class="text-xl lg:text-xl mb-1 leading-tight">${producto.nombre}</h1>
+                                <p class="text-white text-opacity-90 text-sm">Publicado hace ${producto.publicadoHace}</p>
+                            </div>
+                            
+                            <!-- Seller info with rating -->
+                            <div class="flex items-center justify-between w-full">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-sm text-white text-opacity-70">de</span>
+                                    <img src="${producto.vendedor.avatar}" alt="${producto.vendedor.nombre}" class="w-8 h-8 rounded-full border-2 border-white border-opacity-30">
+                                    <span class="text-sm text-white font-medium">${producto.vendedor.nombre}</span>
+                                </div>
+                                <div class="flex items-center space-x-1">
+                                    <svg class="w-4 h-4 text-yellow-300" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
                                     </svg>
-                                </button>
-                                
-                                <!-- Options button -->
-                                <button class="absolute right-4 top-4 w-10 h-10 bg-white bg-opacity-90 rounded-full flex items-center justify-center z-10 shadow-md hover:bg-opacity-100 transition-all">
-                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"></path>
-                                    </svg>
-                                </button>
-                                
-                                <!-- Main image - 1:1 aspect ratio and larger -->
-                                <div class="bg-white rounded-2xl overflow-hidden shadow-inner">
-                                    <img src="${producto.imagenes[0].imagen}" alt="${producto.nombre}" class="w-full h-full object-cover aspect-square">
+                                    <span class="text-white text-opacity-90 text-sm">${producto.calificacion} (${producto.resenas})</span>
                                 </div>
                             </div>
                             
-                            <!-- Product information - constrained width -->
-                            <div class="text-white space-y-3 max-w-md">
-                                <!-- Title and time -->
-                                <div>
-                                    <h1 class="text-xl lg:text-xl mb-1 leading-tight">${producto.nombre}</h1>
-                                    <p class="text-white text-opacity-90 text-sm">Publicado hace ${producto.publicadoHace}</p>
-                                </div>
-                                
-                                <!-- Seller info with rating - Una línea -->
-                                <div class="flex items-center justify-between w-full">
-                                    <div class="flex items-center space-x-2">
-                                        <span class="text-sm text-white text-opacity-70">de</span>
-                                        <img src="${producto.vendedor.avatar}" alt="${producto.vendedor.nombre}" class="w-8 h-8 rounded-full border-2 border-white border-opacity-30">
-                                        <span class="text-sm text-white font-medium">${producto.vendedor.nombre}</span>
-                                    </div>
-                                    <div class="flex items-center space-x-1">
-                                        <svg class="w-4 h-4 text-yellow-300" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                        </svg>
-                                        <span class="text-white text-opacity-90 text-sm">${producto.calificacion} (${producto.resenas})</span>
-                                    </div>
-                                </div>
-                                
-                                <!-- Location -->
-                                <div class="flex items-center space-x-2">
-                                    <svg class="w-5 h-5 text-white text-opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    </svg>
-                                    <span class="text-white text-opacity-90 text-sm">${producto.ubicacion}</span>
-                                </div>
-                                
-                                <!-- Map -->
-                                <div id="product-detail-map" class="w-full h-32 bg-white bg-opacity-50 rounded-lg"></div>
-
-                                <!-- Product details -->
-                                <div class="space-y-4">
-                                    <h3>Detalles del producto</h3>
-                                    <div class="space-y-3">
-                                        <div class="flex justify-between items-center">
-                                            <span class="text-white text-opacity-80">Estado</span>
-                                            <span>${producto.estado}</span>
-                                        </div>
-                                        <p class="text-white text-opacity-90 text-sm leading-relaxed">${producto.descripcion}</p>
-                                    </div>
-                                </div>
-                                
-                                <!-- Exchange preferences -->
-                                <div class="space-y-3">
-                                    <h3 class="font-semibold">Preferencias de intercambio</h3>
-                                    <p class="text-white text-opacity-90 text-sm">${producto.preferenciasIntercambio.join(', ')}</p>
-                                </div>
-                                
-                                <!-- Make offer button -->
-                                <button onclick="hacerOferta(${producto.id})" class="w-full bg-white text-green font-semibold py-3 px-6 rounded-xl hover:bg-gray-50 transition-colors mt-6">
-                                    Hacer oferta
-                                </button>
+                            <!-- Location -->
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-5 h-5 text-white text-opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                <span class="text-white text-opacity-90 text-sm">${producto.ubicacion}</span>
                             </div>
+                            
+                            <!-- Map -->
+                            <div id="product-detail-map" class="w-full h-32 bg-white bg-opacity-50 rounded-lg"></div>
+
+                            <!-- Product details -->
+                            <div class="space-y-4">
+                                <h3>Detalles del producto</h3>
+                                <div class="space-y-3">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-white text-opacity-80">Estado</span>
+                                        <span>${producto.estado}</span>
+                                    </div>
+                                    <p class="text-white text-opacity-90 text-sm leading-relaxed">${producto.descripcion}</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Exchange preferences -->
+                            <div class="space-y-3">
+                                <h3 class="font-semibold">Preferencias de intercambio</h3>
+                                <p class="text-white text-opacity-90 text-sm">${producto.preferenciasIntercambio.join(', ')}</p>
+                            </div>
+                            
+                            <!-- Make offer button -->
+                            <button onclick="hacerOferta(${producto.id})" class="w-full bg-white text-green font-semibold py-3 px-6 rounded-xl hover:bg-gray-50 transition-colors mt-6">
+                                Hacer oferta
+                            </button>
                         </div>
+                    </div>
+
                     </div>
                 </div>
                 

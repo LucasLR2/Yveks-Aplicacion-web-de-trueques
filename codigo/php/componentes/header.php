@@ -4,7 +4,8 @@
 // --------------------------
 
 // Definir baseURL para rutas absolutas desde la raíz del proyecto
-$baseURL = '/Yveks-Aplicacion-web-de-trueques/codigo/';
+// Como Docker configura DocumentRoot en /var/www/html/codigo, la base es /
+$baseURL = '/';
 
 // Detectar en qué página estamos
 $paginaActual = basename($_SERVER['PHP_SELF'], ".php");

@@ -1,8 +1,8 @@
 <?php
-$host = "localhost";
+$host = "db"; // Nombre del servicio MySQL en docker-compose
 $db_name = "dreva";
 $username = "root";
-$password = "";
+$password = "root"; // Contraseña configurada en docker-compose
 
 $conn = new mysqli($host, $username, $password, $db_name);
 if ($conn->connect_error) {

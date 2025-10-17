@@ -20,7 +20,8 @@ function cargarNotificaciones() {
         .catch(error => console.error('Error en fetch de notificaciones:', error));
 }
 
-const BASE_URL = '/Yveks-Aplicacion-web-de-trueques/codigo/'; // desde la raíz del servidor
+// Como Docker configura DocumentRoot en /var/www/html/codigo, la base es /
+const BASE_URL = '/';
 
 // ========== FUNCIONES DE CARGA DE DATOS ==========
 

@@ -1,4 +1,5 @@
-CREATE DATABASE dreva;
+-- La base de datos 'dreva' ya es creada por Docker
+-- CREATE DATABASE dreva;
 
 USE dreva;
 
@@ -12,6 +13,15 @@ CREATE TABLE Usuario (
     ubicacion VARCHAR(100),
     f_nacimiento DATE,
     intereses VARCHAR(100)
+);
+
+CREATE TABLE ubicacion (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255),
+    lat DECIMAL(10,7),
+    lng DECIMAL(10,7),
+    place_id VARCHAR(100)
+
 );
 
 CREATE TABLE Producto (
@@ -84,15 +94,6 @@ CREATE TABLE Notificacion (
     leida BOOLEAN,
     id_usuario INT,
     FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario)
-);
-
-CREATE TABLE ubicacion (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(255),
-    lat DECIMAL(10,7),
-    lng DECIMAL(10,7),
-    place_id VARCHAR(100)
-
 );
 
 CREATE TABLE categoria (

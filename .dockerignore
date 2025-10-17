@@ -1,0 +1,27 @@
+# Archivos y carpetas de Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Datos de Docker
+.docker/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Git
+.git/
+.gitignore
+
+# Node modules (si usas npm)
+node_modules/
+package-lock.json

@@ -7,7 +7,8 @@ if ($rutaActual === 'index') {
 }
 
 // Definimos una ruta base absoluta
-$baseURL = '/Yveks-Aplicacion-web-de-trueques/codigo/';
+// Como Docker configura DocumentRoot en /var/www/html/codigo, la base es /
+$baseURL = '/';
 ?>
 
 <!-- MENÚ MÓVIL -->

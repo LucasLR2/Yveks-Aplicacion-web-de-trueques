@@ -56,6 +56,45 @@ INSERT INTO Usuario (id_usuario, nombre_comp, correo, contrasena, rol, ubicacion
 (34,'Usuario 34','u34@example.com',SHA2('pass34',256),'usuario','Montevideo','1990-02-03');
 
 -- =============================================================
+-- UBICACIONES - Datos de coordenadas de los productos del JS
+-- =============================================================
+INSERT INTO ubicacion (id, nombre, lat, lng) VALUES
+(1, 'Pocitos, Montevideo', -34.9175, -56.1500),
+(2, 'Ciudad Vieja, Montevideo', -34.9058, -56.2017),
+(3, 'Cordón, Montevideo', -34.9011, -56.1914),
+(4, 'Punta Carretas, Montevideo', -34.9217, -56.1533),
+(5, 'Tres Cruces, Montevideo', -34.8941, -56.1706),
+(6, 'Malvín, Montevideo', -34.8889, -56.1056),
+(7, 'Buceo, Montevideo', -34.9089, -56.1389),
+(8, 'Centro, Montevideo', -34.9045, -56.1917),
+(9, 'Parque Rodó, Montevideo', -34.9167, -56.1639),
+(10, 'Aguada, Montevideo', -34.8889, -56.1944),
+(11, 'Montevideo', -34.9011, -56.1645),
+(12, 'Montevideo', -34.9011, -56.1645),
+(13, 'Montevideo', -34.9011, -56.1645),
+(14, 'Montevideo', -34.9011, -56.1645),
+(15, 'Montevideo', -34.9011, -56.1645),
+(16, 'Montevideo', -34.9011, -56.1645),
+(17, 'Montevideo', -34.9011, -56.1645),
+(18, 'Montevideo', -34.9011, -56.1645),
+(19, 'Montevideo', -34.9011, -56.1645),
+(20, 'Montevideo', -34.9011, -56.1645),
+(21, 'Montevideo', -34.9011, -56.1645),
+(22, 'Montevideo', -34.9011, -56.1645),
+(23, 'Montevideo', -34.9011, -56.1645),
+(24, 'Montevideo', -34.9011, -56.1645),
+(25, 'Montevideo', -34.9011, -56.1645),
+(26, 'Montevideo', -34.9011, -56.1645),
+(27, 'Montevideo', -34.9011, -56.1645),
+(28, 'Montevideo', -34.9011, -56.1645),
+(29, 'Montevideo', -34.9011, -56.1645),
+(30, 'Montevideo', -34.9011, -56.1645),
+(31, 'Montevideo', -34.9011, -56.1645),
+(32, 'Montevideo', -34.9011, -56.1645),
+(33, 'Montevideo', -34.9011, -56.1645),
+(34, 'Montevideo', -34.9011, -56.1645);
+
+-- =============================================================
 -- PRODUCTOS (34) - Con datos completos del JS (calificaciones calculadas dinámicamente desde Valoracion)
 -- =============================================================
 INSERT INTO Producto (id_producto, nombre, estado, categoria, descripcion, preferencias, f_publicacion, id_ubicacion) VALUES
@@ -95,45 +134,6 @@ INSERT INTO Producto (id_producto, nombre, estado, categoria, descripcion, prefe
 (32,'Buzo Salomon negro','Usado','ropa','Buzo Salomon negro.','Pantalón outdoor,Botas de trekking','2024-04-15 13:50:00',32),
 (33,'Cinto de cuero negro','Usado','accesorios','Cinto cuero negro.','Billetera de cuero,Otro accesorio','2024-04-05 10:05:00',33),
 (34,'Morral High negro','Usado','accesorios','Morral High color negro.','Billetera,Organizador de viaje','2024-03-28 17:35:00',34);
-
--- =============================================================
--- UBICACIONES - Datos de coordenadas de los productos del JS
--- =============================================================
-INSERT INTO ubicacion (id, nombre, lat, lng) VALUES
-(1, 'Pocitos, Montevideo', -34.9175, -56.1500),
-(2, 'Ciudad Vieja, Montevideo', -34.9058, -56.2017),
-(3, 'Cordón, Montevideo', -34.9011, -56.1914),
-(4, 'Punta Carretas, Montevideo', -34.9217, -56.1533),
-(5, 'Tres Cruces, Montevideo', -34.8941, -56.1706),
-(6, 'Malvín, Montevideo', -34.8889, -56.1056),
-(7, 'Buceo, Montevideo', -34.9089, -56.1389),
-(8, 'Centro, Montevideo', -34.9045, -56.1917),
-(9, 'Parque Rodó, Montevideo', -34.9167, -56.1639),
-(10, 'Aguada, Montevideo', -34.8889, -56.1944),
-(11, 'Montevideo', -34.9011, -56.1645),
-(12, 'Montevideo', -34.9011, -56.1645),
-(13, 'Montevideo', -34.9011, -56.1645),
-(14, 'Montevideo', -34.9011, -56.1645),
-(15, 'Montevideo', -34.9011, -56.1645),
-(16, 'Montevideo', -34.9011, -56.1645),
-(17, 'Montevideo', -34.9011, -56.1645),
-(18, 'Montevideo', -34.9011, -56.1645),
-(19, 'Montevideo', -34.9011, -56.1645),
-(20, 'Montevideo', -34.9011, -56.1645),
-(21, 'Montevideo', -34.9011, -56.1645),
-(22, 'Montevideo', -34.9011, -56.1645),
-(23, 'Montevideo', -34.9011, -56.1645),
-(24, 'Montevideo', -34.9011, -56.1645),
-(25, 'Montevideo', -34.9011, -56.1645),
-(26, 'Montevideo', -34.9011, -56.1645),
-(27, 'Montevideo', -34.9011, -56.1645),
-(28, 'Montevideo', -34.9011, -56.1645),
-(29, 'Montevideo', -34.9011, -56.1645),
-(30, 'Montevideo', -34.9011, -56.1645),
-(31, 'Montevideo', -34.9011, -56.1645),
-(32, 'Montevideo', -34.9011, -56.1645),
-(33, 'Montevideo', -34.9011, -56.1645),
-(34, 'Montevideo', -34.9011, -56.1645);
 
 -- =============================================================
 -- IMÁGENES (una por producto)

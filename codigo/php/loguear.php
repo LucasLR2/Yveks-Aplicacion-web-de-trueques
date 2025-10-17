@@ -25,7 +25,7 @@ if ($stmt) {
         $_SESSION['id'] = $u['id_usuario'];
         $_SESSION['correo'] = $u['correo'];
         $_SESSION['nombre'] = $u['nombre_comp'];
-        echo json_encode(['success' => true, 'redirect' => '/Yveks-Aplicacion-web-de-trueques/codigo/index.php']);
+        echo json_encode(['success' => true, 'redirect' => '/index.php']);
     } else {
         echo json_encode(['success' => false, 'message' => 'No coincide el email o la contraseña.']);
     }

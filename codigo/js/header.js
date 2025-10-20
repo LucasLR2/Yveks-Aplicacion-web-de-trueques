@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </button>
 
                     <!-- Botón chat -->
-                    <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition">
+                    <button onclick="Verificacion('php/mensajes.php', this)" class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition">
                         <img src="${baseURL}recursos/iconos/solido/comunicacion/comentario.svg" alt="Comentarios" class="w-5 h-5 svg-gray-800">
                     </button>
 

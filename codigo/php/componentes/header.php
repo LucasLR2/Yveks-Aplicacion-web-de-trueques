@@ -35,7 +35,14 @@ if ($paginaActual === 'index') {
                 <img src="<?= $baseURL ?>recursos/iconos/solido/interfaz/flecha_abajo.svg" alt="Expandir" class="w-6 h-6 svg-gray-800">
             </div>
         <?php elseif ($paginaActual === 'ofertas'): ?>
-            <h1 class="text-2xl text-black mb-0"> <?= $paginaActual === 'ofertas' ? 'Ofertas' : 'Perfil' ?> </h1>
+            <h1 class="text-2xl text-black mb-0">Ofertas</h1>
+        <?php elseif ($paginaActual === 'mensajes'): ?>
+            <div class="flex items-center space-x-3">
+                <a href="<?= $baseURL ?>index.php">
+                    <img src="<?= $baseURL ?>recursos/iconos/dreva.svg" alt="Dreva" class="h-8 cursor-pointer">
+                </a>
+                <h1 class="text-xl text-black font-semibold">Mensajes</h1>
+            </div>
         <?php else: ?>
             <span class="text-xs text-transparent mb-1">Ubicación</span>
             <div class="flex items-center space-x-2">
@@ -43,6 +50,7 @@ if ($paginaActual === 'index') {
             </div>
         <?php endif; ?>
     </div>
+    
     <!-- Switch de ofertas debajo del header (solo ofertas.php) -->
     <?php if ($paginaActual === 'ofertas'): ?>
         <div class="md:px-16 mt-2">
@@ -93,14 +101,21 @@ if ($paginaActual === 'index') {
 </div>
 
 <!-- ================= HEADER DESKTOP ================= -->
-<header class="hidden lg:block bg-white border-b border-gray-200 px-20 py-4 sticky top-0 z-40" style="margin-left: 280px;">
+<header class="hidden lg:block bg-white border-b border-gray-200 px-20 py-4 sticky top-0 z-40" style="<?= $paginaActual !== 'mensajes' ? 'margin-left: 280px;' : '' ?>">
     <div class="flex items-center justify-between">
+        <?php if ($paginaActual === 'mensajes'): ?>
+            <!-- Logo para mensajes -->
+            <a href="<?= $baseURL ?>index.php" class="mr-6">
+                <img src="<?= $baseURL ?>recursos/iconos/dreva.svg" alt="Dreva" class="h-10 cursor-pointer">
+            </a>
+        <?php endif; ?>
+        
         <!-- Barra de búsqueda expandida -->
         <div class="flex-1 max-w-2xl mr-6">
             <div class="relative">
                 <img src="<?= $baseURL ?>recursos/iconos/solido/interfaz/buscar.svg" alt="Buscar"
                      class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 svg-green">
-                <input type="text" placeholder="Buscar productos, marcas, categorías..." id="desktop-search"
+                <input type="text" placeholder="<?= $paginaActual === 'mensajes' ? 'Buscar mensajes...' : 'Buscar productos, marcas, categorías...' ?>" id="desktop-search"
                        class="w-full pl-12 pr-4 py-3 rounded-full text-sm border border-gray-600 focus:outline-none text-gray-600 placeholder-gray-600">
             </div>
         </div>

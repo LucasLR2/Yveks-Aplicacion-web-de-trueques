@@ -19,8 +19,13 @@ if ($id_conversacion <= 0) {
 
 try {
     // Verificar que el usuario participa en la conversación
-    $stmt = $conn->prepare("SELECT COUNT(*) as count FROM Participa WHERE id_conversacion = ? AND id_usuario = ?");
-    $stmt->bind_param('ii', $id_conversacion, $id_usuario);
+    $stmt = $conn->prepare("
+        SELECT COUNT(*) as count 
+        FROM ChatConversacion 
+        WHERE id_conversacion = ? 
+        AND (id_usuario1 = ? OR id_usuario2 = ?)
+    ");
+    $stmt->bind_param('iii', $id_conversacion, $id_usuario, $id_usuario);
     $stmt->execute();
     $result = $stmt->get_result()->fetch_assoc();
     
@@ -33,11 +38,11 @@ try {
     $sql = "SELECT 
                 m.id_mensaje as id,
                 m.contenido,
-                m.f_envio as enviado_en,
+                m.enviado_en,
                 IF(m.id_emisor = ?, 1, 0) as es_mio
-            FROM Mensaje m
+            FROM ChatMensaje m
             WHERE m.id_conversacion = ?
-            ORDER BY m.f_envio ASC";
+            ORDER BY m.enviado_en ASC";
     
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('ii', $id_usuario, $id_conversacion);

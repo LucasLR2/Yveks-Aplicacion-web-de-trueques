@@ -19,67 +19,61 @@ try {
                 c.id_producto,
                 p.nombre as producto,
                 -- Obtener datos del otro usuario
-                (SELECT u.nombre_comp 
-                 FROM Participa pa2 
-                 JOIN Usuario u ON pa2.id_usuario = u.id_usuario 
-                 WHERE pa2.id_conversacion = c.id_conversacion 
-                 AND pa2.id_usuario != ? 
-                 LIMIT 1) as nombre,
+                IF(c.id_usuario1 = ?, 
+                   (SELECT nombre_comp FROM Usuario WHERE id_usuario = c.id_usuario2),
+                   (SELECT nombre_comp FROM Usuario WHERE id_usuario = c.id_usuario1)
+                ) as nombre,
                 -- Avatar del otro usuario
                 CONCAT('https://i.pravatar.cc/150?u=', 
-                    (SELECT pa2.id_usuario 
-                     FROM Participa pa2 
-                     WHERE pa2.id_conversacion = c.id_conversacion 
-                     AND pa2.id_usuario != ? 
-                     LIMIT 1)) as avatar,
+                   IF(c.id_usuario1 = ?, c.id_usuario2, c.id_usuario1)
+                ) as avatar,
                 -- Último mensaje
-                (SELECT m.contenido 
-                 FROM Mensaje m 
-                 WHERE m.id_conversacion = c.id_conversacion 
-                 ORDER BY m.f_envio DESC 
+                (SELECT cm.contenido 
+                 FROM ChatMensaje cm 
+                 WHERE cm.id_conversacion = c.id_conversacion 
+                 ORDER BY cm.enviado_en DESC 
                  LIMIT 1) as ultimo_mensaje,
                 -- Hora del último mensaje
-                (SELECT TIME_FORMAT(m.f_envio, '%H:%i') 
-                 FROM Mensaje m 
-                 WHERE m.id_conversacion = c.id_conversacion 
-                 ORDER BY m.f_envio DESC 
+                (SELECT TIME_FORMAT(cm.enviado_en, '%H:%i') 
+                 FROM ChatMensaje cm 
+                 WHERE cm.id_conversacion = c.id_conversacion 
+                 ORDER BY cm.enviado_en DESC 
                  LIMIT 1) as tiempo,
                 -- Mensajes sin leer
                 (SELECT COUNT(*) 
-                 FROM Mensaje m 
-                 WHERE m.id_conversacion = c.id_conversacion 
-                 AND m.id_receptor = ? 
-                 AND m.id_mensaje > COALESCE(pa.ultimo_mensaje_leido, 0)) as mensajes_sin_leer,
+                 FROM ChatMensaje cm 
+                 WHERE cm.id_conversacion = c.id_conversacion 
+                 AND cm.id_emisor != ? 
+                 AND cm.leido = 0) as mensajes_sin_leer,
                 -- Si el último mensaje lo envié yo
-                (SELECT IF(m.id_emisor = ?, 1, 0)
-                 FROM Mensaje m 
-                 WHERE m.id_conversacion = c.id_conversacion 
-                 ORDER BY m.f_envio DESC 
+                (SELECT IF(cm.id_emisor = ?, 1, 0)
+                 FROM ChatMensaje cm 
+                 WHERE cm.id_conversacion = c.id_conversacion 
+                 ORDER BY cm.enviado_en DESC 
                  LIMIT 1) as yo_envie_ultimo
-            FROM Conversacion c
-            JOIN Participa pa ON c.id_conversacion = pa.id_conversacion
+            FROM ChatConversacion c
             LEFT JOIN Producto p ON c.id_producto = p.id_producto
-            WHERE pa.id_usuario = ?";
+            WHERE c.id_usuario1 = ? OR c.id_usuario2 = ?";
     
-    $params = "iiiii";
-    $values = [$id_usuario, $id_usuario, $id_usuario, $id_usuario, $id_usuario];
+    $params = "iiiiii";
+    $values = [$id_usuario, $id_usuario, $id_usuario, $id_usuario, $id_usuario, $id_usuario];
     
     if (!empty($busqueda)) {
-        $sql .= " AND (SELECT u.nombre_comp 
-                       FROM Participa pa2 
-                       JOIN Usuario u ON pa2.id_usuario = u.id_usuario 
-                       WHERE pa2.id_conversacion = c.id_conversacion 
-                       AND pa2.id_usuario != ? 
-                       LIMIT 1) LIKE ?";
-        $params .= "is";
+        $sql .= " AND (
+                    (c.id_usuario1 = ? AND (SELECT nombre_comp FROM Usuario WHERE id_usuario = c.id_usuario2) LIKE ?) OR
+                    (c.id_usuario2 = ? AND (SELECT nombre_comp FROM Usuario WHERE id_usuario = c.id_usuario1) LIKE ?)
+                  )";
+        $params .= "isis";
+        $values[] = $id_usuario;
+        $values[] = "%$busqueda%";
         $values[] = $id_usuario;
         $values[] = "%$busqueda%";
     }
     
-    $sql .= " ORDER BY (SELECT m.f_envio 
-                        FROM Mensaje m 
-                        WHERE m.id_conversacion = c.id_conversacion 
-                        ORDER BY m.f_envio DESC 
+    $sql .= " ORDER BY (SELECT cm.enviado_en 
+                        FROM ChatMensaje cm 
+                        WHERE cm.id_conversacion = c.id_conversacion 
+                        ORDER BY cm.enviado_en DESC 
                         LIMIT 1) DESC";
     
     $stmt = $conn->prepare($sql);

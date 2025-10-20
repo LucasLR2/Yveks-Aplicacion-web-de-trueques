@@ -21,7 +21,6 @@ CREATE TABLE ubicacion (
     lat DECIMAL(10,7),
     lng DECIMAL(10,7),
     place_id VARCHAR(100)
-
 );
 
 CREATE TABLE Producto (
@@ -63,6 +62,32 @@ CREATE TABLE Mensaje (
     id_receptor INT,
     FOREIGN KEY (id_emisor) REFERENCES Usuario(id_usuario),
     FOREIGN KEY (id_receptor) REFERENCES Usuario(id_usuario)
+);
+
+CREATE TABLE ChatConversacion (
+    id_conversacion INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario1 INT NOT NULL,
+    id_usuario2 INT NOT NULL,
+    id_producto INT,
+    fecha_inicio DATETIME DEFAULT CURRENT_TIMESTAMP,
+    ultimo_mensaje DATETIME,
+    ultimo_mensaje_contenido TEXT,
+    FOREIGN KEY (id_usuario1) REFERENCES Usuario(id_usuario),
+    FOREIGN KEY (id_usuario2) REFERENCES Usuario(id_usuario),
+    FOREIGN KEY (id_producto) REFERENCES Producto(id_producto)
+);
+
+CREATE TABLE ChatMensaje (
+    id_mensaje INT AUTO_INCREMENT PRIMARY KEY,
+    id_conversacion INT NOT NULL,
+    id_emisor INT NOT NULL,
+    contenido TEXT NOT NULL,
+    tipo_mensaje VARCHAR(20) DEFAULT 'texto',
+    enviado_en DATETIME DEFAULT CURRENT_TIMESTAMP,
+    leido BOOLEAN DEFAULT 0,
+    leido_en DATETIME,
+    FOREIGN KEY (id_conversacion) REFERENCES ChatConversacion(id_conversacion),
+    FOREIGN KEY (id_emisor) REFERENCES Usuario(id_usuario)
 );
 
 CREATE TABLE Incidencia (

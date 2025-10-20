@@ -29,7 +29,7 @@ $rutaActual = 'mensajes';
     <div class="lg:hidden">
         <div class="h-screen flex flex-col bg-white">
             <!-- Header con tabs -->
-            <div class="bg-white border-b border-gray-200 px-4 pt-2 pb-0">
+            <div class="bg-white -bborder border-gray-200 px-4 pt-2 pb-0">
                 <div class="flex border-b border-gray-200">
                     <button class="tab-btn flex-1 py-3 text-sm font-medium border-b-2 border-green text-green active" data-tab="chats">
                         Chats
@@ -63,7 +63,7 @@ $rutaActual = 'mensajes';
                     </button>
                     <img id="chat-avatar" src="" alt="Avatar" class="w-10 h-10 rounded-full">
                     <div class="flex-1">
-                        <div id="chat-nombre" class="font-semibold text-gray-800"></div>
+                        <div id="chat-nombre" class=" text-gray-800"></div>
                         <div id="chat-producto" class="text-xs text-gray-500"></div>
                     </div>
                 </div>
@@ -127,11 +127,11 @@ $rutaActual = 'mensajes';
 
                 <div id="chat-desktop-view" class="hidden h-full flex flex-col">
                     <!-- Header -->
-                    <div class="chat-header border-b border-gray-200">
+                    <div class="chat-header">
                         <img id="chat-avatar-desktop" src="" alt="Avatar" class="w-10 h-10 rounded-full">
                         <div class="flex-1">
-                            <div id="chat-nombre-desktop" class="font-semibold text-gray-800"></div>
-                            <div id="chat-producto-desktop" class="text-xs text-gray-500"></div>
+                            <div id="chat-nombre-desktop" class=" text-white"></div>
+                            <div id="chat-producto-desktop" class="text-xs text-gray-300"></div>
                         </div>
                     </div>
 
@@ -143,7 +143,7 @@ $rutaActual = 'mensajes';
                     <!-- Input -->
                     <div class="chat-input-container">
                         <input type="text" id="input-mensaje-desktop" class="chat-input" placeholder="Escribe un mensaje...">
-                        <button id="btn-enviar-desktop" class="btn-send" disabled>
+                        <button id="btn-enviar-desktop" class="btn-send rotate-90" disabled>
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
                             </svg>

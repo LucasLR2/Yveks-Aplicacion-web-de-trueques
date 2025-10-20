@@ -146,7 +146,7 @@ class ChatManager {
                     
                     <div class="flex-1 min-w-0">
                         <div class="flex items-center justify-between mb-1">
-                            <h3 class="font-semibold text-gray-800 truncate">${conv.nombre}</h3>
+                            <h3 class="text-gray-800 truncate">${conv.nombre}</h3>
                             <span class="text-xs text-gray-500">${conv.tiempo}</span>
                         </div>
                         
@@ -236,18 +236,41 @@ class ChatManager {
             : mensajes.map(m => this.getMensajeHTML(m)).join('');
 
         if (contenedorMovil) {
+            const estabaEnElFondo = contenedorMovil.scrollHeight - contenedorMovil.scrollTop <= contenedorMovil.clientHeight + 100;
             contenedorMovil.innerHTML = html;
-            contenedorMovil.scrollTop = contenedorMovil.scrollHeight;
+            if (estabaEnElFondo || mensajes.length <= 5) {
+                contenedorMovil.scrollTop = contenedorMovil.scrollHeight;
+            }
         }
         
         if (contenedorDesktop) {
+            const estabaEnElFondo = contenedorDesktop.scrollHeight - contenedorDesktop.scrollTop <= contenedorDesktop.clientHeight + 100;
             contenedorDesktop.innerHTML = html;
-            contenedorDesktop.scrollTop = contenedorDesktop.scrollHeight;
+            if (estabaEnElFondo || mensajes.length <= 5) {
+                contenedorDesktop.scrollTop = contenedorDesktop.scrollHeight;
+            }
+        }
+    }
+
+    async cargarMensajesSilencioso() {
+        if (!this.conversacionActual) return;
+        
+        try {
+            const response = await fetch(`/php/chat/obtener-mensajes.php?id_conversacion=${this.conversacionActual}`);
+            const data = await response.json();
+
+            if (data.success && data.mensajes.length > 0) {
+                this.renderMensajes(data.mensajes);
+            }
+        } catch (error) {
+            console.error('Error cargando mensajes:', error);
         }
     }
 
     getMensajeHTML(msg) {
         const fecha = new Date(msg.enviado_en);
+        // Adelantar 9 horas
+        fecha.setHours(fecha.getHours() - 3);
         const tiempo = fecha.toLocaleTimeString('es-UY', { hour: '2-digit', minute: '2-digit' });
 
         let contenidoHTML = msg.contenido;
@@ -256,7 +279,7 @@ class ChatManager {
         if (msg.contenido.toLowerCase().includes('foto') || msg.contenido === '📷 Foto') {
             contenidoHTML = `
                 <div class="mensaje-imagen">
-                    <img src="recursos/imagenes/7.jpg" alt="Imagen compartida" class="rounded-lg max-w-xs">
+                    <img src="${baseURL}recursos/imagenes/7.jpg" alt="Imagen compartida" class="rounded-lg max-w-xs">
                 </div>
             `;
         }
@@ -285,8 +308,8 @@ class ChatManager {
         return `
             <div class="mensaje-bubble ${msg.es_mio ? 'mensaje-mio' : 'mensaje-otro'}">
                 <div>${contenidoHTML}</div>
-                <div class="mensaje-tiempo">${tiempo}</div>
             </div>
+            <div class="mensaje-tiempo">${tiempo}</div>
         `;
     }
 
@@ -318,6 +341,16 @@ class ChatManager {
                 btnEnviar.disabled = true;
                 
                 await this.cargarMensajes();
+                
+                // Agregar clase 'nuevo' solo al último mensaje
+                const contenedor = this.isMobile 
+                    ? document.getElementById('chat-mensajes')
+                    : document.getElementById('chat-mensajes-desktop');
+                const ultimoMensaje = contenedor.lastElementChild;
+                if (ultimoMensaje) {
+                    ultimoMensaje.classList.add('nuevo');
+                }
+                
                 await this.cargarConversaciones();
             } else {
                 alert('Error al enviar mensaje: ' + data.error);
@@ -354,13 +387,15 @@ class ChatManager {
     }
 
     iniciarPolling() {
-        // Actualizar cada 5 segundos
-        this.polling = setInterval(() => {
+        this.polling = setInterval(async () => {
             if (this.conversacionActual) {
-                this.cargarMensajes();
+                // Si hay conversación activa, solo actualizar mensajes
+                await this.cargarMensajesSilencioso();
+            } else {
+                // Si no hay conversación activa, actualizar lista de conversaciones
+                await this.cargarConversaciones();
             }
-            this.cargarConversaciones();
-        }, 5000);
+        }, 5000); // Cada 8 segundos
     }
 
     detenerPolling() {

@@ -302,3 +302,50 @@ INSERT INTO Notificacion (tipo, titulo, descripcion, fecha, leida, id_usuario) V
 ('oferta_cancelada', 'Oferta cancelada', 'Julieta González canceló su oferta por tu remera adidas', DATE_SUB(NOW(), INTERVAL 2 DAY), 1, 1),
 ('oferta_aceptada', 'Oferta aceptada', 'Martín Piña aceptó tu oferta para auriculares inalámbricos', DATE_SUB(NOW(), INTERVAL 8 WEEK), 1, 1),
 ('resena', 'Nueva reseña', 'Obtuviste 5 estrellas de una reseña de Pedro López', DATE_SUB(NOW(), INTERVAL 8 WEEK), 1, 1);
+
+-- =============================================================
+-- CONVERSACIONES DE CHAT PARA USUARIOS 11-15
+-- =============================================================
+
+-- Conversaciones entre usuarios
+INSERT INTO Conversacion (id_conversacion, fecha_inicio, id_producto) VALUES
+(1, '2025-10-19 08:00:00', 7),  -- Usuario 11 con Usuario 15 por Zapatillas
+(2, '2025-10-18 14:30:00', NULL), -- Usuario 11 con Usuario 12
+(3, '2025-10-17 10:15:00', 5),   -- Usuario 11 con Usuario 13 por Remera Suzuki
+(4, '2025-10-16 16:45:00', NULL), -- Usuario 11 con Usuario 14
+(5, '2025-10-15 09:20:00', 2);   -- Usuario 12 con Usuario 15 por Auriculares
+
+-- Participantes de conversaciones
+INSERT INTO Participa (id_usuario, id_conversacion, ultimo_mensaje_leido) VALUES
+(11, 1, 5), (15, 1, 5),
+(11, 2, 3), (12, 2, 2),
+(11, 3, 4), (13, 3, 4),
+(11, 4, 2), (14, 4, 2),
+(12, 5, 1), (15, 5, 0);
+
+-- Mensajes de las conversaciones
+INSERT INTO Mensaje (contenido, f_envio, id_emisor, id_receptor, id_conversacion) VALUES
+-- Conversación 1: Usuario 11 y 15 (Zapatillas)
+('Hola, estoy interesado en tus zapatillas Adidas', '2025-10-19 08:00:00', 11, 15, 1),
+('¡Hola! Sí, están disponibles. ¿Qué talla usas?', '2025-10-19 08:05:00', 15, 11, 1),
+('Uso talla 42, ¿en qué estado están?', '2025-10-19 08:10:00', 11, 15, 1),
+('Están en muy buen estado, poco uso. Te puedo mandar más fotos', '2025-10-19 08:12:00', 15, 11, 1),
+('Genial, me interesa. ¿Dónde podemos coordinar?', '2025-10-19 08:20:00', 11, 15, 1),
+
+-- Conversación 2: Usuario 11 y 12
+('Hola, ¿cómo estás?', '2025-10-18 14:30:00', 11, 12, 2),
+('Todo bien, ¿y tú?', '2025-10-18 14:35:00', 12, 11, 2),
+('Escribiendo...', '2025-10-18 14:40:00', 11, 12, 2),
+
+-- Conversación 3: Usuario 11 y 13 (Remera Suzuki)
+('Me gusta tu remera Suzuki', '2025-10-17 10:15:00', 11, 13, 3),
+('Gracias, es nueva con etiqueta', '2025-10-17 10:20:00', 13, 11, 3),
+('¿Aceptarías un intercambio?', '2025-10-17 10:25:00', 11, 13, 3),
+('Genial, quedamos en eso!', '2025-10-17 10:30:00', 13, 11, 3),
+
+-- Conversación 4: Usuario 11 y 14
+('Hola', '2025-10-16 16:45:00', 11, 14, 4),
+('Una maravilla, yo creo que...', '2025-10-16 16:50:00', 14, 11, 4),
+
+-- Conversación 5: Usuario 12 y 15 (Auriculares)
+('Foto', '2025-10-15 09:20:00', 12, 15, 5);

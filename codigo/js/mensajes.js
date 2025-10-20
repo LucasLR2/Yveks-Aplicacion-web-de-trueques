@@ -250,9 +250,41 @@ class ChatManager {
         const fecha = new Date(msg.enviado_en);
         const tiempo = fecha.toLocaleTimeString('es-UY', { hour: '2-digit', minute: '2-digit' });
 
+        let contenidoHTML = msg.contenido;
+        
+        // Detectar si es una foto
+        if (msg.contenido.toLowerCase().includes('foto') || msg.contenido === '📷 Foto') {
+            contenidoHTML = `
+                <div class="mensaje-imagen">
+                    <img src="recursos/imagenes/7.jpg" alt="Imagen compartida" class="rounded-lg max-w-xs">
+                </div>
+            `;
+        }
+        
+        // Detectar si es audio
+        if (msg.contenido.toLowerCase().includes('audio') || msg.contenido.includes('🎵')) {
+            contenidoHTML = `
+                <div class="mensaje-audio flex items-center gap-2 bg-white bg-opacity-20 rounded-full px-3 py-2">
+                    <button class="audio-play-btn">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
+                        </svg>
+                    </button>
+                    <div class="flex-1 flex items-center gap-1">
+                        <div class="w-1 h-3 bg-current rounded" style="animation: pulse 1s infinite;"></div>
+                        <div class="w-1 h-4 bg-current rounded" style="animation: pulse 1s infinite 0.1s;"></div>
+                        <div class="w-1 h-5 bg-current rounded" style="animation: pulse 1s infinite 0.2s;"></div>
+                        <div class="w-1 h-4 bg-current rounded" style="animation: pulse 1s infinite 0.3s;"></div>
+                        <div class="w-1 h-3 bg-current rounded" style="animation: pulse 1s infinite 0.4s;"></div>
+                    </div>
+                    <span class="text-xs">0:13</span>
+                </div>
+            `;
+        }
+
         return `
             <div class="mensaje-bubble ${msg.es_mio ? 'mensaje-mio' : 'mensaje-otro'}">
-                <div>${msg.contenido}</div>
+                <div>${contenidoHTML}</div>
                 <div class="mensaje-tiempo">${tiempo}</div>
             </div>
         `;

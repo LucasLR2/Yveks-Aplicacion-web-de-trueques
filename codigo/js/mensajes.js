@@ -265,7 +265,7 @@ class ChatManager {
 
         const html = mensajes.length === 0
             ? '<div class="empty-state"><p>No hay mensajes aún</p></div>'
-            : mensajes.map(m => this.getMensajeHTML(m)).join('');
+            : this.agruparMensajes(mensajes);
 
         if (contenedorMovil) {
             const estabaEnElFondo = contenedorMovil.scrollHeight - contenedorMovil.scrollTop <= contenedorMovil.clientHeight + 100;
@@ -273,16 +273,6 @@ class ChatManager {
             if (estabaEnElFondo || mensajes.length <= 5) {
                 contenedorMovil.scrollTop = contenedorMovil.scrollHeight;
             }
-            // Event listeners para abrir imágenes en lightbox
-            setTimeout(() => {
-                document.querySelectorAll('.mensaje-imagen-item').forEach(item => {
-                    item.addEventListener('click', () => {
-                        const imagenes = JSON.parse(item.dataset.imagenes);
-                        const index = parseInt(item.dataset.index);
-                        this.abrirLightbox(imagenes, index);
-                    });
-                });
-            }, 100);
         }
         
         if (contenedorDesktop) {
@@ -291,17 +281,110 @@ class ChatManager {
             if (estabaEnElFondo || mensajes.length <= 5) {
                 contenedorDesktop.scrollTop = contenedorDesktop.scrollHeight;
             }
-            // Event listeners para abrir imágenes en lightbox
-            setTimeout(() => {
-                document.querySelectorAll('.mensaje-imagen-item').forEach(item => {
-                    item.addEventListener('click', () => {
-                        const imagenes = JSON.parse(item.dataset.imagenes);
-                        const index = parseInt(item.dataset.index);
-                        this.abrirLightbox(imagenes, index);
-                    });
-                });
-            }, 100);
         }
+
+        // Event listeners para abrir imágenes en lightbox
+        setTimeout(() => {
+            document.querySelectorAll('.mensaje-imagen-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const imagenes = JSON.parse(item.dataset.imagenes);
+                    const index = parseInt(item.dataset.index);
+                    this.abrirLightbox(imagenes, index);
+                });
+            });
+        }, 100);
+    }
+
+    agruparMensajes(mensajes) {
+        let html = '';
+        let grupoActual = [];
+        let emisorActual = null;
+        let minutoActual = null;
+
+        for (let i = 0; i < mensajes.length; i++) {
+            const msg = mensajes[i];
+            const fecha = new Date(msg.enviado_en);
+            fecha.setHours(fecha.getHours() - 3);
+            const minuto = fecha.toLocaleTimeString('es-UY', { hour: '2-digit', minute: '2-digit' });
+            const esMismoEmisor = msg.es_mio === emisorActual;
+            const esMismoMinuto = minuto === minutoActual;
+
+            // Si cambió el emisor o el minuto, renderizar el grupo anterior
+            if (!esMismoEmisor || !esMismoMinuto) {
+                if (grupoActual.length > 0) {
+                    html += this.renderGrupoMensajes(grupoActual, emisorActual, minutoActual);
+                }
+                grupoActual = [];
+            }
+
+            // Agregar mensaje al grupo actual
+            grupoActual.push(msg);
+            emisorActual = msg.es_mio;
+            minutoActual = minuto;
+        }
+
+        // Renderizar el último grupo
+        if (grupoActual.length > 0) {
+            html += this.renderGrupoMensajes(grupoActual, emisorActual, minutoActual);
+        }
+
+        return html;
+    }
+
+    renderGrupoMensajes(mensajes, esMio, tiempo) {
+        const claseAlineacion = esMio ? 'mensaje-mio' : 'mensaje-otro';
+        let html = '';
+
+        mensajes.forEach((msg, index) => {
+            let contenidoHTML = '';
+            
+            // Detectar si tiene imágenes
+            if (msg.imagenes && msg.imagenes.length > 0) {
+                const imagenes = typeof msg.imagenes === 'string' ? JSON.parse(msg.imagenes) : msg.imagenes;
+                const gridClass = imagenes.length === 1 ? 'single' : 
+                                imagenes.length === 2 ? 'double' : 
+                                imagenes.length === 3 ? 'triple' : 'multiple';
+                
+                contenidoHTML += `<div class="mensaje-imagenes-grid ${gridClass}">`;
+                
+                imagenes.forEach((img, idx) => {
+                    if (idx < 4) {
+                        const extraClass = imagenes.length === 3 && idx === 2 ? 'triple-third' : '';
+                        const overlay = idx === 3 && imagenes.length > 4 ? 
+                            `<div class="mensaje-imagen-overlay">+${imagenes.length - 4}</div>` : '';
+                        
+                        contenidoHTML += `
+                            <div class="mensaje-imagen-item ${extraClass}" data-imagenes='${JSON.stringify(imagenes)}' data-index="${idx}">
+                                <img src="/${img}" alt="Imagen">
+                                ${overlay}
+                            </div>
+                        `;
+                    }
+                });
+                
+                contenidoHTML += '</div>';
+                
+                // Si hay texto además de imágenes
+                if (msg.contenido && msg.tipo_mensaje === 'imagen_texto') {
+                    contenidoHTML += `<div class="mensaje-texto">${msg.contenido}</div>`;
+                }
+            }
+            // Mensaje de solo texto
+            else if (!msg.tipo_mensaje || msg.tipo_mensaje === 'texto') {
+                contenidoHTML = msg.contenido;
+            }
+
+            html += `
+                <div class="mensaje-bubble ${claseAlineacion} ${msg.imagenes ? 'mensaje-con-imagenes' : ''}">
+                    <div>${contenidoHTML}</div>
+                </div>
+            `;
+        });
+
+        // Agregar el tiempo solo una vez al final del grupo
+        html += `<div class="mensaje-tiempo">${tiempo}</div>`;
+
+        return html;
     }
 
     async cargarMensajesSilencioso() {
@@ -317,57 +400,6 @@ class ChatManager {
         } catch (error) {
             console.error('Error cargando mensajes:', error);
         }
-    }
-
-    getMensajeHTML(msg) {
-        const fecha = new Date(msg.enviado_en);
-        fecha.setHours(fecha.getHours() - 3);
-        const tiempo = fecha.toLocaleTimeString('es-UY', { hour: '2-digit', minute: '2-digit' });
-
-        let contenidoHTML = '';
-        
-        // Detectar si tiene imágenes
-        if (msg.imagenes && msg.imagenes.length > 0) {
-            const imagenes = typeof msg.imagenes === 'string' ? JSON.parse(msg.imagenes) : msg.imagenes;
-            const gridClass = imagenes.length === 1 ? 'single' : 
-                            imagenes.length === 2 ? 'double' : 
-                            imagenes.length === 3 ? 'triple' : 'multiple';
-            
-            contenidoHTML += `<div class="mensaje-imagenes-grid ${gridClass}">`;
-            
-            imagenes.forEach((img, index) => {
-                if (index < 4) {
-                    const extraClass = imagenes.length === 3 && index === 2 ? 'triple-third' : '';
-                    const overlay = index === 3 && imagenes.length > 4 ? 
-                        `<div class="mensaje-imagen-overlay">+${imagenes.length - 4}</div>` : '';
-                    
-                    contenidoHTML += `
-                        <div class="mensaje-imagen-item ${extraClass}" data-imagenes='${JSON.stringify(imagenes)}' data-index="${index}">
-                            <img src="/${img}" alt="Imagen">
-                            ${overlay}
-                        </div>
-                    `;
-                }
-            });
-            
-            contenidoHTML += '</div>';
-            
-            // Si hay texto además de imágenes
-            if (msg.contenido && msg.tipo_mensaje === 'imagen_texto') {
-                contenidoHTML += `<div class="mensaje-texto">${msg.contenido}</div>`;
-            }
-        }
-        // Mensaje de solo texto
-        else if (!msg.tipo_mensaje || msg.tipo_mensaje === 'texto') {
-            contenidoHTML = msg.contenido;
-        }
-
-        return `
-            <div class="mensaje-bubble ${msg.es_mio ? 'mensaje-mio' : 'mensaje-otro'} ${msg.imagenes ? 'mensaje-con-imagenes' : ''}">
-                <div>${contenidoHTML}</div>
-            </div>
-            <div class="mensaje-tiempo">${tiempo}</div>
-        `;
     }
 
     async enviarMensaje() {

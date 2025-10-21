@@ -38,6 +38,8 @@ try {
     $sql = "SELECT 
                 m.id_mensaje as id,
                 m.contenido,
+                m.imagenes,
+                m.tipo_mensaje,
                 m.enviado_en,
                 IF(m.id_emisor = ?, 1, 0) as es_mio
             FROM ChatMensaje m
@@ -54,6 +56,8 @@ try {
         $mensajes[] = [
             'id' => $row['id'],
             'contenido' => $row['contenido'],
+            'imagenes' => $row['imagenes'] ? json_decode($row['imagenes'], true) : null,
+            'tipo_mensaje' => $row['tipo_mensaje'],
             'enviado_en' => $row['enviado_en'],
             'es_mio' => (bool)$row['es_mio']
         ];

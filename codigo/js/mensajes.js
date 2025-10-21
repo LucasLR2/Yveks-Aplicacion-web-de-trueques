@@ -4,6 +4,9 @@ class ChatManager {
         this.conversaciones = [];
         this.polling = null;
         this.isMobile = window.innerWidth < 1024;
+        this.imagenesSeleccionadas = [];
+        this.lightboxImagenes = [];
+        this.lightboxIndex = 0;
         
         this.init();
     }
@@ -12,6 +15,7 @@ class ChatManager {
         this.setupEventListeners();
         this.cargarConversaciones();
         this.iniciarPolling();
+        this.setupLightbox();
     }
 
     setupEventListeners() {
@@ -55,6 +59,20 @@ class ChatManager {
             btnEnviarMovil.addEventListener('click', () => this.enviarMensaje());
         }
 
+        // Adjuntar imagen - Móvil
+        const btnAdjuntarMovil = document.getElementById('btn-adjuntar');
+        const inputImagenMovil = document.getElementById('input-imagen');
+
+        if (btnAdjuntarMovil && inputImagenMovil) {
+            btnAdjuntarMovil.addEventListener('click', () => {
+                inputImagenMovil.click();
+            });
+            
+            inputImagenMovil.addEventListener('change', (e) => {
+                this.handleImageSelect(e, false);
+            });
+        }
+
         // Desktop
         const inputDesktop = document.getElementById('input-mensaje-desktop');
         const btnEnviarDesktop = document.getElementById('btn-enviar-desktop');
@@ -72,6 +90,20 @@ class ChatManager {
         
         if (btnEnviarDesktop) {
             btnEnviarDesktop.addEventListener('click', () => this.enviarMensaje());
+        }
+
+        // Adjuntar imagen - Desktop
+        const btnAdjuntarDesktop = document.getElementById('btn-adjuntar-desktop');
+        const inputImagenDesktop = document.getElementById('input-imagen-desktop');
+
+        if (btnAdjuntarDesktop && inputImagenDesktop) {
+            btnAdjuntarDesktop.addEventListener('click', () => {
+                inputImagenDesktop.click();
+            });
+            
+            inputImagenDesktop.addEventListener('change', (e) => {
+                this.handleImageSelect(e, true);
+            });
         }
     }
 
@@ -241,6 +273,16 @@ class ChatManager {
             if (estabaEnElFondo || mensajes.length <= 5) {
                 contenedorMovil.scrollTop = contenedorMovil.scrollHeight;
             }
+            // Event listeners para abrir imágenes en lightbox
+            setTimeout(() => {
+                document.querySelectorAll('.mensaje-imagen-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const imagenes = JSON.parse(item.dataset.imagenes);
+                        const index = parseInt(item.dataset.index);
+                        this.abrirLightbox(imagenes, index);
+                    });
+                });
+            }, 100);
         }
         
         if (contenedorDesktop) {
@@ -249,6 +291,16 @@ class ChatManager {
             if (estabaEnElFondo || mensajes.length <= 5) {
                 contenedorDesktop.scrollTop = contenedorDesktop.scrollHeight;
             }
+            // Event listeners para abrir imágenes en lightbox
+            setTimeout(() => {
+                document.querySelectorAll('.mensaje-imagen-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const imagenes = JSON.parse(item.dataset.imagenes);
+                        const index = parseInt(item.dataset.index);
+                        this.abrirLightbox(imagenes, index);
+                    });
+                });
+            }, 100);
         }
     }
 
@@ -269,44 +321,49 @@ class ChatManager {
 
     getMensajeHTML(msg) {
         const fecha = new Date(msg.enviado_en);
-        // Adelantar 9 horas
         fecha.setHours(fecha.getHours() - 3);
         const tiempo = fecha.toLocaleTimeString('es-UY', { hour: '2-digit', minute: '2-digit' });
 
-        let contenidoHTML = msg.contenido;
+        let contenidoHTML = '';
         
-        // Detectar si es una foto
-        if (msg.contenido.toLowerCase().includes('foto') || msg.contenido === '📷 Foto') {
-            contenidoHTML = `
-                <div class="mensaje-imagen">
-                    <img src="${baseURL}recursos/imagenes/7.jpg" alt="Imagen compartida" class="rounded-lg max-w-xs">
-                </div>
-            `;
+        // Detectar si tiene imágenes
+        if (msg.imagenes && msg.imagenes.length > 0) {
+            const imagenes = typeof msg.imagenes === 'string' ? JSON.parse(msg.imagenes) : msg.imagenes;
+            const gridClass = imagenes.length === 1 ? 'single' : 
+                            imagenes.length === 2 ? 'double' : 
+                            imagenes.length === 3 ? 'triple' : 'multiple';
+            
+            contenidoHTML += `<div class="mensaje-imagenes-grid ${gridClass}">`;
+            
+            imagenes.forEach((img, index) => {
+                if (index < 4) {
+                    const extraClass = imagenes.length === 3 && index === 2 ? 'triple-third' : '';
+                    const overlay = index === 3 && imagenes.length > 4 ? 
+                        `<div class="mensaje-imagen-overlay">+${imagenes.length - 4}</div>` : '';
+                    
+                    contenidoHTML += `
+                        <div class="mensaje-imagen-item ${extraClass}" data-imagenes='${JSON.stringify(imagenes)}' data-index="${index}">
+                            <img src="/${img}" alt="Imagen">
+                            ${overlay}
+                        </div>
+                    `;
+                }
+            });
+            
+            contenidoHTML += '</div>';
+            
+            // Si hay texto además de imágenes
+            if (msg.contenido && msg.tipo_mensaje === 'imagen_texto') {
+                contenidoHTML += `<div class="mensaje-texto">${msg.contenido}</div>`;
+            }
         }
-        
-        // Detectar si es audio
-        if (msg.contenido.toLowerCase().includes('audio') || msg.contenido.includes('🎵')) {
-            contenidoHTML = `
-                <div class="mensaje-audio flex items-center gap-2 bg-white bg-opacity-20 rounded-full px-3 py-2">
-                    <button class="audio-play-btn">
-                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
-                        </svg>
-                    </button>
-                    <div class="flex-1 flex items-center gap-1">
-                        <div class="w-1 h-3 bg-current rounded" style="animation: pulse 1s infinite;"></div>
-                        <div class="w-1 h-4 bg-current rounded" style="animation: pulse 1s infinite 0.1s;"></div>
-                        <div class="w-1 h-5 bg-current rounded" style="animation: pulse 1s infinite 0.2s;"></div>
-                        <div class="w-1 h-4 bg-current rounded" style="animation: pulse 1s infinite 0.3s;"></div>
-                        <div class="w-1 h-3 bg-current rounded" style="animation: pulse 1s infinite 0.4s;"></div>
-                    </div>
-                    <span class="text-xs">0:13</span>
-                </div>
-            `;
+        // Mensaje de solo texto
+        else if (!msg.tipo_mensaje || msg.tipo_mensaje === 'texto') {
+            contenidoHTML = msg.contenido;
         }
 
         return `
-            <div class="mensaje-bubble ${msg.es_mio ? 'mensaje-mio' : 'mensaje-otro'}">
+            <div class="mensaje-bubble ${msg.es_mio ? 'mensaje-mio' : 'mensaje-otro'} ${msg.imagenes ? 'mensaje-con-imagenes' : ''}">
                 <div>${contenidoHTML}</div>
             </div>
             <div class="mensaje-tiempo">${tiempo}</div>
@@ -319,12 +376,28 @@ class ChatManager {
             : document.getElementById('input-mensaje-desktop');
         
         const contenido = input.value.trim();
-        if (!contenido || !this.conversacionActual) return;
+        
+        // Validar que haya contenido o imágenes
+        if (!contenido && this.imagenesSeleccionadas.length === 0) return;
+        if (!this.conversacionActual) return;
 
         try {
             const formData = new FormData();
             formData.append('id_conversacion', this.conversacionActual);
-            formData.append('contenido', contenido);
+            
+            if (this.imagenesSeleccionadas.length > 0) {
+                // Enviar múltiples imágenes
+                this.imagenesSeleccionadas.forEach((file, index) => {
+                    formData.append(`imagenes[]`, file);
+                });
+                formData.append('tipo_mensaje', this.imagenesSeleccionadas.length > 0 && contenido ? 'imagen_texto' : 'imagen');
+                if (contenido) {
+                    formData.append('contenido', contenido);
+                }
+            } else {
+                formData.append('contenido', contenido);
+                formData.append('tipo_mensaje', 'texto');
+            }
 
             const response = await fetch('/php/chat/enviar-mensaje.php', {
                 method: 'POST',
@@ -340,17 +413,15 @@ class ChatManager {
                     : document.getElementById('btn-enviar-desktop');
                 btnEnviar.disabled = true;
                 
+                // Limpiar preview e imágenes seleccionadas
+                this.imagenesSeleccionadas = [];
+                const inputFile = this.isMobile 
+                    ? document.getElementById('input-imagen')
+                    : document.getElementById('input-imagen-desktop');
+                inputFile.value = '';
+                this.mostrarPreviewImagenes(!this.isMobile);
+                
                 await this.cargarMensajes();
-                
-                // Agregar clase 'nuevo' solo al último mensaje
-                const contenedor = this.isMobile 
-                    ? document.getElementById('chat-mensajes')
-                    : document.getElementById('chat-mensajes-desktop');
-                const ultimoMensaje = contenedor.lastElementChild;
-                if (ultimoMensaje) {
-                    ultimoMensaje.classList.add('nuevo');
-                }
-                
                 await this.cargarConversaciones();
             } else {
                 alert('Error al enviar mensaje: ' + data.error);
@@ -403,6 +474,163 @@ class ChatManager {
             clearInterval(this.polling);
         }
     }
+
+    handleImageSelect(event, isDesktop) {
+        const files = Array.from(event.target.files);
+        if (files.length === 0) return;
+
+        // Validar máximo 5 imágenes
+        const totalImagenes = this.imagenesSeleccionadas.length + files.length;
+        if (totalImagenes > 5) {
+            alert('Máximo 5 imágenes por mensaje');
+            return;
+        }
+
+        // Validar cada archivo
+        for (const file of files) {
+            if (!file.type.startsWith('image/')) {
+                alert('Solo se permiten imágenes');
+                return;
+            }
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Imagen muy grande. Máximo 5MB por imagen');
+                return;
+            }
+        }
+
+        // Agregar a las seleccionadas
+        this.imagenesSeleccionadas.push(...files);
+        this.mostrarPreviewImagenes(isDesktop);
+        
+        // Habilitar botón enviar
+        const btnEnviar = isDesktop 
+            ? document.getElementById('btn-enviar-desktop')
+            : document.getElementById('btn-enviar');
+        btnEnviar.disabled = false;
+    }
+
+    mostrarPreviewImagenes(isDesktop) {
+        const container = isDesktop 
+            ? document.getElementById('images-preview-desktop')
+            : document.getElementById('images-preview');
+        
+        if (this.imagenesSeleccionadas.length === 0) {
+            container.style.display = 'none';
+            container.innerHTML = '';
+            return;
+        }
+
+        container.style.display = 'flex';
+        container.innerHTML = '';
+
+        this.imagenesSeleccionadas.forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const item = document.createElement('div');
+                item.className = 'image-preview-item';
+                
+                // Mostrar overlay "+N" solo en la 5ta imagen si hay más
+                if (index === 4 && this.imagenesSeleccionadas.length > 5) {
+                    const remaining = this.imagenesSeleccionadas.length - 4;
+                    item.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview">
+                        <div class="image-preview-overlay">+${remaining}</div>
+                        <button class="image-preview-close" data-index="${index}">×</button>
+                    `;
+                } else if (index < 5) {
+                    item.innerHTML = `
+                        <img src="${e.target.result}" alt="Preview">
+                        <button class="image-preview-close" data-index="${index}">×</button>
+                    `;
+                    container.appendChild(item);
+                }
+                
+                if (index < 5) {
+                    container.appendChild(item);
+                }
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Event listeners para cerrar
+        setTimeout(() => {
+            container.querySelectorAll('.image-preview-close').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const index = parseInt(e.target.dataset.index);
+                    this.imagenesSeleccionadas.splice(index, 1);
+                    this.mostrarPreviewImagenes(isDesktop);
+                    
+                    // Deshabilitar botón si no hay imágenes ni texto
+                    const input = isDesktop 
+                        ? document.getElementById('input-mensaje-desktop')
+                        : document.getElementById('input-mensaje');
+                    const btnEnviar = isDesktop 
+                        ? document.getElementById('btn-enviar-desktop')
+                        : document.getElementById('btn-enviar');
+                    btnEnviar.disabled = this.imagenesSeleccionadas.length === 0 && !input.value.trim();
+                });
+            });
+        }, 100);
+    }
+
+    setupLightbox() {
+        const lightbox = document.getElementById('image-lightbox');
+        const lightboxImage = document.getElementById('lightbox-image');
+        const closeBtn = document.getElementById('lightbox-close');
+        const prevBtn = document.getElementById('lightbox-prev');
+        const nextBtn = document.getElementById('lightbox-next');
+        const counter = document.getElementById('lightbox-counter');
+
+        closeBtn.addEventListener('click', () => {
+            lightbox.style.display = 'none';
+        });
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.style.display = 'none';
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            this.lightboxIndex = (this.lightboxIndex - 1 + this.lightboxImagenes.length) % this.lightboxImagenes.length;
+            this.updateLightbox();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            this.lightboxIndex = (this.lightboxIndex + 1) % this.lightboxImagenes.length;
+            this.updateLightbox();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.style.display === 'none') return;
+            if (e.key === 'Escape') lightbox.style.display = 'none';
+            if (e.key === 'ArrowLeft') prevBtn.click();
+            if (e.key === 'ArrowRight') nextBtn.click();
+        });
+    }
+
+    updateLightbox() {
+        const lightboxImage = document.getElementById('lightbox-image');
+        const counter = document.getElementById('lightbox-counter');
+        const prevBtn = document.getElementById('lightbox-prev');
+        const nextBtn = document.getElementById('lightbox-next');
+
+        lightboxImage.src = '/' + this.lightboxImagenes[this.lightboxIndex];
+        counter.textContent = `${this.lightboxIndex + 1} / ${this.lightboxImagenes.length}`;
+        
+        // Mostrar/ocultar botones de navegación
+        prevBtn.style.display = this.lightboxImagenes.length > 1 ? 'flex' : 'none';
+        nextBtn.style.display = this.lightboxImagenes.length > 1 ? 'flex' : 'none';
+    }
+
+    abrirLightbox(imagenes, index) {
+        this.lightboxImagenes = imagenes;
+        this.lightboxIndex = index;
+        this.updateLightbox();
+        document.getElementById('image-lightbox').style.display = 'flex';
+    }
+
 }
 
 // Inicializar cuando cargue la página

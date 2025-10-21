@@ -73,8 +73,17 @@ $rutaActual = 'mensajes';
                     <!-- Se llenan dinámicamente -->
                 </div>
 
+                <!-- Preview de imágenes -->
+                <div id="images-preview" class="images-preview-container" style="display: none;"></div>
+
                 <!-- Input de mensaje -->
                 <div class="chat-input-container">
+                    <button id="btn-adjuntar" class="btn-attach">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                    </button>
+                    <input type="file" id="input-imagen-desktop" accept="image/*" multiple class="hidden">
                     <input type="text" id="input-mensaje" class="chat-input" placeholder="Escribe un mensaje...">
                     <button id="btn-enviar" class="btn-send" disabled>
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -140,8 +149,17 @@ $rutaActual = 'mensajes';
                         <!-- Se llenan dinámicamente -->
                     </div>
 
+                    <!-- Preview de imágenes -->
+                    <div id="images-preview-desktop" class="images-preview-container" style="display: none;"></div>
+
                     <!-- Input -->
                     <div class="chat-input-container">
+                        <button id="btn-adjuntar-desktop" class="btn-attach">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                            </svg>
+                        </button>
+                        <input type="file" id="input-imagen-desktop" accept="image/*" class="hidden">
                         <input type="text" id="input-mensaje-desktop" class="chat-input" placeholder="Escribe un mensaje...">
                         <button id="btn-enviar-desktop" class="btn-send rotate-90" disabled>
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -154,6 +172,20 @@ $rutaActual = 'mensajes';
         </div>
     </div>
 
+    <!-- Lightbox para ver imágenes -->
+    <div id="image-lightbox" class="image-lightbox" style="display: none;">
+        <button id="lightbox-close" class="lightbox-close">×</button>
+        <button id="lightbox-prev" class="lightbox-nav prev">‹</button>
+        <div class="lightbox-content">
+            <img id="lightbox-image" class="lightbox-image" src="" alt="">
+        </div>
+        <button id="lightbox-next" class="lightbox-nav next">›</button>
+        <div id="lightbox-counter" class="lightbox-counter"></div>
+    </div>
+
+    <script>
+        const baseURL = '<?= $baseURL ?>';
+    </script>
     <script src="<?= $baseURL ?>js/mensajes.js"></script>
 </body>
 </html>

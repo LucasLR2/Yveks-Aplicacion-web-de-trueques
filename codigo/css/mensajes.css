@@ -287,7 +287,7 @@
     border: 1px solid #e5e7eb;
     border-radius: 8px;
     outline: none;
-    font-size: 14px;
+    font-size: 16px;
     transition: border-color 0.2s;
 }
 
@@ -304,4 +304,256 @@
 .conversaciones-panel {
     width: 340px;
     border-right: 1px solid #e5e7eb;
+}
+
+/* Preview de imágenes - aparece arriba del input */
+.images-preview-container {
+    padding: 12px 16px;
+    background-color: #f9fafb;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.image-preview-item {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.image-preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-preview-close {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 1;
+}
+
+.image-preview-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+/* Mensajes con imágenes en el chat */
+.mensaje-imagenes-grid {
+    display: grid;
+    gap: 4px;
+    max-width: 300px;
+    margin-bottom: 4px;
+}
+
+.mensaje-imagenes-grid.single {
+    grid-template-columns: 1fr;
+}
+
+.mensaje-imagenes-grid.double {
+    grid-template-columns: 1fr 1fr;
+}
+
+.mensaje-imagenes-grid.triple {
+    grid-template-columns: 1fr 1fr;
+}
+
+.mensaje-imagenes-grid.multiple {
+    grid-template-columns: 1fr 1fr;
+}
+
+.mensaje-imagen-item {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.mensaje-imagen-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mensaje-imagen-item.triple-third {
+    grid-column: 1 / -1;
+}
+
+.mensaje-imagen-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 24px;
+}
+
+/* Modal lightbox para ver imágenes */
+.image-lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-image {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.lightbox-nav.prev {
+    left: 20px;
+}
+
+.lightbox-nav.next {
+    right: 20px;
+}
+
+.lightbox-counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+/* Texto del mensaje con imágenes */
+.mensaje-con-imagenes .mensaje-texto {
+    margin-top: 8px;
+    word-wrap: break-word;
+}
+
+/* Mensaje con imagen */
+.mensaje-imagen img {
+    max-width: 250px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Ajustar input para hacer espacio al botón */
+.chat-input-container {
+    position: relative;
+}
+
+.chat-input {
+    font-size: 16px;
+    padding-left: 58px; 
+}
+
+.btn-attach {
+    position: absolute;
+    left: 28px; /* Más a la derecha */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px; /* Más grande */
+    height: 36px; /* Más grande */
+    border-radius: 50%;
+    background-color: transparent;
+    color: #719177;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    z-index: 10;
+}
+
+.btn-attach:hover {
+    background-color: #f3f4f6;
+}
+
+.btn-attach svg {
+    width: 22px; /* SVG más grande */
+    height: 22px;
 }

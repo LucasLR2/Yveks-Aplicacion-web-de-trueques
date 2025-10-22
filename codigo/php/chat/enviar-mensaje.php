@@ -161,13 +161,13 @@ try {
     // Determinar el receptor para crear notificación
     $id_receptor = ($conv['id_usuario1'] == $id_usuario) ? $conv['id_usuario2'] : $conv['id_usuario1'];
     
-    // Crear notificación
+    // Crear notificación con referencia a la conversación
     $notif = $conn->prepare("
-        INSERT INTO Notificacion (tipo, titulo, descripcion, fecha, leida, id_usuario)
-        VALUES ('mensaje', 'Nuevo mensaje', ?, NOW(), 0, ?)
+        INSERT INTO Notificacion (tipo, titulo, descripcion, fecha, leida, id_usuario, id_referencia)
+        VALUES ('mensaje', 'Nuevo mensaje', ?, NOW(), 0, ?, ?)
     ");
     $notif_desc = substr($contenido_preview, 0, 100);
-    $notif->bind_param('si', $notif_desc, $id_receptor);
+    $notif->bind_param('sii', $notif_desc, $id_receptor, $id_conversacion);
     $notif->execute();
     
     echo json_encode([

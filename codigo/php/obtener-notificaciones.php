@@ -10,25 +10,19 @@ if (!isset($_SESSION['id'])) {
 
 $id_usuario = $_SESSION['id'];
 
-// Conexión a la base de datos
-$host = 'localhost';
-$dbname = 'dreva';
-$username = 'root'; // Ajustar según tu configuración
-$password = '';     // Ajustar según tu configuración
+require_once 'database.php'; 
 
 try {
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
     // Obtener notificaciones del usuario
-    $stmt = $pdo->prepare("
-        SELECT id_notificacion, tipo, titulo, descripcion, fecha, leida 
+    $stmt = $conn->prepare("
+        SELECT id_notificacion, tipo, titulo, descripcion, fecha, leida, id_referencia 
         FROM Notificacion 
         WHERE id_usuario = ? 
         ORDER BY fecha DESC, id_notificacion DESC
     ");
-    $stmt->execute([$id_usuario]);
-    $notificaciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt->bind_param('i', $id_usuario);
+    $stmt->execute();
+    $result = $stmt->get_result();
     
     // Función para calcular tiempo transcurrido
     function calcularTiempo($fecha) {
@@ -42,7 +36,7 @@ try {
         if ($diff->d > 0) return $diff->d . 'd';
         if ($diff->h > 0) return $diff->h . 'h';
         if ($diff->i > 0) return $diff->i . 'min';
-        return $diff->s . 's';
+        return 'ahora';
     }
     
     // Mapeo de tipos a iconos
@@ -57,21 +51,25 @@ try {
     
     // Formatear notificaciones
     $notificacionesFormateadas = [];
-    foreach ($notificaciones as $notif) {
+    while ($row = $result->fetch_assoc()) {
         $notificacionesFormateadas[] = [
-            'id' => $notif['id_notificacion'],
-            'tipo' => $notif['tipo'],
-            'titulo' => $notif['titulo'],
-            'descripcion' => $notif['descripcion'],
-            'tiempo' => calcularTiempo($notif['fecha']),
-            'icono' => $iconos[$notif['tipo']] ?? 'recursos/iconos/solido/estado/notificacion.svg',
-            'leida' => (bool)$notif['leida']
+            'id' => (int)$row['id_notificacion'],
+            'tipo' => $row['tipo'],
+            'titulo' => $row['titulo'],
+            'descripcion' => $row['descripcion'],
+            'tiempo' => calcularTiempo($row['fecha']),
+            'icono' => $iconos[$row['tipo']] ?? 'recursos/iconos/solido/estado/notificacion.svg',
+            'leida' => (bool)$row['leida'],
+            'id_referencia' => $row['id_referencia'] ? (int)$row['id_referencia'] : null
         ];
     }
     
     echo json_encode(['notificaciones' => $notificacionesFormateadas]);
     
-} catch (PDOException $e) {
+    $stmt->close();
+    $conn->close();
+    
+} catch (Exception $e) {
     echo json_encode(['error' => 'Error de base de datos: ' . $e->getMessage()]);
 }
 ?>

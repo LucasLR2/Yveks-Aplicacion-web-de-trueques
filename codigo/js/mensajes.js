@@ -18,6 +18,14 @@ class ChatManager {
         this.cargarConversaciones();
         this.iniciarPolling();
         this.setupLightbox();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const idConversacion = urlParams.get('conversacion');
+        if (idConversacion) {
+            setTimeout(() => {
+                this.abrirConversacion(parseInt(idConversacion));
+            }, 500);
+        }
     }
 
     setupEventListeners() {

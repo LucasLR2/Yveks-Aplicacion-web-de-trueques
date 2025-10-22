@@ -1,3 +1,11 @@
+<?php
+    session_start();               // Inicia sesión para manejar datos del usuario
+    if (!isset($_SESSION['correo'])) {
+        // Redirigir al usuario a la página de inicio de sesión si no está autenticado
+        header('Location: index.php');
+        exit();
+    }
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -11,7 +19,7 @@
   <link rel="stylesheet" href="css/inicio.css">
 </head>
 
-<!-- Pasar a .php y hacer includes de header y sidebar -->
+<!-- Hacer includes de header y sidebar -->
 
 <body class="bg-white lg:bg-gray-50">
   <!-- LAYOUT MÓVIL Y TABLET (hasta lg) -->
@@ -50,7 +58,7 @@
 
       <!-- Formulario móvil -->
       <div class="px-6 md:px-16 mb-20">
-        <form id="productForm" onsubmit="submitForm(event)">
+        <form id="productForm" onsubmit="submitForm(event)" novalidate>
           <!-- Imagen -->
           <div class="mb-6">
             <div class="flex items-center justify-between mb-3">
@@ -337,7 +345,7 @@
 
         <!-- Formulario desktop -->
         <div class="max-w-6xl mx-auto">
-          <form id="productForm" onsubmit="submitForm(event)">
+          <form id="productForm" onsubmit="submitForm(event)" novalidate>
             <!-- Sección de imágenes -->
             <div class="mb-12">
               <div class="flex items-center justify-between mb-4">
@@ -458,7 +466,7 @@
     </div>
   </div>
 
-  <script src="js/nuevo_producto.js"></script>
+  <script src="../js/nuevo_producto.js"></script>
   <script src="js/principal.js"></script>
 </body>
 

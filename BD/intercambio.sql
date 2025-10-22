@@ -1,6 +1,9 @@
 -- La base de datos 'dreva' ya es creada por Docker
 -- CREATE DATABASE dreva;
 
+SET NAMES utf8mb4;
+SET CHARACTER SET utf8mb4;
+
 USE dreva;
 
 CREATE TABLE Usuario (

@@ -42,7 +42,7 @@ $baseURL = '/';
         <!-- NUEVA PUBLICACIÓN -->
         <button class="w-10 h-10 flex items-center justify-center bg-white text-green rounded-full shadow-lg transition-colors relative z-20 mx-auto"
                 data-index="2"
-                onclick="Verificacion('<?= $baseURL ?>php/nuevo_producto.php', this)">
+                onclick="Verificacion('<?= $baseURL ?>nuevo_producto.php', this)">
           <img src="<?= $baseURL ?>recursos/iconos/solido/interfaz/mas.svg" alt="Agregar" class="w-4 h-4 svg-green">
         </button>
 

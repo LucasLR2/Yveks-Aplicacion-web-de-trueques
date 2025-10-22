@@ -247,10 +247,10 @@ function submitForm(e) {
       updateImagePreview();
       updatePhotoCounter();
       
-      // Redirigir después de 1.5 segundos
+      // Redirigir después de 0.5 segundos
       setTimeout(() => {
-        window.location.href = 'index.php';
-      }, 1500);
+        window.location.href = 'php/perfil.php';
+      }, 500);
     } else {
       mostrarAlerta(data.message || "Error desconocido al guardar la publicación.", 'error');
     }

@@ -27,12 +27,22 @@ try {
                 CONCAT('https://i.pravatar.cc/150?u=', 
                    IF(c.id_usuario1 = ?, c.id_usuario2, c.id_usuario1)
                 ) as avatar,
-                -- Último mensaje
-                (SELECT cm.contenido 
-                 FROM ChatMensaje cm 
-                 WHERE cm.id_conversacion = c.id_conversacion 
-                 ORDER BY cm.enviado_en DESC 
-                 LIMIT 1) as ultimo_mensaje,
+                -- Último mensaje con detección de respuesta
+                (SELECT 
+                    CASE 
+                        WHEN cm.responde_a IS NOT NULL AND cm.id_emisor != ? THEN 
+                            CONCAT('Te respondió: ', SUBSTRING(cm.contenido, 1, 50))
+                        WHEN cm.tipo_mensaje = 'imagen' THEN 
+                            '📷 Foto'
+                        WHEN cm.tipo_mensaje = 'imagen_texto' THEN 
+                            CONCAT('📷 ', SUBSTRING(cm.contenido, 1, 50))
+                        ELSE 
+                            cm.contenido
+                    END
+                FROM ChatMensaje cm 
+                WHERE cm.id_conversacion = c.id_conversacion 
+                ORDER BY cm.enviado_en DESC 
+                LIMIT 1) as ultimo_mensaje,
                 -- Hora del último mensaje
                 (SELECT TIME_FORMAT(cm.enviado_en, '%H:%i') 
                  FROM ChatMensaje cm 
@@ -55,8 +65,8 @@ try {
             LEFT JOIN Producto p ON c.id_producto = p.id_producto
             WHERE c.id_usuario1 = ? OR c.id_usuario2 = ?";
     
-    $params = "iiiiii";
-    $values = [$id_usuario, $id_usuario, $id_usuario, $id_usuario, $id_usuario, $id_usuario];
+    $params = "iiiiiii";
+    $values = [$id_usuario, $id_usuario, $id_usuario, $id_usuario, $id_usuario, $id_usuario, $id_usuario];
     
     if (!empty($busqueda)) {
         $sql .= " AND (

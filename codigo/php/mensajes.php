@@ -83,7 +83,11 @@ $rutaActual = 'mensajes';
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                         </svg>
                     </button>
-                    <input type="file" id="input-imagen-desktop" accept="image/*" multiple class="hidden">
+                    <button id="btn-emoji" class="btn-emoji">
+                        <img src="/recursos/iconos/solido/interfaz/emoji.svg" alt="emoji">
+                    </button>
+                    <div id="emoji-picker" class="emoji-picker"></div>
+                    <input type="file" id="input-imagen" accept="image/*" multiple class="hidden">
                     <input type="text" id="input-mensaje" class="chat-input" placeholder="Escribe un mensaje...">
                     <button id="btn-enviar" class="btn-send" disabled>
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -159,6 +163,10 @@ $rutaActual = 'mensajes';
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                             </svg>
                         </button>
+                        <button id="btn-emoji-desktop" class="btn-emoji">
+                            <img src="/recursos/iconos/solido/interfaz/emoji.svg" alt="emoji">
+                        </button>
+                        <div id="emoji-picker-desktop" class="emoji-picker"></div>
                         <input type="file" id="input-imagen-desktop" accept="image/*" class="hidden">
                         <input type="text" id="input-mensaje-desktop" class="chat-input" placeholder="Escribe un mensaje...">
                         <button id="btn-enviar-desktop" class="btn-send rotate-90" disabled>

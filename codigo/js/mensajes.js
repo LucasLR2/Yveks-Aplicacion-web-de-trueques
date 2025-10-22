@@ -7,18 +7,21 @@ class ChatManager {
         this.imagenesSeleccionadas = [];
         this.lightboxImagenes = [];
         this.lightboxIndex = 0;
+        this.mensajeRespondiendo = null;
         
         this.init();
     }
 
     init() {
         this.setupEventListeners();
+        this.setupKeyboardShortcuts();  
         this.cargarConversaciones();
         this.iniciarPolling();
         this.setupLightbox();
     }
 
     setupEventListeners() {
+
         // Tabs
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', (e) => this.cambiarTab(e.target));
@@ -105,6 +108,115 @@ class ChatManager {
                 this.handleImageSelect(e, true);
             });
         }
+
+        // Emoji picker - Móvil
+        const btnEmojiMovil = document.getElementById('btn-emoji');
+        const emojiPickerMovil = document.getElementById('emoji-picker');
+
+        if (btnEmojiMovil && emojiPickerMovil) {
+            this.setupEmojiPicker(btnEmojiMovil, emojiPickerMovil, inputMovil);
+        }
+
+        // Emoji picker - Desktop 
+        const btnEmojiDesktop = document.getElementById('btn-emoji-desktop');
+        const emojiPickerDesktop = document.getElementById('emoji-picker-desktop');
+
+        if (btnEmojiDesktop && emojiPickerDesktop) {
+            this.setupEmojiPicker(btnEmojiDesktop, emojiPickerDesktop, inputDesktop);
+        }
+
+        // Event listeners para botón de responder
+        setTimeout(() => {
+            document.querySelectorAll('.mensaje-reply-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const idMensaje = parseInt(btn.dataset.mensajeId);
+                    const contenido = btn.dataset.contenido;
+                    const nombre = btn.dataset.nombre;
+                    this.responderMensaje(idMensaje, contenido, nombre);
+                });
+            });
+        }, 100);
+
+    }
+
+    setupKeyboardShortcuts() {
+        document.addEventListener('keydown', (e) => {
+            // ESC - Salir del chat
+            if (e.key === 'Escape' && this.conversacionActual) {
+                if (this.isMobile) {
+                    this.cerrarChat();
+                } else {
+                    // En desktop, deseleccionar chat
+                    this.conversacionActual = null;
+                    document.getElementById('chat-desktop-view').classList.add('hidden');
+                    document.getElementById('chat-desktop-empty').classList.remove('hidden');
+                    document.querySelectorAll('.conversacion-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                }
+            }
+            
+            // ArrowUp - Editar último mensaje propio
+            if (e.key === 'ArrowUp' && this.conversacionActual) {
+                const input = this.isMobile 
+                    ? document.getElementById('input-mensaje')
+                    : document.getElementById('input-mensaje-desktop');
+                
+                // Solo editar si el input está vacío
+                if (!input.value.trim()) {
+                    e.preventDefault();
+                    
+                    // Buscar el último mensaje propio
+                    const contenedor = this.isMobile 
+                        ? document.getElementById('chat-mensajes')
+                        : document.getElementById('chat-mensajes-desktop');
+                    
+                    if (!contenedor) return;
+                    
+                    const mensajesPropios = Array.from(contenedor.querySelectorAll('.mensaje-mio .mensaje-bubble'))
+                        .filter(bubble => !bubble.querySelector('.mensaje-eliminado'));
+                    
+                    if (mensajesPropios.length === 0) return;
+                    
+                    const ultimoBubble = mensajesPropios[mensajesPropios.length - 1];
+                    const enviadoEn = ultimoBubble.dataset.enviadoEn;
+                    
+                    // Verificar si puede editar (dentro de 15 minutos)
+                    if (this.puedeEditar(enviadoEn)) {
+                        this.editarUltimoMensaje();
+                    }
+                }
+            }
+        });
+    }
+
+    editarUltimoMensaje() {
+        // Buscar el último mensaje propio que no esté eliminado
+        const contenedor = this.isMobile 
+            ? document.getElementById('chat-mensajes')
+            : document.getElementById('chat-mensajes-desktop');
+        
+        if (!contenedor) return;
+        
+        const mensajesPropios = Array.from(contenedor.querySelectorAll('.mensaje-mio .mensaje-bubble'))
+            .filter(bubble => !bubble.querySelector('.mensaje-eliminado'));
+        
+        if (mensajesPropios.length === 0) return;
+        
+        // Obtener el último mensaje propio
+        const ultimoBubble = mensajesPropios[mensajesPropios.length - 1];
+        const idMensaje = parseInt(ultimoBubble.dataset.mensajeId);
+        const enviadoEn = ultimoBubble.dataset.enviadoEn;
+        
+        // Verificar si puede editar (dentro de 15 minutos)
+        if (!this.puedeEditar(enviadoEn)) {
+            alert('Solo puedes editar mensajes dentro de los 15 minutos de haberlos enviado');
+            return;
+        }
+        
+        // Llamar a la función de editar
+        this.editarMensaje(idMensaje);
     }
 
     cambiarTab(btn) {
@@ -193,7 +305,7 @@ class ChatManager {
                         </div>
                         
                         ${conv.producto ? `
-                            <p class="text-xs text-green mt-1">📦 ${conv.producto}</p>
+                            <p class="text-xs text-green mt-1">${conv.producto}</p>
                         ` : ''}
                     </div>
                 </div>
@@ -244,12 +356,31 @@ class ChatManager {
         
         // Marcar como leído
         await this.marcarComoLeido();
+
+        // Enfocar el input
+        setTimeout(() => {
+            const input = this.isMobile 
+                ? document.getElementById('input-mensaje')
+                : document.getElementById('input-mensaje-desktop');
+            if (input) {
+                input.focus();
+            }
+        }, 100);
     }
 
     async cargarMensajes() {
         try {
             const response = await fetch(`/php/chat/obtener-mensajes.php?id_conversacion=${this.conversacionActual}`);
-            const data = await response.json();
+            const text = await response.text();
+            console.log('Respuesta de obtener-mensajes.php:', text);
+            
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (e) {
+                console.error('Error parseando JSON:', text);
+                return;
+            }
 
             if (data.success) {
                 this.renderMensajes(data.mensajes);
@@ -293,6 +424,29 @@ class ChatManager {
                 });
             });
         }, 100);
+
+        // Event listeners para menú de opciones
+        setTimeout(() => {
+            document.querySelectorAll('.mensaje-options-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const idMensaje = parseInt(btn.dataset.mensajeId);
+                    const esMio = btn.dataset.esMio === 'true';
+                    this.mostrarMenuMensaje(btn, idMensaje, esMio);
+                });
+            });
+        }, 100);
+
+        // Event listeners para botón de responder
+        document.querySelectorAll('.mensaje-reply-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const idMensaje = parseInt(btn.dataset.mensajeId);
+                const contenido = btn.dataset.contenido;
+                const nombre = btn.dataset.nombre;
+                this.responderMensaje(idMensaje, contenido, nombre);
+            });
+        });
     }
 
     agruparMensajes(mensajes) {
@@ -332,11 +486,27 @@ class ChatManager {
     }
 
     renderGrupoMensajes(mensajes, esMio, tiempo) {
+        
+        console.log('Renderizando grupo de mensajes:', mensajes);
         const claseAlineacion = esMio ? 'mensaje-mio' : 'mensaje-otro';
         let html = '';
 
         mensajes.forEach((msg, index) => {
             let contenidoHTML = '';
+
+            console.log('Procesando mensaje:', msg.id, 'responde_a:', msg.responde_a, 'contenido respuesta:', msg.responde_a_contenido);
+
+            // Si es una respuesta, mostrar el contexto PRIMERO
+            if (msg.responde_a) {
+                console.log('ENTRANDO AL IF - Mostrando contexto de respuesta');
+                const colorBorde = esMio ? 'rgba(255, 255, 255, 0.5)' : '#719177';
+                contenidoHTML += `
+                    <div class="mensaje-reply-context" style="border-left-color: ${colorBorde}">
+                        <div class="mensaje-reply-context-author">${msg.responde_a_nombre || 'Usuario'}</div>
+                        <div class="mensaje-reply-context-text">${msg.responde_a_contenido || 'Mensaje'}</div>
+                    </div>
+                `;
+            }
             
             // Detectar si tiene imágenes
             if (msg.imagenes && msg.imagenes.length > 0) {
@@ -371,12 +541,35 @@ class ChatManager {
             }
             // Mensaje de solo texto
             else if (!msg.tipo_mensaje || msg.tipo_mensaje === 'texto') {
-                contenidoHTML = msg.contenido;
+                contenidoHTML += `<span class="mensaje-texto-emoji">${msg.contenido}</span>`;
+            }
+
+            // Verificar si está eliminado
+            let contenidoFinal = contenidoHTML;
+            if (msg.eliminado) {
+                if (msg.eliminado_para_todos) {
+                    contenidoFinal = '<span class="mensaje-eliminado">Este mensaje fue eliminado</span>';
+                } else {
+                    contenidoFinal = '<span class="mensaje-eliminado">Eliminaste este mensaje</span>';
+                }
             }
 
             html += `
-                <div class="mensaje-bubble ${claseAlineacion} ${msg.imagenes ? 'mensaje-con-imagenes' : ''}">
-                    <div>${contenidoHTML}</div>
+                <div class="mensaje-wrapper ${claseAlineacion}">
+                    <div class="mensaje-bubble ${msg.imagenes ? 'mensaje-con-imagenes' : ''}" data-mensaje-id="${msg.id}" data-enviado-en="${msg.enviado_en}">
+                        ${!msg.eliminado ? `
+                            <button class="mensaje-reply-btn" data-mensaje-id="${msg.id}" data-contenido="${this.escapeHtml(msg.contenido || 'Imagen')}" data-nombre="${msg.es_mio ? 'Tú' : this.getNombreOtroUsuario()}">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M9 14l-4-4 4-4M5 10h11a4 4 0 0 1 0 8h-1"></path>
+                                </svg>
+                            </button>
+                            <button class="mensaje-options-btn" data-mensaje-id="${msg.id}" data-es-mio="${msg.es_mio}">⋮</button>
+                        ` : ''}
+                        <div>
+                            ${contenidoFinal}
+                            ${msg.editado && !msg.eliminado ? '<span class="mensaje-editado">editado</span>' : ''}
+                        </div>
+                    </div>
                 </div>
             `;
         });
@@ -403,6 +596,15 @@ class ChatManager {
     }
 
     async enviarMensaje() {
+        console.log('enviarMensaje llamado. mensajeEditando:', this.mensajeEditando);
+        
+        // Si estamos editando, guardar edición en lugar de enviar nuevo
+        if (this.mensajeEditando) {
+            console.log('Detectado modo edición, llamando guardarEdicion');
+            await this.guardarEdicion();
+            return;
+        }
+        
         const input = this.isMobile 
             ? document.getElementById('input-mensaje')
             : document.getElementById('input-mensaje-desktop');
@@ -416,6 +618,11 @@ class ChatManager {
         try {
             const formData = new FormData();
             formData.append('id_conversacion', this.conversacionActual);
+
+            // Si estamos respondiendo a un mensaje
+            if (this.mensajeRespondiendo) {
+                formData.append('responde_a', this.mensajeRespondiendo.id);
+            }
             
             if (this.imagenesSeleccionadas.length > 0) {
                 // Enviar múltiples imágenes
@@ -436,10 +643,21 @@ class ChatManager {
                 body: formData
             });
 
-            const data = await response.json();
+            const text = await response.text();
+            console.log('Respuesta del servidor:', text);
+
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (e) {
+                console.error('Error parseando JSON:', text);
+                alert('Error del servidor: ' + text.substring(0, 200));
+                return;
+            }
 
             if (data.success) {
                 input.value = '';
+                this.cancelarRespuesta();
                 const btnEnviar = this.isMobile 
                     ? document.getElementById('btn-enviar')
                     : document.getElementById('btn-enviar-desktop');
@@ -498,7 +716,7 @@ class ChatManager {
                 // Si no hay conversación activa, actualizar lista de conversaciones
                 await this.cargarConversaciones();
             }
-        }, 5000); // Cada 8 segundos
+        }, 2000);
     }
 
     detenerPolling() {
@@ -663,6 +881,469 @@ class ChatManager {
         document.getElementById('image-lightbox').style.display = 'flex';
     }
 
+    mostrarMenuMensaje(btnElement, idMensaje, esMio) {
+        // Cerrar menú anterior si existe
+        this.cerrarMenuMensaje();
+
+        // Crear overlay
+        const overlay = document.createElement('div');
+        overlay.className = 'menu-overlay';
+        overlay.onclick = () => this.cerrarMenuMensaje();
+        document.body.appendChild(overlay);
+
+        // Crear menú
+        const menu = document.createElement('div');
+        menu.className = 'mensaje-menu';
+        menu.id = 'mensaje-menu-activo';
+
+        // Opciones del menú
+        let opciones = '';
+
+        if (esMio) {
+            // Verificar si puede editar (dentro de 15 minutos)
+            const mensaje = this.obtenerMensajePorId(idMensaje);
+            if (mensaje && this.puedeEditar(mensaje.enviado_en)) {
+                opciones += `
+                    <button class="mensaje-menu-item" onclick="window.chatManager.editarMensaje(${idMensaje})">
+                        Editar mensaje
+                    </button>
+                `;
+            }
+            
+            opciones += `
+                <button class="mensaje-menu-item danger" onclick="window.chatManager.eliminarMensaje(${idMensaje}, 'para_todos')">
+                    Eliminar para todos
+                </button>
+            `;
+        }
+
+        opciones += `
+            <button class="mensaje-menu-item danger" onclick="window.chatManager.eliminarMensaje(${idMensaje}, 'para_mi')">
+                Eliminar para mí
+            </button>
+        `;
+
+        menu.innerHTML = opciones;
+        document.body.appendChild(menu);
+
+        // Posicionar menú
+        const btnRect = btnElement.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+
+        // Hacer visible temporalmente para medir
+        menu.style.visibility = 'hidden';
+        menu.style.display = 'block';
+        const menuHeight = menu.offsetHeight;
+        menu.style.visibility = 'visible';
+
+        // Decidir posición vertical según mitad de pantalla
+        const mitadPantalla = viewportHeight / 2;
+
+        if (btnRect.top < mitadPantalla) {
+            // Está en la mitad superior: menú abajo
+            menu.style.top = (btnRect.bottom + 8) + 'px';
+        } else {
+            // Está en la mitad inferior: menú arriba
+            menu.style.top = (btnRect.top - menuHeight - 8) + 'px';
+        }
+
+        // Posición horizontal - centrar con el botón
+        const menuWidth = menu.offsetWidth;
+        menu.style.left = (btnRect.left + (btnRect.width / 2) - (menuWidth / 2)) + 'px';
+
+        // Prevenir que el click en el menú lo cierre
+        menu.addEventListener('click', (e) => e.stopPropagation());
+    }
+
+    cerrarMenuMensaje() {
+        const menu = document.getElementById('mensaje-menu-activo');
+        if (menu) menu.remove();
+
+        const overlay = document.querySelector('.menu-overlay');
+        if (overlay) overlay.remove();
+    }
+
+    async eliminarMensaje(idMensaje, tipo) {
+        this.cerrarMenuMensaje();
+
+        try {
+            const formData = new FormData();
+            formData.append('id_mensaje', idMensaje);
+            formData.append('tipo', tipo);
+
+            const response = await fetch('/php/chat/eliminar-mensaje.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                await this.cargarMensajes();
+            } else {
+                alert('Error: ' + data.error);
+            }
+        } catch (error) {
+            console.error('Error eliminando mensaje:', error);
+            alert('Error al eliminar el mensaje');
+        }
+    }
+
+    obtenerMensajePorId(idMensaje) {
+        const contenedorMovil = document.getElementById('chat-mensajes');
+        const contenedorDesktop = document.getElementById('chat-mensajes-desktop');
+        const contenedor = contenedorMovil?.innerHTML ? contenedorMovil : contenedorDesktop;
+        
+        const bubbles = contenedor.querySelectorAll('.mensaje-bubble');
+        for (const bubble of bubbles) {
+            if (parseInt(bubble.dataset.mensajeId) === idMensaje) {
+                // Buscar en los datos cargados
+                const allBubbles = document.querySelectorAll(`[data-mensaje-id="${idMensaje}"]`);
+                if (allBubbles.length > 0) {
+                    // Necesitamos el timestamp, lo guardaremos cuando renderizamos
+                    return { id: idMensaje, enviado_en: bubble.dataset.enviadoEn };
+                }
+            }
+        }
+        return null;
+    }
+
+    puedeEditar(enviadoEn) {
+        const ahora = new Date();
+        const fechaEnvio = new Date(enviadoEn);
+        
+        // Ajustar por la zona horaria si es necesario (tu servidor está en UTC-3)
+        fechaEnvio.setHours(fechaEnvio.getHours() - 3);
+        
+        const diferenciaMinutos = (ahora - fechaEnvio) / (1000 * 60);
+        
+        console.log('Verificando edición:', {
+            ahora: ahora.toLocaleString(),
+            fechaEnvio: fechaEnvio.toLocaleString(),
+            diferenciaMinutos: diferenciaMinutos,
+            puedeEditar: diferenciaMinutos <= 15
+        });
+        
+        return diferenciaMinutos <= 15;
+    }
+
+    async editarMensaje(idMensaje) {
+        this.cerrarMenuMensaje();
+        
+        const inputMovil = document.getElementById('input-mensaje');
+        const inputDesktop = document.getElementById('input-mensaje-desktop');
+        const input = this.isMobile ? inputMovil : inputDesktop;
+        
+        const bubble = document.querySelector(`[data-mensaje-id="${idMensaje}"]`);
+        if (!bubble) return;
+        
+        const contenidoDiv = bubble.querySelector('div:last-child');
+        // Buscar el span de "editado" y excluirlo
+        const spanEditado = contenidoDiv.querySelector('.mensaje-editado');
+        let textoActual;
+        if (spanEditado) {
+            // Clonar el div, remover el span de editado y obtener el texto
+            const divClonado = contenidoDiv.cloneNode(true);
+            const spanEditadoClonado = divClonado.querySelector('.mensaje-editado');
+            if (spanEditadoClonado) {
+                spanEditadoClonado.remove();
+            }
+            textoActual = divClonado.textContent.trim();
+        } else {
+            textoActual = contenidoDiv.textContent.trim();
+        }
+        
+        // Colocar texto en el input
+        input.value = textoActual;
+        input.focus();
+        
+        // Crear banner de edición
+        const banner = document.createElement('div');
+        banner.className = 'edit-banner';
+        banner.id = 'edit-banner-activo';
+        banner.innerHTML = `
+            <div class="edit-banner-content">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                </svg>
+                <div class="edit-banner-text">
+                    <div class="edit-banner-title">Editando el mensaje</div>
+                    <div class="edit-banner-preview">${textoActual.substring(0, 50)}${textoActual.length > 50 ? '...' : ''}</div>
+                </div>
+            </div>
+            <button class="edit-banner-close">×</button>
+        `;
+        
+        const chatContainer = this.isMobile 
+            ? document.querySelector('#chat-view .chat-input-container')
+            : document.querySelector('#chat-desktop-view .chat-input-container');
+        
+        chatContainer.parentElement.insertBefore(banner, chatContainer);
+        
+        // Guardar referencia
+        this.mensajeEditando = idMensaje;
+        this.textoOriginal = textoActual;
+        
+        // Event listeners
+        const closeBtn = banner.querySelector('.edit-banner-close');
+        closeBtn.addEventListener('click', () => this.cancelarEdicion());
+        
+        // Modificar el evento de enviar
+        const btnEnviar = this.isMobile 
+            ? document.getElementById('btn-enviar')
+            : document.getElementById('btn-enviar-desktop');
+        btnEnviar.disabled = false;
+    }
+
+    cancelarEdicion() {
+        const banner = document.getElementById('edit-banner-activo');
+        if (banner) banner.remove();
+        
+        this.mensajeEditando = null;
+        this.textoOriginal = null;
+        
+        const input = this.isMobile 
+            ? document.getElementById('input-mensaje')
+            : document.getElementById('input-mensaje-desktop');
+        input.value = '';
+        
+        const btnEnviar = this.isMobile 
+            ? document.getElementById('btn-enviar')
+            : document.getElementById('btn-enviar-desktop');
+        btnEnviar.disabled = true;
+    }
+
+    async guardarEdicion() {
+        const input = this.isMobile 
+            ? document.getElementById('input-mensaje')
+            : document.getElementById('input-mensaje-desktop');
+        
+        const nuevoTexto = input.value.trim();
+        
+        if (!nuevoTexto || nuevoTexto === this.textoOriginal) {
+            this.cancelarEdicion();
+            return;
+        }
+        
+        try {
+            const formData = new FormData();
+            formData.append('id_mensaje', this.mensajeEditando);
+            formData.append('contenido', nuevoTexto);
+            
+            const response = await fetch('/php/chat/editar-mensaje.php', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const text = await response.text();
+            console.log('Respuesta del servidor al editar:', text);
+            let data;
+            try {
+                data = JSON.parse(text);
+                console.log('Data parseada:', data);
+            } catch (e) {
+                console.error('Error parseando JSON:', text);
+                alert('Error del servidor');
+                return;
+            }
+
+            if (data.success) {
+                console.log('Edición exitosa, cancelando banner...');
+                this.cancelarEdicion();
+                await this.cargarMensajes();
+            } else {
+                alert('Error: ' + data.error);
+            }
+        } catch (error) {
+            console.error('Error editando mensaje:', error);
+            alert('Error al editar el mensaje');
+        }
+    }
+
+    setupEmojiPicker(btn, picker, input) {
+        const emojis = [
+            '😀','😃','😄','😁','😆','😅',
+            '🤣','😂','🙂','🙃','😉','😊',
+            '😇','🥰','😍','🤩','😘','😗',
+            '😚','😙','😋','😛','😜','🤪',
+            '😝','🤑','🤗','🤭','🤫','🤔',
+            '🤐','🤨','😐','😑','😶','😏',
+            '😒','🙄','😬','🤥','😌','😔',
+            '😪','🤤','😴','😷','🤒','🤕',
+            '🤢','🤮','🤧','🥵','🥶','🥴',
+            '😵','🤯','🤠','🥳','😎','🤓',
+            '🧐','😕','😟','🙁','☹️','😮',
+            '😯','😲','😳','🥺','😦','😧',
+            '😨','😰','😥','😢','😭','😱',
+            '😖','😣','😞','😓','😩','😫',
+            '🥱','😤','😡','😠','🤬','😈',
+            '👿','💀','☠️','💩','🤡','👹',
+            '👺','👻','👽','👾','🤖','😺',
+            '😸','😹','😻','😼','😽','🙀',
+            '😿','😾','👋','🤚','🖐️','✋',
+            '🖖','👌','🤏','✌️','🤞','🤟',
+            '🤘','🤙','👈','👉','👆','👇',
+            '☝️','👍','👎','✊','👊','🤛',
+            '🤜','👏','🙌','👐','🤲','🤝',
+            '🙏','❤️','🧡','💛','💚','💙',
+            '💜','🖤','🤍','🤎','💔','❣️',
+            '💕','💞','💓','💗','💖','💘',
+            '💝','💟','🔥','✨','💫','⭐',
+            '🌟','💯','💢','💥','💦','💨',
+            '🎉','🎊','🎈','🎁','🏆','🥇',
+            '🥈','🥉','⚽','🏀','🏈','⚾',
+            '🎾','🏐','🏉','🎱','🥏','🏓',
+            '🏸','🥊','🥋','🎯','🎮','🎰',
+            '🧩','🎲','🧸','🪀','🪁','🎵',
+            '🎶','🎤','🎧','🎹','🥁','🎷',
+            '🎺','🎸','🎻','🪕','🎬','🎨',
+            '🧵','🧶','🪡','🪚','🔨','⚒️',
+            '🛠️','🪛','🧰','⚙️','🪤','💡',
+            '🔦','🕯️','🪔','🧯','🪣','🧹',
+            '🧺','🧻','🧼','🪥','🧽','🪠',
+        ];
+
+        
+        // Crear grid de emojis
+        const grid = document.createElement('div');
+        grid.className = 'emoji-grid';
+        emojis.forEach(emoji => {
+            const item = document.createElement('span');
+            item.className = 'emoji-item';
+            item.textContent = emoji;
+            item.onclick = () => {
+            input.value += emoji;
+            input.focus();
+            // NO cerrar el picker
+            // Habilitar botón enviar
+            const btnEnviar = this.isMobile 
+                ? document.getElementById('btn-enviar')
+                : document.getElementById('btn-enviar-desktop');
+            btnEnviar.disabled = false;
+        };
+            grid.appendChild(item);
+        });
+
+        // Convertir emojis a imágenes Twemoji (estilo flat)
+        if (typeof twemoji !== 'undefined') {
+            twemoji.parse(grid, {
+                folder: 'svg',
+                ext: '.svg'
+            });
+        }
+        picker.appendChild(grid);
+        
+        // Toggle picker
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            picker.classList.toggle('show');
+        });
+        
+        // Cerrar al enviar mensaje
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                picker.classList.remove('show');
+            }
+        });
+
+        const btnEnviar = this.isMobile 
+            ? document.getElementById('btn-enviar')
+            : document.getElementById('btn-enviar-desktop');
+            
+        if (btnEnviar) {
+            btnEnviar.addEventListener('click', () => {
+                picker.classList.remove('show');
+            });
+        }
+
+        // Cerrar al hacer click fuera
+        const closeOnClickOutside = (e) => {
+            const isClickInsidePicker = picker.contains(e.target);
+            const isClickOnButton = btn.contains(e.target);
+            
+            if (!isClickInsidePicker && !isClickOnButton && picker.classList.contains('show')) {
+                picker.classList.remove('show');
+            }
+        };
+
+        document.addEventListener('click', closeOnClickOutside);
+    }
+
+    responderMensaje(idMensaje, contenido, nombre) {
+        const input = this.isMobile 
+            ? document.getElementById('input-mensaje')
+            : document.getElementById('input-mensaje-desktop');
+        
+        input.focus();
+        
+        // Crear banner de respuesta
+        const banner = document.createElement('div');
+        banner.className = 'reply-banner';
+        banner.id = 'reply-banner-activo';
+        banner.innerHTML = `
+            <div class="reply-banner-content">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 14l-4-4 4-4M5 10h11a4 4 0 0 1 0 8h-1"></path>
+                </svg>
+                <div class="reply-banner-text">
+                    <div class="reply-banner-title">Respondiendo a ${nombre}</div>
+                    <div class="reply-banner-preview">${contenido.substring(0, 50)}${contenido.length > 50 ? '...' : ''}</div>
+                </div>
+            </div>
+            <button class="reply-banner-close">×</button>
+        `;
+        
+        const chatContainer = this.isMobile 
+            ? document.querySelector('#chat-view .chat-input-container')
+            : document.querySelector('#chat-desktop-view .chat-input-container');
+        
+        chatContainer.parentElement.insertBefore(banner, chatContainer);
+        
+        // Guardar referencia
+        this.mensajeRespondiendo = { id: idMensaje, contenido, nombre };
+        
+        // Event listener para cerrar
+        const closeBtn = banner.querySelector('.reply-banner-close');
+        closeBtn.addEventListener('click', () => this.cancelarRespuesta());
+    }
+
+    cancelarRespuesta() {
+        const banner = document.getElementById('reply-banner-activo');
+        if (banner) banner.remove();
+        
+        this.mensajeRespondiendo = null;
+    }
+
+    renderMensajeConRespuesta(msg) {
+        let html = '';
+        
+        // Si el mensaje es una respuesta, mostrar el contexto
+        if (msg.responde_a) {
+            html += `
+                <div class="mensaje-reply-context">
+                    <div class="mensaje-reply-context-author">${msg.responde_a_nombre || 'Usuario'}</div>
+                    <div class="mensaje-reply-context-text">${msg.responde_a_contenido || 'Mensaje'}</div>
+                </div>
+            `;
+        }
+        
+        return html;
+    }
+
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    getNombreOtroUsuario() {
+        // Obtener el nombre del chat header
+        const nombreElement = this.isMobile 
+            ? document.getElementById('chat-nombre')
+            : document.getElementById('chat-nombre-desktop');
+        return nombreElement ? nombreElement.textContent : 'Usuario';
+    }
 }
 
 // Inicializar cuando cargue la página

@@ -35,16 +35,24 @@ try {
     }
     
     // Obtener mensajes
-    $sql = "SELECT 
-                m.id_mensaje as id,
-                m.contenido,
-                m.imagenes,
-                m.tipo_mensaje,
-                m.enviado_en,
-                IF(m.id_emisor = ?, 1, 0) as es_mio
-            FROM ChatMensaje m
-            WHERE m.id_conversacion = ?
-            ORDER BY m.enviado_en ASC";
+   $sql = "SELECT 
+        m.id_mensaje as id,
+        m.contenido,
+        m.imagenes,
+        m.tipo_mensaje,
+        m.enviado_en,
+        m.eliminado_para_todos,
+        m.eliminado_para_usuario,
+        m.id_emisor,
+        IFNULL(m.editado, 0) as editado,
+        m.editado_en,
+        m.responde_a,
+        m.responde_a_contenido,
+        m.responde_a_nombre,
+        IF(m.id_emisor = ?, 1, 0) as es_mio
+    FROM ChatMensaje m
+    WHERE m.id_conversacion = ?
+    ORDER BY m.enviado_en ASC";
     
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('ii', $id_usuario, $id_conversacion);
@@ -53,15 +61,25 @@ try {
     
     $mensajes = [];
     while ($row = $result->fetch_assoc()) {
-        $mensajes[] = [
-            'id' => $row['id'],
-            'contenido' => $row['contenido'],
-            'imagenes' => $row['imagenes'] ? json_decode($row['imagenes'], true) : null,
-            'tipo_mensaje' => $row['tipo_mensaje'],
-            'enviado_en' => $row['enviado_en'],
-            'es_mio' => (bool)$row['es_mio']
-        ];
-    }
+    // Verificar si está eliminado
+    $eliminado = $row['eliminado_para_todos'] || $row['eliminado_para_usuario'] == $id_usuario;
+    
+    $mensajes[] = [
+        'id' => $row['id'],
+        'contenido' => $row['contenido'],
+        'imagenes' => $row['imagenes'] ? json_decode($row['imagenes'], true) : null,
+        'tipo_mensaje' => $row['tipo_mensaje'],
+        'enviado_en' => $row['enviado_en'],
+        'es_mio' => (bool)$row['es_mio'],
+        'eliminado' => $eliminado,
+        'eliminado_para_todos' => (bool)$row['eliminado_para_todos'],
+        'id_emisor' => $row['id_emisor'],
+        'editado' => (bool)$row['editado'],
+        'responde_a' => $row['responde_a'],
+        'responde_a_contenido' => $row['responde_a_contenido'],
+        'responde_a_nombre' => $row['responde_a_nombre']
+    ];
+}
     
     echo json_encode([
         'success' => true,

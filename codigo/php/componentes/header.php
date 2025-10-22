@@ -13,13 +13,10 @@ $paginaActual = pathinfo($_SERVER['SCRIPT_NAME'], PATHINFO_FILENAME);
 if ($paginaActual === 'index') {
     include __DIR__ . '/../categorias.php';
 }
-
 ?>
 
 <!-- ================= HEADER MOBILE ================= -->
 <div class="lg:hidden bg-white px-6 md:px-16 pb-2 pt-8 relative">
-
-  <!-- Botones a la derecha: Notificaciones + Hamburguer -->
   <div class="absolute right-6 top-8 flex items-center gap-3 z-10">
     <!-- Botón notificaciones -->
     <button onclick="toggleNotificationsMobile()" 
@@ -27,23 +24,15 @@ if ($paginaActual === 'index') {
       <img src="<?= $baseURL ?>recursos/iconos/solido/estado/notificacion.svg" alt="Notificaciones" class="w-5 h-5 svg-gray-800">
       <span id="mobile-notification-badge" 
             class="hidden absolute -top-1 -right-1 bg-green text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-        0
       </span>
     </button>
-    
-</button>
-<!-- fin botón notificaciones -->
 
 <?php if ($paginaActual==='perfil'): ?>
-    <!-- Botón hamburguer -->
-    <button onclick="toggleConfigMobile()" 
-            class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center">
-      <img src="<?= $baseURL ?>recursos/iconos/solido/interfaz/hamburguer.svg" alt="Configuración" class="w-5 h-5 svg-gray-800">
-    </button>
+<button id="btn-config-mobile" class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center">
+  <img src="<?= $baseURL ?>recursos/iconos/solido/interfaz/hamburguer.svg" alt="Configuración" class="w-5 h-5 svg-gray-800">
+</button>
 <?php endif; ?>
-
-</div> <!-- cierre del header móvil -->
-
+</div>
 
   <!-- Contenido del header a la izquierda -->
   <div class="flex flex-col mb-2">
@@ -52,7 +41,6 @@ if ($paginaActual === 'index') {
       <div class="flex items-center space-x-2">
         <img src="<?= $baseURL ?>recursos/iconos/solido/navegacion/ubicacion.svg" alt="Ubicación" class="w-5 h-5 svg-green">
         <span class="text-sm text-gray-800">Montevideo, Uruguay</span>
-        <img src="<?= $baseURL ?>recursos/iconos/solido/interfaz/flecha_abajo.svg" alt="Expandir" class="w-6 h-6 svg-gray-800">
       </div>
     <?php elseif ($paginaActual === 'ofertas'): ?>
       <h1 class="text-2xl text-black mb-0">Ofertas</h1>

@@ -1,107 +1,207 @@
-// ================= HEADER DESKTOP DINÁMICO =================
-document.addEventListener('DOMContentLoaded', function() {
-    const contenedor = document.getElementById('desktop-header-actions');
+// ================= FUNCIONES =================
 
-    // Verificar sesión en el servidor
-    fetch(baseURL + 'php/verificar-sesion.php')
-        .then(response => response.json())
-        .then(data => {
-            if (data.logueado) {
-                // Usuario con sesión
-                contenedor.innerHTML = `
-                    <!-- Botón Nueva publicación -->
-                    <button class="bg-green text-white px-6 h-10 smooth-transition redondeado-personalizado primary-button flex items-center text-sm whitespace-nowrap"
-                        onclick="window.location.href='${baseURL}php/nuevo_producto.php'">
-                        <img src="${baseURL}recursos/iconos/solido/interfaz/mas.svg" alt="Publicar" class="w-3 h-3 svg-white mr-2">
-                        Nueva publicación
-                    </button>
-
-                    <!-- Botón chat -->
-                    <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition">
-                        <img src="${baseURL}recursos/iconos/solido/comunicacion/comentario.svg" alt="Comentarios" class="w-5 h-5 svg-gray-800">
-                    </button>
-
-                    <!-- Botón notificaciones -->
-                    <button onclick="toggleNotificationsDesktop()" class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition relative">
-                        <img src="${baseURL}recursos/iconos/solido/estado/notificacion.svg" alt="Notificaciones" class="w-5 h-5 svg-gray-800">
-                        <span id="desktop-notification-badge" class="hidden absolute -top-1 -right-1 bg-green text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">0</span>
-                    </button>
-
-                    <!-- Perfil con dropdown -->
-                    <div class="relative inline-block text-left">
-                        <!-- config-funcionalidad: aqui debes hacer que el boton configuracion funcione y que aparezcan las opciones de configuracion en el dropdown (esto es de escritorio)-->
-                        <div>
-                            <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition"
-                                id="menu-button" onclick="showDropdown()" aria-expanded="true" aria-haspopup="true">
-                                <img src="${baseURL}recursos/iconos/solido/comunicacion/usuario.svg" alt="Usuario" class="w-5 h-5 svg-gray-800">
-                            </button>
-                        </div>
-
-                        <div id="menu"
-                            class="hidden absolute right-4 z-10 mt-2 w-72 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden p-6 pr-6"
-                            role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                            <div class="flex items-center gap-x-4 mb-4 dropDownProfileConteiner">
-                                <img class="rounded-full w-12 h-12" src="${baseURL}recursos/imagenes/josegimenez.jpg">
-                                <div>
-                                    <div class="font-medium text-base text-gray-800">José Martínez</div>
-                                    <p class="text-xs text-green">jsemartinez@gmail</p>
-                                </div>
+// Funciones del dropdown de configuración
+function showConfigOverlay() {
+    console.log("showConfigOverlay ejecutándose");
+    
+    let overlay = document.getElementById("config-overlay");
+    if (!overlay) {
+        overlay = document.createElement("div");
+        overlay.id = "config-overlay";
+        overlay.className = "fixed inset-0 bg-white z-50 flex flex-col overflow-y-auto";
+        
+        overlay.innerHTML = `
+            <div class="flex items-center px-6 py-4 mt-4">
+                <button id="close-config" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors mr-4">
+                    <img src="${baseURL}recursos/iconos/solido/navegacion/atras.svg" alt="Volver" class="w-8 h-8">
+                </button>
+                <h2 class="text-lg font-normal text-gray-900">Configuración y actividad</h2>
+            </div>
+            <div class="flex-1 px-6 py-4">
+                <ul class="divide-y divide-gray-200 mt-8">
+                    <li>
+                        <button class="w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center gap-4">
+                                <img src="${baseURL}recursos/iconos/solido/navegacion/User.svg" alt="Datos personales" class="w-6 h-6">
+                                <span class="text-gray-500 font-normal">Datos personales</span>
                             </div>
-                            <div class="py-1" role="none">
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-600 flex items-center" role="menuitem" tabindex="-1">
-                                    <img src="${baseURL}recursos/iconos/contorno/interfaz/configuracion.svg" alt="Configuración" class="w-4 h-4 svg-gray-800 mr-2 mb-3 mt-3">
-                                    Configuración
-                                </a>
+                            <img src="${baseURL}recursos/iconos/solido/interfaz/next.svg" alt="" class="w-5 h-5">
+                        </button>
+                    </li>
+                    <li>
+                        <button class="w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center gap-4">
+                                <img src="${baseURL}recursos/iconos/solido/interfaz/Key.svg" alt="Cambiar contraseña" class="w-6 h-6">
+                                <span class="text-gray-500 font-normal">Cambiar contraseña</span>
                             </div>
-                            <div class="py-1 pt-3" role="none">
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-600 flex items-center" role="menuitem" tabindex="-1"
-                                   onclick="window.location.href='${baseURL}php/cerrar-sesion.php'">
-                                    <img src="${baseURL}recursos/iconos/contorno/interfaz/cerrar_sesion.svg" alt="Cerrar sesión" class="w-4 h-4 svg-red-400 mr-2 self-center">
-                                    Cerrar sesión
-                                </a>
+                            <img src="${baseURL}recursos/iconos/solido/interfaz/next.svg" alt="" class="w-5 h-5">
+                        </button>
+                    </li>
+                    <li>
+                        <button class="w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center gap-4">
+                                <img src="${baseURL}recursos/iconos/solido/interfaz/Info.svg" alt="Centro de ayuda" class="w-6 h-6">
+                                <span class="text-gray-500 font-normal">Centro de ayuda</span>
                             </div>
-                        </div>
-                    </div>
-                `;
+                            <img src="${baseURL}recursos/iconos/solido/interfaz/next.svg" alt="" class="w-5 h-5">
+                        </button>
+                    </li>
+                    <li>
+                        <button class="w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center gap-4">
+                                <img src="${baseURL}recursos/iconos/solido/interfaz/Lock.svg" alt="Políticas de privacidad" class="w-6 h-6">
+                                <span class="text-gray-500 font-normal">Políticas de privacidad</span>
+                            </div>
+                            <img src="${baseURL}recursos/iconos/solido/interfaz/next.svg" alt="" class="w-5 h-5">
+                        </button>
+                    </li>
+                    <li>
+                        <button class="w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors">
+                            <div class="flex items-center gap-4">
+                                <img src="${baseURL}recursos/iconos/solido/interfaz/Logout.svg" alt="Cerrar sesión" class="w-6 h-6">
+                                <span class="text-gray-500 font-normal">Cerrar sesión</span>
+                            </div>
+                            <img src="${baseURL}recursos/iconos/solido/interfaz/next.svg" alt="" class="w-5 h-5">
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        `;
+        
+        document.body.appendChild(overlay);
 
-                // Agregar dropdown de notificaciones desktop
-                setTimeout(() => {
-                    const headerElement = document.querySelector('header.hidden.lg\\:block');
-                    if (headerElement && !document.getElementById('desktop-notifications-dropdown')) {
-                        const dropdownHTML = `
-                            <div id="desktop-notifications-dropdown" class="hidden absolute right-20 top-16 w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 z-50 overflow-hidden transition-all duration-300 opacity-0">
-                                <div id="desktop-notifications-content">
-                                    <!-- Las notificaciones se generarán dinámicamente -->
-                                </div>
-                            </div>
-                        `;
-                        headerElement.insertAdjacentHTML('beforeend', dropdownHTML);
-                    }
-                }, 100);
-            } else {
-                // Usuario sin sesión → botones iniciar sesión y registrarse
-                contenedor.innerHTML = `
-                    <button class="bg-green text-white px-8 h-10 redondeado-personalizado smooth-transition primary-button flex items-center text-sm whitespace-nowrap mr-2"
-                        onclick="window.location.href='${baseURL}php/iniciar-sesion.php'">
-                        Iniciar sesión
-                    </button>
-                    <button class="bg-white text-green border border-green px-8 h-10 redondeado-personalizado secondary-button smooth-transition flex items-center text-sm whitespace-nowrap hover:bg-green hover:text-white group"
-                        onclick="window.location.href='${baseURL}php/registrarse.php'">
-                        Registrarse
-                    </button>
-                `;
-            }
-        })
-        .catch(error => console.error('Error verificando sesión:', error));
-});
+        document.getElementById("close-config").addEventListener("click", () => {
+            overlay.style.display = "none";
+        });
+    } else {
+        overlay.style.display = "flex";
+    }
+}
 
-// ================= FUNCIONES DEL DROPDOWN =================
 function showDropdown() {
     const menu = document.getElementById('menu');
     if(menu) menu.classList.toggle('hidden');
 }
 
-// Cerrar dropdown si se hace clic fuera
+
+// ================= EVENTOS DEL DOM =================
+
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOMContentLoaded ejecutado");
+    
+    // ================= HEADER DESKTOP DINÁMICO =================
+    const contenedor = document.getElementById('desktop-header-actions');
+
+    if (contenedor) {
+        // Verificar sesión en el servidor
+        fetch(baseURL + 'php/verificar-sesion.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.logueado) {
+                    // Usuario con sesión
+                    contenedor.innerHTML = `
+                        <!-- Botón Nueva publicación -->
+                        <button class="bg-green text-white px-6 h-10 smooth-transition redondeado-personalizado primary-button flex items-center text-sm whitespace-nowrap"
+                            onclick="window.location.href='${baseURL}php/nuevo_producto.php'">
+                            <img src="${baseURL}recursos/iconos/solido/interfaz/mas.svg" alt="Publicar" class="w-3 h-3 svg-white mr-2">
+                            Nueva publicación
+                        </button>
+
+                        <!-- Botón chat -->
+                        <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition">
+                            <img src="${baseURL}recursos/iconos/solido/comunicacion/comentario.svg" alt="Comentarios" class="w-5 h-5 svg-gray-800">
+                        </button>
+
+                        <!-- Botón notificaciones -->
+                        <button onclick="toggleNotificationsDesktop()" class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition relative">
+                            <img src="${baseURL}recursos/iconos/solido/estado/notificacion.svg" alt="Notificaciones" class="w-5 h-5 svg-gray-800">
+                            <span id="desktop-notification-badge" class="hidden absolute -top-1 -right-1 bg-green text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                        </button>
+
+                        <!-- Perfil con dropdown -->
+                        <div class="relative inline-block text-left">
+                            <div>
+                                <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition"
+                                    id="menu-button" onclick="showDropdown()" aria-expanded="true" aria-haspopup="true">
+                                    <img src="${baseURL}recursos/iconos/solido/comunicacion/usuario.svg" alt="Usuario" class="w-5 h-5 svg-gray-800">
+                                </button>
+                            </div>
+
+                            <div id="menu"
+                                class="hidden absolute right-4 z-10 mt-2 w-72 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden p-6 pr-6"
+                                role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                                <div class="flex items-center gap-x-4 mb-4 dropDownProfileConteiner">
+                                    <img class="rounded-full w-12 h-12" src="${baseURL}recursos/imagenes/josegimenez.jpg">
+                                    <div>
+                                        <div class="font-medium text-base text-gray-800">José Martínez</div>
+                                        <p class="text-xs text-green">jsemartinez@gmail</p>
+                                    </div>
+                                </div>
+                                <div class="py-1" role="none">
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-600 flex items-center" role="menuitem" tabindex="-1">
+                                        <img src="${baseURL}recursos/iconos/contorno/interfaz/configuracion.svg" alt="Configuración" class="w-4 h-4 svg-gray-800 mr-2 mb-3 mt-3">
+                                        Configuración
+                                    </a>
+                                </div>
+                                <div class="py-1 pt-3" role="none">
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-600 flex items-center" role="menuitem" tabindex="-1"
+                                       onclick="window.location.href='${baseURL}php/cerrar-sesion.php'">
+                                        <img src="${baseURL}recursos/iconos/contorno/interfaz/cerrar_sesion.svg" alt="Cerrar sesión" class="w-4 h-4 svg-red-400 mr-2 self-center">
+                                        Cerrar sesión
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    // Agregar dropdown de notificaciones desktop
+                    setTimeout(() => {
+                        const headerElement = document.querySelector('header.hidden.lg\\:block');
+                        if (headerElement && !document.getElementById('desktop-notifications-dropdown')) {
+                            const dropdownHTML = `
+                                <div id="desktop-notifications-dropdown" class="hidden absolute right-20 top-16 w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 z-50 overflow-hidden transition-all duration-300 opacity-0">
+                                    <div id="desktop-notifications-content">
+                                        <!-- Las notificaciones se generarán dinámicamente -->
+                                    </div>
+                                </div>
+                            `;
+                            headerElement.insertAdjacentHTML('beforeend', dropdownHTML);
+                        }
+                    }, 100);
+                } else {
+                    // Usuario sin sesión → botones iniciar sesión y registrarse
+                    contenedor.innerHTML = `
+                        <button class="bg-green text-white px-8 h-10 redondeado-personalizado smooth-transition primary-button flex items-center text-sm whitespace-nowrap mr-2"
+                            onclick="window.location.href='${baseURL}php/iniciar-sesion.php'">
+                            Iniciar sesión
+                        </button>
+                        <button class="bg-white text-green border border-green px-8 h-10 redondeado-personalizado secondary-button smooth-transition flex items-center text-sm whitespace-nowrap hover:bg-green hover:text-white group"
+                            onclick="window.location.href='${baseURL}php/registrarse.php'">
+                            Registrarse
+                        </button>
+                    `;
+                }
+            })
+            .catch(error => console.error('Error verificando sesión:', error));
+    }
+
+    // ================= CONFIGURACIÓN MÓVIL =================
+    // Usar event delegation para el botón de configuración
+    const btnConfig = document.getElementById('btn-config-mobile');
+    if (btnConfig) {
+        console.log("Botón de configuración encontrado, agregando listener");
+        btnConfig.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log("¡Click en configuración detectado!");
+            showConfigOverlay();
+        });
+    } else {
+        console.log("Botón de configuración NO encontrado");
+    }
+});
+
+// ================= CERRAR DROPDOWN SI SE HACE CLIC FUERA =================
 document.addEventListener('click', function(event) {
     const menu = document.getElementById('menu');
     const button = document.getElementById('menu-button');

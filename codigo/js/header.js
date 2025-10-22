@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 contenedor.innerHTML = `
                     <!-- Botón Nueva publicación -->
                     <button class="bg-green text-white px-6 h-10 smooth-transition redondeado-personalizado primary-button flex items-center text-sm whitespace-nowrap"
-                        onclick="window.location.href='${baseURL}php/nuevo_producto.php'">
+                        onclick="window.location.href='${baseURL}nuevo_producto.php'">
                         <img src="${baseURL}recursos/iconos/solido/interfaz/mas.svg" alt="Publicar" class="w-3 h-3 svg-white mr-2">
                         Nueva publicación
                     </button>

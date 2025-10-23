@@ -19,6 +19,14 @@ $rutaActual = 'mensajes';
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="<?= $baseURL ?>css/estilos-generales.css">
     <link rel="stylesheet" href="<?= $baseURL ?>css/mensajes.css">
+    <style>
+        /* Ocultar sidebar en mensajes desktop */
+        @media (min-width: 1024px) {
+            .desktop-sidebar {
+                display: none !important;
+            }
+        }
+    </style>
 </head>
 <body class="bg-white lg:bg-gray-50">
     <?php 
@@ -28,21 +36,17 @@ $rutaActual = 'mensajes';
     <!-- LAYOUT MÓVIL -->
     <div class="lg:hidden">
         <div class="h-screen flex flex-col bg-white">
-            <!-- Header con tabs -->
-            <div class="bg-white -bborder border-gray-200 px-4 pt-2 pb-0">
-                <div class="flex border-b border-gray-200">
-                    <button class="tab-btn flex-1 py-3 text-sm font-medium border-b-2 border-green text-green active" data-tab="chats">
-                        Chats
+            <!-- Tabs -->
+            <div class="px-4 pt-4 pb-0">
+                <div class="tabs-container relative flex gap-0 w-fit">
+                    <div class="tab-slider"></div>
+                    <button class="tab-btn tab-btn-left py-1.5 px-6 text-sm font-medium active" data-tab="chats">
+                        Todos
                     </button>
-                    <button class="tab-btn flex-1 py-3 text-sm font-medium border-b-2 border-transparent text-gray-500" data-tab="grupos">
-                        Grupos
+                    <button class="tab-btn tab-btn-right py-1.5 px-6 text-sm font-medium" data-tab="grupos">
+                        Solicitudes
                     </button>
                 </div>
-            </div>
-
-            <!-- Buscador -->
-            <div class="px-4 py-3 bg-white border-b border-gray-200">
-                <input type="text" id="buscar-conversacion" placeholder="Buscar conversación..." class="search-input">
             </div>
 
             <!-- Lista de conversaciones -->
@@ -57,14 +61,14 @@ $rutaActual = 'mensajes';
                 <!-- Header del chat -->
                 <div class="chat-header border-b border-gray-200">
                     <button id="btn-volver" class="w-8 h-8 flex items-center justify-center">
-                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                         </svg>
                     </button>
                     <img id="chat-avatar" src="" alt="Avatar" class="w-10 h-10 rounded-full">
                     <div class="flex-1">
-                        <div id="chat-nombre" class=" text-gray-800"></div>
-                        <div id="chat-producto" class="text-xs text-gray-500"></div>
+                        <div id="chat-nombre" class="text-white"></div>
+                        <div id="chat-producto" class="text-xs text-gray-200"></div>
                     </div>
                 </div>
 
@@ -190,6 +194,10 @@ $rutaActual = 'mensajes';
         <button id="lightbox-next" class="lightbox-nav next">›</button>
         <div id="lightbox-counter" class="lightbox-counter"></div>
     </div>
+
+    <?php 
+    include __DIR__ . '/componentes/menu.php';
+    ?>
 
     <script>
         const baseURL = '<?= $baseURL ?>';

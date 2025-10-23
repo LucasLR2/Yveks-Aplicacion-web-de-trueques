@@ -336,6 +336,18 @@ class ChatManager {
 
         // Actualizar UI
         if (this.isMobile) {
+            // Ocultar lista de conversaciones y mostrar chat
+            const conversacionesContainer = document.querySelector('.lg\\:hidden > div');
+            if (conversacionesContainer) {
+                conversacionesContainer.style.display = 'none';
+            }
+            
+            // Ocultar bottom bar
+            const bottomBar = document.querySelector('.fixed.bottom-0.left-0.w-screen');
+            if (bottomBar) {
+                bottomBar.style.display = 'none';
+            }
+            
             document.getElementById('chat-view').classList.remove('hidden');
             document.getElementById('chat-avatar').src = conv.avatar;
             document.getElementById('chat-nombre').textContent = conv.nombre;
@@ -702,6 +714,21 @@ class ChatManager {
 
     cerrarChat() {
         document.getElementById('chat-view').classList.add('hidden');
+        
+        // Mostrar lista de conversaciones nuevamente en móvil
+        if (this.isMobile) {
+            const conversacionesContainer = document.querySelector('.lg\\:hidden > div');
+            if (conversacionesContainer) {
+                conversacionesContainer.style.display = 'flex';
+            }
+            
+            // Mostrar bottom bar nuevamente
+            const bottomBar = document.querySelector('.fixed.bottom-0.left-0.w-screen');
+            if (bottomBar) {
+                bottomBar.style.display = 'block';
+            }
+        }
+        
         this.conversacionActual = null;
     }
 

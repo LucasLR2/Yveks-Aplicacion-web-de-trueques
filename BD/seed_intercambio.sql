@@ -1,11 +1,14 @@
-<<<<<<< HEAD
-SET NAMES utf8mb4;
-SET CHARACTER SET utf8mb4;
-=======
 -- DATOS COMPLETOS PARA DREVA
 -- Ejecutar después de importar la estructura de base de datos
 -- Fecha: 22-10-2025
->>>>>>> origin/main
+
+SET NAMES utf8mb4;
+SET CHARACTER SET utf8mb4;
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
 USE dreva;
 
@@ -286,5 +289,9 @@ INSERT INTO ChatMensaje (id_conversacion, id_emisor, contenido, enviado_en, leid
 -- ACTIVAR FOREIGN KEY CHECKS
 -- =============================================================
 SET FOREIGN_KEY_CHECKS = 1;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
 COMMIT;

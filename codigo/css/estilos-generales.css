@@ -36,7 +36,7 @@ html, body {
   color: #ffffff !important;
 }
 .bg-green {
-  background-color: #719177;
+  background-color: #719177 !important;
 }
 .ring-green {
   border: 2px solid #719177;
@@ -44,6 +44,9 @@ html, body {
 
 .bg-gray-custom {
   background-color: #D9D9D9;
+}
+.bg-verde-claro{
+  background-color: #95B79A !important;
 }
 
 /* Utilidades generales */

@@ -37,12 +37,7 @@ if ($paginaActual === 'index') {
         <?php elseif ($paginaActual === 'ofertas'): ?>
             <h1 class="text-2xl text-black mb-0">Ofertas</h1>
         <?php elseif ($paginaActual === 'mensajes'): ?>
-            <div class="flex items-center space-x-3">
-                <a href="<?= $baseURL ?>index.php">
-                    <img src="<?= $baseURL ?>recursos/iconos/dreva.svg" alt="Dreva" class="h-8 cursor-pointer">
-                </a>
-                <h1 class="text-xl text-black font-semibold">Mensajes</h1>
-            </div>
+            <h1 class="text-2xl text-black">Mensajes</h1>
         <?php else: ?>
             <span class="text-xs text-transparent mb-1">Ubicación</span>
             <div class="flex items-center space-x-2">

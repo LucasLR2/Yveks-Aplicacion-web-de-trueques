@@ -18,6 +18,14 @@ class ChatManager {
         this.cargarConversaciones();
         this.iniciarPolling();
         this.setupLightbox();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const idConversacion = urlParams.get('conversacion');
+        if (idConversacion) {
+            setTimeout(() => {
+                this.abrirConversacion(parseInt(idConversacion));
+            }, 500);
+        }
     }
 
     setupEventListeners() {
@@ -208,12 +216,6 @@ class ChatManager {
         const ultimoBubble = mensajesPropios[mensajesPropios.length - 1];
         const idMensaje = parseInt(ultimoBubble.dataset.mensajeId);
         const enviadoEn = ultimoBubble.dataset.enviadoEn;
-        
-        // Verificar si puede editar (dentro de 15 minutos)
-        if (!this.puedeEditar(enviadoEn)) {
-            alert('Solo puedes editar mensajes dentro de los 15 minutos de haberlos enviado');
-            return;
-        }
         
         // Llamar a la función de editar
         this.editarMensaje(idMensaje);

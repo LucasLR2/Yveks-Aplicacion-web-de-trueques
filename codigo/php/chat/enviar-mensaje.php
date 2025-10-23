@@ -13,6 +13,7 @@ $conn->set_charset("utf8mb4");
 $id_usuario = $_SESSION['id'];
 $id_conversacion = isset($_POST['id_conversacion']) ? intval($_POST['id_conversacion']) : 0;
 $tipo_mensaje = isset($_POST['tipo_mensaje']) ? $_POST['tipo_mensaje'] : 'texto';
+$responde_a = isset($_POST['responde_a']) ? intval($_POST['responde_a']) : null;
 
 if ($id_conversacion <= 0) {
     echo json_encode(['success' => false, 'error' => 'Conversación inválida']);
@@ -113,12 +114,33 @@ try {
         $contenido_preview = $contenido;
     }
     
-    // Insertar mensaje
+    // Si es una respuesta, obtener datos del mensaje original
+    $responde_a_contenido = null;
+    $responde_a_nombre = null;
+
+    if ($responde_a) {
+        $stmt_original = $conn->prepare("
+            SELECT cm.contenido, u.nombre_comp 
+            FROM ChatMensaje cm 
+            JOIN Usuario u ON cm.id_emisor = u.id_usuario 
+            WHERE cm.id_mensaje = ?
+        ");
+        $stmt_original->bind_param('i', $responde_a);
+        $stmt_original->execute();
+        $resultado = $stmt_original->get_result();
+        $mensaje_original = $resultado->fetch_assoc();
+        
+        if ($mensaje_original) {
+            $responde_a_contenido = $mensaje_original['contenido'];
+            $responde_a_nombre = $mensaje_original['nombre_comp'];
+        }
+    }
+    
     $insert = $conn->prepare("
-        INSERT INTO ChatMensaje (id_conversacion, id_emisor, contenido, imagenes, tipo_mensaje) 
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO ChatMensaje (id_conversacion, id_emisor, contenido, imagenes, tipo_mensaje, responde_a, responde_a_contenido, responde_a_nombre) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     ");
-    $insert->bind_param('iisss', $id_conversacion, $id_usuario, $contenido, $imagenes_json, $tipo_mensaje);
+    $insert->bind_param('iisssiss', $id_conversacion, $id_usuario, $contenido, $imagenes_json, $tipo_mensaje, $responde_a, $responde_a_contenido, $responde_a_nombre);
     
     if (!$insert->execute()) {
         throw new Exception('Error al enviar mensaje');
@@ -139,13 +161,13 @@ try {
     // Determinar el receptor para crear notificación
     $id_receptor = ($conv['id_usuario1'] == $id_usuario) ? $conv['id_usuario2'] : $conv['id_usuario1'];
     
-    // Crear notificación
+    // Crear notificación con referencia a la conversación
     $notif = $conn->prepare("
-        INSERT INTO Notificacion (tipo, titulo, descripcion, fecha, leida, id_usuario)
-        VALUES ('mensaje', 'Nuevo mensaje', ?, NOW(), 0, ?)
+        INSERT INTO Notificacion (tipo, titulo, descripcion, fecha, leida, id_usuario, id_referencia)
+        VALUES ('mensaje', 'Nuevo mensaje', ?, NOW(), 0, ?, ?)
     ");
     $notif_desc = substr($contenido_preview, 0, 100);
-    $notif->bind_param('si', $notif_desc, $id_receptor);
+    $notif->bind_param('sii', $notif_desc, $id_receptor, $id_conversacion);
     $notif->execute();
     
     echo json_encode([

@@ -104,12 +104,30 @@
     background-color: #E8E8E8;
 }
 
+/* Contenedor wrapper para hover */
+.mensaje-wrapper {
+    width: 100%;
+    display: flex;
+    position: relative;
+}
+
+.mensaje-wrapper.mensaje-mio {
+    justify-content: flex-end;
+    padding-left: 40px;
+}
+
+.mensaje-wrapper.mensaje-otro {
+    justify-content: flex-start;
+    padding-right: 40px;
+}
+
 /* Burbujas de mensaje */
 .mensaje-bubble {
     max-width: 70%;
     padding: 10px 14px;
     border-radius: 16px;
     word-wrap: break-word;
+    box-sizing: border-box;
 }
 
 @keyframes fadeIn {
@@ -118,14 +136,22 @@
 }
 
 .mensaje-mio {
-    align-self: flex-end;
+    justify-content: flex-end;
+    padding-left: 40px;
+}
+
+.mensaje-otro {
+    justify-content: flex-start;
+    padding-right: 40px;
+}
+
+.mensaje-mio .mensaje-bubble {
     background-color: #719177;
     color: white;
     border-bottom-right-radius: 4px;
 }
 
-.mensaje-otro {
-    align-self: flex-start;
+.mensaje-otro .mensaje-bubble {
     background-color: white;
     color: #1f2937;
     border-bottom-left-radius: 4px;
@@ -556,4 +582,424 @@
 .btn-attach svg {
     width: 22px; /* SVG más grande */
     height: 22px;
+}
+
+/* Menú contextual de mensaje */
+.mensaje-bubble {
+    position: relative;
+}
+
+.mensaje-menu {
+    position: fixed;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 8px 0;
+    z-index: 10000;
+    width: 200px;
+}
+
+.mensaje-menu-item {
+    padding: 10px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #5a7360;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    transition: background-color 0.2s;
+}
+
+.mensaje-menu-item:hover {
+    background-color: #58605525;
+}
+
+/* Mensaje eliminado */
+.mensaje-eliminado {
+    opacity: 0.6;
+    font-style: italic;
+    color: #6b7280;
+}
+
+/* Icono de menú en el mensaje */
+.mensaje-options-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #e5e7eb;
+    border: none;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    color: #383838;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.mensaje-mio .mensaje-options-btn {
+    left: -32px; /* A la izquierda del mensaje propio */
+}
+
+.mensaje-otro .mensaje-options-btn {
+    right: -32px; /* A la derecha del mensaje de otro */
+}
+
+.mensaje-mio:hover .mensaje-options-btn,
+.mensaje-otro:hover .mensaje-options-btn {
+    display: flex;
+}
+
+/* Overlay para cerrar menú */
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99;
+}
+
+/* Banner de edición */
+.edit-banner {
+    background-color: #d9f0dd;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-left: 4px solid #719177;
+}
+
+.edit-banner-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.edit-banner-content svg {
+    flex-shrink: 0;
+    color: #719177;
+    width: 18px;
+    height: 18px;
+}
+
+.edit-banner-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.edit-banner-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #719177;
+    margin-bottom: 2px;
+}
+
+.edit-banner-preview {
+    font-size: 13px;
+    color: #667781;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.edit-banner-close {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    color: #667781;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.edit-banner-close:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Indicador de mensaje editado */
+.mensaje-editado {
+    position: relative;
+    font-size: 11px;
+    opacity: 0.6;
+    font-style: italic;
+    margin-left: 6px;
+    display: inline-block;
+}
+
+/* Selector de emojis */
+.emoji-picker {
+    position: absolute;
+    bottom: 100%;
+    right: 60px;
+    margin-bottom: 8px;
+    background: white;
+    border-radius: 12px 12px 12px 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 12px;
+    width: 320px;
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 1000;
+    display: none;
+}
+
+.emoji-picker.show {
+    display: block;
+}
+
+.emoji-picker::-webkit-scrollbar {
+    width: 0px;
+}
+
+.emoji-picker::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.emoji-picker::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 3px;
+}
+
+.emoji-picker::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+}
+
+.emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+}
+
+.emoji-item {
+    font-size: 24px;
+    cursor: pointer;
+    text-align: center;
+    padding: 4px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.emoji-item img {
+    width: 24px;
+    height: 24px;
+}
+
+.emoji-item:hover {
+    background-color: #f3f4f6;
+}
+
+.btn-emoji {
+    position: absolute;
+    right: 80px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: transparent;
+    color: #719177;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    z-index: 10;
+    font-size: 20px;
+}
+
+.btn-emoji img {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) saturate(100%) invert(49%) sepia(13%) saturate(876%) hue-rotate(82deg) brightness(92%) contrast(88%);
+}
+
+.btn-emoji:hover {
+    background-color: #f3f4f6;
+}
+
+.mensaje-bubble img.emoji {
+    width: 18px;
+    height: 18px;
+    display: inline;
+    vertical-align: middle;
+    margin: 0 1px;
+}
+
+/* Botón de responder */
+.mensaje-reply-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #e5e7eb;
+    border: none;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    color: #383838;
+}
+
+.mensaje-mio .mensaje-reply-btn {
+    left: -64px; /* Más a la izquierda que el botón de opciones */
+}
+
+.mensaje-otro .mensaje-reply-btn {
+    right: -64px; /* Más a la derecha que el botón de opciones */
+}
+
+.mensaje-mio:hover .mensaje-reply-btn,
+.mensaje-otro:hover .mensaje-reply-btn {
+    display: flex;
+}
+
+.mensaje-reply-btn:hover {
+    background-color: #d1d5db;
+}
+
+/* Banner de respuesta */
+.reply-banner {
+    background-color: #f3f4f6;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-left: 4px solid #719177;
+}
+
+.reply-banner-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.reply-banner-content svg {
+    flex-shrink: 0;
+    color: #719177;
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+}
+
+.reply-banner-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.reply-banner-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #719177;
+    margin-bottom: 2px;
+}
+
+.reply-banner-preview {
+    font-size: 13px;
+    color: #667781;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.reply-banner-close {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    color: #667781;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.reply-banner-close:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Mensaje respondido dentro de la burbuja - Estilo Instagram */
+.mensaje-reply-context {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    position: relative;
+    overflow: hidden;
+}
+
+.mensaje-reply-context::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, #719177 0%, #5a7360 100%);
+}
+
+.mensaje-mio .mensaje-reply-context {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.mensaje-mio .mensaje-reply-context::before {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.6) 100%);
+}
+
+.mensaje-reply-context-author {
+    font-weight: 600;
+    margin-bottom: 3px;
+    font-size: 12px;
+    padding-left: 8px;
+}
+
+.mensaje-mio .mensaje-reply-context-author {
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.mensaje-otro .mensaje-reply-context-author {
+    color: #262626;
+}
+
+.mensaje-reply-context-text {
+    opacity: 0.7;
+    font-size: 13px;
+    line-height: 1.3;
+    padding-left: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mensaje-mio .mensaje-reply-context-text {
+    color: rgba(255, 255, 255, 0.85);
 }

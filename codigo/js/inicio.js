@@ -205,12 +205,12 @@ async function handleNotificationClick(notifId) {
     // Si no está leída, marcarla como leída
     if (!notif.leida) {
         try {
+            const formData = new FormData();
+            formData.append('id_notificacion', notifId);
+            
             const response = await fetch('php/marcar-notificacion-leida.php', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ notificacion_id: notifId })
+                body: formData
             });
             
             const data = await response.json();
@@ -238,39 +238,21 @@ async function handleNotificationClick(notifId) {
     // Manejar la acción según el tipo de notificación
     switch(notif.tipo) {
         case 'solicitud_chat':
-            console.log(`Abriendo chat con ${notif.usuario}`);
+            console.log('Abriendo solicitud de chat');
             break;
         case 'oferta':
-            console.log(`Viendo oferta de ${notif.usuario}`);
+            console.log('Viendo oferta');
             break;
         case 'mensaje':
-            console.log(`Abriendo mensaje de ${notif.usuario}`);
+            // Redirigir a mensajes
+            if (notif.id_referencia) {
+                window.location.href = 'php/mensajes.php?conversacion=' + notif.id_referencia;
+            } else {
+                window.location.href = 'php/mensajes.php';
+            }
             break;
         default:
-            console.log(`Manejando notificación: ${notif.titulo}`);
-    }
-}
-
-// Mark all notifications as read
-async function markAllAsRead() {
-    try {
-        const response = await fetch('marcar-notificacion-leida.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ marcar_todas: true })
-        });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-            // Actualizar estado local
-            notificaciones.forEach(notif => notif.leida = true);
-            updateNotificationBadge();
-        }
-    } catch (error) {
-        console.error('Error al marcar todas como leídas:', error);
+            console.log('Manejando notificación:', notif.titulo);
     }
 }
 

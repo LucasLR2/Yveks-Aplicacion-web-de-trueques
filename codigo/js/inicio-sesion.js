@@ -92,15 +92,44 @@ window.addEventListener("DOMContentLoaded", () => {
   const indicadores = [
     document.getElementById('indicador-0'),
     document.getElementById('indicador-1'),
-    document.getElementById('indicador-2')
+    document.getElementById('indicador-2'),
+    document.getElementById('indicador-3')
+  ];
+  const textoTitulo = document.getElementById('texto-titulo');
+  const textoSubtitulo = document.getElementById('texto-subtitulo');
+
+  // Textos para cada diapositiva
+  const textos = [
+    {
+      titulo: "Trueque fácil y sin vueltas",
+      subtitulo: "Intercambiá lo que no usás por lo que necesitás. Sin dinero, solo comunidad."
+    },
+    {
+      titulo: "Descubrí miles de productos",
+      subtitulo: "Navegá las publicaciones y encontrá en segundos lo que buscás."
+    },
+    {
+      titulo: "Publicá y recibí ofertas",
+      subtitulo: "Subí tus productos, ofrecé varios a la vez y decidí si aceptás o no."
+    },
+    {
+      titulo: "Chateá y concretá el trueque",
+      subtitulo: "Coordina detalles directo con otros usuarios gracias al chat integrado."
+    }
   ];
 
   let diapositivaActual = 0;
-  const totalDiapositivas = 3;
+  const totalDiapositivas = 4;
   let intervalo = setInterval(siguienteDiapositiva, 5000);
 
   function actualizarDiapositiva() {
     diapositivas.style.transform = `translateX(-${diapositivaActual * 100}%)`;
+
+    // Actualizar textos
+    if (textoTitulo && textoSubtitulo) {
+      textoTitulo.textContent = textos[diapositivaActual].titulo;
+      textoSubtitulo.textContent = textos[diapositivaActual].subtitulo;
+    }
 
     indicadores.forEach((punto, i) => {
       punto.classList.remove('bg-gray-400');

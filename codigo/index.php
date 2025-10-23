@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Plataforma de trueques y comercio local - descubre, publica e intercambia productos fácilmente.">
-  <title>Tienda Móvil</title>
+  <meta name="description" content="Plataforma de trueques; descubre, publica e intercambia productos fácilmente.">
+  <title>Dreva</title>
+  <link rel="icon" href="recursos/iconos/icon.svg" type="image/svg+xml">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="css/estilos-generales.css">

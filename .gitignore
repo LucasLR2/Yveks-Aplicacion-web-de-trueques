@@ -24,4 +24,5 @@ vendor/
 *.bak
 *.cache
 
-recursos/imagenes/chat
+codigo/recursos/imagenes/chat/
+codigo/recursos/imagenes/productos/

@@ -2,6 +2,14 @@
 -- Ejecutar después de importar la estructura de base de datos
 -- Fecha: 22-10-2025
 
+SET NAMES utf8mb4;
+SET CHARACTER SET utf8mb4;
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
 USE dreva;
 
 -- =============================================================
@@ -175,9 +183,16 @@ INSERT INTO Mensaje (id_mensaje, contenido, f_envio, id_emisor, id_receptor) VAL
 -- PROPUESTAS DE INTERCAMBIO
 -- =============================================================
 INSERT INTO PropuestaIntercambio (id_propuesta, id_prod_solicitado, id_prod_ofrecido, estado, fecha, id_usuario) VALUES
-(1, 2, 1, 'pending', '2025-08-10', 5),
-(2, 4, 3, 'accepted', '2025-07-20', 2),
-(3, 7, 6, 'cancelled', '2025-06-01', 1);
+-- Usuario 5 quiere producto 2 (de usuario 2), ofrece producto 5 (suyo)
+(1, 2, 5, 'pending', '2025-08-10', 5),
+-- Usuario 2 quiere producto 4 (de usuario 4), ofrece producto 2 (suyo)
+(2, 4, 2, 'accepted', '2025-07-20', 2),
+-- Usuario 1 quiere producto 7 (de usuario 7), ofrece producto 1 (suyo)
+(3, 7, 1, 'cancelled', '2025-06-01', 1),
+-- Usuario 3 quiere producto 1 (de usuario 1), ofrece producto 3 (suyo) - RECIBIDA por usuario 1
+(4, 1, 3, 'pending', '2025-10-20', 3),
+-- Usuario 6 quiere producto 1 (de usuario 1), ofrece producto 6 (suyo) - RECIBIDA por usuario 1
+(5, 1, 6, 'accepted', '2025-10-18', 6);
 
 -- =============================================================
 -- VALORACIONES
@@ -274,5 +289,9 @@ INSERT INTO ChatMensaje (id_conversacion, id_emisor, contenido, enviado_en, leid
 -- ACTIVAR FOREIGN KEY CHECKS
 -- =============================================================
 SET FOREIGN_KEY_CHECKS = 1;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
 COMMIT;

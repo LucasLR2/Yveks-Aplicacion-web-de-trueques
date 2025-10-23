@@ -1,3 +1,11 @@
+<?php
+
+session_start();
+if (!isset($_SESSION['correo'])) {
+    header('Location: ../index.php');
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -28,17 +36,17 @@
           <!-- Profile Info -->
           <div class="flex items-center mb-6">
             <div class="relative">
-              <img src="../recursos/imagenes/josegimenez.jpg" alt="José Giménez" class="w-20 h-20 rounded-full object-cover">
+              <img id="mobile-profile-avatar" src="../recursos/imagenes/josegimenez.jpg" alt="Perfil" class="w-20 h-20 rounded-full object-cover">
               <div class="absolute bottom-1 -right-2 w-7 h-7 bg-green rounded-full flex items-center justify-center border-2 border-white shadow-sm">
                 <img src="../recursos/iconos/contorno/interfaz/editar2.svg" alt="Editar" class="w-4 h-4 svg-white">
               </div>
             </div>
             
             <div class="flex flex-col justify-center ml-4">
-              <h1 class="text-lg font-medium text-gray-800 mb-1">José Giménez</h1>
+              <h1 id="mobile-profile-name" class="text-lg font-medium text-gray-800 mb-1">José Giménez</h1>
               <div class="flex items-center text-gray-600">
                 <img src="../recursos/iconos/solido/navegacion/ubicacion.svg" alt="Ubicación" class="w-4 h-4 svg-gray-600 mr-1">
-                <span class="text-sm">Montevideo, Uruguay</span>
+                <span id="mobile-profile-location" class="text-sm">Montevideo, Uruguay</span>
               </div>
             </div>
           </div>
@@ -85,7 +93,7 @@
         <div class="flex items-start space-x-8 mb-8">
           <!-- Profile Image -->
           <div class="relative">
-            <img src="../recursos/imagenes/josegimenez.jpg" alt="José Giménez" class="w-32 h-32 rounded-full object-cover">
+            <img id="desktop-profile-avatar" src="" alt="Perfil" class="w-32 h-32 rounded-full object-cover">
             <div class="absolute bottom-1 right-1 w-10 h-10 bg-green rounded-full flex items-center justify-center border-2 border-white shadow-lg">
               <img src="../recursos/iconos/contorno/interfaz/editar2.svg" alt="Editar" class="w-6 h-6 svg-white">
             </div>
@@ -93,10 +101,10 @@
           
           <!-- Profile Info -->
           <div class="flex-1">
-            <h1 class="text-3xl font-medium text-gray-800 mb-2">José Giménez</h1>
+            <h1 id="desktop-profile-name" class="text-3xl font-medium text-gray-800 mb-2"></h1>
             <div class="flex items-center text-gray-600 mb-6">
               <img src="../recursos/iconos/solido/navegacion/ubicacion.svg" alt="Ubicación" class="w-5 h-5 svg-gray-600 mr-2">
-              <span>Montevideo, Uruguay</span>
+              <span id="desktop-profile-location"></span>
             </div>
             
             <!-- Profile Tabs -->

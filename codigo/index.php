@@ -39,7 +39,6 @@
       </div>
       <!-- Productos recomendados -->
       <div class="px-6 md:px-16 mb-20">
-        <h3 class="text-lg text-gray-800 mb-4">Inspirado en tus intereses</h3>
         <div class="grid grid-cols-2 md:grid-cols-3 gap-3" id="mobile-products">
           <!-- Los productos se generarán dinámicamente -->
         </div>
@@ -69,9 +68,6 @@
 
         <!-- Productos recomendados (desktop) -->
         <div class="mb-12">
-          <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl text-gray-800 mb-6">Inspirado en tus intereses</h2>
-          </div>
           <div class="desktop-grid grid gap-3" id="desktop-products">
             <!-- Productos dinámicos -->
           </div>

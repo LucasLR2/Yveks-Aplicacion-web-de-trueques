@@ -84,9 +84,9 @@
             <div id="carrusel" class="relative w-full h-full overflow-hidden rounded-[20px]">
                 <!-- Slides (sin imagenes aún) -->
                 <div class="flex transition-transform duration-700 ease-in-out w-full items-center" id="diapositivas">
-                    <img src="../" class="w-full flex-shrink-0 object-cover" alt="Imagen de carrusel 1">
-                    <img src="../" class="w-full flex-shrink-0 object-cover" alt="Imagen de carrusel 2">
-                    <img src="../" class="w-full flex-shrink-0 object-cover" alt="Imagen de carrusel 3">
+                    <img src="../recursos/imagenes/log1.jpg" class="w-full flex-shrink-0 object-cover" alt="Imagen de carrusel 1">
+                    <img src="../recursos/imagenes/log2.jpg" class="w-full flex-shrink-0 object-cover" alt="Imagen de carrusel 2">
+                    <img src="../recursos/imagenes/log3.jpg" class="w-full flex-shrink-0 object-cover" alt="Imagen de carrusel 3">
                 </div>
 
                 <!-- Indicadores -->

@@ -3,7 +3,7 @@ include 'php/database.php';
 
 // --- Obtener categorías (MySQLi) ---
 try {
-    $resultado = $conn->query("SELECT nombre, slug, url_imagen FROM categoria ORDER BY nombre");
+    $resultado = $conn->query("SELECT nombre, slug, url_imagen, descripcion FROM categoria ORDER BY nombre");
 
     // Si la consulta fue exitosa
     if ($resultado) {
@@ -51,7 +51,8 @@ ob_start();
     <?php if(!empty($categorias)): ?>
       <?php foreach($categorias as $cat): ?>
         <div class="desktop-category flex items-center space-x-3 px-4 py-3 rounded-lg cursor-pointer hover:bg-gray-50 smooth-transition"
-             onclick="seleccionarCategoriaEscritorio(this, '<?= htmlspecialchars($cat['slug']) ?>')">
+             onclick="seleccionarCategoriaEscritorio(this, '<?= htmlspecialchars($cat['slug']) ?>')"
+             data-descripcion="<?= htmlspecialchars($cat['descripcion'] ?? '') ?>">
           <img src="<?= htmlspecialchars($cat['url_imagen']) ?>" 
                alt="<?= htmlspecialchars($cat['nombre']) ?>" 
                class="w-5 h-5 svg-green">

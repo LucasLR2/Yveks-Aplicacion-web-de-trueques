@@ -1,18 +1,10 @@
--- Base de datos DREVA - Estructura completa actualizada
--- Fecha: 22-10-2025
+-- La base de datos 'dreva' ya es creada por Docker
+-- CREATE DATABASE dreva;
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
+SET NAMES utf8mb4;
+SET CHARACTER SET utf8mb4;
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
--- Crear base de datos
-CREATE DATABASE IF NOT EXISTS `dreva` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `dreva`;
+USE dreva;
 
 -- --------------------------------------------------------
 -- Tabla: Usuario
@@ -58,15 +50,15 @@ CREATE TABLE `categoria` (
 
 -- Insertar categorías predefinidas
 INSERT INTO `categoria` (`nombre`, `slug`, `url_imagen`, `descripcion`) VALUES
-('Tecnología', 'tecnologia', 'recursos/iconos/contorno/dispositivos/procesador.svg', 'Celulares, computadoras, consolas, accesorios y todo tipo de dispositivos electrónicos.'),
-('Hogar', 'hogar', 'recursos/iconos/contorno/dispositivos/sillon.svg', 'Artículos y mobiliario para el hogar, decoración y electrodomésticos.'),
-('Ropa', 'ropa', 'recursos/iconos/contorno/dispositivos/remera.svg', 'Prendas de vestir y calzado para todas las edades y estilos.'),
-('Accesorios', 'accesorios', 'recursos/iconos/contorno/dispositivos/lentes.svg', 'Complementos de moda como lentes, relojes, joyas y más.'),
-('Deportes', 'deportes', 'recursos/iconos/contorno/dispositivos/pelota.svg', 'Equipamiento, indumentaria y artículos deportivos para distintas disciplinas.'),
-('Entretenimiento', 'entretenimiento', 'recursos/iconos/contorno/dispositivos/dado.svg', 'Juegos, música, películas, consolas y pasatiempos en general.'),
-('Mascotas', 'mascotas', 'recursos/iconos/contorno/dispositivos/pata.svg', 'Productos y accesorios para el cuidado y diversión de tus mascotas.'),
-('Herramientas', 'herramientas', 'recursos/iconos/contorno/dispositivos/herramientas.svg', 'Herramientas para el hogar, la construcción y proyectos de bricolaje.'),
-('Servicios', 'servicios', 'recursos/iconos/contorno/dispositivos/servicio.svg', 'Ofrecé o encontrá servicios profesionales, técnicos o personales.');
+('Tecnología', 'tecnologia', 'recursos/iconos/contorno/dispositivos/procesador.svg', 'Dispositivos y electrónicos'),
+('Hogar', 'hogar', 'recursos/iconos/contorno/dispositivos/sillon.svg', 'Muebles y decoración'),
+('Ropa', 'ropa', 'recursos/iconos/contorno/dispositivos/remera.svg', 'Prendas y calzado'),
+('Accesorios', 'accesorios', 'recursos/iconos/contorno/dispositivos/lentes.svg', 'Complementos de moda'),
+('Deportes', 'deportes', 'recursos/iconos/contorno/dispositivos/pelota.svg', 'Equipamiento y actividades'),
+('Entretenimiento', 'entretenimiento', 'recursos/iconos/contorno/dispositivos/dado.svg', 'Juegos y diversión'),
+('Mascotas', 'mascotas', 'recursos/iconos/contorno/dispositivos/pata.svg', 'Cuidado de animales'),
+('Herramientas', 'herramientas', 'recursos/iconos/contorno/dispositivos/herramientas.svg', 'Bricolaje y construcción'),
+('Servicios', 'servicios', 'recursos/iconos/contorno/dispositivos/servicio.svg', 'Profesionales y técnicos');
 
 -- --------------------------------------------------------
 -- Tabla: Producto

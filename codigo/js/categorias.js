@@ -15,12 +15,16 @@ function seleccionarCategoriaEscritorio(elemento, categoria) {
         categoriasSeleccionadas.delete(categoria);
         elemento.classList.remove('bg-gray-100');
         
-        const tarjetaExistente = document.querySelector(`[data-category="${categoria}"]`);
+        // Buscar tarjeta SOLO dentro del grid de categorías seleccionadas, no en toda la página
+        const gridCategorias = document.getElementById('selected-categories');
+        const tarjetaExistente = gridCategorias ? gridCategorias.querySelector(`[data-category="${categoria}"]`) : null;
         if (tarjetaExistente) tarjetaExistente.remove();
 
         if (categoriasSeleccionadas.size === 0) {
             const seccionCategorias = document.querySelector('.categories-section');
-            if (seccionCategorias) seccionCategorias.remove();
+            // Si ya no hay categorías seleccionadas, vaciar el contenido
+            // pero mantener la sección placeholder existente en el DOM
+            if (seccionCategorias) seccionCategorias.innerHTML = '';
         }
 
     } else {
@@ -30,6 +34,7 @@ function seleccionarCategoriaEscritorio(elemento, categoria) {
 
         // Crear sección si no existe
         let seccionCategorias = document.querySelector('.categories-section');
+        
         if (!seccionCategorias) {
             seccionCategorias = document.createElement('div');
             seccionCategorias.className = 'categories-section mb-12';
@@ -41,11 +46,30 @@ function seleccionarCategoriaEscritorio(elemento, categoria) {
             `;
             const seccionBienvenida = document.querySelector('.mb-8');
             if (seccionBienvenida) seccionBienvenida.after(seccionCategorias);
+        } else {
+            // Si existe una sección placeholder en el HTML pero no tiene el contenedor esperado,
+            // inicializar su estructura interna para que funcione desde el primer clic
+            const selectedCategoriesExistente = seccionCategorias.querySelector('#selected-categories');
+            
+            if (!selectedCategoriesExistente) {
+                // Asegurar clase de margen inferior
+                if (!seccionCategorias.classList.contains('mb-12')) {
+                    seccionCategorias.classList.add('mb-12');
+                }
+                seccionCategorias.innerHTML = `
+                    <h2 class="text-2xl text-gray-800 mb-6">Explorar por categoría</h2>
+                    <div class="overflow-x-auto scrollbar-hide">
+                        <div class="flex space-x-4" id="selected-categories"></div>
+                    </div>
+                `;
+            }
         }
 
         // Obtener grid de tarjetas
         const gridCategorias = document.getElementById('selected-categories');
-        const tarjetaExistente = document.querySelector(`[data-category="${categoria}"]`);
+        
+        // Buscar tarjeta SOLO dentro del grid de categorías seleccionadas
+        const tarjetaExistente = gridCategorias ? gridCategorias.querySelector(`[data-category="${categoria}"]`) : null;
 
         // Agregar tarjeta solo si no existe
         if (gridCategorias && !tarjetaExistente) {

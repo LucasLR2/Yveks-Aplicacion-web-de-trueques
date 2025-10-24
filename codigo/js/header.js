@@ -2,7 +2,6 @@
 
 // Funciones del dropdown de configuración
 function showConfigOverlay() {
-    console.log("showConfigOverlay ejecutándose");
     
     let overlay = document.getElementById("config-overlay");
     if (!overlay) {
@@ -20,7 +19,7 @@ function showConfigOverlay() {
             <div class="flex-1 px-6 py-4">
                 <ul class="divide-y divide-gray-200 mt-8">
                     <li>
-                        <button class="w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors">
+                        <button class="config-item w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors" data-action="datos">
                             <div class="flex items-center gap-4">
                                 <img src="${baseURL}recursos/iconos/solido/navegacion/User.svg" alt="Datos personales" class="w-6 h-6">
                                 <span class="text-gray-500 font-normal">Datos personales</span>
@@ -29,7 +28,7 @@ function showConfigOverlay() {
                         </button>
                     </li>
                     <li>
-                        <button class="w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors">
+                        <button class="config-item w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors" data-action="password">
                             <div class="flex items-center gap-4">
                                 <img src="${baseURL}recursos/iconos/solido/interfaz/Key.svg" alt="Cambiar contraseña" class="w-6 h-6">
                                 <span class="text-gray-500 font-normal">Cambiar contraseña</span>
@@ -38,7 +37,7 @@ function showConfigOverlay() {
                         </button>
                     </li>
                     <li>
-                        <button class="w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors">
+                        <button class="config-item w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors" data-action="ayuda">
                             <div class="flex items-center gap-4">
                                 <img src="${baseURL}recursos/iconos/solido/interfaz/Info.svg" alt="Centro de ayuda" class="w-6 h-6">
                                 <span class="text-gray-500 font-normal">Centro de ayuda</span>
@@ -47,7 +46,7 @@ function showConfigOverlay() {
                         </button>
                     </li>
                     <li>
-                        <button class="w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors">
+                        <button class="config-item w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors" data-action="privacidad">
                             <div class="flex items-center gap-4">
                                 <img src="${baseURL}recursos/iconos/solido/interfaz/Lock.svg" alt="Políticas de privacidad" class="w-6 h-6">
                                 <span class="text-gray-500 font-normal">Políticas de privacidad</span>
@@ -56,7 +55,7 @@ function showConfigOverlay() {
                         </button>
                     </li>
                     <li>
-                        <button class="w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors">
+                        <button class="config-item w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors" data-action="logout">
                             <div class="flex items-center gap-4">
                                 <img src="${baseURL}recursos/iconos/solido/interfaz/Logout.svg" alt="Cerrar sesión" class="w-6 h-6">
                                 <span class="text-gray-500 font-normal">Cerrar sesión</span>
@@ -70,19 +69,124 @@ function showConfigOverlay() {
         
         document.body.appendChild(overlay);
 
+        // Botón para cerrar el overlay principal
         document.getElementById("close-config").addEventListener("click", () => {
             overlay.style.display = "none";
+        });
+
+        // Detectar clic en funcionalidades específicos
+        overlay.querySelectorAll(".config-item").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const action = btn.dataset.action;
+                if (action === "ayuda") showHelpOverlay();
+                if (action === "privacidad") showPrivacyOverlay();
+                if (action === "logout") showLogoutConfirmation();
+            });
         });
     } else {
         overlay.style.display = "flex";
     }
 }
 
-function showDropdown() {
-    const menu = document.getElementById('menu');
-    if(menu) menu.classList.toggle('hidden');
+// ================= OVERLAYS SECUNDARIOS =================
+
+// centro de ayuda
+function showHelpOverlay() {
+    const overlay = document.getElementById("config-overlay");
+    if (!overlay) return;
+
+    const configPanelContent = overlay.innerHTML;
+
+    overlay.innerHTML = `
+        <div class="flex items-center px-6 py-4 mt-4">
+            <button id="back-to-config" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors mr-4">
+                <img src="${baseURL}recursos/iconos/solido/navegacion/atras.svg" alt="Volver" class="w-8 h-8">
+            </button>
+            <h2 class="text-lg font-semibold text-gray-900">Centro de Ayuda</h2>
+        </div>
+        <div class="flex-1 overflow-y-auto p-6 modal-scroll">
+            <p class="mb-4">
+                Aquí encontrarás información que las personas comúnmente buscan sobre el uso de la plataforma. 
+                Si no encontrás lo que necesitás, podés escribir a <strong>yveks2025@gmail.com</strong> para recibir asistencia personalizada.
+            </p>
+            <div class="pl-4 space-y-6">
+                <div>
+                    <strong style="color:#719177; font-size:1.1rem;">• Cómo crear una publicación:</strong>
+                    <p>Para crear una publicación, primero hacé clic en el botón <em>Nueva publicación</em>. Luego, seleccioná la categoría adecuada, completá el título y la descripción detallada del producto o servicio, agregá imágenes de calidad y, finalmente, presioná <em>Publicar</em>. Esto hará que tu publicación sea visible para otros usuarios.</p>
+                </div>
+
+                <div>
+                    <strong style="color:#719177; font-size:1.1rem;">• Gestión de tus publicaciones:</strong>
+                    <p>Para editar una publicación, accedé a tu panel de publicaciones, seleccioná la que querés modificar y hacé clic en <em>Editar</em>. Podés cambiar la descripción, el título o las imágenes. Para eliminar una publicación, seleccioná la opción <em>Eliminar</em> y confirmá la acción. También podés pausar temporalmente una publicación si no querés que esté activa.</p>
+                </div>
+
+                <div>
+                    <strong style="color:#719177; font-size:1.1rem;">• Chat y comunicación:</strong>
+                    <p>Para enviar un mensaje a otro usuario, hacé clic en el botón de chat en la publicación o en el perfil del usuario. Podés responder a los mensajes recibidos desde la bandeja de entrada. Las notificaciones te alertarán cuando haya nuevos mensajes para que no pierdas ninguna comunicación.</p>
+                </div>
+
+                <div>
+                    <strong style="color:#719177; font-size:1.1rem;">• Notificaciones:</strong>
+                    <p>Las notificaciones se muestran en el icono correspondiente en el encabezado. Podés revisar los mensajes, respuestas a tus publicaciones y novedades importantes. Haciendo clic en cada notificación, se abrirá el detalle correspondiente.</p>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // volver al menu config
+    document.getElementById("back-to-config").addEventListener("click", () => {
+        overlay.innerHTML = configPanelContent;
+
+        overlay.querySelectorAll(".config-item").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const action = btn.dataset.action;
+                if (action === "ayuda") showHelpOverlay();
+                if (action === "privacidad") showPrivacyOverlay();
+                if (action === "logout") showLogoutConfirmation();
+            });
+        });
+
+        // Botón cerrar configuración
+        document.getElementById("close-config").addEventListener("click", () => {
+            overlay.style.display = "none";
+        });
+    });
 }
 
+// Overlay: Políticas de privacidad
+function showPrivacyOverlay() {
+    const overlay = document.createElement("div");
+    overlay.className = "fixed inset-0 bg-white z-50 flex flex-col";
+
+    overlay.innerHTML = `
+        <div class="flex flex-col px-6 py-4 mt-4">
+            <div class="flex items-center mb-2">
+                <button id="close-privacy" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors mr-4">
+                    <img src="${baseURL}recursos/iconos/solido/navegacion/atras.svg" class="w-8 h-8">
+                </button>
+                <h2 class="text-lg font-semibold text-gray-900">Políticas de privacidad</h2>
+            </div>
+        </div>
+        <div class="flex-1 overflow-y-auto p-6 modal-scroll space-y-4">
+            <p class="text-gray-700 leading-relaxed">
+                Valoramos la <span style="color:#719177; text-decoration: underline;">privacidad</span> y la seguridad de tus datos personales. Toda la información que compartís, como datos de contacto, publicaciones y actividad en la plataforma, es tratada con confidencialidad y utilizada únicamente para mejorar tu experiencia de usuario y ofrecerte servicios personalizados.
+            </p>
+            <p class="text-gray-700 leading-relaxed">
+                Te recomendamos mantener tus credenciales seguras, revisar periódicamente tus <span style="color:#719177; text-decoration: underline;">ajustes de privacidad</span> y ser cuidadoso al compartir información sensible. Si tenés dudas sobre cómo protegemos tus datos o necesitás asistencia, podés contactarnos a <span style="color:#719177; text-decoration: underline;">yveks2025@gmail.com</span>.
+            </p>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    // Botón de volver que cierra el overlay
+    document.getElementById("close-privacy").addEventListener("click", () => overlay.remove());
+}
+
+// Confirmación de cierre de sesión
+function showLogoutConfirmation() {
+    window.location.href = "../php/cerrar-sesion.php"; // Cierra sesión directamente
+}
 
 // ================= EVENTOS DEL DOM =================
 

@@ -81,7 +81,7 @@ function guardarAvatar($imagenBase64, $correo) {
     $imageType = strtolower($type[1]);
     
     // Validar tipos de imagen permitidos
-    $tiposPermitidos = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+    $tiposPermitidos = ['jpg', 'jpeg', 'png', 'webp'];
     if (!in_array($imageType, $tiposPermitidos)) {
         return false;
     }

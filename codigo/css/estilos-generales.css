@@ -443,3 +443,103 @@ html, body {
   width: 12px;
   height: 12px;
 }
+
+/* ========================================
+   ESTILOS COMPACTOS PARA FORMULARIO DE OFERTA
+   ======================================== */
+
+.form-input-compact, .form-select-compact, .form-textarea-compact {
+    width: 100%;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-family: 'Lao Sans Pro', 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #6b7280;
+    background-color: white;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.form-input-compact:focus, .form-select-compact:focus, .form-textarea-compact:focus {
+    border-color: #719177;
+    box-shadow: 0 0 0 2px rgba(113, 145, 119, 0.1);
+    color: #374151;
+}
+
+.form-input-compact::placeholder, .form-textarea-compact::placeholder {
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+/* Select compacto con flecha */
+.form-select-compact {
+    cursor: pointer;
+    padding-right: 36px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239ca3af'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 18px;
+}
+
+.form-select-compact:focus {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23719177'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+}
+
+/* Textarea compacto */
+.form-textarea-compact {
+    resize: vertical;
+    min-height: 70px;
+    line-height: 1.5;
+}
+
+/* Preview de imágenes compacto */
+#preview-container > div {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1.5px solid #e5e7eb;
+    background-color: #f9fafb;
+}
+
+#preview-container button {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: rgba(239, 68, 68, 0.95);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+#preview-container button svg {
+    width: 12px;
+    height: 12px;
+}
+
+/* Responsive para móvil */
+@media (max-width: 1023px) {
+    .offer-view > div {
+        max-width: 100% !important;
+        border-radius: 0 !important;
+        min-height: 100vh;
+    }
+    
+    .offer-view > div > div {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .offer-view .rounded-3xl {
+        border-radius: 0 !important;
+    }
+}

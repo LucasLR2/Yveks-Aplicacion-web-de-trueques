@@ -699,8 +699,259 @@ function initProductDetailMap(coordinates, locationName) {
 
 // Función para hacer oferta
 function hacerOferta(productId) {
-    alert('Funcionalidad de hacer oferta - Producto ID: ' + productId);
+    const producto = productos.find(p => p.id === productId);
+    if (!producto) return;
+    
+    // Guardar vista actual
+    guardarVistaAnterior();
+    
+    // Obtener productos relacionados
+    const productosRelacionados = getRelatedProducts(productId);
+    
+    // HTML del formulario de oferta mejorado
+    const ofertaHTML = `
+        <!-- Formulario de oferta -->
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-4" style="background: linear-gradient(135deg, #719177 0%, #8fa685 100%);">
+            <div class="p-4">
+                <div class="grid lg:grid-cols-2 gap-6 items-stretch">
+                    <!-- Columna izquierda - Imagen del producto (INTACTA) -->
+                    <div class="relative lg:col-span-1 flex items-center justify-center bg-white rounded-2xl overflow-hidden shadow-inner">
+                        <!-- Botón volver en la imagen -->
+                        <button onclick="volverVistaAnterior()" class="absolute left-4 top-4 w-10 h-10 bg-white bg-opacity-90 rounded-full flex items-center justify-center z-10 shadow-md hover:bg-opacity-100 transition-all">
+                            <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                            </svg>
+                        </button>
+                        
+                        <!-- Options button -->
+                        <button class="absolute right-4 top-4 w-10 h-10 bg-white bg-opacity-90 rounded-full flex items-center justify-center z-10 shadow-md hover:bg-opacity-100 transition-all">
+                            <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"></path>
+                            </svg>
+                        </button>
+
+                        <!-- Main image -->
+                        <img src="${producto.imagenes?.[0]?.imagen || 'ruta/placeholder.png'}"
+                            alt="${producto.nombre}"
+                            class="h-full w-auto object-cover" />
+                    </div>
+
+                    <!-- Columna derecha - Formulario con fondo blanco -->
+                    <div class="bg-white rounded-2xl p-6 text-gray-800 space-y-4 flex flex-col justify-center">
+                        <h2 class="text-lg font-semibold text-gray-800">Hacer oferta</h2>
+                        
+                        <form id="form-oferta" class="space-y-4">
+                            <!-- Upload fotos -->
+                            <div class="form-section">
+                                <div class="border-2 border-dashed border-gray-300 rounded-2xl p-6 text-center hover:border-green transition-colors cursor-pointer bg-gray-50" onclick="document.getElementById('file-input-oferta').click()">
+                                    <input type="file" id="file-input-oferta" multiple accept="image/*" class="hidden" onchange="handleFileSelect(event)">
+                                    <svg class="w-8 h-8 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                    </svg>
+                                    <p class="text-gray-500 text-xs font-medium">Adjuntar fotos</p>
+                                </div>
+                                <div id="preview-container" class="mt-3 grid grid-cols-3 gap-2"></div>
+                            </div>
+                            
+                            <!-- Título -->
+                            <div class="form-section">
+                                <input 
+                                    type="text" 
+                                    id="titulo-oferta" 
+                                    placeholder="Título" 
+                                    class="form-input-compact w-full"
+                                    required
+                                >
+                            </div>
+                            
+                            <!-- Estado -->
+                            <div class="form-section">
+                                <div class="relative">
+                                    <select 
+                                        id="estado-oferta" 
+                                        class="form-select-compact w-full"
+                                        required
+                                    >
+                                        <option value="">Estado</option>
+                                        <option value="Nuevo">Nuevo</option>
+                                        <option value="Como nuevo">Como nuevo</option>
+                                        <option value="Usado - Buen estado">Usado - Buen estado</option>
+                                        <option value="Usado - Estado aceptable">Usado - Estado aceptable</option>
+                                        <option value="Para reparar">Para reparar</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- Descripción -->
+                            <div class="form-section">
+                                <textarea 
+                                    id="descripcion-oferta" 
+                                    placeholder="Escribe una descripción" 
+                                    rows="5" 
+                                    class="form-textarea-compact w-full"
+                                    required
+                                ></textarea>
+                            </div>
+                            
+                            <!-- Botones -->
+                            <div class="flex flex-col sm:flex-row gap-2">
+                                <button 
+                                    type="button"
+                                    onclick="enviarOferta(${productId})" 
+                                    class="flex-1 bg-green text-white py-2.5 px-5 rounded-full font-semibold text-sm hover:bg-opacity-90 transition-all"
+                                >
+                                    Enviar oferta
+                                </button>
+                                <button 
+                                    type="button"
+                                    onclick="volverVistaAnterior()" 
+                                    class="flex-1 bg-white text-gray-700 border border-gray-300 py-2.5 px-5 rounded-full font-semibold text-sm hover:bg-gray-50 transition-all"
+                                >
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Productos relacionados -->
+        ${productosRelacionados.length > 0 ? `
+        <div>
+            <h2 class="text-2xl text-black mb-6 mt-6">Productos relacionados</h2>
+            <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4">
+                ${productosRelacionados.map(prod => `
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition-shadow product-card w-full" onclick="openProductDetail(${prod.id})">
+                        <div class="aspect-square bg-gray-200 relative">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <img src="${prod.imagenes[0].imagen}" alt="${prod.nombre}" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                        <div class="p-3">
+                            <h4 class="text-sm font-medium text-gray-800 mb-3">${prod.nombre}</h4>
+                            <div class="flex items-center justify-between mb-1">
+                                <p class="text-base text-green">${prod.estado}</p>
+                                <div class="flex items-center gap-1">
+                                    <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-4 h-4 svg-yellow align-middle">
+                                    <span class="text-base text-gray-500">${prod.calificacion} (${prod.resenas})</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+        ` : ''}
+    `;
+    
+    // Reemplazar vista actual con el formulario
+    reemplazarVistaConDetalle(ofertaHTML);
 }
+
+// Función para manejar la selección de archivos
+function handleFileSelect(event) {
+    const files = event.target.files;
+    const previewContainer = document.getElementById('preview-container');
+    previewContainer.innerHTML = '';
+    
+    Array.from(files).forEach((file, index) => {
+        if (index < 6) { // Máximo 6 fotos
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const div = document.createElement('div');
+                div.className = 'relative aspect-square rounded-lg overflow-hidden border border-gray-200';
+                div.innerHTML = `
+                    <img src="${e.target.result}" class="w-full h-full object-cover">
+                    <button onclick="eliminarFoto(this)" class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                `;
+                previewContainer.appendChild(div);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
+// Función para eliminar foto del preview
+function eliminarFoto(button) {
+    button.parentElement.remove();
+}
+
+// Función para cerrar el modal
+function cerrarModalOferta() {
+    const modal = document.getElementById('modal-oferta');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+// Función para enviar la oferta
+async function enviarOferta(productId) {
+    const titulo = document.getElementById('titulo-oferta').value.trim();
+    const estado = document.getElementById('estado-oferta').value;
+    const descripcion = document.getElementById('descripcion-oferta').value.trim();
+    const fileInput = document.getElementById('file-input-oferta');
+    
+    // Validaciones
+    if (!titulo) {
+        alert('Por favor ingresa un título');
+        return;
+    }
+    if (!estado) {
+        alert('Por favor selecciona un estado');
+        return;
+    }
+    if (!descripcion) {
+        alert('Por favor ingresa una descripción');
+        return;
+    }
+    if (!fileInput.files.length) {
+        alert('Por favor adjunta al menos una foto');
+        return;
+    }
+    
+    // Crear FormData para enviar archivos
+    const formData = new FormData();
+    formData.append('id_producto', productId);
+    formData.append('titulo', titulo);
+    formData.append('estado', estado);
+    formData.append('descripcion', descripcion);
+    
+    // Agregar todas las fotos
+    Array.from(fileInput.files).forEach((file, index) => {
+        formData.append(`fotos[]`, file);
+    });
+    
+    try {
+        const response = await fetch('php/crear-oferta.php', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            alert('¡Oferta enviada exitosamente!');
+            cerrarModalOferta();
+        } else {
+            alert('Error al enviar oferta: ' + (data.message || 'Error desconocido'));
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error al conectar con el servidor');
+    }
+}
+
+// Cerrar modal al presionar ESC
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        cerrarModalOferta();
+    }
+});
 
 // Búsqueda
 function configurarBusqueda() {

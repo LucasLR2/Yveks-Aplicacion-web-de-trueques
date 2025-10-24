@@ -2,150 +2,165 @@
 session_start();
 header('Content-Type: application/json');
 
-// Verificar autenticación
 if (!isset($_SESSION['correo'])) {
-    echo json_encode(['success' => false, 'message' => 'Usuario no autenticado']);
+    echo json_encode(['success' => false, 'message' => 'No hay sesión activa']);
     exit();
 }
 
+require_once 'database.php';
+
 try {
-    require_once 'database.php';
-        
-    // Obtener el ID del usuario desde la sesión
+    // Obtener ID del usuario actual
     $correo = $_SESSION['correo'];
-    $stmt = $conn->prepare("SELECT id_usuario FROM Usuario WHERE correo = ?");
+    $stmt = $conn->prepare("SELECT id_usuario, nombre_comp, img_usuario FROM Usuario WHERE correo = ?");
     $stmt->bind_param("s", $correo);
     $stmt->execute();
     $result = $stmt->get_result();
-    $usuario = $result->fetch_assoc();
-    $stmt->close();
+    $usuario_actual = $result->fetch_assoc();
     
-    if (!$usuario) {
-        echo json_encode(['success' => false, 'message' => 'Usuario no encontrado']);
-        exit();
+    if (!$usuario_actual) {
+        throw new Exception("Usuario no encontrado");
     }
     
-    $id_usuario = $usuario['id_usuario'];
+    $id_usuario_actual = $usuario_actual['id_usuario'];
     
-    // Obtener ofertas RECIBIDAS (donde el usuario es dueño del producto solicitado)
-    $sqlRecibidas = "
-        SELECT 
-            pi.id_propuesta,
-            pi.estado,
-            pi.fecha,
-            p_solicitado.id_producto as id_producto_solicitado,
-            p_solicitado.nombre as nombre_solicitado,
-            p_solicitado.estado as condicion_solicitado,
-            p_ofrecido.id_producto as id_producto_ofrecido,
-            p_ofrecido.nombre as nombre_ofrecido,
-            p_ofrecido.estado as condicion_ofrecido,
-            u_oferente.id_usuario as id_oferente,
-            u_oferente.nombre_comp as nombre_oferente,
-            (SELECT url_imagen FROM ImagenProducto WHERE id_producto = p_solicitado.id_producto LIMIT 1) as imagen_solicitado,
-            (SELECT url_imagen FROM ImagenProducto WHERE id_producto = p_ofrecido.id_producto LIMIT 1) as imagen_ofrecido
-        FROM PropuestaIntercambio pi
-        INNER JOIN Producto p_solicitado ON pi.id_prod_solicitado = p_solicitado.id_producto
-        INNER JOIN Producto p_ofrecido ON pi.id_prod_ofrecido = p_ofrecido.id_producto
-        INNER JOIN Publica pub_solicitado ON p_solicitado.id_producto = pub_solicitado.id_producto
-        INNER JOIN Publica pub_ofrecido ON p_ofrecido.id_producto = pub_ofrecido.id_producto
-        INNER JOIN Usuario u_oferente ON pub_ofrecido.id_usuario = u_oferente.id_usuario
-        WHERE pub_solicitado.id_usuario = ?
-        AND pi.id_usuario = u_oferente.id_usuario
-        ORDER BY pi.fecha DESC
-    ";
+    // Determinar qué tipo de ofertas obtener
+    $tipo = isset($_GET['tipo']) ? $_GET['tipo'] : 'recibidas';
     
-    $stmt = $conn->prepare($sqlRecibidas);
-    $stmt->bind_param("i", $id_usuario);
+    $ofertas = [];
+    
+    if ($tipo === 'recibidas') {
+        // OFERTAS RECIBIDAS: Ofertas que otros hicieron por MIS productos
+        $query = "SELECT 
+                    pi.id_propuesta,
+                    pi.titulo_oferta,
+                    pi.descripcion_oferta,
+                    pi.estado_producto_oferta,
+                    pi.imagenes_oferta,
+                    pi.estado,
+                    pi.fecha,
+                    p.id_producto,
+                    p.nombre as producto_solicitado,
+                    u.id_usuario as id_oferente,
+                    u.nombre_comp as nombre_oferente,
+                    u.img_usuario as avatar_oferente,
+                    (SELECT url_imagen FROM ImagenProducto WHERE id_producto = p.id_producto LIMIT 1) as imagen_producto,
+                    (SELECT COALESCE(ROUND(AVG(v2.puntuacion), 1), 0) 
+                     FROM Valoracion v2 
+                     WHERE v2.id_usuario_receptor = u.id_usuario) as rating,
+                    (SELECT COUNT(v2.id_valoracion) 
+                     FROM Valoracion v2 
+                     WHERE v2.id_usuario_receptor = u.id_usuario) as reviews
+                  FROM PropuestaIntercambio pi
+                  INNER JOIN Producto p ON pi.id_prod_solicitado = p.id_producto
+                  INNER JOIN Publica pub ON p.id_producto = pub.id_producto
+                  INNER JOIN Usuario u ON pi.id_usuario = u.id_usuario
+                  WHERE pub.id_usuario = ? AND pi.id_usuario != ?
+                  ORDER BY pi.fecha DESC";
+        
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ii", $id_usuario_actual, $id_usuario_actual);
+        
+    } else {
+        // OFERTAS HECHAS: Ofertas que YO hice por productos de otros
+        $query = "SELECT 
+                    pi.id_propuesta,
+                    pi.titulo_oferta,
+                    pi.descripcion_oferta,
+                    pi.estado_producto_oferta,
+                    pi.imagenes_oferta,
+                    pi.estado,
+                    pi.fecha,
+                    p.id_producto,
+                    p.nombre as producto_solicitado,
+                    u.id_usuario as id_dueno,
+                    u.nombre_comp as nombre_dueno,
+                    u.img_usuario as avatar_dueno,
+                    (SELECT url_imagen FROM ImagenProducto WHERE id_producto = p.id_producto LIMIT 1) as imagen_producto,
+                    (SELECT COALESCE(ROUND(AVG(v2.puntuacion), 1), 0) 
+                     FROM Valoracion v2 
+                     WHERE v2.id_usuario_receptor = u.id_usuario) as rating,
+                    (SELECT COUNT(v2.id_valoracion) 
+                     FROM Valoracion v2 
+                     WHERE v2.id_usuario_receptor = u.id_usuario) as reviews
+                  FROM PropuestaIntercambio pi
+                  INNER JOIN Producto p ON pi.id_prod_solicitado = p.id_producto
+                  INNER JOIN Publica pub ON p.id_producto = pub.id_producto
+                  INNER JOIN Usuario u ON pub.id_usuario = u.id_usuario
+                  WHERE pi.id_usuario = ?
+                  ORDER BY pi.fecha DESC";
+        
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $id_usuario_actual);
+    }
+    
     $stmt->execute();
     $result = $stmt->get_result();
     
-    $recibidas = [];
     while ($row = $result->fetch_assoc()) {
-        // Ajustar ruta de imagen (agregar ../ porque estamos en php/)
-        $imagenSolicitado = $row['imagen_solicitado'] ? '../' . $row['imagen_solicitado'] : '../recursos/imagenes/default.jpg';
-        $imagenOfrecido = $row['imagen_ofrecido'] ? '../' . $row['imagen_ofrecido'] : '../recursos/imagenes/default.jpg';
+        // Decodificar JSON de imágenes
+        $imagenes = json_decode($row['imagenes_oferta'], true);
         
-        $recibidas[] = [
-            'id' => $row['id_propuesta'],
-            'productId' => $row['id_producto_solicitado'],
-            'product' => $row['nombre_solicitado'],
-            'condition' => $row['condicion_solicitado'],
-            'productImage' => $imagenSolicitado,
-            'offeredProductId' => $row['id_producto_ofrecido'],
-            'offeredProduct' => $row['nombre_ofrecido'],
-            'offeredProductImage' => $imagenOfrecido,
-            'buyerId' => $row['id_oferente'],
-            'buyer' => $row['nombre_oferente'],
-            'buyerAvatar' => strtoupper(substr($row['nombre_oferente'], 0, 2)),
-            'status' => $row['estado'],
-            'date' => $row['fecha']
-        ];
-    }
-    $stmt->close();
-    
-    // Obtener ofertas HECHAS (donde el usuario es quien hace la oferta)
-    $sqlHechas = "
-        SELECT 
-            pi.id_propuesta,
-            pi.estado,
-            pi.fecha,
-            p_solicitado.id_producto as id_producto_solicitado,
-            p_solicitado.nombre as nombre_solicitado,
-            p_solicitado.estado as condicion_solicitado,
-            p_ofrecido.id_producto as id_producto_ofrecido,
-            p_ofrecido.nombre as nombre_ofrecido,
-            p_ofrecido.estado as condicion_ofrecido,
-            u_dueno.id_usuario as id_dueno,
-            u_dueno.nombre_comp as nombre_dueno,
-            (SELECT url_imagen FROM ImagenProducto WHERE id_producto = p_solicitado.id_producto LIMIT 1) as imagen_solicitado,
-            (SELECT url_imagen FROM ImagenProducto WHERE id_producto = p_ofrecido.id_producto LIMIT 1) as imagen_ofrecido
-        FROM PropuestaIntercambio pi
-        INNER JOIN Producto p_solicitado ON pi.id_prod_solicitado = p_solicitado.id_producto
-        INNER JOIN Producto p_ofrecido ON pi.id_prod_ofrecido = p_ofrecido.id_producto
-        INNER JOIN Publica pub_solicitado ON p_solicitado.id_producto = pub_solicitado.id_producto
-        INNER JOIN Publica pub_ofrecido ON p_ofrecido.id_producto = pub_ofrecido.id_producto
-        INNER JOIN Usuario u_dueno ON pub_solicitado.id_usuario = u_dueno.id_usuario
-        WHERE pub_ofrecido.id_usuario = ?
-        AND pi.id_usuario = ?
-        ORDER BY pi.fecha DESC
-    ";
-    
-    $stmt = $conn->prepare($sqlHechas);
-    $stmt->bind_param("ii", $id_usuario, $id_usuario);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    
-    $hechas = [];
-    while ($row = $result->fetch_assoc()) {
-        // Ajustar ruta de imagen (agregar ../ porque estamos en php/)
-        $imagenSolicitado = $row['imagen_solicitado'] ? '../' . $row['imagen_solicitado'] : '../recursos/imagenes/default.jpg';
-        $imagenOfrecido = $row['imagen_ofrecido'] ? '../' . $row['imagen_ofrecido'] : '../recursos/imagenes/default.jpg';
+        // Calcular tiempo transcurrido
+        $fecha = new DateTime($row['fecha']);
+        $ahora = new DateTime();
+        $diferencia = $ahora->diff($fecha);
         
-        $hechas[] = [
-            'id' => $row['id_propuesta'],
-            'productId' => $row['id_producto_solicitado'],
-            'product' => $row['nombre_solicitado'],
-            'condition' => $row['condicion_solicitado'],
-            'productImage' => $imagenSolicitado,
-            'offeredProductId' => $row['id_producto_ofrecido'],
-            'offeredProduct' => $row['nombre_ofrecido'],
-            'offeredProductImage' => $imagenOfrecido,
-            'sellerId' => $row['id_dueno'],
-            'seller' => $row['nombre_dueno'],
-            'sellerAvatar' => strtoupper(substr($row['nombre_dueno'], 0, 2)),
-            'status' => $row['estado'],
-            'date' => $row['fecha']
+        if ($diferencia->days > 0) {
+            $tiempo = $diferencia->days . ' día' . ($diferencia->days > 1 ? 's' : '');
+        } elseif ($diferencia->h > 0) {
+            $tiempo = $diferencia->h . ' hora' . ($diferencia->h > 1 ? 's' : '');
+        } elseif ($diferencia->i > 0) {
+            $tiempo = $diferencia->i . ' minuto' . ($diferencia->i > 1 ? 's' : '');
+        } else {
+            $tiempo = 'Justo ahora';
+        }
+        
+        $oferta = [
+            'id_propuesta' => $row['id_propuesta'],
+            'titulo' => $row['titulo_oferta'],
+            'descripcion' => $row['descripcion_oferta'],
+            'estado_producto' => $row['estado_producto_oferta'],
+            'imagenes' => $imagenes,
+            'estado' => $row['estado'],
+            'fecha' => $row['fecha'],
+            'tiempo' => $tiempo,
+            'producto_solicitado' => $row['producto_solicitado'],
+            'imagen_producto' => $row['imagen_producto'],
+            'rating' => $row['rating'] > 0 ? $row['rating'] : null,
+            'reviews' => $row['reviews']
         ];
+        
+        // Agregar datos según el tipo
+        if ($tipo === 'recibidas') {
+            $oferta['oferente'] = [
+                'id' => $row['id_oferente'],
+                'nombre' => $row['nombre_oferente'],
+                'avatar' => $row['avatar_oferente'] ?: 'recursos/iconos/avatar.svg'
+            ];
+        } else {
+            $oferta['dueno'] = [
+                'id' => $row['id_dueno'],
+                'nombre' => $row['nombre_dueno'],
+                'avatar' => $row['avatar_dueno'] ?: 'recursos/iconos/avatar.svg'
+            ];
+        }
+        
+        $ofertas[] = $oferta;
     }
-    $stmt->close();
     
     echo json_encode([
         'success' => true,
-        'received' => $recibidas,
-        'made' => $hechas
+        'ofertas' => $ofertas,
+        'tipo' => $tipo
     ]);
     
 } catch (Exception $e) {
-    echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+    echo json_encode([
+        'success' => false,
+        'message' => $e->getMessage()
+    ]);
 }
+
+$conn->close();
 ?>

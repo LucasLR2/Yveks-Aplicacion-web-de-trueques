@@ -1,10 +1,19 @@
--- La base de datos 'dreva' ya es creada por Docker
--- CREATE DATABASE dreva;
+-- Base de datos DREVA - Estructura completa actualizada
+-- Fecha: 24-10-2025
+-- Modificado: Sistema de ofertas integrado
 
-SET NAMES utf8mb4;
-SET CHARACTER SET utf8mb4;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
-USE dreva;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+-- Crear base de datos
+CREATE DATABASE IF NOT EXISTS `dreva` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `dreva`;
 
 -- --------------------------------------------------------
 -- Tabla: Usuario
@@ -50,15 +59,15 @@ CREATE TABLE `categoria` (
 
 -- Insertar categorías predefinidas
 INSERT INTO `categoria` (`nombre`, `slug`, `url_imagen`, `descripcion`) VALUES
-('Tecnología', 'tecnologia', 'recursos/iconos/contorno/dispositivos/procesador.svg', 'Dispositivos y electrónicos'),
-('Hogar', 'hogar', 'recursos/iconos/contorno/dispositivos/sillon.svg', 'Muebles y decoración'),
-('Ropa', 'ropa', 'recursos/iconos/contorno/dispositivos/remera.svg', 'Prendas y calzado'),
-('Accesorios', 'accesorios', 'recursos/iconos/contorno/dispositivos/lentes.svg', 'Complementos de moda'),
-('Deportes', 'deportes', 'recursos/iconos/contorno/dispositivos/pelota.svg', 'Equipamiento y actividades'),
-('Entretenimiento', 'entretenimiento', 'recursos/iconos/contorno/dispositivos/dado.svg', 'Juegos y diversión'),
-('Mascotas', 'mascotas', 'recursos/iconos/contorno/dispositivos/pata.svg', 'Cuidado de animales'),
-('Herramientas', 'herramientas', 'recursos/iconos/contorno/dispositivos/herramientas.svg', 'Bricolaje y construcción'),
-('Servicios', 'servicios', 'recursos/iconos/contorno/dispositivos/servicio.svg', 'Profesionales y técnicos');
+('Tecnología', 'tecnologia', 'recursos/iconos/contorno/dispositivos/procesador.svg', 'Celulares, computadoras, consolas, accesorios y todo tipo de dispositivos electrónicos.'),
+('Hogar', 'hogar', 'recursos/iconos/contorno/dispositivos/sillon.svg', 'Artículos y mobiliario para el hogar, decoración y electrodomésticos.'),
+('Ropa', 'ropa', 'recursos/iconos/contorno/dispositivos/remera.svg', 'Prendas de vestir y calzado para todas las edades y estilos.'),
+('Accesorios', 'accesorios', 'recursos/iconos/contorno/dispositivos/lentes.svg', 'Complementos de moda como lentes, relojes, joyas y más.'),
+('Deportes', 'deportes', 'recursos/iconos/contorno/dispositivos/pelota.svg', 'Equipamiento, indumentaria y artículos deportivos para distintas disciplinas.'),
+('Entretenimiento', 'entretenimiento', 'recursos/iconos/contorno/dispositivos/dado.svg', 'Juegos, música, películas, consolas y pasatiempos en general.'),
+('Mascotas', 'mascotas', 'recursos/iconos/contorno/dispositivos/pata.svg', 'Productos y accesorios para el cuidado y diversión de tus mascotas.'),
+('Herramientas', 'herramientas', 'recursos/iconos/contorno/dispositivos/herramientas.svg', 'Herramientas para el hogar, la construcción y proyectos de bricolaje.'),
+('Servicios', 'servicios', 'recursos/iconos/contorno/dispositivos/servicio.svg', 'Ofrecé o encontrá servicios profesionales, técnicos o personales.');
 
 -- --------------------------------------------------------
 -- Tabla: Producto
@@ -90,15 +99,19 @@ CREATE TABLE `ImagenProducto` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
--- Tabla: PropuestaIntercambio
+-- Tabla: PropuestaIntercambio (MODIFICADA PARA OFERTAS)
 -- --------------------------------------------------------
 CREATE TABLE `PropuestaIntercambio` (
     `id_propuesta` INT NOT NULL AUTO_INCREMENT,
     `id_prod_solicitado` INT DEFAULT NULL,
     `id_prod_ofrecido` INT DEFAULT NULL,
-    `estado` VARCHAR(50) DEFAULT NULL,
-    `fecha` DATE DEFAULT NULL,
     `id_usuario` INT DEFAULT NULL,
+    `titulo_oferta` VARCHAR(255) DEFAULT NULL,
+    `descripcion_oferta` TEXT DEFAULT NULL,
+    `estado_producto_oferta` VARCHAR(50) DEFAULT NULL,
+    `imagenes_oferta` JSON DEFAULT NULL,
+    `estado` ENUM('pendiente', 'aceptada', 'rechazada', 'cancelada') DEFAULT 'pendiente',
+    `fecha` DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id_propuesta`),
     KEY `id_prod_solicitado` (`id_prod_solicitado`),
     KEY `id_prod_ofrecido` (`id_prod_ofrecido`),
@@ -219,8 +232,8 @@ CREATE TABLE `Notificacion` (
     `tipo` VARCHAR(50) DEFAULT NULL,
     `titulo` VARCHAR(100) DEFAULT NULL,
     `descripcion` VARCHAR(255) DEFAULT NULL,
-    `fecha` DATE DEFAULT NULL,
-    `leida` TINYINT(1) DEFAULT NULL,
+    `fecha` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `leida` TINYINT(1) DEFAULT 0,
     `id_usuario` INT DEFAULT NULL,
     `id_referencia` INT DEFAULT NULL,
     `id_conversacion` INT DEFAULT NULL,

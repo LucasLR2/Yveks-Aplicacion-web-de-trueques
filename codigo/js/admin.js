@@ -418,6 +418,8 @@ function initAdmin() {
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Temperatura card removed (moved to header) -->
                 </div>
                 
                 <!-- Gráficas -->

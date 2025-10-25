@@ -31,11 +31,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
       
-      if (!avatarData.value) {
-        mostrarAlerta('Por favor selecciona una imagen de perfil.', form);
-        return;
-      }
-      
       const data = new FormData(form);
       
       fetch('actualizar-perfil.php', {
@@ -81,14 +76,9 @@ function handleAvatarUpload(event, version) {
     const img = new Image();
     
     img.onload = function() {
-      // Validar dimensiones (mínimo 50x50, máximo 512x512)
+      // Validar dimensiones (mínimo 50x50)
       if (img.width < 50 || img.height < 50) {
         mostrarAlerta('La imagen es demasiado pequeña. Tamaño mínimo: 50x50 píxeles.', null);
-        return;
-      }
-      
-      if (img.width > 512 || img.height > 512) {
-        mostrarAlerta('La imagen es demasiado grande. Tamaño máximo: 512x512 píxeles.', null);
         return;
       }
       

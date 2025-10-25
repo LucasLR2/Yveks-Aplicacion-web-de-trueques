@@ -241,7 +241,9 @@ async function handleNotificationClick(notifId) {
             console.log('Abriendo solicitud de chat');
             break;
         case 'oferta':
-            console.log('Viendo oferta');
+            if (notif.tipo === 'oferta' || notif.tipo === 'oferta_aceptada' || notif.tipo === 'oferta_cancelada') {
+                window.location.href =  'php/ofertas.php';
+            }
             break;
         case 'mensaje':
             // Redirigir a mensajes

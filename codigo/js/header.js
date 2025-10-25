@@ -271,7 +271,6 @@ function actualizarBadges(notificaciones) {
     }
 }
 
-/// Marcar como leída y redirigir
 async function marcarComoLeida(idNotificacion) {
     try {
         console.log('🔵 Marcando notificación:', idNotificacion);
@@ -286,6 +285,26 @@ async function marcarComoLeida(idNotificacion) {
             const notif = data.notificaciones.find(n => n.id === idNotificacion);
             console.log('🔵 Notificación encontrada:', notif);
             
+            if (!notif) {
+                console.error('❌ Notificación no encontrada');
+                return;
+            }
+            
+            // Determinar URL de redirección ANTES de marcar como leída
+            let urlRedireccion = null;
+            
+            if (notif.tipo === 'mensaje') {
+                console.log('🔵 Tipo: Mensaje, id_referencia:', notif.id_referencia);
+                if (notif.id_referencia) {
+                    urlRedireccion = baseURL + 'php/mensajes.php?conversacion=' + notif.id_referencia;
+                } else {
+                    urlRedireccion = baseURL + 'php/mensajes.php';
+                }
+            } else if (notif.tipo === 'oferta' || notif.tipo === 'oferta_aceptada' || notif.tipo === 'oferta_cancelada') {
+                console.log('🔵 Tipo: Oferta');
+                urlRedireccion = baseURL + 'php/ofertas.php';
+            }
+            
             // Marcar como leída
             const formData = new FormData();
             formData.append('id_notificacion', idNotificacion);
@@ -295,17 +314,15 @@ async function marcarComoLeida(idNotificacion) {
                 body: formData
             });
             
-            // Recargar notificaciones
-            await cargarNotificaciones();
+            console.log('✅ Notificación marcada como leída');
             
-            // Si es un mensaje, redirigir con el ID de conversación
-            if (notif && notif.tipo === 'mensaje') {
-                console.log('🔵 Redirigiendo a conversación:', notif.id_referencia);
-                if (notif.id_referencia) {
-                    window.location.href = baseURL + 'php/mensajes.php?conversacion=' + notif.id_referencia;
-                } else {
-                    window.location.href = baseURL + 'php/mensajes.php';
-                }
+            // Redirigir si corresponde
+            if (urlRedireccion) {
+                console.log('🔵 Redirigiendo a:', urlRedireccion);
+                window.location.href = urlRedireccion;
+            } else {
+                // Si no hay redirección, solo recargar notificaciones
+                await cargarNotificaciones();
             }
         }
         

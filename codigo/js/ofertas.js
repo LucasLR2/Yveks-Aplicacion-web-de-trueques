@@ -4,7 +4,7 @@ let tipoActual = 'received'; // 'received' o 'made'
 
 // Cargar ofertas al iniciar
 document.addEventListener('DOMContentLoaded', function() {
-    cargarOfertas('received');
+    cargarOfertas('recibidas');
 });
 
 // Función para cambiar tipo de oferta
@@ -17,8 +17,7 @@ function switchOfferType(type, element) {
     
     // Cargar ofertas del tipo seleccionado
     tipoActual = type;
-    const tipoAPI = type === 'received' ? 'recibidas' : 'hechas';
-    cargarOfertas(tipoAPI);
+    cargarOfertas(type);
 }
 
 // Función para cargar ofertas desde el servidor

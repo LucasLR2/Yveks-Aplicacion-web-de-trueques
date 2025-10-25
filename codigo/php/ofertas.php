@@ -47,10 +47,10 @@ if (!isset($_SESSION['correo'])) {
                     <h1 class="text-2xl text-black mb-4">Ofertas</h1>
                     <!-- Switch de ofertas desktop -->
                     <div class="switch-button flex mb-6">
-                        <div class="switch-option active" onclick="switchOfferType('received', this)">
+                        <div class="switch-option active" onclick="switchOfferType('recibidas', this)">
                             Recibidas
                         </div>
-                        <div class="switch-option" onclick="switchOfferType('made', this)">
+                        <div class="switch-option" onclick="switchOfferType('hechas', this)">
                             Hechas
                         </div>
                     </div>
@@ -72,6 +72,33 @@ if (!isset($_SESSION['correo'])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/botui/0.2.1/botui.min.js"></script>
     <script src="../js/ofertas.js"></script>
     <script src="../js/principal.js"></script>
+    
+    <!-- Script para activar tab según notificación -->
+    <script>
+        // Detectar si viene desde notificación y activar tab correspondiente
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const tipo = urlParams.get('tipo');
+            
+            if (tipo === 'recibidas' || tipo === 'hechas') {
+                // Activar el tab correcto
+                const tipoSwitch = tipo;
+                const buttons = document.querySelectorAll('.switch-option');
+                
+                buttons.forEach(btn => {
+                    btn.classList.remove('active');
+                    if ((tipoSwitch === 'recibidas' && btn.textContent.trim() === 'Recibidas') ||
+                        (tipoSwitch === 'hechas' && btn.textContent.trim() === 'Hechas')) {
+                        btn.classList.add('active');
+                    }
+                });
+                
+                // Cargar ofertas del tipo correcto
+                cargarOfertas(tipo);
+            }
+        });
+    </script>
+</body>
 </body>
 
 </html>

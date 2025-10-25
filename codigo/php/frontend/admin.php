@@ -129,9 +129,9 @@ $userInitials = getInitials($userName);
                         <div class="relative">
                             <div id="userProfileBtn" class="flex items-center space-x-3 cursor-pointer group">
                                 <?php if ($userAvatar): ?>
-                                    <img src="<?php echo htmlspecialchars($userAvatar); ?>" alt="<?php echo htmlspecialchars($userName); ?>" class="w-10 h-10 rounded-full object-cover">
+                                    <img src="<?php echo htmlspecialchars($userAvatar); ?>" alt="<?php echo htmlspecialchars($userName); ?>" class="w-10 h-10 rounded-full object-contain bg-gray-100">
                                 <?php else: ?>
-                                    <div class="user-avatar"><?php echo $userInitials; ?></div>
+                                    <img src="../../recursos/iconos/avatar.svg" alt="<?php echo htmlspecialchars($userName); ?>" class="w-10 h-10 rounded-full object-contain bg-gray-100">
                                 <?php endif; ?>
                                 <div class="flex items-center space-x-1">
                                     <span class="text-gray-700 font-medium"><?php echo htmlspecialchars($userName); ?></span>
@@ -144,9 +144,9 @@ $userInitials = getInitials($userName);
                                 <div class="p-4 border-b border-gray-200">
                                     <div class="flex items-center space-x-3">
                                         <?php if ($userAvatar): ?>
-                                            <img src="<?php echo htmlspecialchars($userAvatar); ?>" alt="<?php echo htmlspecialchars($userName); ?>" class="w-12 h-12 rounded-full object-cover">
+                                            <img src="<?php echo htmlspecialchars($userAvatar); ?>" alt="<?php echo htmlspecialchars($userName); ?>" class="w-12 h-12 rounded-full object-contain bg-gray-100">
                                         <?php else: ?>
-                                            <div class="user-avatar text-lg"><?php echo $userInitials; ?></div>
+                                            <img src="../../recursos/iconos/avatar.svg" alt="<?php echo htmlspecialchars($userName); ?>" class="w-12 h-12 rounded-full object-contain bg-gray-100">
                                         <?php endif; ?>
                                         <div class="flex-1 min-w-0">
                                             <p class="text-sm font-semibold text-gray-900 truncate"><?php echo htmlspecialchars($userName); ?></p>

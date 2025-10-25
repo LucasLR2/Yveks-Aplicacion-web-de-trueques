@@ -56,6 +56,8 @@ $userInitials = getInitials($userName);
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../../css/admin.css">
     <link rel="stylesheet" href="../../css/estilos-generales.css">
+    <!-- jQuery (required for dashboard temperature AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script>
             window.__userRole = <?php echo json_encode($role ?: ''); ?>;
         </script>
@@ -114,6 +116,15 @@ $userInitials = getInitials($userName);
                 <div class="flex items-center justify-between">
                     <h2 class="text-2xl text-gray-800">Resumen</h2>
                     <div class="flex items-center space-x-4">
+                        <!-- Temperatura en header (se actualizará vía JS) -->
+                        <div id="header-temperatura" class="hidden items-center space-x-3 text-sm text-gray-700 mr-4">
+                            <div id="header-temperatura-icon" class="text-2xl">☀️</div>
+                            <div class="flex flex-col leading-none">
+                                <span class="valor">Cargando...</span>
+                                <span id="header-temperatura-city" class="text-xs text-gray-500">--</span>
+                            </div>
+                        </div>
+
                         <!-- User Profile -->
                         <div class="relative">
                             <div id="userProfileBtn" class="flex items-center space-x-3 cursor-pointer group">
@@ -389,6 +400,7 @@ $userInitials = getInitials($userName);
     </script>
     
     <script src="../../js/admin.js"></script>
+    <script src="../../js/dashboard.js"></script>
 </body>
 
 </html>

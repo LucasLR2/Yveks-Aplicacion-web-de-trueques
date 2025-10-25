@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+  api-clima:
+    build: .
+    container_name: api-clima
+    ports:
+      - "8082:80"      # Puerto de la API
+    volumes:
+      - ./src:/var/www/html

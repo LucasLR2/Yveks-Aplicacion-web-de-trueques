@@ -1,55 +1,73 @@
+# Versión de Docker Compose utilizada
 version: '3.8'
 
+# Definición de servicios (contenedores) que componen la aplicación
 services:
+  
+  # Servicio Web - Servidor Apache con PHP
   web:
-    build: .
-    container_name: yveks_web
+    build: .  # Construye la imagen usando el Dockerfile del directorio actual
+    container_name: yveks_web  # Nombre identificador del contenedor
     ports:
-      - "8080:80"
+      - "8080:80"  # Mapeo de puertos: Puerto_Host:Puerto_Contenedor
+                   # Accesible desde el host en el puerto 8080
     volumes:
-      - .:/var/www/html
+      - .:/var/www/html  # Monta el directorio actual en /var/www/html del contenedor
+                         # Permite ver cambios en tiempo real sin reconstruir
     depends_on:
-      - db
+      - db  # Indica que este servicio depende del servicio 'db'
+            # Docker iniciará primero el contenedor de base de datos
     networks:
-      - yveks_network
+      - yveks_network  # Conecta este contenedor a la red personalizada
 
+  # Servicio de Base de Datos - MySQL 8.0
   db:
-    image: mysql:8.0
-    container_name: yveks_db
-    restart: always
-    command: >
-      --default-authentication-plugin=mysql_native_password
-      --character-set-server=utf8mb4
-      --collation-server=utf8mb4_unicode_ci
-      --init-connect='SET NAMES utf8mb4'
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: dreva
-      MYSQL_USER: usuario
-      MYSQL_PASSWORD: clave
+    image: mysql:8.0  # Utiliza la imagen oficial de MySQL versión 8.0
+    container_name: yveks_db  # Nombre identificador del contenedor
+    restart: always  # Política de reinicio: siempre reiniciar si el contenedor se detiene
+    command: >  # Comandos de configuración al iniciar MySQL
+      --default-authentication-plugin=mysql_native_password  # Plugin de autenticación nativo
+      --character-set-server=utf8mb4  # Configuración de charset UTF-8 completo
+      --collation-server=utf8mb4_unicode_ci  # Ordenamiento Unicode case-insensitive
+      --init-connect='SET NAMES utf8mb4'  # Configuración inicial para cada conexión
+    environment:  # Variables de entorno para configurar MySQL
+      MYSQL_ROOT_PASSWORD: root  # Contraseña del usuario root
+      MYSQL_DATABASE: dreva  # Base de datos a crear automáticamente
+      MYSQL_USER: usuario  # Usuario adicional a crear
+      MYSQL_PASSWORD: clave  # Contraseña del usuario adicional
     volumes:
-      - db_data:/var/lib/mysql
-      - ./BD/intercambio.sql:/docker-entrypoint-initdb.d/01-intercambio.sql
+      - db_data:/var/lib/mysql  # Volumen persistente para datos de MySQL
+                                # Los datos persisten incluso si el contenedor se elimina
+      - ./BD/intercambio.sql:/docker-entrypoint-initdb.d/01-intercambio.sql  
+        # Monta el script de estructura de BD
+        # Se ejecuta automáticamente al crear el contenedor (solo la primera vez)
       - ./BD/seed_intercambio.sql:/docker-entrypoint-initdb.d/02-seed_intercambio.sql
+        # Monta el script de datos de prueba
+        # El prefijo numérico (01-, 02-) garantiza el orden de ejecución
     networks:
-      - yveks_network
+      - yveks_network  # Conecta este contenedor a la red personalizada
 
+  # Servicio phpMyAdmin - Interfaz web para administrar MySQL
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: yveks_phpmyadmin
+    image: phpmyadmin/phpmyadmin  # Imagen oficial de phpMyAdmin
+    container_name: yveks_phpmyadmin  # Nombre identificador del contenedor
     ports:
-      - "8081:80"
-    environment:
-      PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: root
+      - "8081:80"  # Mapeo de puertos: accesible desde el host en el puerto 8081
+    environment:  # Variables de entorno para configurar phpMyAdmin
+      PMA_HOST: db  # Nombre del servicio de base de datos al que se conectará
+      MYSQL_ROOT_PASSWORD: root  # Contraseña root para acceso administrativo
     depends_on:
-      - db
+      - db  # Depende del servicio de base de datos
     networks:
-      - yveks_network
+      - yveks_network  # Conecta este contenedor a la red personalizada
 
+# Definición de volúmenes nombrados
 volumes:
-  db_data:
+  db_data:  # Volumen para persistencia de datos de MySQL
+            # Almacena los datos de la base de datos de forma permanente
 
+# Definición de redes personalizadas
 networks:
-  yveks_network:
-    driver: bridge
+  yveks_network:  # Red personalizada para comunicación entre contenedores
+    driver: bridge  # Tipo de red: bridge permite comunicación entre contenedores
+                    # Los contenedores pueden comunicarse entre sí usando sus nombres de servicio

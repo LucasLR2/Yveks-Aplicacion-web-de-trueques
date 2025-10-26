@@ -189,43 +189,148 @@ async function cargarNotificaciones() {
     }
 }
 
-// Renderizar notificaciones
+// Renderizar notificaciones (usando el estilo de inicio.js)
 function renderizarNotificaciones(notificaciones) {
     const contentDesktop = document.getElementById('desktop-notifications-content');
     const contentMobile = document.getElementById('mobile-notifications-content');
     
-    let html = '';
+    const notificacionesRecientes = notificaciones.filter(n => !n.leida);
+    const notificacionesAnteriores = notificaciones.filter(n => n.leida);
     
+    // Si no hay notificaciones en absoluto
     if (notificaciones.length === 0) {
-        html = `
-            <div class="flex flex-col items-center justify-center py-12 px-6 text-center">
-                <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
-                </svg>
-                <p class="text-gray-500 font-medium">No hay notificaciones</p>
-                <p class="text-gray-400 text-sm mt-1">Cuando recibas notificaciones aparecerán aquí</p>
+        const emptyHTML = `
+            <div class="flex flex-col items-center justify-center h-96 px-4">
+                <img src="${baseURL}recursos/iconos/solido/estado/notificacion.svg" alt="Sin notificaciones" class="w-16 h-16 svg-gray-400 mb-4 opacity-50">
+                <p class="text-gray-500 text-center text-base">No tienes notificaciones en este momento</p>
             </div>
         `;
-    } else {
-        html = notificaciones.map(notif => `
-            <div class="notification-item ${notif.leida ? 'read' : 'unread'}" data-id="${notif.id}">
-                <div class="flex items-start p-4 hover:bg-gray-50 transition-colors cursor-pointer" onclick="marcarComoLeida(${notif.id})">
-                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center mr-3">
-                        <img src="${baseURL}${notif.icono}" alt="" class="w-5 h-5 svg-gray-600">
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <p class="text-sm font-medium text-gray-800">${notif.titulo}</p>
-                        <p class="text-sm text-gray-600 mt-1">${notif.descripcion}</p>
-                        <p class="text-xs text-gray-400 mt-1">${notif.tiempo}</p>
-                    </div>
-                    ${!notif.leida ? '<div class="flex-shrink-0 w-2 h-2 rounded-full bg-green ml-2"></div>' : ''}
-                </div>
-            </div>
-        `).join('');
+        if (contentDesktop) contentDesktop.innerHTML = emptyHTML;
+        if (contentMobile) contentMobile.innerHTML = emptyHTML;
+        return;
     }
+    
+    let html = `
+        <div class="p-4 border-b border-gray-200">
+            <div class="flex items-center justify-between">
+                <h3 class="text-lg font-medium text-gray-800">Notificaciones</h3>
+                <button onclick="marcarTodasLeidas(event)" class="text-sm text-green hover:text-green-700 transition-colors">
+                    Marcar todos como leído
+                </button>
+            </div>
+        </div>
+        <div class="max-h-96 overflow-y-auto custom-scrollbar">
+    `;
+    
+    // Recent notifications (HOY)
+    if (notificacionesRecientes.length > 0) {
+        html += `
+            <div class="p-4">
+                <h4 class="text-sm font-medium text-gray-600 mb-3">HOY</h4>
+                ${notificacionesRecientes.map(notif => generateNotificationItem(notif)).join('')}
+            </div>
+        `;
+    }
+    
+    // Previous notifications (ANTERIORES)
+    if (notificacionesAnteriores.length > 0) {
+        html += `
+            <div class="p-4 border-t border-gray-100">
+                <h4 class="text-sm font-medium text-gray-600 mb-3">ANTERIORES</h4>
+                ${notificacionesAnteriores.map(notif => generateNotificationItem(notif)).join('')}
+            </div>
+        `;
+    }
+    
+    html += '</div>';
     
     if (contentDesktop) contentDesktop.innerHTML = html;
     if (contentMobile) contentMobile.innerHTML = html;
+}
+
+// Generar item individual de notificación
+function generateNotificationItem(notif) {
+    const iconBg = notif.leida ? 'bg-gray-100' : getIconBgColor(notif.tipo);
+    const textColor = notif.leida ? 'text-gray-500' : 'text-gray-800';
+    const timeColor = notif.leida ? 'text-gray-400' : 'text-gray-500';
+    const checkIcon = notif.leida ? `
+        <div class="absolute -top-1 -right-1 w-5 h-5 bg-green rounded-full flex items-center justify-center">
+            <img src="${baseURL}recursos/iconos/solido/estado/verificado.svg" alt="Leída" class="w-3 h-3 svg-white">
+        </div>
+    ` : '';
+    
+    return `
+        <div class="flex items-start space-x-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors mb-2 relative" onclick="marcarComoLeida(${notif.id})">
+            <div class="relative">
+                <div class="w-10 h-10 ${iconBg} rounded-full flex items-center justify-center flex-shrink-0">
+                    <img src="${baseURL}${notif.icono}" alt="${notif.tipo}" class="w-5 h-5 ${getIconColor(notif.tipo, notif.leida)}">
+                </div>
+                ${checkIcon}
+            </div>
+            <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between">
+                    <h5 class="text-sm font-medium ${textColor} truncate">${notif.titulo}</h5>
+                    <span class="text-xs ${timeColor} ml-2">${notif.tiempo}</span>
+                </div>
+                <p class="text-sm ${timeColor} mt-1 line-clamp-2">${notif.descripcion}</p>
+            </div>
+        </div>
+    `;
+}
+
+// Get icon background color
+function getIconBgColor(tipo) {
+    const colors = {
+        'solicitud_chat': 'bg-blue-100',
+        'oferta': 'bg-green-100',
+        'mensaje': 'bg-blue-100',
+        'oferta_cancelada': 'bg-red-100',
+        'oferta_aceptada': 'bg-green-100',
+        'resena': 'bg-yellow-100'
+    };
+    return colors[tipo] || 'bg-gray-100';
+}
+
+// Get icon color
+function getIconColor(tipo, leida) {
+    if (leida) return 'svg-gray-400';
+    const colors = {
+        'solicitud_chat': 'svg-blue-600',
+        'oferta': 'svg-green-600',
+        'mensaje': 'svg-blue-600',
+        'oferta_cancelada': 'svg-red-600',
+        'oferta_aceptada': 'svg-green-600',
+        'resena': 'svg-yellow-600'
+    };
+    return colors[tipo] || 'svg-gray-600';
+}
+
+async function marcarTodasLeidas(event) {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    
+    try {
+        const response = await fetch(baseURL + 'php/marcar-notificacion-leida.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ marcar_todas: true })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Recargar notificaciones
+            await cargarNotificaciones();
+        } else {
+            console.error('Error:', data.error || 'Error desconocido');
+        }
+    } catch (error) {
+        console.error('Error marcando todas como leídas:', error);
+    }
 }
 
 // Actualizar badges

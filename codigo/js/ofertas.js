@@ -258,25 +258,153 @@ function mostrarMensajeVacio(tipo) {
 }
 
 // Funciones placeholder para acciones
-function verDetalleOferta(id) {
-    console.log('Ver detalle oferta:', id);
-    alert('Función en desarrollo: Ver detalle de oferta ' + id);
+async function verDetalleOferta(id) {
+    try {
+        // Obtener datos de la oferta actual
+        const oferta = ofertasActuales.find(o => o.id_propuesta === id);
+        if (!oferta) {
+            alert('Oferta no encontrada');
+            return;
+        }
+        
+        console.log('Oferta encontrada:', oferta);
+        console.log('Tipo actual:', tipoActual);
+        
+        // Determinar el destinatario según el tipo de oferta
+        let idDestinatario;
+        // Comparar con ambos valores posibles
+        if (tipoActual === 'recibidas' || tipoActual === 'received') {
+            idDestinatario = oferta.oferente?.id;
+        } else {
+            idDestinatario = oferta.dueno?.id;
+        }
+        
+        if (!idDestinatario) {
+            console.error('No se pudo obtener el ID del destinatario', oferta);
+            alert('Error: No se pudo identificar al destinatario');
+            return;
+        }
+        
+        // Crear solicitud de chat
+        const formData = new FormData();
+        formData.append('id_destinatario', idDestinatario);
+        formData.append('id_propuesta', id);
+        formData.append('mensaje', `Hola, me interesa hablar sobre: ${oferta.titulo}`);
+
+        // Enviar el producto solicitado (el que el usuario quiere)
+        const idProducto = oferta.id_prod_solicitado || oferta.id_producto;
+        if (idProducto) {
+            formData.append('id_producto', idProducto);
+        }
+        
+        const response = await fetch('/php/chat/crear-solicitud.php', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            if (data.existe_conversacion) {
+                // Ya existe conversación, redirigir directamente
+                window.location.href = `mensajes.php?conversacion=${data.id_conversacion}`;
+            } else {
+                // Solicitud creada, redirigir a mensajes
+                alert('Solicitud de chat enviada correctamente');
+                window.location.href = 'mensajes.php';
+            }
+        } else {
+            alert(data.error || 'Error al enviar solicitud');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error al procesar la solicitud');
+    }
 }
 
 async function aceptarOferta(id) {
     if (!confirm('¿Estás seguro de aceptar esta oferta?')) return;
     console.log('Aceptar oferta:', id);
     alert('Función en desarrollo: Aceptar oferta');
+    
+    try {
+        const formData = new FormData();
+        formData.append('id_propuesta', id);
+        formData.append('accion', 'aceptar');
+        
+        const response = await fetch('procesar-oferta.php', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            alert('Oferta aceptada correctamente');
+            cargarOfertas(tipoActual);
+        } else {
+            alert('Error: ' + data.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error al procesar la oferta');
+    }
 }
 
 async function rechazarOferta(id) {
     if (!confirm('¿Estás seguro de rechazar esta oferta?')) return;
     console.log('Rechazar oferta:', id);
     alert('Función en desarrollo: Rechazar oferta');
+    
+    try {
+        const formData = new FormData();
+        formData.append('id_propuesta', id);
+        formData.append('accion', 'rechazar');
+        
+        const response = await fetch('procesar-oferta.php', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            alert('Oferta rechazada');
+            cargarOfertas(tipoActual);
+        } else {
+            alert('Error: ' + data.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error al procesar la oferta');
+    }
 }
 
 async function cancelarOferta(id) {
     if (!confirm('¿Estás seguro de cancelar esta oferta?')) return;
     console.log('Cancelar oferta:', id);
     alert('Función en desarrollo: Cancelar oferta');
-}
+    
+    try {
+        const formData = new FormData();
+        formData.append('id_propuesta', id);
+        formData.append('accion', 'cancelar');
+        
+        const response = await fetch('procesar-oferta.php', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            alert('Oferta cancelada');
+            cargarOfertas(tipoActual);
+        } else {
+            alert('Error: ' + data.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error al procesar la oferta');
+    }
+}   

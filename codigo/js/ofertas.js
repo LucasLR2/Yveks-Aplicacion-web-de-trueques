@@ -264,19 +264,68 @@ function verDetalleOferta(id) {
 }
 
 async function aceptarOferta(id) {
-    if (!confirm('¿Estás seguro de aceptar esta oferta?')) return;
-    console.log('Aceptar oferta:', id);
-    alert('Función en desarrollo: Aceptar oferta');
+    const ejecutarAceptacion = function() {
+        console.log('Aceptar oferta:', id);
+        alert('Función en desarrollo: Aceptar oferta');
+    };
+
+    if (window.SwalApp) {
+        window.SwalApp.confirmar({
+            title: 'Aceptar oferta',
+            html: '¿Estás seguro de aceptar esta oferta?<br>Esta acción iniciará el proceso de intercambio.',
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: 'Cancelar',
+            confirmClass: 'btn-primary',
+            icon: 'question'
+        }).then(result => {
+            if (result.isConfirmed) ejecutarAceptacion();
+        });
+    } else {
+        if (!confirm('¿Estás seguro de aceptar esta oferta?')) return;
+        ejecutarAceptacion();
+    }
 }
 
 async function rechazarOferta(id) {
-    if (!confirm('¿Estás seguro de rechazar esta oferta?')) return;
-    console.log('Rechazar oferta:', id);
-    alert('Función en desarrollo: Rechazar oferta');
+    const ejecutarRechazo = function() {
+        console.log('Rechazar oferta:', id);
+        alert('Función en desarrollo: Rechazar oferta');
+    };
+
+    if (window.SwalApp) {
+        window.SwalApp.confirmar({
+            title: 'Rechazar oferta',
+            html: '¿Estás seguro de rechazar esta oferta?<br>El usuario será notificado del rechazo.',
+            confirmButtonText: 'Rechazar',
+            cancelButtonText: 'Cancelar',
+            confirmClass: 'btn-danger'
+        }).then(result => {
+            if (result.isConfirmed) ejecutarRechazo();
+        });
+    } else {
+        if (!confirm('¿Estás seguro de rechazar esta oferta?')) return;
+        ejecutarRechazo();
+    }
 }
 
 async function cancelarOferta(id) {
-    if (!confirm('¿Estás seguro de cancelar esta oferta?')) return;
-    console.log('Cancelar oferta:', id);
-    alert('Función en desarrollo: Cancelar oferta');
+    const ejecutarCancelacion = function() {
+        console.log('Cancelar oferta:', id);
+        alert('Función en desarrollo: Cancelar oferta');
+    };
+
+    if (window.SwalApp) {
+        window.SwalApp.confirmar({
+            title: 'Cancelar oferta',
+            html: '¿Estás seguro de cancelar esta oferta?<br>Esta acción no puede revertirse.',
+            confirmButtonText: 'Cancelar oferta',
+            cancelButtonText: 'Mantener oferta',
+            confirmClass: 'btn-danger'
+        }).then(result => {
+            if (result.isConfirmed) ejecutarCancelacion();
+        });
+    } else {
+        if (!confirm('¿Estás seguro de cancelar esta oferta?')) return;
+        ejecutarCancelacion();
+    }
 }

@@ -62,17 +62,49 @@ function mostrarAlerta(mensaje, tipo = 'error') {
 }
 
 function goBack() {
-  if (confirm("¿Estás seguro de que quieres salir? Se perderán los cambios.")) {
+  const ejecutarSalida = function() {
     window.history.back();
+  };
+
+  if (window.SwalApp) {
+    window.SwalApp.confirmar({
+      title: 'Salir sin guardar',
+      html: '¿Estás seguro de que quieres salir?<br>Se perderán los cambios no guardados.',
+      confirmButtonText: 'Salir',
+      cancelButtonText: 'Quedarse',
+      confirmClass: 'btn-danger'
+    }).then(result => {
+      if (result.isConfirmed) ejecutarSalida();
+    });
+  } else {
+    if (confirm("¿Estás seguro de que quieres salir? Se perderán los cambios.")) {
+      ejecutarSalida();
+    }
   }
 }
 
 function cancelForm() {
-  if (confirm("¿Cancelar publicación?")) {
+  const ejecutarCancelacion = function() {
     document.getElementById("productForm").reset();
     uploadedImages = [];
     updateImagePreview();
     updatePhotoCounter();
+  };
+
+  if (window.SwalApp) {
+    window.SwalApp.confirmar({
+      title: 'Cancelar publicación',
+      html: '¿Estás seguro de cancelar?<br>Se perderán todos los datos ingresados.',
+      confirmButtonText: 'Cancelar publicación',
+      cancelButtonText: 'Continuar editando',
+      confirmClass: 'btn-danger'
+    }).then(result => {
+      if (result.isConfirmed) ejecutarCancelacion();
+    });
+  } else {
+    if (confirm("¿Cancelar publicación?")) {
+      ejecutarCancelacion();
+    }
   }
 }
 

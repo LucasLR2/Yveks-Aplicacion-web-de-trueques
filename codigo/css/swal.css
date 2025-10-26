@@ -1,0 +1,85 @@
+/* Estilos para integración de SweetAlert con las clases globales del proyecto
+   - Oculta el icono del popup
+   - Distribuye los botones 50%/50% en desktop
+   - En móvil apila los botones uno debajo del otro
+   - Se apoya en las clases globales existentes: .btn-primary y .btn-secondary
+*/
+
+/* Ocultar cualquier icono que SweetAlert muestre (por ejemplo icon: 'warning') */
+.swal2-icon {
+  display: none !important;
+}
+
+/* Forzar que las acciones se muestren en una fila y sin espacio extra */
+.swal2-popup .swal2-actions {
+  display: flex !important;
+  gap: 0.8rem;
+  /* Ocupar todo el ancho del popup para que los botones puedan expandirse */
+  width: 100% !important;
+  /* Más espacio lateral para separar botones de los bordes del popup */
+  padding: 0 2.5rem 1.8rem !important; /* Aumentar padding lateral e inferior a 2rem */
+  justify-content: space-between;
+  align-items: stretch !important;
+  box-sizing: border-box !important;
+}
+
+/* Botones: usar flex para repartir el espacio (cada botón ocupará la mitad con dos botones) */
+.swal2-popup .btn-primary,
+.swal2-popup .btn-secondary,
+.swal2-popup .swal2-actions .swal2-styled {
+  flex: 1 1 0 !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+}
+
+/* Forzar orden: confirmar a la izquierda, cancelar a la derecha */
+.swal2-popup .swal2-confirm {
+  order: 1;
+}
+.swal2-popup .swal2-cancel {
+  order: 2;
+}
+
+/* En pantallas pequeñas, apilar los botones uno debajo del otro y que ocupen 100% */
+@media (max-width: 640px) {
+  .swal2-popup .swal2-actions {
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+  .swal2-popup .btn-primary,
+  .swal2-popup .btn-secondary,
+  .swal2-popup .swal2-actions .swal2-styled {
+    width: 100% !important;
+    flex: none !important;
+  }
+}
+
+/* Tipografía y espaciado personalizado según solicitud */
+.swal2-popup {
+  /* Aumentar espacio superior del popup para separar top del título */
+  padding-top: 3rem !important;
+  /* Añadir padding inferior y altura mínima para que la alerta sea más alta */
+  padding-bottom: 2rem !important;
+  min-height: 260px !important; /* ajustar este valor según preferencia */
+}
+
+.swal2-popup .swal2-title {
+  font-weight: 400 !important; /* no bold */
+  color: #000000 !important;   /* texto negro */
+  padding-top: 0 !important; /* eliminar padding interno del título (ya lo maneja el popup) */
+  margin-bottom: 0rem !important;
+}
+
+.swal2-popup .swal2-html-container {
+  color: #6b7280 !important;   /* texto gris */
+  padding-bottom: 2rem !important; /* más espacio debajo del contenido para separar de los botones */
+}
+
+/* En móvil reducir altura y padding para no ocupar demasiado espacio */
+@media (max-width: 640px) {
+  .swal2-popup {
+    min-height: auto !important;
+    padding-top: 3rem !important;
+    padding-bottom: 1.8rem !important;
+  }
+}

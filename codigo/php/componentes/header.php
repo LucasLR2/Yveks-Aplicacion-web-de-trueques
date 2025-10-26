@@ -124,4 +124,9 @@ if ($paginaActual === 'index') {
 <script>
     const baseURL = '<?= $baseURL ?>';
 </script>
+<!-- SweetAlert2 (global) and local wrapper -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="<?= $baseURL ?>js/swal.js"></script>
 <script src="<?= $baseURL ?>js/header.js"></script>
+<!-- Estilos para SweetAlert personalizados -->
+<link rel="stylesheet" href="<?= $baseURL ?>css/swal.css">

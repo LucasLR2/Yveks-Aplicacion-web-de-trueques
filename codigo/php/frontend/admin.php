@@ -58,6 +58,10 @@ $userInitials = getInitials($userName);
     <link rel="stylesheet" href="../../css/estilos-generales.css">
     <!-- jQuery (required for dashboard temperature AJAX) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- SweetAlert2 y wrapper (para modales coherentes en admin) -->
+    <link rel="stylesheet" href="../../css/swal.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../../js/swal.js"></script>
         <script>
             window.__userRole = <?php echo json_encode($role ?: ''); ?>;
         </script>

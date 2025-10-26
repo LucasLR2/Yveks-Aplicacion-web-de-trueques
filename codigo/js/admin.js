@@ -48,12 +48,12 @@ function renderUsersTable(usersToRender = cache.users) {
         else if (user.role === 'Verificado') roleClass = 'bg-gray-custom text-green';
         else if (user.role === 'Moderador') roleClass = 'bg-gray-custom text-green';
 
-        // Generar avatar (imagen o iniciales)
+        // Generar avatar (imagen o fallback a avatar.svg)
         let avatarHTML = '';
         if (user.img_usuario) {
-            avatarHTML = `<img src="${user.img_usuario}" alt="${user.nombre || 'Usuario'}" class="w-10 h-10 rounded-full object-cover">`;
+            avatarHTML = `<img src="${user.img_usuario}" alt="${user.nombre || 'Usuario'}" class="w-8 h-8 rounded-full object-contain bg-gray-100">`;
         } else {
-            avatarHTML = user.avatar || '';
+            avatarHTML = `<img src="../../recursos/iconos/avatar.svg" alt="${user.nombre || 'Usuario'}" class="w-8 h-8 rounded-full object-contain bg-gray-100">`;
         }
 
         row.innerHTML = `
@@ -418,6 +418,8 @@ function initAdmin() {
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Temperatura card removed (moved to header) -->
                 </div>
                 
                 <!-- Gráficas -->
@@ -490,8 +492,8 @@ function initAdmin() {
                                             <td class="px-4 py-3">
                                                 <div class="flex items-center">
                                                     ${user.img_usuario ? 
-                                                        `<img src="${user.img_usuario}" alt="${user.nombre}" class="w-8 h-8 rounded-full object-cover mr-2">` :
-                                                        `<div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-xs font-semibold text-gray-700 mr-2">${getInitials(user.nombre)}</div>`
+                                                        `<img src="${user.img_usuario}" alt="${user.nombre}" class="w-8 h-8 rounded-full object-contain bg-gray-100 mr-2">` :
+                                                        `<img src="../../recursos/iconos/avatar.svg" alt="${user.nombre}" class="w-8 h-8 rounded-full object-contain bg-gray-100 mr-2">`
                                                     }
                                                     <span class="text-sm text-gray-900">${user.nombre}</span>
                                                 </div>

@@ -19,9 +19,9 @@ $fechaNacimiento = isset($_POST['fecha_nacimiento']) ? trim($_POST['fecha_nacimi
 $ubicacion = isset($_POST['ubicacion']) ? trim($_POST['ubicacion']) : '';
 $avatarImagen = isset($_POST['avatar_imagen']) ? trim($_POST['avatar_imagen']) : '';
 
-// Validar que los campos no estén vacíos
-if (empty($fechaNacimiento) || empty($ubicacion) || empty($avatarImagen)) {
-    echo json_encode(['success' => false, 'message' => 'Todos los campos son obligatorios.']);
+// Validar que los campos obligatorios no estén vacíos (el avatar es opcional)
+if (empty($fechaNacimiento) || empty($ubicacion)) {
+    echo json_encode(['success' => false, 'message' => 'La fecha de nacimiento y ubicación son obligatorios.']);
     exit;
 }
 
@@ -31,19 +31,21 @@ if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $fechaNacimiento)) {
     exit;
 }
 
-// Procesar y guardar la imagen de avatar
-$rutaAvatar = guardarAvatar($avatarImagen, $_SESSION['correo']);
-
-if (!$rutaAvatar) {
-    echo json_encode(['success' => false, 'message' => 'Error al procesar la imagen de perfil.']);
-    exit;
+// Procesar y guardar la imagen de avatar (si se proporcionó)
+$rutaAvatar = null;
+if (!empty($avatarImagen)) {
+    $rutaAvatar = guardarAvatar($avatarImagen, $_SESSION['correo']);
+    
+    if (!$rutaAvatar) {
+        echo json_encode(['success' => false, 'message' => 'Error al procesar la imagen de perfil.']);
+        exit;
+    }
 }
 
 $correo = $_SESSION['correo'];
 $correoEsc = $conn->real_escape_string($correo);
 $ubicacionEsc = $conn->real_escape_string($ubicacion);
 $fechaEsc = $conn->real_escape_string($fechaNacimiento);
-$rutaAvatarEsc = $conn->real_escape_string($rutaAvatar);
 
 // Si no existe el ID en la sesión, obtenerlo de la base de datos
 if (!isset($_SESSION['id'])) {
@@ -58,8 +60,13 @@ if (!isset($_SESSION['id'])) {
     $stmt->close();
 }
 
-// Actualizar el usuario con la fecha de nacimiento, ubicación y avatar
-$sql = "UPDATE Usuario SET f_nacimiento = '$fechaEsc', ubicacion = '$ubicacionEsc', img_usuario = '$rutaAvatarEsc' WHERE correo = '$correoEsc'";
+// Actualizar el usuario con la fecha de nacimiento, ubicación y avatar (si se proporcionó)
+if ($rutaAvatar) {
+    $rutaAvatarEsc = $conn->real_escape_string($rutaAvatar);
+    $sql = "UPDATE Usuario SET f_nacimiento = '$fechaEsc', ubicacion = '$ubicacionEsc', img_usuario = '$rutaAvatarEsc' WHERE correo = '$correoEsc'";
+} else {
+    $sql = "UPDATE Usuario SET f_nacimiento = '$fechaEsc', ubicacion = '$ubicacionEsc' WHERE correo = '$correoEsc'";
+}
 
 if ($conn->query($sql)) {
     // Actualización exitosa: redirigir al inicio o al perfil

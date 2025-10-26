@@ -484,7 +484,7 @@ function openProductDetail(productId) {
                         <!-- Product image section -->
                         <div class="relative lg:col-span-1 flex items-center justify-center bg-white rounded-2xl overflow-hidden shadow-inner">
                             <!-- Back arrow on image -->
-                            <button onclick="volverADetalleProducto(${productId})" class="absolute left-4 top-4 w-10 h-10 bg-white bg-opacity-90 rounded-full flex items-center justify-center z-10 shadow-md hover:bg-opacity-100 transition-all">
+                            <button onclick="volverVistaAnterior()" class="absolute left-4 top-4 w-10 h-10 bg-white bg-opacity-90 rounded-full flex items-center justify-center z-10 shadow-md hover:bg-opacity-100 transition-all">
                                 <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                                 </svg>
@@ -811,7 +811,7 @@ function hacerOferta(productId) {
                         <!-- Columna izquierda - Imagen del producto (INTACTA) -->
                         <div class="relative lg:col-span-1 flex items-center justify-center bg-white rounded-2xl overflow-hidden shadow-inner">
                             <!-- Botón volver en la imagen -->
-                            <button onclick="volverADetalleProducto(${productId})" class="absolute left-4 top-4 w-10 h-10 bg-white bg-opacity-90 rounded-full flex items-center justify-center z-10 shadow-md hover:bg-opacity-100 transition-all">
+                            <button onclick="volverVistaAnterior()" class="absolute left-4 top-4 w-10 h-10 bg-white bg-opacity-90 rounded-full flex items-center justify-center z-10 shadow-md hover:bg-opacity-100 transition-all">
                                 <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                                 </svg>
@@ -891,12 +891,12 @@ function hacerOferta(productId) {
                                         Enviar oferta
                                     </button>
                                     <button 
-                                        type="button"
-                                        onclick="volverADetalleProducto(${productId})" 
-                                        class="flex-1 bg-white text-gray-700 border border-gray-300 py-2.5 px-5 rounded-full font-semibold text-sm hover:bg-gray-50 transition-all"
-                                    >
-                                        Cancelar
-                                    </button>
+                                    type="button"
+                                    onclick="volverADetalleProducto(${productId})" 
+                                    class="flex-1 bg-white text-gray-700 border border-gray-300 py-2.5 px-5 rounded-full font-semibold text-sm hover:bg-gray-50 transition-all"
+                                >
+                                    Cancelar
+                                </button>
                                 </div>
                             </form>
                         </div>

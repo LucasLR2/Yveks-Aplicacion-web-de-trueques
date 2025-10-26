@@ -1,19 +1,19 @@
 // dashboard.js
-// Responsible for fetching current temperature from external API and updating the dashboard card
-// Uses jQuery AJAX per project requirement
+// Se encarga de obtener la temperatura actual desde una API externa y actualizar el header
+// Usa AJAX (jQuery) según el requisito del proyecto
 
 (function($){
     if (!$) return;
 
-    const API_URL = 'http://localhost:8082/';
-    const HEADER_SELECTOR = '#header-temperatura';
-    const HEADER_ICON = '#header-temperatura-icon';
-    const HEADER_CITY = '#header-temperatura-city';
-    const HEADER_VALUE = HEADER_SELECTOR + ' .valor';
-    const POLL_INTERVAL_MS = 30000; // 30 seconds
-    const REQUEST_TIMEOUT_MS = 3000; // 3s timeout (reduced from 7s)
+    const URL_API = 'http://localhost:8082/';
+    const SELECTOR_ENCABEZADO = '#header-temperatura';
+    const ICONO_ENCABEZADO = '#header-temperatura-icon';
+    const CIUDAD_ENCABEZADO = '#header-temperatura-city';
+    const VALOR_ENCABEZADO = SELECTOR_ENCABEZADO + ' .valor';
+    const INTERVALO_POLL_MS = 30000; // 30 segundos
+    const TIEMPO_ESPERA_MS = 3000; // timeout de 3s (reducido desde 7s)
 
-    function conditionToEmoji(cond) {
+    function condicionAEmoji(cond) {
         if (!cond) return '☁️';
         const c = String(cond).toLowerCase();
         if (c.includes('sole') || c.includes('sol')) return '☀️';
@@ -24,54 +24,54 @@
         return '☁️';
     }
 
-    function safeSetHeader(tempText, city, condicion) {
-        const $header = $(HEADER_SELECTOR);
-        if (!$header.length) return;
-        // show header
-        $header.removeClass('hidden').addClass('flex');
-        const $icon = $(HEADER_ICON);
-        if ($icon.length) $icon.text(conditionToEmoji(condicion));
-        const $city = $(HEADER_CITY);
-        if ($city.length) $city.text(city || '');
-        const $val = $(HEADER_VALUE);
-        if ($val.length) $val.text(tempText);
+    function actualizarEncabezado(textoTemp, ciudad, condicion) {
+        const $enc = $(SELECTOR_ENCABEZADO);
+        if (!$enc.length) return;
+        // mostrar encabezado
+        $enc.removeClass('hidden').addClass('flex');
+        const $icono = $(ICONO_ENCABEZADO);
+        if ($icono.length) $icono.text(condicionAEmoji(condicion));
+        const $ciudad = $(CIUDAD_ENCABEZADO);
+        if ($ciudad.length) $ciudad.text(ciudad || '');
+        const $val = $(VALOR_ENCABEZADO);
+        if ($val.length) $val.text(textoTemp);
     }
 
-    function fetchTemperature() {
-        // Only proceed if header present
-        if (!$(HEADER_SELECTOR).length) return;
+    function obtenerTemperatura() {
+        // Solo proceder si el encabezado está presente
+        if (!$(SELECTOR_ENCABEZADO).length) return;
 
         $.ajax({
-            url: API_URL,
+            url: URL_API,
             method: 'GET',
             dataType: 'json',
-            timeout: REQUEST_TIMEOUT_MS,
-            success: function(data) {
+            timeout: TIEMPO_ESPERA_MS,
+            success: function(datos) {
                 try {
-                    // Expected API shape example:
+                    // Forma esperada de la API ejemplo:
                     // { ciudad: "Santiago", temperatura: 25, humedad: 81, condicion: "Soleado", ultima_actualizacion: "..." }
-                    const ciudad = data && data.ciudad ? data.ciudad : (data && data.city ? data.city : '');
-                    const condicion = data && data.condicion ? data.condicion : (data && data.condition ? data.condition : '');
-                    const t = (data && (data.temperatura !== undefined ? data.temperatura : (data.temp !== undefined ? data.temp : data.temperature)));
-                    const tempText = (t !== undefined && t !== null && t !== '') ? String(t) + '°C' : 'No disponible';
-                    // Update header
-                    safeSetHeader(tempText, ciudad, condicion);
+                    const ciudad = datos && datos.ciudad ? datos.ciudad : (datos && datos.city ? datos.city : '');
+                    const condicion = datos && datos.condicion ? datos.condicion : (datos && datos.condition ? datos.condition : '');
+                    const t = (datos && (datos.temperatura !== undefined ? datos.temperatura : (datos.temp !== undefined ? datos.temp : datos.temperature)));
+                    const textoTemp = (t !== undefined && t !== null && t !== '') ? String(t) + '°C' : 'No disponible';
+                    // Actualizar encabezado
+                    actualizarEncabezado(textoTemp, ciudad, condicion);
                 } catch (e) {
-                    safeSetHeader('No disponible', '', '');
+                    actualizarEncabezado('No disponible', '', '');
                 }
             },
             error: function(xhr, status, err) {
-                // Show temporary message in header
-                safeSetHeader('No disponible', '', '');
+                // Mostrar mensaje temporal en el encabezado
+                actualizarEncabezado('No disponible', '', '');
             }
         });
     }
 
     $(document).ready(function(){
-        // Initial fetch
-        fetchTemperature();
-        // Poll every POLL_INTERVAL_MS
-        setInterval(fetchTemperature, POLL_INTERVAL_MS);
+        // Primera consulta
+        obtenerTemperatura();
+        // Consulta periódica cada INTERVALO_POLL_MS
+        setInterval(obtenerTemperatura, INTERVALO_POLL_MS);
     });
 
 })(window.jQuery);

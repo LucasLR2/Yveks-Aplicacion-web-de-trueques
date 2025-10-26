@@ -145,34 +145,53 @@ $baseURL = '/';
   </div>
 </div>
 
-<!-- Verificacion JS -->
+<!-- Verificacion JS (uses global SwalApp wrapper provided in header) -->
 <script>
 function Verificacion(destino, elemento) {
-    fetch('<?= $baseURL ?>php/verificar-sesion.php')
-        .then(response => response.json())
-        .then(data => {
-            if(data.logueado) {
-                window.location.href = destino;
+  fetch('<?= $baseURL ?>php/verificar-sesion.php')
+    .then(response => response.json())
+    .then(data => {
+      if (data.logueado) {
+        window.location.href = destino;
+      } else {
+        // Use global SwalApp (initialized in header via swal.js) if available
+        if (window.SwalApp) {
+          window.SwalApp.fire({
+            title: 'Acceso restringido',
+            text: 'Debes iniciar sesión para acceder a esta sección.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Iniciar sesión',
+            cancelButtonText: 'Volver',
+            allowOutsideClick: false
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.href = '<?= $baseURL ?>php/iniciar-sesion.php';
             } else {
-                const popup = document.createElement('div');
-                popup.id = 'popup';
-                popup.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-
-                popup.innerHTML = `
-                    <div class="bg-white rounded-xl p-6 shadow-lg text-center max-w-sm">
-                        <h2 class="text-xl font-bold mb-4">Acceso restringido</h2>
-                        <p class="mb-4">Debes iniciar sesión para acceder a esta sección.</p>
-                        <div class="flex justify-center gap-4">
-                            <a href="<?= $baseURL ?>php/iniciar-sesion.php"
-                               class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">Iniciar sesión</a>
-                            <a href="<?= $baseURL ?>index.php"
-                               class="bg-gray-300 text-gray-800 px-6 py-2 rounded hover:bg-gray-400">Volver</a>
-                        </div>
-                    </div>
-                `;
-                document.body.appendChild(popup);
+              window.location.href = '<?= $baseURL ?>index.php';
             }
-        })
-        .catch(error => console.error('Error verificando sesión:', error));
+          });
+        } else {
+          // Fallback to original DOM popup if Swal not available
+          const popup = document.createElement('div');
+          popup.id = 'popup';
+          popup.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+          popup.innerHTML = `
+            <div class="bg-white rounded-xl p-6 shadow-lg text-center max-w-sm">
+              <h2 class="text-xl font-bold mb-4">Acceso restringido</h2>
+              <p class="mb-4">Debes iniciar sesión para acceder a esta sección.</p>
+              <div class="flex justify-center gap-4">
+                <a href="<?= $baseURL ?>php/iniciar-sesion.php"
+                   class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">Iniciar sesión</a>
+                <a href="<?= $baseURL ?>index.php"
+                   class="bg-gray-300 text-gray-800 px-6 py-2 rounded hover:bg-gray-400">Volver</a>
+              </div>
+            </div>
+          `;
+          document.body.appendChild(popup);
+        }
+      }
+    })
+    .catch(error => console.error('Error verificando sesión:', error));
 }
 </script>

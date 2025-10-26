@@ -132,21 +132,51 @@ html, body {
 
 .btn-secondary {
   background-color: transparent;
-  color: #719177;
-  border: 2px solid #719177;
+  color: #6b7280; /* texto gris por defecto */
+  border: 2px solid #d1d5db; /* borde sutil gris */
   border-radius: 9999px;
   font-weight: 500;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   cursor: pointer;
 }
 
 .btn-secondary:hover {
   background-color: #f3f4f6;
+  border-color: #c7c7c7;
+  color: #6b7280; /* gris más oscuro al hover */
+  transform: translateY(-1px);
+}
+
+/* Botón de acción destructiva (ej. eliminar, bloquear) */
+.btn-danger {
+  background-color: #DD3D3D;
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  font-weight: 500;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+.btn-danger:hover {
+  background-color: #b53434;
+  transform: translateY(-1px);
+}
+
+.btn-cancelar{
+  background-color: transparent;
+  color: #719177;
+  border: 1px solid #8C8C8C;
+  border-radius: 9999px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.btn-cancelar:hover {
+  background-color: #f3f4f6;
   border-color: #5a7a5f;
   color: #5a7a5f;
   transform: translateY(-1px);
 }
-
 .text-yellow {
   color: #FFC531 !important;
 }

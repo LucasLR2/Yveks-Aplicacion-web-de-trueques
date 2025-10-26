@@ -1,4 +1,4 @@
-// In-memory cache for fetched resources
+// Caché en memoria para recursos obtenidos
 const cache = {
     users: [],
     currentSection: 'usuarios',
@@ -9,7 +9,7 @@ const cache = {
     totalRecords: 0
 };
 
-// Tabs configuration per section
+// Pestañas por sección
 const sectionTabs = {
     resumen: [],
     usuarios: ['users', 'valoraciones'],
@@ -91,17 +91,35 @@ function renderUsersTable(usersToRender = cache.users) {
     document.querySelectorAll('.delete-user').forEach(btn => {
         btn.addEventListener('click', function() {
             const id = this.getAttribute('data-id');
-            if (!confirm('¿Eliminar usuario ID ' + id + '?')) return;
-            fetch(`../backend/admin_api.php?action=delete&resource=users&id=${id}`, { method: 'POST' })
-                .then(r => r.json())
-                .then(res => {
-                    if (res.ok) {
-                        // remove from cache and re-render
-                        cache.users = cache.users.filter(u => String(u.id) !== String(id));
-                        renderUsersTable(cache.users);
-                    } else alert('Error: ' + (res.error || 'desconocido'));
-                })
-                .catch(err => alert('Error de red: ' + err));
+
+            const ejecutarBorrado = function() {
+                fetch(`../backend/admin_api.php?action=delete&resource=users&id=${id}`, { method: 'POST' })
+                    .then(r => r.json())
+                    .then(res => {
+                        if (res.ok) {
+                            // remove from cache and re-render
+                            cache.users = cache.users.filter(u => String(u.id) !== String(id));
+                            renderUsersTable(cache.users);
+                        } else alert('Error: ' + (res.error || 'desconocido'));
+                    })
+                    .catch(err => alert('Error de red: ' + err));
+            };
+
+            // Usar SwalApp.confirmar si está disponible, si no fallback a confirm()
+            if (window.SwalApp) {
+                window.SwalApp.confirmar({
+                    title: 'Eliminar usuario',
+                    text: `¿Eliminar usuario ID ${id}?`,
+                    confirmButtonText: 'Eliminar',
+                    cancelButtonText: 'Cancelar',
+                    // confirmClass por defecto es 'btn-danger' en el helper
+                }).then(result => {
+                    if (result.isConfirmed) ejecutarBorrado();
+                });
+            } else {
+                if (!confirm('¿Eliminar usuario ID ' + id + '?')) return;
+                ejecutarBorrado();
+            }
         });
     });
 }
@@ -533,14 +551,14 @@ function initAdmin() {
         return 'bg-gray-100 text-gray-800';
     }
 
-    function getInitials(name) {
-        if (!name) return '??';
-        const words = name.trim().split(' ');
-        if (words.length >= 2) {
-            return (words[0][0] + words[1][0]).toUpperCase();
+    function obtenerIniciales(name) {
+            if (!name) return '??';
+            const words = name.trim().split(' ');
+            if (words.length >= 2) {
+                return (words[0][0] + words[1][0]).toUpperCase();
+            }
+            return name.substring(0, 2).toUpperCase();
         }
-        return name.substring(0, 2).toUpperCase();
-    }
 
     function renderBarChart(productsByMonth) {
         const container = document.getElementById('barChart');
@@ -967,15 +985,33 @@ function initAdmin() {
         document.querySelectorAll(`.delete-generic[data-resource="${resource}"]`).forEach(btn => {
             btn.addEventListener('click', function() {
                 const id = this.getAttribute('data-id');
-                if (!confirm(`¿Eliminar registro ID ${id}?`)) return;
-                fetch(`../backend/admin_api.php?action=delete&resource=${resource}&id=${id}`, { method: 'POST' })
-                    .then(r => r.json())
-                    .then(res => {
-                        if (res.ok) {
-                            loadTab(cache.currentTab); // Reload current tab
-                        } else alert('Error: ' + (res.error || 'desconocido'));
-                    })
-                    .catch(err => alert('Error de red: ' + err));
+
+                const ejecutarBorrado = function() {
+                    fetch(`../backend/admin_api.php?action=delete&resource=${resource}&id=${id}`, { method: 'POST' })
+                        .then(r => r.json())
+                        .then(res => {
+                            if (res.ok) {
+                                loadTab(cache.currentTab); // Reload current tab
+                            } else alert('Error: ' + (res.error || 'desconocido'));
+                        })
+                        .catch(err => alert('Error de red: ' + err));
+                };
+
+                // Usar SweetAlert helper si está disponible
+                if (window.SwalApp) {
+                    // Usar HTML para forzar salto de línea en el contenido del modal
+                    window.SwalApp.confirmar({
+                        title: 'Eliminar registro',
+                        html: `¿Estás seguro de eliminar el registro ID ${id}?<br>Esta acción no puede revertirse.`,
+                        confirmButtonText: 'Eliminar',
+                        cancelButtonText: 'Cancelar'
+                    }).then(result => {
+                        if (result.isConfirmed) ejecutarBorrado();
+                    });
+                } else {
+                    if (!confirm(`¿Eliminar registro ID ${id}?`)) return;
+                    ejecutarBorrado();
+                }
             });
         });
     }

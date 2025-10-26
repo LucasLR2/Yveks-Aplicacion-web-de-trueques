@@ -292,8 +292,13 @@ async function marcarComoLeida(idNotificacion) {
             
             // Determinar URL de redirección ANTES de marcar como leída
             let urlRedireccion = null;
-            
-            if (notif.tipo === 'mensaje') {
+
+            if (notif.tipo === 'solicitud_chat') {
+                console.log('🔵 Tipo: Solicitud de chat');
+                console.log('🔵 URL que se va a asignar:', baseURL + 'php/mensajes.php?tab=solicitudes');
+                // Redirigir a mensajes con parámetro para abrir solicitudes
+                urlRedireccion = baseURL + 'php/mensajes.php?tab=solicitudes';
+            } else if (notif.tipo === 'mensaje') {
                 console.log('🔵 Tipo: Mensaje, id_referencia:', notif.id_referencia);
                 if (notif.id_referencia) {
                     urlRedireccion = baseURL + 'php/mensajes.php?conversacion=' + notif.id_referencia;
@@ -304,6 +309,8 @@ async function marcarComoLeida(idNotificacion) {
                 console.log('🔵 Tipo: Oferta');
                 urlRedireccion = baseURL + 'php/ofertas.php';
             }
+            
+            console.log('🔵 urlRedireccion final:', urlRedireccion);
             
             // Marcar como leída
             const formData = new FormData();

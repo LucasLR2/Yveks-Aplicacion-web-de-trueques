@@ -242,6 +242,7 @@ async function handleNotificationClick(notifId) {
     switch(notif.tipo) {
         case 'solicitud_chat':
             console.log('Abriendo solicitud de chat');
+            window.location.href = 'php/mensajes.php?tab=solicitudes';
             break;
         case 'oferta':
             if (notif.tipo === 'oferta' || notif.tipo === 'oferta_aceptada' || notif.tipo === 'oferta_cancelada') {

@@ -23,6 +23,20 @@ class ChatManager {
 
         const urlParams = new URLSearchParams(window.location.search);
         const idConversacion = urlParams.get('conversacion');
+        const tabParam = urlParams.get('tab');
+            
+        // Si viene parámetro tab=solicitudes, cambiar a ese tab
+        if (tabParam === 'solicitudes') {
+            setTimeout(() => {
+                // Buscar TODOS los botones de solicitudes (móvil y desktop)
+                const btnsSolicitudes = document.querySelectorAll('.tab-btn-right');
+                btnsSolicitudes.forEach(btn => {
+                    if (btn) btn.click();
+                });
+            }, 100);
+        }
+            
+        // Si viene conversación específica, abrirla
         if (idConversacion) {
             setTimeout(() => {
                 this.abrirConversacion(parseInt(idConversacion));

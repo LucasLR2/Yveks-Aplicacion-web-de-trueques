@@ -311,7 +311,6 @@ async function verDetalleOferta(id) {
             } else {
                 // Solicitud creada, redirigir a mensajes
                 alert('Solicitud de chat enviada correctamente');
-                window.location.href = 'mensajes.php';
             }
         } else {
             alert(data.error || 'Error al enviar solicitud');

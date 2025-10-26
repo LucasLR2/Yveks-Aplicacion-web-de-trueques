@@ -66,6 +66,14 @@ try {
     }
     
     // Actualizar solicitud
+    // Obtener nombre del usuario destinatario
+    $stmt_user = $conn->prepare("SELECT nombre_comp FROM Usuario WHERE id_usuario = ?");
+    $stmt_user->bind_param('i', $id_usuario);
+    $stmt_user->execute();
+    $result_user = $stmt_user->get_result();
+    $user = $result_user->fetch_assoc();
+    $nombre_usuario = $user['nombre_comp'];
+
     $update = $conn->prepare("
         UPDATE ChatSolicitud 
         SET estado = 'aceptada', fecha_respuesta = NOW() 
@@ -73,15 +81,24 @@ try {
     ");
     $update->bind_param('i', $id_solicitud);
     $update->execute();
-    
+
+    // Crear notificación para el remitente
+    $titulo = 'Solicitud aceptada';
+    $descripcion = "Tu solicitud de mensaje con $nombre_usuario fue aceptada";
+    $tipo = 'solicitud_aceptada';
+
+    $notif = $conn->prepare("
+        INSERT INTO Notificacion (tipo, titulo, descripcion, id_usuario, id_referencia) 
+        VALUES (?, ?, ?, ?, ?)
+    ");
+    $notif->bind_param('sssii', $tipo, $titulo, $descripcion, $id_remitente, $id_conversacion);
+    $notif->execute();
+
     echo json_encode([
         'success' => true,
         'id_conversacion' => $id_conversacion,
         'mensaje' => 'Solicitud aceptada'
     ]);
-    
-    $stmt->close();
-    $conn->close();
     
 } catch (Exception $e) {
     echo json_encode(['success' => false, 'error' => $e->getMessage()]);

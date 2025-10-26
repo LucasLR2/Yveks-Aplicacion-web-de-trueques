@@ -295,9 +295,16 @@ async function marcarComoLeida(idNotificacion) {
 
             if (notif.tipo === 'solicitud_chat') {
                 console.log('🔵 Tipo: Solicitud de chat');
-                console.log('🔵 URL que se va a asignar:', baseURL + 'php/mensajes.php?tab=solicitudes');
-                // Redirigir a mensajes con parámetro para abrir solicitudes
                 urlRedireccion = baseURL + 'php/mensajes.php?tab=solicitudes';
+            } else if (notif.tipo === 'solicitud_aceptada') {
+                console.log('🔵 Tipo: Solicitud aceptada, id_referencia:', notif.id_referencia);
+                if (notif.id_referencia) {
+                    urlRedireccion = baseURL + 'php/mensajes.php?conversacion=' + notif.id_referencia;
+                } else {
+                    urlRedireccion = baseURL + 'php/mensajes.php';
+                }
+            } else if (notif.tipo === 'solicitud_rechazada') {
+                console.log('🔵 Tipo: Solicitud rechazada');
             } else if (notif.tipo === 'mensaje') {
                 console.log('🔵 Tipo: Mensaje, id_referencia:', notif.id_referencia);
                 if (notif.id_referencia) {

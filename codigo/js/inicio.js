@@ -244,6 +244,16 @@ async function handleNotificationClick(notifId) {
             console.log('Abriendo solicitud de chat');
             window.location.href = 'php/mensajes.php?tab=solicitudes';
             break;
+        case 'solicitud_aceptada':
+            // Redirigir a la conversación
+            if (notif.id_referencia) {
+                window.location.href = 'php/mensajes.php?conversacion=' + notif.id_referencia;
+            } else {
+                window.location.href = 'php/mensajes.php';
+            }
+            break;
+        case 'solicitud_rechazada':
+            break;
         case 'oferta':
             if (notif.tipo === 'oferta' || notif.tipo === 'oferta_aceptada' || notif.tipo === 'oferta_cancelada') {
                 window.location.href =  'php/ofertas.php';

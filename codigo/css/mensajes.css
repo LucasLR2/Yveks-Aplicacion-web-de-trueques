@@ -1065,3 +1065,126 @@
     }
 }
 
+/* ===================================
+   SOLICITUDES MODERNAS
+   =================================== */
+.solicitud-item {
+    padding: 16px;
+    margin-bottom: 10px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.solicitud-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.solicitud-avatar-container {
+    flex-shrink: 0;
+}
+
+.solicitud-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.solicitud-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.solicitud-nombre {
+    font-weight: 600;
+    font-size: 15px;
+    color: #111827;
+    margin-bottom: 4px;
+}
+
+.solicitud-producto-tag {
+    font-size: 12px;
+    color: #719177;
+    font-weight: 500;
+}
+
+.solicitud-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-aceptar-solicitud,
+.btn-rechazar-solicitud {
+    flex: 1;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.btn-aceptar-solicitud {
+    background: #719177;
+    color: white;
+}
+
+.btn-aceptar-solicitud:hover {
+    opacity: 0.9;
+}
+
+.btn-rechazar-solicitud {
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+.btn-rechazar-solicitud:hover {
+    opacity: 0.8;
+}
+
+/* Estado vacío de solicitudes */
+.empty-solicitudes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.empty-solicitudes svg {
+    width: 80px;
+    height: 80px;
+    color: #d1d5db;
+    margin-bottom: 16px;
+}
+
+.empty-solicitudes h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+}
+
+.empty-solicitudes p {
+    font-size: 14px;
+    color: #9ca3af;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .solicitud-item {
+        padding: 14px;
+    }
+    
+    .btn-aceptar-solicitud,
+    .btn-rechazar-solicitud {
+        padding: 9px 14px;
+        font-size: 13px;
+    }
+}

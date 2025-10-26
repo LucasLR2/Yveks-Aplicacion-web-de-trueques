@@ -1,15 +1,6 @@
--- Base de datos DREVA - Estructura completa actualizada
--- Fecha: 24-10-2025
--- Modificado: Sistema de ofertas integrado
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
 
 -- Crear base de datos
 CREATE DATABASE IF NOT EXISTS `dreva` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -280,6 +271,26 @@ CREATE TABLE `Genera` (
 
 COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- --------------------------------------------------------
+-- Tabla: ChatSolicitud (Solicitudes de chat para intercambios)
+-- --------------------------------------------------------
+CREATE TABLE `ChatSolicitud` (
+    `id_solicitud` INT NOT NULL AUTO_INCREMENT,
+    `id_remitente` INT NOT NULL,
+    `id_destinatario` INT NOT NULL,
+    `id_producto` INT DEFAULT NULL,
+    `id_propuesta` INT DEFAULT NULL,
+    `mensaje` TEXT DEFAULT NULL,
+    `estado` ENUM('pendiente', 'aceptada', 'rechazada') DEFAULT 'pendiente',
+    `fecha_creacion` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `fecha_respuesta` DATETIME DEFAULT NULL,
+    PRIMARY KEY (`id_solicitud`),
+    KEY `id_remitente` (`id_remitente`),
+    KEY `id_destinatario` (`id_destinatario`),
+    KEY `id_producto` (`id_producto`),
+    KEY `id_propuesta` (`id_propuesta`),
+    CONSTRAINT `ChatSolicitud_ibfk_1` FOREIGN KEY (`id_remitente`) REFERENCES `Usuario` (`id_usuario`),
+    CONSTRAINT `ChatSolicitud_ibfk_2` FOREIGN KEY (`id_destinatario`) REFERENCES `Usuario` (`id_usuario`),
+    CONSTRAINT `ChatSolicitud_ibfk_3` FOREIGN KEY (`id_producto`) REFERENCES `Producto` (`id_producto`),
+    CONSTRAINT `ChatSolicitud_ibfk_4` FOREIGN KEY (`id_propuesta`) REFERENCES `PropuestaIntercambio` (`id_propuesta`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

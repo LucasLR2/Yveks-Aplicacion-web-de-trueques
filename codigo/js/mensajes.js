@@ -8,6 +8,8 @@ class ChatManager {
         this.lightboxImagenes = [];
         this.lightboxIndex = 0;
         this.mensajeRespondiendo = null;
+        this.solicitudes = [];
+        this.tabActual = 'chats';
         
         this.init();
     }
@@ -223,13 +225,18 @@ class ChatManager {
 
     cambiarTab(btn) {
         const container = btn.closest('.tabs-container');
-        const isRightTab = btn.classList.contains('tab-btn-right');
+        const tabText = btn.textContent.trim();
+        
+        // Determinar qué tab es según el texto
+        const isSolicitudes = tabText === 'Solicitudes';
         
         // Animar el slider
-        if (isRightTab) {
+        if (isSolicitudes) {
             container.classList.add('slide-right');
+            this.tabActual = 'solicitudes';
         } else {
             container.classList.remove('slide-right');
+            this.tabActual = 'chats';
         }
         
         // Remover active de todos los tabs en el mismo contenedor
@@ -239,6 +246,13 @@ class ChatManager {
         
         // Agregar active al tab clickeado
         btn.classList.add('active');
+        
+        // Cargar contenido según tab
+        if (this.tabActual === 'solicitudes') {
+            this.cargarSolicitudes();
+        } else {
+            this.cargarConversaciones();
+        }
     }
 
     async cargarConversaciones(busqueda = '') {
@@ -256,6 +270,237 @@ class ChatManager {
             }
         } catch (error) {
             console.error('Error cargando conversaciones:', error);
+        }
+    }
+
+    renderConversaciones() {
+        const listaMovil = document.getElementById('conversaciones-lista');
+        const listaDesktop = document.getElementById('conversaciones-lista-desktop');
+
+        const html = this.conversaciones.length === 0 
+            ? this.getEmptyStateHTML()
+            : this.conversaciones.map(c => this.getConversacionHTML(c)).join('');
+
+        if (listaMovil) listaMovil.innerHTML = html;
+        if (listaDesktop) listaDesktop.innerHTML = html;
+
+        // Agregar event listeners
+        document.querySelectorAll('.conversacion-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const id = parseInt(item.dataset.id);
+                this.abrirConversacion(id);
+            });
+        });
+    }
+
+    getConversacionHTML(conv) {
+        return `
+            <div class="conversacion-item ${conv.id_conversacion === this.conversacionActual ? 'active' : ''}" 
+                data-id="${conv.id_conversacion}">
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <img src="${conv.avatar}" alt="${conv.nombre}" 
+                            class="w-12 h-12 rounded-full object-cover">
+                        ${conv.mensajes_sin_leer > 0 ? '<div class="status-online"></div>' : ''}
+                    </div>
+                    
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center justify-between mb-1">
+                            <h3 class="text-gray-800 truncate">${conv.nombre}</h3>
+                            <span class="text-xs text-gray-500">${conv.tiempo}</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <p class="text-sm text-gray-600 truncate flex-1">
+                                ${conv.yo_envie_ultimo ? '<span class="text-gray-400">Tú: </span>' : ''}
+                                ${conv.ultimo_mensaje || 'Sin mensajes'}
+                            </p>
+                            ${conv.mensajes_sin_leer > 0 ? `
+                                <span class="badge-sin-leer ml-2">${conv.mensajes_sin_leer}</span>
+                            ` : ''}
+                        </div>
+                        
+                        ${conv.producto ? `
+                            <p class="text-xs text-green mt-1">${conv.producto}</p>
+                        ` : ''}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    getEmptyStateHTML() {
+        return `
+            <div class="empty-state">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                        d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                </svg>
+                <p class="text-lg font-medium">No hay conversaciones</p>
+                <p class="text-sm">Comienza a chatear con otros usuarios</p>
+            </div>
+        `;
+    }
+
+    async cargarSolicitudes() {
+        try {
+            const response = await fetch('/php/chat/obtener-solicitudes.php');
+            const data = await response.json();
+
+            if (data.success) {
+                this.solicitudes = data.solicitudes;
+                this.renderSolicitudes();
+            }
+        } catch (error) {
+            console.error('Error cargando solicitudes:', error);
+        }
+    }
+
+    renderSolicitudes() {
+        const listaMovil = document.getElementById('conversaciones-lista');
+        const listaDesktop = document.getElementById('conversaciones-lista-desktop');
+
+        const html = this.solicitudes.length === 0 
+            ? this.getEmptySolicitudesHTML()
+            : this.solicitudes.map(s => this.getSolicitudHTML(s)).join('');
+
+        if (listaMovil) listaMovil.innerHTML = html;
+        if (listaDesktop) listaDesktop.innerHTML = html;
+
+        // Agregar event listeners
+        this.setupSolicitudesListeners();
+    }
+
+    getSolicitudHTML(solicitud) {
+        const productoTag = solicitud.producto ? `
+            <div class="solicitud-producto-tag">
+                Sobre: ${solicitud.producto}
+            </div>
+        ` : '';
+
+        return `
+            <div class="solicitud-item" data-id="${solicitud.id_solicitud}">
+                <div class="solicitud-header">
+                    <div class="solicitud-avatar-container">
+                        <img src="${solicitud.avatar}" alt="${solicitud.nombre}" class="solicitud-avatar">
+                    </div>
+                    
+                    <div class="solicitud-info">
+                        <div class="solicitud-nombre">${solicitud.nombre}</div>
+                        ${productoTag}
+                    </div>
+                </div>
+                
+                <div class="solicitud-actions">
+                    <button class="btn-aceptar-solicitud" data-id="${solicitud.id_solicitud}">
+                        Aceptar
+                    </button>
+                    <button class="btn-rechazar-solicitud" data-id="${solicitud.id_solicitud}">
+                        Rechazar
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
+    getEmptySolicitudesHTML() {
+        return `
+            <div class="empty-solicitudes">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                        d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+                </svg>
+                <h3>No hay solicitudes pendientes</h3>
+                <p>Cuando alguien quiera chatear contigo, aparecerá aquí</p>
+            </div>
+        `;
+    }
+
+    setupSolicitudesListeners() {
+        // Botones de aceptar
+        document.querySelectorAll('.btn-aceptar-solicitud').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                const id = parseInt(btn.dataset.id);
+                await this.aceptarSolicitud(id);
+            });
+        });
+        
+        // Botones de rechazar
+        document.querySelectorAll('.btn-rechazar-solicitud').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                const id = parseInt(btn.dataset.id);
+                await this.rechazarSolicitud(id);
+            });
+        });
+    }
+
+    async aceptarSolicitud(idSolicitud) {
+        try {
+            const formData = new FormData();
+            formData.append('id_solicitud', idSolicitud);
+            
+            const response = await fetch('/php/chat/aceptar-solicitud.php', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+            // Cambiar manualmente el estado del tab
+            this.tabActual = 'chats';
+            
+            // Actualizar UI de los tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn-left').forEach(btn => {
+                btn.classList.add('active');
+            });
+            document.querySelectorAll('.tabs-container').forEach(container => {
+                container.classList.remove('slide-right');
+            });
+            
+            // Cargar conversaciones y abrir la nueva
+            await this.cargarConversaciones();
+            
+            setTimeout(() => {
+                this.abrirConversacion(data.id_conversacion);
+            }, 300);
+        } else {
+                alert(data.error || 'Error al aceptar solicitud');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error al aceptar solicitud');
+        }
+    }
+
+    async rechazarSolicitud(idSolicitud) {
+        if (!confirm('¿Estás seguro de rechazar esta solicitud?')) return;
+        
+        try {
+            const formData = new FormData();
+            formData.append('id_solicitud', idSolicitud);
+            
+            const response = await fetch('/php/chat/rechazar-solicitud.php', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                // Recargar solicitudes
+                await this.cargarSolicitudes();
+            } else {
+                alert(data.error || 'Error al rechazar solicitud');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error al rechazar solicitud');
         }
     }
 
@@ -742,8 +987,12 @@ class ChatManager {
                 // Si hay conversación activa, solo actualizar mensajes
                 await this.cargarMensajesSilencioso();
             } else {
-                // Si no hay conversación activa, actualizar lista de conversaciones
-                await this.cargarConversaciones();
+                // Actualizar según tab activo
+                if (this.tabActual === 'solicitudes') {
+                    await this.cargarSolicitudes();
+                } else {
+                    await this.cargarConversaciones();
+                }
             }
         }, 2000);
     }

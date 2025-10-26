@@ -128,10 +128,10 @@ try {
             'producto_solicitado' => $row['producto_solicitado'],
             'imagen_producto' => $row['imagen_producto'],
             'rating' => $row['rating'] > 0 ? $row['rating'] : null,
-            'reviews' => $row['reviews']
+            'reviews' => $row['reviews'],
+            'id_prod_solicitado' => $row['id_producto']  // AGREGAR ESTA LÍNEA
         ];
         
-        // Agregar datos según el tipo
         if ($tipo === 'recibidas') {
             $oferta['oferente'] = [
                 'id' => $row['id_oferente'],

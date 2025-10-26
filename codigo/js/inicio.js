@@ -1,6 +1,9 @@
 // Variables globales para datos dinámicos
 let notificaciones = [];
 let productos = [];
+let vistaAnterior = null;
+let scrollAnterior = 0;
+let categoriasSeleccionadas = new Set();
 
 // Función para cargar notificaciones desde la base de datos
 function cargarNotificaciones() {
@@ -582,10 +585,29 @@ function openProductDetail(productId) {
             </div>
         </div>
     `;
-    
+
+    console.log('Scroll antes de ir al top:', window.pageYOffset);
+
+    // Hacer scroll al top para ver el producto desde arriba
+    setTimeout(() => {
+        const isMobile = window.innerWidth < 1024;
+        if (isMobile) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            const desktopMain = document.querySelector('.desktop-main');
+            if (desktopMain) {
+                desktopMain.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+    }, 50);
+
     // Replace main content with detail view
     reemplazarVistaConDetalle(detailHTML);
-    
+
+    // Scroll inmediato al top (sin animación)
+    window.scrollTo(0, 0);
+    console.log('Scroll movido a 0');
+
     // Initialize map after a brief delay
     setTimeout(() => {
         initProductDetailMap(producto.coordenadas, producto.ubicacion);
@@ -594,23 +616,38 @@ function openProductDetail(productId) {
 
 // Función para guardar la vista anterior
 function guardarVistaAnterior() {
+    // Si ya estamos en una vista de detalle Y ya tenemos una vista guardada, NO sobrescribir
+    if (document.querySelector('.product-detail-view') && vistaAnterior !== null) {
+        console.log('Ya hay vista guardada, no sobrescribir');
+        return;
+    }
+    
     const isMobile = window.innerWidth < 1024;
+    
+    // CORRECCIÓN: En desktop también usar window.pageYOffset
+    scrollAnterior = window.pageYOffset || document.documentElement.scrollTop;
+    
+    console.log('Guardando vista, scroll:', scrollAnterior);
     
     if (isMobile) {
         // Guardar contenido móvil
         const mobileContainer = document.querySelector('.lg\\:hidden');
         vistaAnterior = {
             tipo: 'mobile',
-            contenido: mobileContainer ? mobileContainer.innerHTML : null
+            contenido: mobileContainer ? mobileContainer.innerHTML : null,
+            scroll: scrollAnterior || 0
         };
     } else {
         // Guardar contenido desktop
         const desktopMain = document.querySelector('.desktop-main main');
         vistaAnterior = {
             tipo: 'desktop',
-            contenido: desktopMain ? desktopMain.innerHTML : null
+            contenido: desktopMain ? desktopMain.innerHTML : null,
+            scroll: scrollAnterior || 0
         };
     }
+    
+    console.log('Vista guardada:', vistaAnterior);
 }
 
 // Función para reemplazar la vista con el detalle
@@ -634,8 +671,7 @@ function reemplazarVistaConDetalle(detailHTML) {
 
 // Función para volver a la vista anterior
 function volverVistaAnterior() {
-    if (!vistaAnterior) {
-        // Si no hay vista anterior, recargar la página
+    if (!vistaAnterior || !vistaAnterior.contenido) {
         location.reload();
         return;
     }
@@ -647,23 +683,36 @@ function volverVistaAnterior() {
         const mobileContainer = document.querySelector('.lg\\:hidden');
         if (mobileContainer && vistaAnterior.contenido) {
             mobileContainer.innerHTML = vistaAnterior.contenido;
-            // Reinicializar productos
             generarProductosMovil();
             configurarBusqueda();
+            
+            // Restaurar scroll más rápido
+            const scrollPos = vistaAnterior.scroll || 0;
+            requestAnimationFrame(() => {
+                window.scrollTo({ top: scrollPos, behavior: 'instant' });
+            });
+            
+            vistaAnterior = null;
+            scrollAnterior = 0;
         }
     } else if (!isMobile && vistaAnterior.tipo === 'desktop') {
         // Restaurar vista desktop
         const desktopMain = document.querySelector('.desktop-main main');
         if (desktopMain && vistaAnterior.contenido) {
             desktopMain.innerHTML = vistaAnterior.contenido;
-            // Reinicializar productos
             generarProductosEscritorio();
             configurarBusqueda();
+            
+            // Restaurar scroll más rápido
+            const scrollPos = vistaAnterior.scroll || 0;
+            requestAnimationFrame(() => {
+                window.scrollTo({ top: scrollPos, behavior: 'instant' });
+            });
+            
+            vistaAnterior = null;
+            scrollAnterior = 0;
         }
     }
-    
-    // Limpiar vista anterior
-    vistaAnterior = null;
 }
 
 // Función para inicializar el mapa de detalle

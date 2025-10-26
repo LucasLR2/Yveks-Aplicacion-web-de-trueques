@@ -1,8 +1,6 @@
 // categorias.js
 
-let categoriaActual = 'todas';           // Guarda la categoría actualmente filtrada (si la usas en algún lugar)
-let categoriasSeleccionadas = new Set(); // Es el conjunto de categorías activas
-let vistaAnterior = null;                 // Puedes usarlo si necesitas guardar la vista anterior, no es obligatorio
+let categoriaActual = 'todas';
 
 // Función para seleccionar categoría en escritorio
 function seleccionarCategoriaEscritorio(elemento, categoria) {

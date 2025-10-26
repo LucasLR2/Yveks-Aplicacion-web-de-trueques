@@ -750,6 +750,31 @@ function initProductDetailMap(coordinates, locationName) {
 
 // Función para hacer oferta
 function hacerOferta(productId) {
+    // Verificar si el usuario está logueado
+    if (typeof usuarioLogueado === 'undefined' || !usuarioLogueado) {
+        // Usar SweetAlert como en el menú
+        if (window.SwalApp) {
+            window.SwalApp.fire({
+                title: 'Acceso restringido',
+                text: 'Debes iniciar sesión para hacer una oferta.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Iniciar sesión',
+                cancelButtonText: 'Volver',
+                allowOutsideClick: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = baseURL + 'php/iniciar-sesion.php';
+                }
+                // Si cancela, simplemente no hace nada (se queda en la página)
+            });
+        } else {
+            // Fallback si SweetAlert no está disponible
+            alert('Acceso restringido');
+        }
+        return;
+    }
+    
     const producto = productos.find(p => p.id === productId);
     if (!producto) return;
     fotosOferta = [];

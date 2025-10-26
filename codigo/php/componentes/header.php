@@ -71,7 +71,6 @@ if ($paginaActual === 'index') {
             </div>
         </div>
     <?php endif; ?>
-    <!-- config-funcionalidad: si la página actual de móvil (usar variable $paginaActual) es perfil, debes agregar el botón hamburguer/configuración a la derecha del botón notificaciones, al tocarlo, en perfil.php se mostrará la sección Configuración, que ocupará toda la pantalla, tal cual figma, debe superponer lo de atrás. Para eso deberás trabajar en perfil.php -->
 </div>
 
 <!-- Dropdown de notificaciones móvil -->
@@ -123,6 +122,7 @@ if ($paginaActual === 'index') {
 <!-- ================= INCLUIR SCRIPT DEL HEADER ================= -->
 <script>
     const baseURL = '<?= $baseURL ?>';
+    const usuarioLogueado = <?= isset($_SESSION['nombre']) ? 'true' : 'false' ?>;
 </script>
 <!-- SweetAlert2 (global) and local wrapper -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

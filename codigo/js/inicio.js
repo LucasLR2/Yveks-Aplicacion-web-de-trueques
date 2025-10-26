@@ -986,7 +986,8 @@ async function enviarOferta(productId) {
         
         if (data.success) {
             alert('¡Oferta enviada exitosamente!');
-            cerrarModalOferta();
+            // Redirigir al index después de enviar la oferta
+            window.location.href = 'index.php';
         } else {
             alert('Error al enviar oferta: ' + (data.message || 'Error desconocido'));
         }

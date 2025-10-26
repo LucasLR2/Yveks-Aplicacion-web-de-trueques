@@ -215,7 +215,7 @@ function renderizarNotificaciones(notificaciones) {
             <div class="flex items-center justify-between">
                 <h3 class="text-lg font-medium text-gray-800">Notificaciones</h3>
                 <button onclick="marcarTodasLeidas(event)" class="text-sm text-green hover:text-green-700 transition-colors">
-                    Marcar todos como leído
+                    Marcar todas como leídas
                 </button>
             </div>
         </div>

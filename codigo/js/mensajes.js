@@ -235,6 +235,12 @@ class ChatManager {
                 const wrapper = e.target.closest('.mensaje-wrapper');
                 if (!wrapper) return;
 
+                // 🚫 Evitar acciones en mensajes eliminados
+                const bubble = wrapper.querySelector('.mensaje-bubble');
+                if (bubble && bubble.querySelector('.mensaje-eliminado')) {
+                    return; // No permitir long press ni swipe
+                }
+
                 this.touchStartX = e.touches[0].clientX;
                 this.touchStartY = e.touches[0].clientY;
                 this.touchStartTime = Date.now();
@@ -1268,7 +1274,7 @@ class ChatManager {
                     await this.cargarConversaciones();
                 }
             }
-        }, 2000);
+        }, 20000000);
     }
 
     detenerPolling() {

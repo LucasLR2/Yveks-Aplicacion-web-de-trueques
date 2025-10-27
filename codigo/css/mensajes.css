@@ -300,6 +300,8 @@
 @media (max-width: 768px) {
     .mensaje-bubble {
         max-width: 85%;
+        user-select: none;
+        -webkit-user-select: none;
     }
 }
 

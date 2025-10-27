@@ -10,6 +10,15 @@ desktop.ini
 *.swp
 *.swo
 *~
+# JetBrains IDEs
+.idea/
+
+# Default ignored files
+/shelf/
+/workspace.xml
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
 
 # Variables de entorno (si las usas)
 .env

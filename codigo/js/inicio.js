@@ -475,6 +475,7 @@ function openProductDetail(productId) {
     
     // Save current view state
     guardarVistaAnterior();
+    ocultarContenidoOriginal();
     
     // Get related products
     const productosRelacionados = getRelatedProducts(productId);
@@ -687,6 +688,50 @@ function guardarVistaAnterior() {
     console.log('Vista guardada:', vistaAnterior);
 }
 
+// Función para ocultar el contenido original de la página
+function ocultarContenidoOriginal() {
+    const isMobile = window.innerWidth < 1024;
+    
+    if (isMobile) {
+        // Ocultar categorías y productos en móvil
+        const categoriasMovil = document.querySelector('#categorias-movil')?.parentElement?.parentElement;
+        const productosMovil = document.querySelector('#mobile-products')?.parentElement;
+        
+        if (categoriasMovil) categoriasMovil.style.display = 'none';
+        if (productosMovil) productosMovil.style.display = 'none';
+    } else {
+        // Ocultar sección de bienvenida, categorías y productos en desktop
+        const bienvenida = document.querySelector('.desktop-main main > div:first-child');
+        const categorias = document.querySelector('.categories-section');
+        const productosDesktop = document.querySelector('#desktop-products')?.parentElement;
+        
+        if (bienvenida) bienvenida.style.display = 'none';
+        if (categorias) categorias.style.display = 'none';
+        if (productosDesktop) productosDesktop.style.display = 'none';
+    }
+}
+
+// Función para mostrar el contenido original de la página
+function mostrarContenidoOriginal() {
+    const isMobile = window.innerWidth < 1024;
+    
+    if (isMobile) {
+        const categoriasMovil = document.querySelector('#categorias-movil')?.parentElement?.parentElement;
+        const productosMovil = document.querySelector('#mobile-products')?.parentElement;
+        
+        if (categoriasMovil) categoriasMovil.style.display = 'block';
+        if (productosMovil) productosMovil.style.display = 'block';
+    } else {
+        const bienvenida = document.querySelector('.desktop-main main > div:first-child');
+        const categorias = document.querySelector('.categories-section');
+        const productosDesktop = document.querySelector('#desktop-products')?.parentElement;
+        
+        if (bienvenida) bienvenida.style.display = 'block';
+        if (categorias) categorias.style.display = 'block';
+        if (productosDesktop) productosDesktop.style.display = 'block';
+    }
+}
+
 // Función para reemplazar la vista con el detalle
 function reemplazarVistaConDetalle(detailHTML) {
     const isMobile = window.innerWidth < 1024;
@@ -728,7 +773,9 @@ function volverVistaAnterior() {
             requestAnimationFrame(() => {
                 window.scrollTo({ top: scrollPos, behavior: 'instant' });
             });
-            
+
+            mostrarContenidoOriginal(); // ← AGREGAR ESTA LÍNEA
+
             vistaAnterior = null;
             scrollAnterior = 0;
         }
@@ -827,6 +874,7 @@ function hacerOferta(productId) {
     
     // Guardar vista actual
     guardarVistaAnterior();
+    ocultarContenidoOriginal();
     
     // Obtener productos relacionados
     const productosRelacionados = getRelatedProducts(productId);

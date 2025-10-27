@@ -417,7 +417,18 @@ async function marcarComoLeida(idNotificacion) {
                 } else {
                     urlRedireccion = baseURL + 'php/mensajes.php';
                 }
-            } else if (notif.tipo === 'oferta' || notif.tipo === 'oferta_aceptada' || notif.tipo === 'oferta_cancelada') {
+            } else if (notif.tipo === 'oferta_aceptada') {
+                console.log('🔵 Tipo: Oferta aceptada');
+                console.log('🔵 id_conversacion:', notif.id_conversacion);
+                // Si tiene id_conversacion, ir al chat directamente
+                if (notif.id_conversacion) {
+                    urlRedireccion = baseURL + 'php/mensajes.php?conversacion=' + notif.id_conversacion;
+                } else {
+                    // Fallback: ir a ofertas
+                    urlRedireccion = baseURL + 'php/ofertas.php?tipo=hechas';
+                }
+                console.log('🔵 URL final:', urlRedireccion);
+            } else if (notif.tipo === 'oferta' || notif.tipo === 'oferta_cancelada' || notif.tipo === 'oferta_rechazada') {
                 console.log('🔵 Tipo: Oferta');
                 urlRedireccion = baseURL + 'php/ofertas.php';
             }

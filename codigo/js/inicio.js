@@ -238,14 +238,12 @@ async function handleNotificationClick(notifId) {
         }
     }
     
-    // Manejar la acción según el tipo de notificación
     switch(notif.tipo) {
         case 'solicitud_chat':
             console.log('Abriendo solicitud de chat');
             window.location.href = 'php/mensajes.php?tab=solicitudes';
             break;
         case 'solicitud_aceptada':
-            // Redirigir a la conversación
             if (notif.id_referencia) {
                 window.location.href = 'php/mensajes.php?conversacion=' + notif.id_referencia;
             } else {
@@ -255,12 +253,34 @@ async function handleNotificationClick(notifId) {
         case 'solicitud_rechazada':
             break;
         case 'oferta':
-            if (notif.tipo === 'oferta' || notif.tipo === 'oferta_aceptada' || notif.tipo === 'oferta_cancelada') {
-                window.location.href =  'php/ofertas.php';
+            // Solo ofertas NUEVAS van a la página de ofertas
+            window.location.href = 'php/ofertas.php';
+            break;
+        case 'oferta_aceptada':
+            // Ofertas aceptadas van al chat
+            if (notif.id_conversacion) {
+                window.location.href = 'php/mensajes.php?conversacion=' + notif.id_conversacion;
+            } else {
+                window.location.href = 'php/mensajes.php';
+            }
+            break;
+        case 'oferta_rechazada':
+            // Ofertas rechazadas van al chat
+            if (notif.id_conversacion) {
+                window.location.href = 'php/mensajes.php?conversacion=' + notif.id_conversacion;
+            } else {
+                window.location.href = 'php/mensajes.php';
+            }
+            break;
+        case 'oferta_cancelada':
+            // Ofertas canceladas van al chat
+            if (notif.id_conversacion) {
+                window.location.href = 'php/mensajes.php?conversacion=' + notif.id_conversacion;
+            } else {
+                window.location.href = 'php/mensajes.php';
             }
             break;
         case 'mensaje':
-            // Redirigir a mensajes
             if (notif.id_referencia) {
                 window.location.href = 'php/mensajes.php?conversacion=' + notif.id_referencia;
             } else {

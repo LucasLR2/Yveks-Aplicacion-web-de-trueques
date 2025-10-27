@@ -15,8 +15,10 @@ function switchOfferType(type, element) {
     });
     element.classList.add('active');
     
-    // Cargar ofertas del tipo seleccionado
+    // Guardar el tipo actual
     tipoActual = type;
+    
+    // Cargar ofertas del tipo seleccionado
     cargarOfertas(type);
 }
 
@@ -72,10 +74,10 @@ function renderizarOfertas(ofertas, tipo) {
                 
                 <!-- Switch móvil -->
                 <div class="switch-button flex mb-6">
-                    <div class="switch-option ${tipo === 'recibidas' ? 'active' : ''}" onclick="switchOfferType('received', this)">
+                    <div class="switch-option ${tipo === 'recibidas' ? 'active' : ''}" onclick="switchOfferType('recibidas', this)">
                         Recibidas
                     </div>
-                    <div class="switch-option ${tipo === 'hechas' ? 'active' : ''}" onclick="switchOfferType('made', this)">
+                    <div class="switch-option ${tipo === 'hechas' ? 'active' : ''}" onclick="switchOfferType('hechas', this)">
                         Hechas
                     </div>
                 </div>
@@ -323,8 +325,6 @@ async function verDetalleOferta(id) {
 
 async function aceptarOferta(id) {
     if (!confirm('¿Estás seguro de aceptar esta oferta?')) return;
-    console.log('Aceptar oferta:', id);
-    alert('Función en desarrollo: Aceptar oferta');
     
     try {
         const formData = new FormData();
@@ -338,7 +338,9 @@ async function aceptarOferta(id) {
         
         const data = await response.json();
         
-        if (data.success) {
+        if (data.success && data.accion === 'aceptar' && data.id_conversacion) {
+            window.location.href = `mensajes.php?conversacion=${data.id_conversacion}`;
+        } else if (data.success) {
             alert('Oferta aceptada correctamente');
             cargarOfertas(tipoActual);
         } else {
@@ -352,8 +354,6 @@ async function aceptarOferta(id) {
 
 async function rechazarOferta(id) {
     if (!confirm('¿Estás seguro de rechazar esta oferta?')) return;
-    console.log('Rechazar oferta:', id);
-    alert('Función en desarrollo: Rechazar oferta');
     
     try {
         const formData = new FormData();
@@ -368,7 +368,7 @@ async function rechazarOferta(id) {
         const data = await response.json();
         
         if (data.success) {
-            alert('Oferta rechazada');
+            alert('Oferta rechazada correctamente');
             cargarOfertas(tipoActual);
         } else {
             alert('Error: ' + data.message);
@@ -381,8 +381,6 @@ async function rechazarOferta(id) {
 
 async function cancelarOferta(id) {
     if (!confirm('¿Estás seguro de cancelar esta oferta?')) return;
-    console.log('Cancelar oferta:', id);
-    alert('Función en desarrollo: Cancelar oferta');
     
     try {
         const formData = new FormData();
@@ -397,7 +395,7 @@ async function cancelarOferta(id) {
         const data = await response.json();
         
         if (data.success) {
-            alert('Oferta cancelada');
+            alert('Oferta cancelada correctamente');
             cargarOfertas(tipoActual);
         } else {
             alert('Error: ' + data.message);
@@ -406,4 +404,4 @@ async function cancelarOferta(id) {
         console.error('Error:', error);
         alert('Error al procesar la oferta');
     }
-}   
+}

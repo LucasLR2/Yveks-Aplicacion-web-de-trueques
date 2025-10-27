@@ -15,7 +15,7 @@ require_once 'database.php';
 try {
     // Obtener notificaciones del usuario
     $stmt = $conn->prepare("
-        SELECT id_notificacion, tipo, titulo, descripcion, fecha, leida, id_referencia 
+        SELECT id_notificacion, tipo, titulo, descripcion, fecha, leida, id_referencia, id_conversacion 
         FROM Notificacion 
         WHERE id_usuario = ? 
         ORDER BY fecha DESC, id_notificacion DESC
@@ -46,6 +46,7 @@ try {
         'mensaje' => 'recursos/iconos/solido/comunicacion/comentario.svg',
         'oferta_cancelada' => 'recursos/iconos/solido/interfaz/cerrar.svg',
         'oferta_aceptada' => 'recursos/iconos/solido/estado/verificado.svg',
+        'oferta_rechazada' => 'recursos/iconos/solido/interfaz/cerrar.svg',
         'resena' => 'recursos/iconos/solido/estado/estrella.svg'
     ];
     
@@ -60,7 +61,8 @@ try {
             'tiempo' => calcularTiempo($row['fecha']),
             'icono' => $iconos[$row['tipo']] ?? 'recursos/iconos/solido/estado/notificacion.svg',
             'leida' => (bool)$row['leida'],
-            'id_referencia' => $row['id_referencia'] ? (int)$row['id_referencia'] : null
+            'id_referencia' => $row['id_referencia'] ? (int)$row['id_referencia'] : null,
+            'id_conversacion' => isset($row['id_conversacion']) && $row['id_conversacion'] ? (int)$row['id_conversacion'] : null
         ];
     }
     
@@ -72,4 +74,3 @@ try {
 } catch (Exception $e) {
     echo json_encode(['error' => 'Error de base de datos: ' . $e->getMessage()]);
 }
-?>

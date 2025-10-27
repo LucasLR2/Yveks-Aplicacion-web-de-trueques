@@ -29,7 +29,7 @@ try {
     
     $ofertas = [];
     
-    if ($tipo === 'recibidas') {
+        if ($tipo === 'recibidas') {
         // OFERTAS RECIBIDAS: Ofertas que otros hicieron por MIS productos
         $query = "SELECT 
                     pi.id_propuesta,
@@ -46,17 +46,17 @@ try {
                     u.img_usuario as avatar_oferente,
                     (SELECT url_imagen FROM ImagenProducto WHERE id_producto = p.id_producto LIMIT 1) as imagen_producto,
                     (SELECT COALESCE(ROUND(AVG(v2.puntuacion), 1), 0) 
-                     FROM Valoracion v2 
-                     WHERE v2.id_usuario_receptor = u.id_usuario) as rating,
+                    FROM Valoracion v2 
+                    WHERE v2.id_usuario_receptor = u.id_usuario) as rating,
                     (SELECT COUNT(v2.id_valoracion) 
-                     FROM Valoracion v2 
-                     WHERE v2.id_usuario_receptor = u.id_usuario) as reviews
-                  FROM PropuestaIntercambio pi
-                  INNER JOIN Producto p ON pi.id_prod_solicitado = p.id_producto
-                  INNER JOIN Publica pub ON p.id_producto = pub.id_producto
-                  INNER JOIN Usuario u ON pi.id_usuario = u.id_usuario
-                  WHERE pub.id_usuario = ? AND pi.id_usuario != ?
-                  ORDER BY pi.fecha DESC";
+                    FROM Valoracion v2 
+                    WHERE v2.id_usuario_receptor = u.id_usuario) as reviews
+                FROM PropuestaIntercambio pi
+                INNER JOIN Producto p ON pi.id_prod_solicitado = p.id_producto
+                INNER JOIN Publica pub ON p.id_producto = pub.id_producto
+                INNER JOIN Usuario u ON pi.id_usuario = u.id_usuario
+                WHERE pub.id_usuario = ? AND pi.id_usuario != ? AND pi.estado = 'pendiente'
+                ORDER BY pi.fecha DESC";
         
         $stmt = $conn->prepare($query);
         $stmt->bind_param("ii", $id_usuario_actual, $id_usuario_actual);
@@ -78,17 +78,17 @@ try {
                     u.img_usuario as avatar_dueno,
                     (SELECT url_imagen FROM ImagenProducto WHERE id_producto = p.id_producto LIMIT 1) as imagen_producto,
                     (SELECT COALESCE(ROUND(AVG(v2.puntuacion), 1), 0) 
-                     FROM Valoracion v2 
-                     WHERE v2.id_usuario_receptor = u.id_usuario) as rating,
+                    FROM Valoracion v2 
+                    WHERE v2.id_usuario_receptor = u.id_usuario) as rating,
                     (SELECT COUNT(v2.id_valoracion) 
-                     FROM Valoracion v2 
-                     WHERE v2.id_usuario_receptor = u.id_usuario) as reviews
-                  FROM PropuestaIntercambio pi
-                  INNER JOIN Producto p ON pi.id_prod_solicitado = p.id_producto
-                  INNER JOIN Publica pub ON p.id_producto = pub.id_producto
-                  INNER JOIN Usuario u ON pub.id_usuario = u.id_usuario
-                  WHERE pi.id_usuario = ?
-                  ORDER BY pi.fecha DESC";
+                    FROM Valoracion v2 
+                    WHERE v2.id_usuario_receptor = u.id_usuario) as reviews
+                FROM PropuestaIntercambio pi
+                INNER JOIN Producto p ON pi.id_prod_solicitado = p.id_producto
+                INNER JOIN Publica pub ON p.id_producto = pub.id_producto
+                INNER JOIN Usuario u ON pub.id_usuario = u.id_usuario
+                WHERE pi.id_usuario = ? AND pi.estado = 'pendiente'
+                ORDER BY pi.fecha DESC";
         
         $stmt = $conn->prepare($query);
         $stmt->bind_param("i", $id_usuario_actual);

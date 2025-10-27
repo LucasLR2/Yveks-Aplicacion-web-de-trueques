@@ -38,4 +38,4 @@ Crear una aplicación web que permita a los usuarios intercambiar artículos de 
 - Lucas Larraura - [@LucasLR2](https://github.com/LucasLR2 "Ir al perfil de GitHub")
 
 ---
-Proyecto en fase inicial de desarrollo
+Proyecto en fase final de desarrollo

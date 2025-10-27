@@ -12,7 +12,7 @@
 
   <!-- LAYOUT MÓVIL Y TABLET (hasta lg) -->
   <div class="lg:hidden">
-    <div class="max-w-sm mx-auto bg-white min-h-screen relative">
+    <div class="bg-white min-h-screen relative">
       <div class="iniciosesion bg-white">
         <div class="flex-1 p-6 items-center grid place-items-center h-screen">
           <h1 class="text-2xl font-bold mb-4 text-center">Registrarse</h1>
@@ -68,7 +68,7 @@
           </div>
 
           <div class="mt-4 text-center">
-            <p class="text-sm text-gray-600">¿Ya tienes una cuenta? <a href="iniciarsesion.html" class="text-green">Inicia sesión</a></p>
+            <p class="text-sm text-gray-600">¿Ya tienes una cuenta? <a href="/php/iniciar-sesion.php" class="text-green">Inicia sesión</a></p>
           </div>
         </div>
       </div>

@@ -84,3 +84,24 @@
         inicializarSwal();
     }
 })();
+
+// Toast personalizado sin SweetAlert usando animate.css
+window.showCustomToast = function(message, duration = 3000) {
+    // Crear el elemento del toast
+    const toast = document.createElement('div');
+    toast.className = 'custom-toast animate__animated animate__fadeInRight';
+    toast.textContent = message;
+    
+    // Agregar al body
+    document.body.appendChild(toast);
+    
+    // Remover después del tiempo especificado
+    setTimeout(() => {
+        toast.classList.remove('animate__fadeInRight');
+        toast.classList.add('animate__fadeOutRight');
+        
+        setTimeout(() => {
+            document.body.removeChild(toast);
+        }, 500); // Tiempo de la animación de salida
+    }, duration);
+};

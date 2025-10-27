@@ -83,3 +83,97 @@
     padding-bottom: 1.8rem !important;
   }
 }
+/* ========================================
+   ESTILOS PARA TOAST PERSONALIZADO
+   ======================================== */
+
+/* Toast personalizado - estilo delgado y elegante SIN ICONOS */
+.toast-slim {
+  border-radius: 12px !important;
+  font-size: 0.95rem !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  min-height: 50px !important;
+  max-height: 60px !important;
+  padding: 0.75rem 1.5rem !important;
+  margin-bottom: 5rem !important; /* Separar del botón del chatbot */
+  display: flex !important;
+  align-items: center !important;
+}
+
+.toast-slim .swal2-title {
+  color: #ffffff !important;
+  margin: 0 !important;
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+  text-align: left !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* OCULTAR COMPLETAMENTE EL ICONO EN TOASTS */
+.toast-slim .swal2-icon {
+  display: none !important;
+}
+
+/* Eliminar TODAS las animaciones de iconos de SweetAlert */
+.swal2-icon,
+.swal2-icon *,
+.swal2-success-circular-line-left,
+.swal2-success-circular-line-right,
+.swal2-success-fix,
+.swal2-animate-success-icon,
+.swal2-animate-success-line-tip,
+.swal2-animate-success-line-long {
+  animation: none !important;
+  -webkit-animation: none !important;
+}
+
+.swal2-icon.swal2-success .swal2-success-ring {
+  animation: none !important;
+  -webkit-animation: none !important;
+}
+
+.swal2-icon.swal2-success .swal2-success-fix {
+  animation: none !important;
+  -webkit-animation: none !important;
+}
+
+/* Clase para desactivar animaciones del popup */
+.swal2-noanimation {
+  animation: none !important;
+  -webkit-animation: none !important;
+}
+
+/* ========================================
+   TOAST PERSONALIZADO SIN SWEETALERT
+   ======================================== */
+
+.custom-toast {
+  position: fixed;
+  bottom: 7rem;
+  right: 2rem;
+  background-color: #719177;
+  color: #ffffff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  min-width: 250px;
+  max-width: 400px;
+  display: flex;
+  align-items: center;
+  line-height: 1.4;
+}
+
+/* Responsive: ajustar en móvil */
+@media (max-width: 640px) {
+  .custom-toast {
+    right: 1rem;
+    left: 1rem;
+    max-width: calc(100% - 2rem);
+    min-width: auto;
+  }
+}

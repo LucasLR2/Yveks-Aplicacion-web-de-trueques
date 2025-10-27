@@ -265,7 +265,11 @@ async function verDetalleOferta(id) {
         // Obtener datos de la oferta actual
         const oferta = ofertasActuales.find(o => o.id_propuesta === id);
         if (!oferta) {
-            alert('Oferta no encontrada');
+            if (window.SwalApp) {
+                window.SwalApp.alerta('No se encontró la oferta solicitada', 'Error');
+            } else {
+                alert('Oferta no encontrada');
+            }
             return;
         }
         
@@ -283,7 +287,11 @@ async function verDetalleOferta(id) {
         
         if (!idDestinatario) {
             console.error('No se pudo obtener el ID del destinatario', oferta);
-            alert('Error: No se pudo identificar al destinatario');
+            if (window.SwalApp) {
+                window.SwalApp.alerta('No se pudo identificar al destinatario de la oferta', 'Error');
+            } else {
+                alert('Error: No se pudo identificar al destinatario');
+            }
             return;
         }
         
@@ -312,96 +320,171 @@ async function verDetalleOferta(id) {
                 window.location.href = `mensajes.php?conversacion=${data.id_conversacion}`;
             } else {
                 // Solicitud creada, redirigir a mensajes
-                alert('Solicitud de chat enviada correctamente');
+                showCustomToast('Solicitud de chat enviada correctamente', 3000);
             }
         } else {
-            alert(data.error || 'Error al enviar solicitud');
+            if (window.SwalApp) {
+                window.SwalApp.alerta(data.error || 'Error al enviar solicitud', 'Error');
+            } else {
+                alert(data.error || 'Error al enviar solicitud');
+            }
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('Error al procesar la solicitud');
+        if (window.SwalApp) {
+            window.SwalApp.alerta('Error al procesar la solicitud', 'Error');
+        } else {
+            alert('Error al procesar la solicitud');
+        }
     }
 }
 
 async function aceptarOferta(id) {
-    if (!confirm('¿Estás seguro de aceptar esta oferta?')) return;
-    
-    try {
-        const formData = new FormData();
-        formData.append('id_propuesta', id);
-        formData.append('accion', 'aceptar');
-        
-        const response = await fetch('procesar-oferta.php', {
-            method: 'POST',
-            body: formData
-        });
-        
-        const data = await response.json();
-        
-        if (data.success && data.accion === 'aceptar' && data.id_conversacion) {
-            window.location.href = `mensajes.php?conversacion=${data.id_conversacion}`;
-        } else if (data.success) {
-            alert('Oferta aceptada correctamente');
-            cargarOfertas(tipoActual);
-        } else {
-            alert('Error: ' + data.message);
+    const ejecutarAceptacion = async function() {
+        try {
+            const formData = new FormData();
+            formData.append('id_propuesta', id);
+            formData.append('accion', 'aceptar');
+            
+            const response = await fetch('procesar-oferta.php', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (data.success && data.accion === 'aceptar' && data.id_conversacion) {
+                window.location.href = `mensajes.php?conversacion=${data.id_conversacion}`;
+            } else if (data.success) {
+                showCustomToast('Oferta aceptada correctamente', 3000);
+                cargarOfertas(tipoActual);
+            } else {
+                if (window.SwalApp) {
+                    window.SwalApp.alerta(data.message || 'Error al aceptar la oferta', 'Error');
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            if (window.SwalApp) {
+                window.SwalApp.alerta('Error al procesar la oferta', 'Error');
+            } else {
+                alert('Error al procesar la oferta');
+            }
         }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Error al procesar la oferta');
+    };
+
+    if (window.SwalApp) {
+        window.SwalApp.confirmar({
+            title: 'Aceptar oferta',
+            html: '¿Estás seguro de aceptar esta oferta?<br>Se creará una conversación con el oferente.',
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: 'Cancelar',
+            confirmClass: 'btn-primary'
+        }).then(result => {
+            if (result.isConfirmed) ejecutarAceptacion();
+        });
+    } else {
+        if (!confirm('¿Estás seguro de aceptar esta oferta?')) return;
+        ejecutarAceptacion();
     }
 }
 
 async function rechazarOferta(id) {
-    if (!confirm('¿Estás seguro de rechazar esta oferta?')) return;
-    
-    try {
-        const formData = new FormData();
-        formData.append('id_propuesta', id);
-        formData.append('accion', 'rechazar');
-        
-        const response = await fetch('procesar-oferta.php', {
-            method: 'POST',
-            body: formData
-        });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-            alert('Oferta rechazada correctamente');
-            cargarOfertas(tipoActual);
-        } else {
-            alert('Error: ' + data.message);
+    const ejecutarRechazo = async function() {
+        try {
+            const formData = new FormData();
+            formData.append('id_propuesta', id);
+            formData.append('accion', 'rechazar');
+            
+            const response = await fetch('procesar-oferta.php', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                showCustomToast('Oferta rechazada correctamente', 3000);
+                cargarOfertas(tipoActual);
+            } else {
+                if (window.SwalApp) {
+                    window.SwalApp.alerta(data.message || 'Error al rechazar la oferta', 'Error');
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            if (window.SwalApp) {
+                window.SwalApp.alerta('Error al procesar la oferta', 'Error');
+            } else {
+                alert('Error al procesar la oferta');
+            }
         }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Error al procesar la oferta');
+    };
+
+    if (window.SwalApp) {
+        window.SwalApp.confirmar({
+            title: 'Rechazar oferta',
+            html: '¿Estás seguro de rechazar esta oferta?<br>Esta acción no se puede deshacer.',
+            confirmButtonText: 'Rechazar',
+            cancelButtonText: 'Cancelar'
+        }).then(result => {
+            if (result.isConfirmed) ejecutarRechazo();
+        });
+    } else {
+        if (!confirm('¿Estás seguro de rechazar esta oferta?')) return;
+        ejecutarRechazo();
     }
 }
 
 async function cancelarOferta(id) {
-    if (!confirm('¿Estás seguro de cancelar esta oferta?')) return;
-    
-    try {
-        const formData = new FormData();
-        formData.append('id_propuesta', id);
-        formData.append('accion', 'cancelar');
-        
-        const response = await fetch('procesar-oferta.php', {
-            method: 'POST',
-            body: formData
-        });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-            alert('Oferta cancelada correctamente');
-            cargarOfertas(tipoActual);
-        } else {
-            alert('Error: ' + data.message);
+    const ejecutarCancelacion = async function() {
+        try {
+            const formData = new FormData();
+            formData.append('id_propuesta', id);
+            formData.append('accion', 'cancelar');
+            
+            const response = await fetch('procesar-oferta.php', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                showCustomToast('Oferta cancelada correctamente', 3000);
+                cargarOfertas(tipoActual);
+            } else {
+                if (window.SwalApp) {
+                    window.SwalApp.alerta(data.message || 'Error al cancelar la oferta', 'Error');
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            if (window.SwalApp) {
+                window.SwalApp.alerta('Error al procesar la oferta', 'Error');
+            } else {
+                alert('Error al procesar la oferta');
+            }
         }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Error al procesar la oferta');
+    };
+
+    if (window.SwalApp) {
+        window.SwalApp.confirmar({
+            title: 'Cancelar oferta',
+            html: '¿Estás seguro de cancelar esta oferta?<br>Esta acción no se puede deshacer.',
+            confirmButtonText: 'Cancelar oferta',
+            cancelButtonText: 'Volver'
+        }).then(result => {
+            if (result.isConfirmed) ejecutarCancelacion();
+        });
+    } else {
+        if (!confirm('¿Estás seguro de cancelar esta oferta?')) return;
+        ejecutarCancelacion();
     }
 }

@@ -134,6 +134,15 @@ if ($paginaActual === 'index') {
     const baseURL = '<?= $baseURL ?>';
     const usuarioLogueado = <?= isset($_SESSION['nombre']) ? 'true' : 'false' ?>;
 </script>
+<!-- Animate.css para animaciones -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<!-- SweetAlert2 (global) and local wrapper -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="<?= $baseURL ?>js/swal.js"></script>
+<script src="<?= $baseURL ?>js/header.js"></script>
+<!-- Estilos para SweetAlert personalizados -->
+<link rel="stylesheet" href="<?= $baseURL ?>css/swal.css">
+</script>
 <!-- SweetAlert2 (global) and local wrapper -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="<?= $baseURL ?>js/swal.js"></script>

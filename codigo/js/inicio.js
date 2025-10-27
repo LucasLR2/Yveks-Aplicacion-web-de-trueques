@@ -1178,7 +1178,8 @@ async function enviarOferta(productId) {
         const data = await response.json();
         
         if (data.success) {
-            alert('¡Oferta enviada exitosamente!');
+            // Guardar flag para mostrar toast después del redirect
+            sessionStorage.setItem('ofertaEnviada', 'true');
             // Redirigir al index después de enviar la oferta
             window.location.href = 'index.php';
         } else {
@@ -1359,6 +1360,12 @@ document.addEventListener('keydown', function(event) {
 
 // Initialize notification system and products when DOM is loaded
 document.addEventListener('DOMContentLoaded', async function() {
+    // Verificar si hay que mostrar toast de oferta enviada
+    if (sessionStorage.getItem('ofertaEnviada') === 'true') {
+        sessionStorage.removeItem('ofertaEnviada');
+        showCustomToast('¡Oferta enviada exitosamente!', 3000);
+    }
+    
     // Cargar datos desde la base de datos
     await cargarProductos();
     cargarNotificaciones();

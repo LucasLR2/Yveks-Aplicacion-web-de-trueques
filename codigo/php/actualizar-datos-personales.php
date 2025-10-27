@@ -9,11 +9,24 @@ if (!isset($_SESSION['correo'])) {
 
 require_once 'database.php';
 
+$nombre = isset($_POST['nombre']) ? trim($_POST['nombre']) : '';
+$correoNuevo = isset($_POST['correo']) ? trim($_POST['correo']) : '';
 $fechaNacimiento = isset($_POST['fecha_nacimiento']) ? trim($_POST['fecha_nacimiento']) : '';
 $ubicacion = isset($_POST['ubicacion']) ? trim($_POST['ubicacion']) : '';
 $avatarImagen = isset($_POST['avatar_imagen']) ? trim($_POST['avatar_imagen']) : '';
 
 // Validaciones
+if (empty($nombre) || empty($correoNuevo) || empty($fechaNacimiento) || empty($ubicacion)) {
+    echo json_encode(['success' => false, 'message' => 'Todos los campos son obligatorios']);
+    exit();
+}
+
+// Validar formato de correo
+if (!filter_var($correoNuevo, FILTER_VALIDATE_EMAIL)) {
+    echo json_encode(['success' => false, 'message' => 'Formato de correo inválido']);
+    exit();
+}
+
 if (empty($fechaNacimiento) || empty($ubicacion)) {
     echo json_encode(['success' => false, 'message' => 'Todos los campos son obligatorios']);
     exit();
@@ -38,22 +51,43 @@ if (!empty($avatarImagen)) {
 
 // Actualizar en BD
 try {
-    $correoEsc = $conn->real_escape_string($correo);
+    $correoActual = $_SESSION['correo'];
+    $correoEsc = $conn->real_escape_string($correoActual);
+    $nombreEsc = $conn->real_escape_string($nombre);
+    $correoNuevoEsc = $conn->real_escape_string($correoNuevo);
     $ubicacionEsc = $conn->real_escape_string($ubicacion);
     $fechaEsc = $conn->real_escape_string($fechaNacimiento);
     
+    // Verificar si el nuevo correo ya existe (si cambió)
+    if ($correoNuevo !== $correoActual) {
+        $checkCorreo = $conn->query("SELECT correo FROM Usuario WHERE correo = '$correoNuevoEsc' AND correo != '$correoEsc'");
+        if ($checkCorreo->num_rows > 0) {
+            echo json_encode(['success' => false, 'message' => 'El correo ya está en uso']);
+            exit();
+        }
+    }
+    
     if ($rutaAvatar) {
         $rutaAvatarEsc = $conn->real_escape_string($rutaAvatar);
-        $sql = "UPDATE Usuario SET f_nacimiento = '$fechaEsc', ubicacion = '$ubicacionEsc', img_usuario = '$rutaAvatarEsc' WHERE correo = '$correoEsc'";
+        $sql = "UPDATE Usuario SET nombre_comp = '$nombreEsc', correo = '$correoNuevoEsc', f_nacimiento = '$fechaEsc', ubicacion = '$ubicacionEsc', img_usuario = '$rutaAvatarEsc' WHERE correo = '$correoEsc'";
     } else {
-        $sql = "UPDATE Usuario SET f_nacimiento = '$fechaEsc', ubicacion = '$ubicacionEsc' WHERE correo = '$correoEsc'";
+        $sql = "UPDATE Usuario SET nombre_comp = '$nombreEsc', correo = '$correoNuevoEsc', f_nacimiento = '$fechaEsc', ubicacion = '$ubicacionEsc' WHERE correo = '$correoEsc'";
     }
     
     if ($conn->query($sql)) {
-        echo json_encode(['success' => true, 'message' => 'Datos actualizados correctamente']);
-    } else {
-        echo json_encode(['success' => false, 'message' => 'Error al actualizar']);
-    }
+            // Actualizar sesión si cambió el correo
+            if ($correoNuevo !== $correoActual) {
+                $_SESSION['correo'] = $correoNuevo;
+            }
+            // Actualizar nombre en sesión si existe
+            if (isset($_SESSION['nombre'])) {
+                $_SESSION['nombre'] = $nombre;
+            }
+            
+            echo json_encode(['success' => true, 'message' => 'Datos actualizados correctamente']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Error al actualizar']);
+        }
     
 } catch (Exception $e) {
     echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);

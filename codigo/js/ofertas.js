@@ -219,7 +219,7 @@ function generarTarjetaOferta(oferta, tipo) {
                     ${oferta.estado === 'pendiente' ? `
                         <button onclick="${esRecibida ? 'rechazarOferta' : 'cancelarOferta'}(${oferta.id_propuesta})" 
                                 class="btn-secondary flex-1 px-4 py-2.5 text-sm">
-                            Cancelar
+                            Rechazar
                         </button>
                     ` : ''}
                 </div>

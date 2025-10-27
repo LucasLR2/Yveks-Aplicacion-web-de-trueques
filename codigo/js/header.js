@@ -78,6 +78,8 @@ function showConfigOverlay() {
         overlay.querySelectorAll(".config-item").forEach(btn => {
             btn.addEventListener("click", () => {
                 const action = btn.dataset.action;
+                if (action === "datos") window.location.href = baseURL + 'php/datos-personales.php';
+                if (action === "password") console.log('Cambiar contraseña - Próximamente');
                 if (action === "ayuda") showHelpOverlay();
                 if (action === "privacidad") showPrivacyOverlay();
                 if (action === "logout") showLogoutConfirmation();
@@ -370,6 +372,7 @@ if (contenedor) {
                     switch(action) {
                         case 'datos-personales': 
                             console.log('Abrir datos personales'); 
+                            window.location.href = baseURL + 'php/datos-personales.php';
                             break;
                         case 'cambiar-contrasena': 
                             console.log('Abrir cambiar contraseña'); 

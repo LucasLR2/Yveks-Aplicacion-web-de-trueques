@@ -630,7 +630,7 @@
 .mensaje-eliminado {
     opacity: 0.6;
     font-style: italic;
-    color: #6b7280;
+    color: #000000;
 }
 
 /* Icono de menú en el mensaje */
@@ -1222,7 +1222,7 @@
 
 .btn-rechazar-solicitud {
     background: #f3f4f6;
-    color: #6b7280;
+    color: #000000;
 }
 
 .btn-rechazar-solicitud:hover {

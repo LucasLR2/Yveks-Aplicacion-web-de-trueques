@@ -251,7 +251,7 @@ function submitForm(e) {
     submitButton.textContent = 'Guardando...';
   }
 
-  fetch('php/nuevo_producto.php', {
+  fetch('php/conexion_nuevo_producto.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

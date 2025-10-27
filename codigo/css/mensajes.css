@@ -1,0 +1,1190 @@
+/* Tabs estilo switch */
+.tab-btn {
+    transition: color 0.3s ease;
+    font-weight: 500;
+    border: none;
+    background: transparent;
+    position: relative;
+    z-index: 1;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tab-btn.active {
+    color: white;
+}
+
+.tab-btn:not(.active) {
+    color: #6b7280;
+}
+
+.tab-btn:not(.active):hover {
+    color: #4b5563;
+}
+
+/* Container de tabs con slider */
+.tabs-container {
+    background-color: #e5e7eb;
+    border-radius: 20px;
+    padding: 2px;
+}
+
+/* Slider animado */
+.tab-slider {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: calc(50% - 2px);
+    height: calc(100% - 4px);
+    background-color: #719177;
+    border-radius: 20px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 0;
+}
+
+.tabs-container.slide-right .tab-slider {
+    transform: translateX(100%);
+}
+
+/* Items de conversación */
+.conversacion-item {
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.conversacion-item:hover {
+    background-color: #f9fafb;
+}
+
+.conversacion-item.active {
+    background-color: #f3f4f6;
+    border-left: 3px solid #719177;
+}
+
+/* Badge de mensajes sin leer */
+.badge-sin-leer {
+    min-width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background-color: #719177;
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+}
+
+/* Área de chat */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #f9fafb;
+}
+
+.chat-header {
+    padding: 12px 16px;
+    background-color: #719177;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background-color: #E8E8E8;
+}
+
+/* Contenedor wrapper para hover */
+.mensaje-wrapper {
+    width: 100%;
+    display: flex;
+    position: relative;
+}
+
+.mensaje-wrapper.mensaje-mio {
+    justify-content: flex-end;
+    padding-left: 60px;
+}
+
+.mensaje-wrapper.mensaje-otro {
+    justify-content: flex-start;
+    padding-right: 60px;
+}
+
+/* Burbujas de mensaje */
+.mensaje-bubble {
+    max-width: 75%;
+    padding: 10px 14px;
+    border-radius: 16px;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    position: relative;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.mensaje-mio {
+    justify-content: flex-end;
+    padding-left: 40px;
+}
+
+.mensaje-otro {
+    justify-content: flex-start;
+    padding-right: 40px;
+}
+
+.mensaje-mio .mensaje-bubble {
+    background-color: #719177;
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.mensaje-otro .mensaje-bubble {
+    background-color: white;
+    color: #1f2937;
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.mensaje-tiempo {
+    font-size: 11px;
+    opacity: 0.7;
+}
+
+.mensaje-mio + .mensaje-tiempo {
+    align-self: flex-end;
+}
+
+.mensaje-otro + .mensaje-tiempo {
+    align-self: flex-start;
+}
+
+/* Input de mensaje */
+.chat-input-container {
+    padding: 12px 16px;
+    background-color: #E8E8E8;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 10px 16px 10px 48px;
+    border: 1px solid #d1d5db;
+    border-radius: 24px;
+    outline: none;
+    font-size: 15px;
+    transition: border-color 0.2s;
+    background-color: white;
+}
+
+.chat-input:focus {
+    border-color: #719177;
+}
+
+.btn-send {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #719177;
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    transform: rotate(90deg);
+}
+
+.btn-send:hover {
+    background-color: #5a7360;
+}
+
+.btn-send:disabled {
+    background-color: #d1d5db;
+    cursor: not-allowed;
+}
+
+/* Estado vacío */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #9ca3af;
+    text-align: center;
+    padding: 32px;
+}
+
+.empty-state svg {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+/* Indicador "escribiendo..." */
+.typing-indicator {
+    display: flex;
+    gap: 4px;
+    padding: 8px 12px;
+    background-color: white;
+    border-radius: 16px;
+    width: fit-content;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.typing-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #9ca3af;
+    animation: typingAnimation 1.4s infinite;
+}
+
+.typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typingAnimation {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-10px); }
+}
+
+/* Scrollbar personalizada */
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .mensaje-bubble {
+        max-width: 85%;
+    }
+}
+
+/* Badge de "online" */
+.status-online {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #10b981;
+    border: 2px solid white;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+/* Búsqueda */
+.search-input {
+    width: 100%;
+    padding: 10px 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    outline: none;
+    font-size: 16px;
+    transition: border-color 0.2s;
+}
+
+.search-input:focus {
+    border-color: #719177;
+}
+
+/* Layout sin sidebar */
+.mensajes-layout {
+    height: calc(100vh - 73px);
+}
+
+/* Ajuste para el panel de conversaciones */
+.conversaciones-panel {
+    width: 340px;
+    border-right: 1px solid #e5e7eb;
+}
+
+/* Preview de imágenes - aparece arriba del input */
+.images-preview-container {
+    padding: 12px 16px;
+    background-color: #f9fafb;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.image-preview-item {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.image-preview-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-preview-close {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 1;
+}
+
+.image-preview-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+/* Mensajes con imágenes en el chat */
+.mensaje-imagenes-grid {
+    display: grid;
+    gap: 4px;
+    max-width: 300px;
+    margin-bottom: 4px;
+}
+
+.mensaje-imagenes-grid.single {
+    grid-template-columns: 1fr;
+}
+
+.mensaje-imagenes-grid.double {
+    grid-template-columns: 1fr 1fr;
+}
+
+.mensaje-imagenes-grid.triple {
+    grid-template-columns: 1fr 1fr;
+}
+
+.mensaje-imagenes-grid.multiple {
+    grid-template-columns: 1fr 1fr;
+}
+
+.mensaje-imagen-item {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.mensaje-imagen-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mensaje-imagen-item.triple-third {
+    grid-column: 1 / -1;
+}
+
+.mensaje-imagen-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 24px;
+}
+
+/* Modal lightbox para ver imágenes */
+.image-lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-image {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.lightbox-nav.prev {
+    left: 20px;
+}
+
+.lightbox-nav.next {
+    right: 20px;
+}
+
+.lightbox-counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+/* Texto del mensaje con imágenes */
+.mensaje-con-imagenes .mensaje-texto {
+    margin-top: 8px;
+    word-wrap: break-word;
+}
+
+/* Mensaje con imagen */
+.mensaje-imagen img {
+    max-width: 250px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Ajustar input para hacer espacio al botón */
+.chat-input-container {
+    position: relative;
+}
+
+.chat-input {
+    font-size: 16px;
+    padding-left: 58px; 
+}
+
+.btn-attach {
+    position: absolute;
+    left: 26px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: transparent;
+    color: #719177;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    z-index: 10;
+}
+
+.btn-attach:hover {
+    background-color: #f3f4f6;
+}
+
+.btn-attach svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Menú contextual de mensaje */
+.mensaje-bubble {
+    position: relative;
+}
+
+.mensaje-menu {
+    position: fixed;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 8px 0;
+    z-index: 10000;
+    width: 200px;
+}
+
+.mensaje-menu-item {
+    padding: 10px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #5a7360;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    transition: background-color 0.2s;
+}
+
+.mensaje-menu-item:hover {
+    background-color: #58605525;
+}
+
+/* Mensaje eliminado */
+.mensaje-eliminado {
+    opacity: 0.6;
+    font-style: italic;
+    color: #6b7280;
+}
+
+/* Icono de menú en el mensaje */
+.mensaje-options-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #e5e7eb;
+    border: none;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    color: #383838;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.mensaje-mio .mensaje-options-btn {
+    left: -32px; /* A la izquierda del mensaje propio */
+}
+
+.mensaje-otro .mensaje-options-btn {
+    right: -32px; /* A la derecha del mensaje de otro */
+}
+
+.mensaje-mio:hover .mensaje-options-btn,
+.mensaje-otro:hover .mensaje-options-btn {
+    display: flex;
+}
+
+/* Overlay para cerrar menú */
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99;
+}
+
+/* Banner de edición */
+.edit-banner {
+    background-color: #d9f0dd;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-left: 4px solid #719177;
+}
+
+.edit-banner-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.edit-banner-content svg {
+    flex-shrink: 0;
+    color: #719177;
+    width: 18px;
+    height: 18px;
+}
+
+.edit-banner-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.edit-banner-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #719177;
+    margin-bottom: 2px;
+}
+
+.edit-banner-preview {
+    font-size: 13px;
+    color: #667781;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.edit-banner-close {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    color: #667781;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.edit-banner-close:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Indicador de mensaje editado */
+.mensaje-editado {
+    position: relative;
+    font-size: 11px;
+    opacity: 0.6;
+    font-style: italic;
+    margin-left: 6px;
+    display: inline-block;
+}
+
+/* Selector de emojis */
+.emoji-picker {
+    position: absolute;
+    bottom: 100%;
+    right: 60px;
+    margin-bottom: 8px;
+    background: white;
+    border-radius: 12px 12px 12px 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 12px;
+    width: 320px;
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 1000;
+    display: none;
+}
+
+.emoji-picker.show {
+    display: block;
+}
+
+.emoji-picker::-webkit-scrollbar {
+    width: 0px;
+}
+
+.emoji-picker::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.emoji-picker::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 3px;
+}
+
+.emoji-picker::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+}
+
+.emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+}
+
+.emoji-item {
+    font-size: 24px;
+    cursor: pointer;
+    text-align: center;
+    padding: 4px;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.emoji-item img {
+    width: 24px;
+    height: 24px;
+}
+
+.emoji-item:hover {
+    background-color: #f3f4f6;
+}
+
+.btn-emoji {
+    position: absolute;
+    right: 68px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: transparent;
+    color: #719177;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    z-index: 10;
+}
+
+.btn-emoji img {
+    width: 22px;
+    height: 22px;
+    filter: brightness(0) saturate(100%) invert(49%) sepia(13%) saturate(876%) hue-rotate(82deg) brightness(92%) contrast(88%);
+}
+
+.btn-emoji:hover {
+    background-color: #f3f4f6;
+}
+
+.mensaje-bubble img.emoji {
+    width: 18px;
+    height: 18px;
+    display: inline;
+    vertical-align: middle;
+    margin: 0 1px;
+}
+
+/* Botón de responder */
+.mensaje-reply-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #e5e7eb;
+    border: none;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    color: #383838;
+}
+
+.mensaje-mio .mensaje-reply-btn {
+    left: -64px; /* Más a la izquierda que el botón de opciones */
+}
+
+.mensaje-otro .mensaje-reply-btn {
+    right: -64px; /* Más a la derecha que el botón de opciones */
+}
+
+.mensaje-mio:hover .mensaje-reply-btn,
+.mensaje-otro:hover .mensaje-reply-btn {
+    display: flex;
+}
+
+.mensaje-reply-btn:hover {
+    background-color: #d1d5db;
+}
+
+/* Banner de respuesta */
+.reply-banner {
+    background-color: #f3f4f6;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-left: 4px solid #719177;
+}
+
+.reply-banner-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.reply-banner-content svg {
+    flex-shrink: 0;
+    color: #719177;
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+}
+
+.reply-banner-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.reply-banner-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #719177;
+    margin-bottom: 2px;
+}
+
+.reply-banner-preview {
+    font-size: 13px;
+    color: #667781;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.reply-banner-close {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    color: #667781;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.reply-banner-close:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Mensaje respondido dentro de la burbuja - Estilo Instagram */
+.mensaje-reply-context {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    font-size: 13px;
+    position: relative;
+    overflow: hidden;
+}
+
+.mensaje-reply-context::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, #719177 0%, #5a7360 100%);
+}
+
+.mensaje-mio .mensaje-reply-context {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.mensaje-mio .mensaje-reply-context::before {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.6) 100%);
+}
+
+.mensaje-reply-context-author {
+    font-weight: 600;
+    margin-bottom: 3px;
+    font-size: 12px;
+    padding-left: 8px;
+}
+
+.mensaje-mio .mensaje-reply-context-author {
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.mensaje-otro .mensaje-reply-context-author {
+    color: #262626;
+}
+
+.mensaje-reply-context-text {
+    opacity: 0.7;
+    font-size: 13px;
+    line-height: 1.3;
+    padding-left: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mensaje-mio .mensaje-reply-context-text {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+#chat-view {
+    position: fixed;
+    inset: 0;
+    background-color: white;
+    z-index: 50;
+}
+
+/* ===================================
+   OPTIMIZACIONES MÓVILES
+   =================================== */
+@media (max-width: 768px) {
+    .mensaje-bubble {
+        max-width: 80%;
+        padding: 9px 12px;
+    }
+
+    .mensaje-options-btn,
+    .mensaje-reply-btn {
+        display: none !important;
+    }
+
+    .mensaje-wrapper:active .mensaje-options-btn,
+    .mensaje-wrapper:active .mensaje-reply-btn {
+        display: flex !important;
+    }
+
+    .emoji-picker {
+        width: 280px;
+        max-height: 250px;
+        right: 16px;
+    }
+
+    .emoji-grid {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 4px;
+    }
+
+    .emoji-item {
+        font-size: 20px;
+        padding: 4px;
+    }
+
+    .images-preview-container {
+        max-height: 120px;
+        padding: 10px 16px;
+    }
+
+    .image-preview-item {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+/* ===================================
+   SOLICITUDES MODERNAS
+   =================================== */
+.solicitud-item {
+    padding: 16px;
+    margin-bottom: 10px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.solicitud-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.solicitud-avatar-container {
+    flex-shrink: 0;
+}
+
+.solicitud-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.solicitud-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.solicitud-nombre {
+    font-weight: 600;
+    font-size: 15px;
+    color: #111827;
+    margin-bottom: 4px;
+}
+
+.solicitud-producto-tag {
+    font-size: 12px;
+    color: #719177;
+    font-weight: 500;
+}
+
+.solicitud-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-aceptar-solicitud,
+.btn-rechazar-solicitud {
+    flex: 1;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.btn-aceptar-solicitud {
+    background: #719177;
+    color: white;
+}
+
+.btn-aceptar-solicitud:hover {
+    opacity: 0.9;
+}
+
+.btn-rechazar-solicitud {
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+.btn-rechazar-solicitud:hover {
+    opacity: 0.8;
+}
+
+/* Estado vacío de solicitudes */
+.empty-solicitudes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.empty-solicitudes svg {
+    width: 80px;
+    height: 80px;
+    color: #d1d5db;
+    margin-bottom: 16px;
+}
+
+.empty-solicitudes h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+}
+
+.empty-solicitudes p {
+    font-size: 14px;
+    color: #9ca3af;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .solicitud-item {
+        padding: 14px;
+    }
+    
+    .btn-aceptar-solicitud,
+    .btn-rechazar-solicitud {
+        padding: 9px 14px;
+        font-size: 13px;
+    }
+}

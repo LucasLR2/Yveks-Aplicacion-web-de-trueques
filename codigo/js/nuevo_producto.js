@@ -1,17 +1,110 @@
 let uploadedImages = [];
 
+// Función para mostrar alertas personalizadas
+function mostrarAlerta(mensaje, tipo = 'error') {
+  // Eliminar alerta anterior si existe
+  const alertaAnterior = document.querySelector('.custom-alert');
+  if (alertaAnterior) {
+    alertaAnterior.remove();
+  }
+
+  // Crear la alerta
+  const alerta = document.createElement('div');
+  alerta.className = `custom-alert fixed top-4 left-1/2 transform -translate-x-1/2 z-50 px-6 py-4 rounded-lg shadow-xl flex items-center gap-3 animate-slide-down ${
+    tipo === 'success' ? 'bg-green-50 border-2 border-green-500' : 'bg-red-50 border-2 border-red-500'
+  }`;
+  
+  // Icono
+  const icono = tipo === 'success' 
+    ? '<svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>'
+    : '<svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
+  
+  alerta.innerHTML = `
+    ${icono}
+    <span class="${tipo === 'success' ? 'text-green-800' : 'text-red-800'} font-medium">${mensaje}</span>
+    <button onclick="this.parentElement.remove()" class="${tipo === 'success' ? 'text-green-600 hover:text-green-800' : 'text-red-600 hover:text-red-800'} ml-4">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+    </button>
+  `;
+  
+  document.body.appendChild(alerta);
+  
+  // Añadir estilos para la animación si no existen
+  if (!document.getElementById('custom-alert-styles')) {
+    const style = document.createElement('style');
+    style.id = 'custom-alert-styles';
+    style.textContent = `
+      @keyframes slide-down {
+        from {
+          transform: translate(-50%, -100%);
+          opacity: 0;
+        }
+        to {
+          transform: translate(-50%, 0);
+          opacity: 1;
+        }
+      }
+      .animate-slide-down {
+        animation: slide-down 0.3s ease-out;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+  
+  // Auto-eliminar después de 5 segundos
+  setTimeout(() => {
+    if (alerta.parentElement) {
+      alerta.style.opacity = '0';
+      alerta.style.transition = 'opacity 0.3s';
+      setTimeout(() => alerta.remove(), 300);
+    }
+  }, 5000);
+}
+
 function goBack() {
-  if (confirm("¿Estás seguro de que quieres salir? Se perderán los cambios.")) {
+  const ejecutarSalida = function() {
     window.history.back();
+  };
+
+  if (window.SwalApp) {
+    window.SwalApp.confirmar({
+      title: 'Salir sin guardar',
+      html: '¿Estás seguro de que quieres salir?<br>Se perderán los cambios no guardados.',
+      confirmButtonText: 'Salir',
+      cancelButtonText: 'Quedarse',
+      confirmClass: 'btn-danger'
+    }).then(result => {
+      if (result.isConfirmed) ejecutarSalida();
+    });
+  } else {
+    if (confirm("¿Estás seguro de que quieres salir? Se perderán los cambios.")) {
+      ejecutarSalida();
+    }
   }
 }
 
 function cancelForm() {
-  if (confirm("¿Cancelar publicación?")) {
+  const ejecutarCancelacion = function() {
     document.getElementById("productForm").reset();
     uploadedImages = [];
     updateImagePreview();
     updatePhotoCounter();
+  };
+
+  if (window.SwalApp) {
+    window.SwalApp.confirmar({
+      title: 'Cancelar publicación',
+      html: '¿Estás seguro de cancelar?<br>Se perderán todos los datos ingresados.',
+      confirmButtonText: 'Cancelar publicación',
+      cancelButtonText: 'Continuar editando',
+      confirmClass: 'btn-danger'
+    }).then(result => {
+      if (result.isConfirmed) ejecutarCancelacion();
+    });
+  } else {
+    if (confirm("¿Cancelar publicación?")) {
+      ejecutarCancelacion();
+    }
   }
 }
 
@@ -24,7 +117,7 @@ function handleImageUpload(event) {
 
   // Mostrar alerta si intentan subir más de 10
   if (files.length > espacioDisponible) {
-    alert(`Solo puedes agregar ${espacioDisponible} imagen(es) más. Límite: 10 fotos.`);
+    mostrarAlerta(`Solo puedes agregar ${espacioDisponible} imagen(es) más. Límite: 10 fotos.`, 'error');
   }
 
   archivosAProcesar.forEach(file => {
@@ -85,63 +178,125 @@ function updatePhotoCounter() {
 
 function submitForm(e) {
   e.preventDefault();
+  
+  // Obtener el formulario que disparó el evento
+  const form = e.target;
+  
+  // Obtener elementos desde el formulario específico
+  const productNameElement = form.querySelector("#productName");
+  const categoryElement = form.querySelector("#category");
+  const conditionElement = form.querySelector("#condition");
+  const descriptionElement = form.querySelector("#description");
+  const exchangePreferencesElement = form.querySelector("#exchangePreferences");
+  const locationElement = form.querySelector("#location");
+
+
   const formData = {
-    name: document.getElementById("productName").value,
-    category: document.getElementById("category").value,
-    condition: document.getElementById("condition").value,
-    description: document.getElementById("description").value,
-    exchangePreferences: document.getElementById("exchangePreferences").value,
-    location: document.getElementById("location").value,
+    name: productNameElement ? productNameElement.value.trim() : '',
+    category: categoryElement ? categoryElement.value : '',
+    condition: conditionElement ? conditionElement.value : '',
+    description: descriptionElement ? descriptionElement.value.trim() : '',
+    exchangePreferences: exchangePreferencesElement ? exchangePreferencesElement.value.trim() : '',
+    location: locationElement ? locationElement.value : '',
     images: uploadedImages
   };
-  function submitForm(e) {
-    e.preventDefault();
 
-    const formData = {
-      name: document.getElementById("productName").value.trim(),
-      category: document.getElementById("category").value,
-      condition: document.getElementById("condition").value,
-      description: document.getElementById("description").value.trim(),
-      exchangePreferences: document.getElementById("exchangePreferences").value.trim(),
-      location: document.getElementById("location").value,
-      images: uploadedImages
-    };
 
-    // Validación mejorada
-    if (!formData.name) {
-      alert("Por favor ingresa el nombre del producto.");
-      document.getElementById("productName").focus();
-      return;
-    }
-
-    if (!formData.condition) {
-      alert("Por favor selecciona el estado del producto.");
-      document.getElementById("condition").focus();
-      return;
-    }
-
-    if (!formData.category) {
-      alert("Por favor selecciona una categoría.");
-      document.getElementById("category").focus();
-      return;
-    }
-
-    if (!formData.location) {
-      alert("Por favor selecciona una ubicación.");
-      document.getElementById("location").focus();
-      return;
-    }
-
-    console.log("Publicación:", formData);
-    alert("¡Publicación guardada exitosamente!");
-
-    document.getElementById("productForm").reset();
-    uploadedImages = [];
-    updateImagePreview();
-    updatePhotoCounter();
+  // Validación mejorada
+  if (uploadedImages.length === 0) {
+    mostrarAlerta('Debes agregar al menos una imagen del producto.', 'error');
+    return;
   }
-  console.log("Publicación:", formData);
-  alert("¡Publicación guardada!");
+
+  if (!formData.name || formData.name === '') {
+    mostrarAlerta('Por favor ingresa el nombre del producto.', 'error');
+    if (productNameElement) productNameElement.focus();
+    return;
+  }
+
+  if (!formData.condition || formData.condition === '') {
+    mostrarAlerta('Por favor selecciona el estado del producto.', 'error');
+    if (conditionElement) conditionElement.focus();
+    return;
+  }
+
+  if (!formData.category || formData.category === '' || formData.category === 'example') {
+    mostrarAlerta('Por favor selecciona una categoría.', 'error');
+    if (categoryElement) categoryElement.focus();
+    return;
+  }
+
+  if (!formData.description || formData.description === '') {
+    mostrarAlerta('Por favor ingresa una descripción del producto.', 'error');
+    if (descriptionElement) descriptionElement.focus();
+    return;
+  }
+
+  if (!formData.exchangePreferences || formData.exchangePreferences === '') {
+    mostrarAlerta('Por favor ingresa tus preferencias de intercambio.', 'error');
+    if (exchangePreferencesElement) exchangePreferencesElement.focus();
+    return;
+  }
+
+  if (!formData.location || formData.location === '') {
+    mostrarAlerta('Por favor selecciona una ubicación.', 'error');
+    if (locationElement) locationElement.focus();
+    return;
+  }
+  
+  // Deshabilitar el botón de envío
+  const submitButton = form.querySelector('button[type="submit"]');
+  if (submitButton) {
+    submitButton.disabled = true;
+    submitButton.textContent = 'Guardando...';
+  }
+
+  fetch('php/conexion_nuevo_producto.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData)
+  })
+  .then(response => {
+    
+    // Primero obtener el texto para ver qué devuelve
+    return response.text().then(text => {
+      
+      try {
+        return JSON.parse(text);
+      } catch (e) {
+        throw new Error("El servidor devolvió una respuesta inválida. Verifica la consola PHP.");
+      }
+    });
+  })
+  .then(data => {
+    
+    if (data.success) {
+      mostrarAlerta('¡Publicación guardada exitosamente!', 'success');
+      form.reset();
+      uploadedImages = [];
+      updateImagePreview();
+      updatePhotoCounter();
+      
+      // Redirigir después de 0.5 segundos
+      setTimeout(() => {
+        window.location.href = 'php/perfil.php';
+      }, 500);
+    } else {
+      mostrarAlerta(data.message || "Error desconocido al guardar la publicación.", 'error');
+    }
+  })
+  .catch(error => {
+    mostrarAlerta('Error de conexión con el servidor. Por favor, intenta nuevamente.', 'error');
+  })
+  .finally(() => {
+    // Rehabilitar el botón de envío
+    if (submitButton) {
+      submitButton.disabled = false;
+      submitButton.textContent = 'Guardar publicación';
+    }
+  });
 }
 
 // Opciones dinámicas
@@ -162,7 +317,7 @@ function cargarEstados() {
 
 function cargarCategorias() {
   const select = document.getElementById("category");
-  select.innerHTML = `<option value="example" disabled selected>Seleccionar categoría</option>`;
+  select.innerHTML = `<option value="" disabled selected>Seleccionar categoría</option>`;
   categorias.forEach(c => {
     const opt = document.createElement("option");
     opt.value = c.toLowerCase();
@@ -182,8 +337,17 @@ function cargarDepartamentos() {
   });
 }
 
+// Variable para controlar si ya se inicializó
+let formularioInicializado = false;
+
 // Usar múltiples métodos para asegurar la carga
 function inicializarFormulario() {
+  // Evitar múltiples inicializaciones
+  if (formularioInicializado) {
+    console.log("⚠️ Formulario ya inicializado, saltando...");
+    return;
+  }
+
   console.log("=== INICIANDO CARGA DE FORMULARIO ===");
 
   const conditionSelect = document.getElementById("condition");
@@ -212,6 +376,7 @@ function inicializarFormulario() {
   updatePhotoCounter();
   updateImagePreview();
 
+  formularioInicializado = true;
   console.log("=== FORMULARIO COMPLETAMENTE CARGADO ===");
 }
 
@@ -221,6 +386,3 @@ if (document.readyState === 'loading') {
 } else {
   inicializarFormulario();
 }
-
-// Backup: intentar de nuevo después de 500ms por si acaso
-setTimeout(inicializarFormulario, 500);

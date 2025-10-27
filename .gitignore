@@ -1,0 +1,39 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+# JetBrains IDEs
+.idea/
+
+# Default ignored files
+/shelf/
+/workspace.xml
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+
+# Variables de entorno (si las usas)
+.env
+.env.local
+
+# Carpetas de dependencias
+node_modules/
+vendor/
+
+# Archivos temporales
+*.tmp
+*.bak
+*.cache
+
+codigo/recursos/imagenes/chat/
+codigo/recursos/imagenes/productos/
+codigo/recursos/imagenes/perfiles/
+codigo/uploads/

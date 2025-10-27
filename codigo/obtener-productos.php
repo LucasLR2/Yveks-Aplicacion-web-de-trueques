@@ -103,7 +103,9 @@ try {
             'publicadoHace' => $publicadoHace,
             'vendedor' => [
                 'nombre' => $row['vendedor_nombre'],
-                'avatar' => $row['vendedor_avatar'] ?: 'recursos/avatars/default.jpg'
+                'avatar' => !empty($row['vendedor_avatar']) 
+                    ? $row['vendedor_avatar']
+                    : '/recursos/iconos/avatar.svg'
             ],
             'ubicacion' => $row['ubicacion_nombre'] ?: 'Montevideo',
             'coordenadas' => [

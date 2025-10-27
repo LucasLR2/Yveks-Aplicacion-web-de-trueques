@@ -1,396 +1,407 @@
-// Datos de ofertas
-const offers = {
-    received: [
-        {
-            id: 1,
-            product: "Cámara Canon",
-            condition: "Reacondicionado",
-            reason: "Cambio por celular con buena cámara",
-            buyer: "Ana García",
-            buyerAvatar: "AG",
-            rating: 4,
-            reviews: 12
-        },
-        {
-            id: 2,
-            product: "Auriculares Sony",
-            condition: "Nuevo",
-            reason: "Prefiero un modelo con cable",
-            buyer: "Carlos Martínez",
-            buyerAvatar: "CM",
-            rating: 5,
-            reviews: 8
-        },
-        {
-            id: 3,
-            product: "Buzo Salomon",
-            condition: "Usado",
-            reason: "Me queda chico, busco otro talle",
-            buyer: "Josefina Rodríguez",
-            buyerAvatar: "JR",
-            rating: 3,
-            reviews: 5
-        },
-        {
-            id: 4,
-            product: "Teclado Mecánico Logitech",
-            condition: "Nuevo",
-            reason: "Quiero cambiarlo por uno con switches rojos",
-            buyer: "Matías Pérez",
-            buyerAvatar: "MP",
-            rating: 4,
-            reviews: 18
-        },
-        {
-            id: 5,
-            product: "Cámara GoPro Hero 9",
-            condition: "Usado",
-            reason: "Busco un celular con buena estabilización",
-            buyer: "Valentina Díaz",
-            buyerAvatar: "VD",
-            rating: 5,
-            reviews: 23
-        },
-        {
-            id: 6,
-            product: "Smartwatch Huawei",
-            condition: "Reacondicionado",
-            reason: "Quiero un modelo compatible con iOS",
-            buyer: "Esteban Morales",
-            buyerAvatar: "EM",
-            rating: 4,
-            reviews: 10
-        }
-    ],
-    made: [
-        {
-            id: 7,
-            product: "iPhone 14",
-            condition: "Nuevo",
-            reason: "Busco una laptop potente para editar videos",
-            seller: "MobileShop",
-            sellerAvatar: "MS",
-            rating: 5,
-            reviews: 14,
-            status: 'pending'
-        },
-        {
-            id: 8,
-            product: "MacBook Pro 13",
-            condition: "Reacondicionado",
-            reason: "Quiero una cámara profesional como la EOS R6",
-            seller: "Tech Store",
-            sellerAvatar: "TS",
-            rating: 4,
-            reviews: 20,
-            status: 'accepted'
-        },
-        {
-            id: 9,
-            product: "Tablet Samsung Tab S8",
-            condition: "Nuevo",
-            reason: "Busco consola portátil tipo Switch",
-            seller: "ElectroWorld",
-            sellerAvatar: "EW",
-            rating: 4,
-            reviews: 11,
-            status: 'cancelled'
-        },
-        {
-            id: 10,
-            product: "Monitor LG UltraWide",
-            condition: "Usado",
-            reason: "Quiero cambiar por uno curvo gamer",
-            seller: "OfiTech",
-            sellerAvatar: "OT",
-            rating: 3,
-            reviews: 6,
-            status: 'pending'
-        },
-        {
-            id: 11,
-            product: "Auriculares JBL Tune 510BT",
-            condition: "Nuevo",
-            reason: "Busco modelo con cancelación activa",
-            seller: "AudioHouse",
-            sellerAvatar: "AH",
-            rating: 5,
-            reviews: 9,
-            status: 'accepted'
-        },
-        {
-            id: 12,
-            product: "Nintendo Switch",
-            condition: "Usado",
-            reason: "Quiero una tablet para estudiar",
-            seller: "GamingUY",
-            sellerAvatar: "GU",
-            rating: 4,
-            reviews: 17,
-            status: 'cancelled'
-        }
-    ]
-};
+// Variables globales
+let ofertasActuales = [];
+let tipoActual = 'received'; // 'received' o 'made'
 
-// Estado actual de las ofertas
-let currentOfferType = 'received';
+// Cargar ofertas al iniciar
+document.addEventListener('DOMContentLoaded', function() {
+    cargarOfertas('recibidas');
+});
 
-// Función para generar ofertas móvil
-function generateMobileOffers(type) {
-    const container = document.getElementById('mobile-offers');
-    const offerList = offers[type];
-
-    container.innerHTML = offerList.map(offer => {
-        if (type === 'made') {
-            let status = offer.status || 'pending';
-            let statusText = '';
-            let statusTextColor = '';
-            let dotColor = '';
-            if (status === 'pending') {
-                statusText = 'En espera';
-                statusTextColor = 'text-yellow';
-                dotColor = 'bg-yellow-400';
-            } else if (status === 'accepted') {
-                statusText = 'Aceptada';
-                statusTextColor = 'text-green';
-                dotColor = 'bg-green';
-            } else if (status === 'cancelled') {
-                statusText = 'Cancelada';
-                statusTextColor = 'text-red';
-                dotColor = 'bg-red-500';
-            }
-            return `
-            <div class="offer-card bg-transparent rounded-2xl shadow-sm ring-green p-4 mb-4 w-full">
-                <div class="flex space-x-4">
-                    <div class="flex-shrink-0">
-                        <img src="../recursos/imagenes/${offer.id}.jpg" alt="${offer.product}" class="w-40 h-40 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg lg:rounded-xl">
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <h3 class="text-2xl text-gray-800 mb-1 text-left truncate">${offer.product}</h3>
-                        <p class="text-base text-green mb-2">${offer.condition}</p>
-                        <div class="flex flex-col space-y-2">
-                            <span class="text-xs text-black">Por</span>
-                            <div class="flex items-center space-x-2">
-                                <img src="../recursos/imagenes/${offer.id + 5}.jpg" alt="Mi producto" class="w-16 h-16 md:w-10 md:h-10 lg:w-16 lg:h-16 object-cover rounded lg:rounded-lg flex-shrink-0">
-                                <span class="text-xs md:text-sm lg:text-base text-black">Mi Producto</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex items-center justify-between mt-4 mb-3">
-                    <div class="flex items-center space-x-2">
-                        <span class="text-xs text-black">De</span>
-                        <div class="w-5 h-5 bg-green rounded-full flex items-center justify-center text-white text-xs">
-                            ${offer.sellerAvatar}
-                        </div>
-                        <span class="text-xs text-black truncate">${offer.seller}</span>
-                    </div>
-                    <div class="flex items-center space-x-1">
-                        <img src="../recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-3 h-3 svg-yellow">
-                        <span class="text-xs text-black">${offer.rating} (${offer.reviews})</span>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-2 mt-4">
-                    <span class="w-3 h-3 rounded-full ${dotColor} inline-block"></span>
-                    <span class="text-xs font-medium ${statusTextColor}">${statusText}</span>
-                    <div class="flex-1"></div>
-                    <button class="btn-primary flex-1 px-2 py-1.5 text-xs" onclick="messageUser(${offer.id})">Ver chat</button>
-                    <button class="btn-secondary flex-1 px-2 py-1.5 text-xs" onclick="${status === 'cancelled' ? `deleteOffer(${offer.id})` : `rejectOffer(${offer.id})`}" >${status === 'cancelled' ? 'Eliminar' : 'Cancelar'}</button>
-                </div>
-            </div>
-            `;
-        }
-        // ... original código para 'received' ...
-        return `
-        <div class="offer-card bg-transparent rounded-2xl shadow-sm ring-green p-4 mb-4 w-full">
-            <div class="flex space-x-4">
-                <div class="flex-shrink-0">
-                    <img src="../recursos/imagenes/${offer.id}.jpg" alt="${offer.product}" class="w-40 h-40 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg lg:rounded-xl">
-                </div>
-                <div class="flex-1 min-w-0">
-                    <h3 class="text-2xl text-gray-800 mb-1 text-left truncate">${offer.product}</h3>
-                    <p class="text-base text-green mb-2">${offer.condition}</p>
-                    <div class="flex flex-col space-y-2">
-                        <span class="text-xs text-black">Por</span>
-                        <div class="flex items-center space-x-2">
-                            <img src="../recursos/imagenes/${offer.id + 5}.jpg" alt="Mi producto" class="w-16 h-16 md:w-10 md:h-10 lg:w-16 lg:h-16 object-cover rounded lg:rounded-lg flex-shrink-0">
-                            <span class="text-xs md:text-sm lg:text-base text-black">Mi Producto</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="flex items-center justify-between mt-4 mb-3">
-                <div class="flex items-center space-x-2">
-                    <span class="text-xs text-black">De</span>
-                    <div class="w-5 h-5 bg-green rounded-full flex items-center justify-center text-white text-xs">
-                        ${offer.buyerAvatar || offer.sellerAvatar}
-                    </div>
-                    <span class="text-xs text-black truncate">${offer.buyer || offer.seller}</span>
-                </div>
-                <div class="flex items-center space-x-1">
-                    <img src="../recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-3 h-3 svg-yellow">
-                    <span class="text-xs text-black">${offer.rating} (${offer.reviews})</span>
-                </div>
-            </div>
-            <div class="flex space-x-2 mt-4">
-                <button class="btn-primary flex-1 px-2 py-1.5 text-xs" onclick="messageUser(${offer.id})">Mensaje</button>
-                <button class="btn-primary flex-1 px-2 py-1.5 text-xs" onclick="acceptOffer(${offer.id})">Aceptar</button>
-                <button class="btn-secondary flex-1 px-2 py-1.5 text-xs" onclick="rejectOffer(${offer.id})">Cancelar</button>
-            </div>
-        </div>
-        `;
-    }).join('');
-}
-
-// Función para generar ofertas desktop
-function generateDesktopOffers(type) {
-    const container = document.getElementById('desktop-offers');
-    const offerList = offers[type];
-
-    container.innerHTML = offerList.map(offer => {
-        if (type === 'made') {
-            let status = offer.status || 'pending';
-            let statusText = '';
-            let statusTextColor = '';
-            let dotColor = '';
-            if (status === 'pending') {
-                statusText = 'En espera';
-                statusTextColor = 'text-yellow';
-                dotColor = 'bg-yellow-400';
-            } else if (status === 'accepted') {
-                statusText = 'Aceptada';
-                statusTextColor = 'text-green';
-                dotColor = 'bg-green';
-            } else if (status === 'cancelled') {
-                statusText = 'Cancelada';
-                statusTextColor = 'text-red';
-                dotColor = 'bg-red-500';
-            }
-            return `
-            <div class="offer-card bg-transparent rounded-3xl shadow-sm ring-green p-8 w-full">
-                <div class="flex space-x-8">
-                    <div class="flex-shrink-0">
-                        <img src="../recursos/imagenes/${offer.id}.jpg" alt="${offer.product}" class="w-20 h-20 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg lg:rounded-xl">
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <h3 class="text-2xl text-gray-800 mb-3 text-left">${offer.product}</h3>
-                        <p class="text-base text-green mb-5">${offer.condition}</p>
-                        <div class="flex flex-col space-y-3">
-                            <span class="text-base text-black">Por</span>
-                            <div class="flex items-center space-x-3">
-                                <img src="../recursos/imagenes/${offer.id + 5}.jpg" alt="Mi producto" class="w-6 h-6 md:w-10 md:h-10 lg:w-16 lg:h-16 object-cover rounded lg:rounded-lg flex-shrink-0">
-                                <span class="text-xs md:text-sm lg:text-base text-black">Mi Producto</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex items-center justify-between mt-8 mb-6">
-                    <div class="flex items-center space-x-4">
-                        <span class="text-base text-black">De</span>
-                        <div class="w-10 h-10 bg-green rounded-full flex items-center justify-center text-white text-base">
-                            ${offer.sellerAvatar}
-                        </div>
-                        <span class="text-base text-black">${offer.seller}</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                        <img src="../recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-6 h-6 svg-yellow">
-                        <span class="text-base text-black">${offer.rating} (${offer.reviews})</span>
-                    </div>
-                </div>
-                <div class="flex items-center space-x-3 mt-8">
-                    <span class="w-4 h-4 rounded-full ${dotColor} inline-block"></span>
-                    <span class="text-base font-medium ${statusTextColor}">${statusText}</span>
-                    <div class="flex-1"></div>
-                    <button class="btn-primary flex-1 px-6 py-2 text-base" onclick="messageUser(${offer.id})">Ver chat</button>
-                    <button class="btn-secondary flex-1 px-6 py-2 text-base" onclick="${status === 'cancelled' ? `deleteOffer(${offer.id})` : `rejectOffer(${offer.id})`}">${status === 'cancelled' ? 'Eliminar' : 'Cancelar'}</button>
-                </div>
-            </div>
-            `;
-        }
-        // ... original código para 'received' ...
-        return `
-        <div class="offer-card bg-transparent rounded-3xl shadow-sm ring-green p-8 w-full">
-            <div class="flex space-x-8">
-                <div class="flex-shrink-0">
-                    <img src="../recursos/imagenes/${offer.id}.jpg" alt="${offer.product}" class="w-20 h-20 md:w-32 md:h-32 lg:w-40 lg:h-40 object-cover rounded-lg lg:rounded-xl">
-                </div>
-                <div class="flex-1 min-w-0">
-                    <h3 class="text-2xl text-gray-800 mb-3 text-left">${offer.product}</h3>
-                    <p class="text-base text-green mb-5">${offer.condition}</p>
-                    <div class="flex flex-col space-y-3">
-                        <span class="text-base text-black">Por</span>
-                        <div class="flex items-center space-x-3">
-                            <img src="../recursos/imagenes/${offer.id + 5}.jpg" alt="Mi producto" class="w-6 h-6 md:w-10 md:h-10 lg:w-16 lg:h-16 object-cover rounded lg:rounded-lg flex-shrink-0">
-                            <span class="text-xs md:text-sm lg:text-base text-black">Mi Producto</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="flex items-center justify-between mt-8 mb-6">
-                <div class="flex items-center space-x-4">
-                    <span class="text-base text-black">De</span>
-                    <div class="w-10 h-10 bg-green rounded-full flex items-center justify-center text-white text-base">
-                        ${offer.buyerAvatar || offer.sellerAvatar}
-                    </div>
-                    <span class="text-base text-black">${offer.buyer || offer.seller}</span>
-                </div>
-                <div class="flex items-center space-x-3">
-                    <img src="../recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-6 h-6 svg-yellow">
-                    <span class="text-base text-black">${offer.rating} (${offer.reviews})</span>
-                </div>
-            </div>
-            <div class="flex space-x-4 mt-8">
-                <button class="btn-primary flex-1 px-6 py-2 text-base" onclick="messageUser(${offer.id})">
-                    Mensaje
-                </button>
-                <button class="btn-primary flex-1 px-6 py-2 text-base" onclick="acceptOffer(${offer.id})">
-                    Aceptar
-                </button>
-                <button class="btn-secondary flex-1 px-6 py-2 text-base" onclick="rejectOffer(${offer.id})">
-                    Cancelar
-                </button>
-            </div>
-        </div>
-        `;
-    }).join('');
-}
-
-// Función para cambiar tipo de ofertas
+// Función para cambiar tipo de oferta
 function switchOfferType(type, element) {
-    currentOfferType = type;
-
-    // Actualizar switches
-    document.querySelectorAll('.switch-option').forEach(option => {
-        option.classList.remove('active');
+    // Actualizar botones activos
+    document.querySelectorAll('.switch-option').forEach(btn => {
+        btn.classList.remove('active');
     });
     element.classList.add('active');
-
-    // Regenerar ofertas
-    generateMobileOffers(type);
-    generateDesktopOffers(type);
+    
+    // Guardar el tipo actual
+    tipoActual = type;
+    
+    // Cargar ofertas del tipo seleccionado
+    cargarOfertas(type);
 }
 
-// Funciones de acción de ofertas
-function acceptOffer(id) {
-    console.log('Aceptar oferta:', id);
-    // Aquí iría la lógica para aceptar la oferta
+// Función para cargar ofertas desde el servidor
+async function cargarOfertas(tipo) {
+    try {
+        const response = await fetch(`obtener-ofertas.php?tipo=${tipo}`);
+        const data = await response.json();
+        
+        console.log('Datos recibidos:', data); // Para debug
+
+        if (data.ofertas && data.ofertas.length > 0) {
+            console.log('Primera oferta completa:', data.ofertas[0]);
+            console.log('Rating:', data.ofertas[0].rating);
+            console.log('Reviews:', data.ofertas[0].reviews);
+        }
+        
+        if (data.success) {
+            ofertasActuales = data.ofertas;
+            renderizarOfertas(data.ofertas, tipo);
+        } else {
+            console.error('Error al cargar ofertas:', data.message);
+            mostrarMensajeVacio(tipo);
+        }
+    } catch (error) {
+        console.error('Error en fetch:', error);
+        mostrarMensajeVacio(tipo);
+    }
 }
 
-function rejectOffer(id) {
-    console.log('Rechazar oferta:', id);
-    // Aquí iría la lógica para rechazar la oferta
+// Función para renderizar ofertas
+function renderizarOfertas(ofertas, tipo) {
+    const containerDesktop = document.getElementById('desktop-offers');
+    const containerMobile = document.getElementById('mobile-offers');
+    
+    if (ofertas.length === 0) {
+        mostrarMensajeVacio(tipo);
+        return;
+    }
+    
+    const ofertasHTML = ofertas.map(oferta => generarTarjetaOferta(oferta, tipo)).join('');
+    
+    if (containerDesktop) {
+        containerDesktop.innerHTML = ofertasHTML;
+    }
+    
+    if (containerMobile) {
+        containerMobile.innerHTML = `
+            <div class="px-4 py-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h1 class="text-2xl font-semibold text-gray-800">Ofertas</h1>
+                </div>
+                
+                <!-- Switch móvil -->
+                <div class="switch-button flex mb-6">
+                    <div class="switch-option ${tipo === 'recibidas' ? 'active' : ''}" onclick="switchOfferType('recibidas', this)">
+                        Recibidas
+                    </div>
+                    <div class="switch-option ${tipo === 'hechas' ? 'active' : ''}" onclick="switchOfferType('hechas', this)">
+                        Hechas
+                    </div>
+                </div>
+                
+                <div class="space-y-4">
+                    ${ofertasHTML}
+                </div>
+            </div>
+        `;
+    }
 }
 
-function cancelOffer(id) {
-    console.log('Cancelar oferta:', id);
-    // Aquí iría la lógica para cancelar la oferta
+// Función para generar HTML de tarjeta de oferta
+function generarTarjetaOferta(oferta, tipo) {
+    const esRecibida = tipo === 'recibidas';
+    const usuario = esRecibida ? oferta.oferente : oferta.dueno;
+    
+    // Obtener las imágenes de la oferta (ya viene como array desde PHP)
+    const imagenes = Array.isArray(oferta.imagenes) ? oferta.imagenes : [];
+    let imagenPrincipal = imagenes.length > 0 ? imagenes[0] : '';
+
+    // Ajustar ruta de imagen principal
+    if (imagenPrincipal && !imagenPrincipal.startsWith('http')) {
+        // Si la ruta empieza con uploads/, agregarle ../
+        if (imagenPrincipal.startsWith('uploads/')) {
+            imagenPrincipal = '../' + imagenPrincipal;
+        }
+        // Si empieza con codigo/uploads/, reemplazar por ../uploads/
+        else if (imagenPrincipal.startsWith('codigo/uploads/')) {
+            imagenPrincipal = imagenPrincipal.replace('codigo/', '../');
+        }
+        // Si empieza con php/codigo/uploads/, reemplazar por ../uploads/
+        else if (imagenPrincipal.startsWith('php/codigo/uploads/')) {
+            imagenPrincipal = imagenPrincipal.replace('php/codigo/', '../');
+        }
+        // Si no tiene ningún prefijo, agregar ../
+        else if (!imagenPrincipal.startsWith('../')) {
+            imagenPrincipal = '../' + imagenPrincipal;
+        }
+    }
+    console.log('Ruta imagen oferta:', imagenPrincipal); // Para debug
+
+    // Imagen del producto solicitado
+    let imagenProducto = oferta.imagen_producto || '';
+    if (imagenProducto && !imagenProducto.startsWith('http')) {
+        // Limpiar cualquier prefijo incorrecto
+        imagenProducto = imagenProducto.replace('php/codigo/', '').replace('codigo/', '');
+        // Asegurar que empiece con ../
+        if (!imagenProducto.startsWith('../')) {
+            imagenProducto = '../' + imagenProducto;
+        }
+    }
+    console.log('Ruta imagen producto:', imagenProducto); // Para debug
+
+    // Avatar del usuario
+    let avatarUrl = usuario.avatar || '';
+    if (avatarUrl && !avatarUrl.startsWith('http') && !avatarUrl.startsWith('../')) {
+        avatarUrl = '../' + avatarUrl;
+    }
+    
+    return `
+        <div class="bg-white rounded-2xl border-2 border-gray-300 overflow-hidden hover:shadow-md transition-all duration-200">
+            <div class="p-4">
+                <!-- Sección superior: Imagen izquierda + Info derecha -->
+                <div class="flex gap-4 mb-4">
+                    <!-- Imagen del producto ofrecido -->
+                    <div class="flex-shrink-0">
+                        ${imagenPrincipal ? `
+                            <img src="${imagenPrincipal}" alt="${oferta.titulo}" 
+                                 class="w-44 h-44 object-cover rounded-xl"
+                                 onerror="this.src='../recursos/iconos/contorno/general/caja.svg'">
+                        ` : `
+                            <div class="w-44 h-44 bg-gray-200 rounded-xl flex items-center justify-center">
+                                <img src="../recursos/iconos/contorno/general/caja.svg" alt="Sin imagen" class="w-16 h-16 opacity-50">
+                            </div>
+                        `}
+                    </div>
+                    
+                    <!-- Info del producto -->
+                    <div class="flex-1 flex flex-col">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-1">${oferta.titulo}</h3>
+                        <p class="text-sm text-green font-medium mb-3">${oferta.estado_producto}</p>
+                        
+                        <!-- Sección "Por" -->
+                        <div class="mb-auto">
+                            <p class="text-xs text-gray-900 mb-2">Por</p>
+                            <div class="flex items-center gap-2 bg-gray-50 rounded-xl p-2">
+                                ${imagenProducto ? `
+                                    <img src="${imagenProducto}" alt="${oferta.producto_solicitado}" 
+                                         class="w-12 h-12 object-cover rounded-lg flex-shrink-0"
+                                         onerror="this.src='../recursos/iconos/contorno/general/caja.svg'">
+                                ` : `
+                                    <div class="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <img src="../recursos/iconos/contorno/general/caja.svg" alt="Sin imagen" class="w-6 h-6 opacity-50">
+                                    </div>
+                                `}
+                                <p class="text-sm font-medium text-gray-900 line-clamp-2">${oferta.producto_solicitado}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer: Usuario -->
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs text-gray-900">De</span>
+                        ${avatarUrl ? `
+                            <img src="${avatarUrl}" alt="${usuario.nombre}" 
+                                 class="w-8 h-8 rounded-full object-cover"
+                                 onerror="this.onerror=null; this.src='../recursos/iconos/contorno/general/usuario.svg'">
+                        ` : `
+                            <div class="w-8 h-8 rounded-full bg-green flex items-center justify-center text-white text-xs font-bold">
+                                ${usuario.nombre.charAt(0).toUpperCase()}
+                            </div>
+                        `}
+                        <span class="text-sm text-gray-900 font-medium">${usuario.nombre}</span>
+                    </div>
+                    ${oferta.rating ? `
+                        <div class="flex items-center gap-1">
+                            <span class="text-yellow-500 text-base">★</span>
+                            <span class="text-sm font-medium text-gray-700">${oferta.rating}</span>
+                            <span class="text-sm text-gray-400">(${oferta.reviews || '0'})</span>
+                        </div>
+                    ` : ''}
+                </div>
+
+                <!-- Botones de acción: MENSAJE - ACEPTAR - CANCELAR -->
+                <div class="flex gap-2">
+                    <button onclick="verDetalleOferta(${oferta.id_propuesta})" 
+                            class="btn-primary flex-1 px-4 py-2.5 text-sm">
+                        Mensaje
+                    </button>
+                    ${esRecibida && oferta.estado === 'pendiente' ? `
+                        <button onclick="aceptarOferta(${oferta.id_propuesta})" 
+                                class="btn-primary flex-1 px-4 py-2.5 text-sm">
+                            Aceptar
+                        </button>
+                    ` : ''}
+                    ${oferta.estado === 'pendiente' ? `
+                        <button onclick="${esRecibida ? 'rechazarOferta' : 'cancelarOferta'}(${oferta.id_propuesta})" 
+                                class="btn-secondary flex-1 px-4 py-2.5 text-sm">
+                            Rechazar
+                        </button>
+                    ` : ''}
+                </div>
+            </div>
+        </div>
+    `;
 }
 
-function messageUser(id) {
-    console.log('Enviar mensaje:', id);
-    // Aquí iría la lógica para enviar mensaje
+// Función para obtener badge de estado
+function obtenerBadgeEstado(estado) {
+    const badges = {
+        'pendiente': '<span class="px-3 py-1 bg-yellow-100 text-yellow-700 text-xs font-semibold rounded-full whitespace-nowrap">Pendiente</span>',
+        'aceptada': '<span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full whitespace-nowrap">Aceptada</span>',
+        'rechazada': '<span class="px-3 py-1 bg-red-100 text-red-700 text-xs font-semibold rounded-full whitespace-nowrap">Rechazada</span>',
+        'cancelada': '<span class="px-3 py-1 bg-gray-100 text-gray-700 text-xs font-semibold rounded-full whitespace-nowrap">Cancelada</span>'
+    };
+    return badges[estado] || badges['pendiente'];
 }
-document.addEventListener('DOMContentLoaded', function() {
-    generateMobileOffers(currentOfferType);
-    generateDesktopOffers(currentOfferType);
-});
+
+// Función para mostrar mensaje vacío
+function mostrarMensajeVacio(tipo) {
+    const mensaje = tipo === 'recibidas' 
+        ? 'No has recibido ofertas aún' 
+        : 'No has hecho ofertas aún';
+    
+    const html = `
+        <div class="flex flex-col items-center justify-center py-20">
+            <img src="../recursos/iconos/contorno/general/caja.svg" alt="Sin ofertas" class="w-24 h-24 opacity-30 mb-4">
+            <p class="text-gray-500 text-lg">${mensaje}</p>
+        </div>
+    `;
+    
+    const containerDesktop = document.getElementById('desktop-offers');
+    const containerMobile = document.getElementById('mobile-offers');
+    
+    if (containerDesktop) containerDesktop.innerHTML = html;
+    if (containerMobile) containerMobile.innerHTML = `<div class="px-4">${html}</div>`;
+}
+
+// Funciones placeholder para acciones
+async function verDetalleOferta(id) {
+    try {
+        // Obtener datos de la oferta actual
+        const oferta = ofertasActuales.find(o => o.id_propuesta === id);
+        if (!oferta) {
+            alert('Oferta no encontrada');
+            return;
+        }
+        
+        console.log('Oferta encontrada:', oferta);
+        console.log('Tipo actual:', tipoActual);
+        
+        // Determinar el destinatario según el tipo de oferta
+        let idDestinatario;
+        // Comparar con ambos valores posibles
+        if (tipoActual === 'recibidas' || tipoActual === 'received') {
+            idDestinatario = oferta.oferente?.id;
+        } else {
+            idDestinatario = oferta.dueno?.id;
+        }
+        
+        if (!idDestinatario) {
+            console.error('No se pudo obtener el ID del destinatario', oferta);
+            alert('Error: No se pudo identificar al destinatario');
+            return;
+        }
+        
+        // Crear solicitud de chat
+        const formData = new FormData();
+        formData.append('id_destinatario', idDestinatario);
+        formData.append('id_propuesta', id);
+        formData.append('mensaje', `Hola, me interesa hablar sobre: ${oferta.titulo}`);
+
+        // Enviar el producto solicitado (el que el usuario quiere)
+        const idProducto = oferta.id_prod_solicitado || oferta.id_producto;
+        if (idProducto) {
+            formData.append('id_producto', idProducto);
+        }
+        
+        const response = await fetch('/php/chat/crear-solicitud.php', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            if (data.existe_conversacion) {
+                // Ya existe conversación, redirigir directamente
+                window.location.href = `mensajes.php?conversacion=${data.id_conversacion}`;
+            } else {
+                // Solicitud creada, redirigir a mensajes
+                alert('Solicitud de chat enviada correctamente');
+            }
+        } else {
+            alert(data.error || 'Error al enviar solicitud');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error al procesar la solicitud');
+    }
+}
+
+async function aceptarOferta(id) {
+    if (!confirm('¿Estás seguro de aceptar esta oferta?')) return;
+    
+    try {
+        const formData = new FormData();
+        formData.append('id_propuesta', id);
+        formData.append('accion', 'aceptar');
+        
+        const response = await fetch('procesar-oferta.php', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.success && data.accion === 'aceptar' && data.id_conversacion) {
+            window.location.href = `mensajes.php?conversacion=${data.id_conversacion}`;
+        } else if (data.success) {
+            alert('Oferta aceptada correctamente');
+            cargarOfertas(tipoActual);
+        } else {
+            alert('Error: ' + data.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error al procesar la oferta');
+    }
+}
+
+async function rechazarOferta(id) {
+    if (!confirm('¿Estás seguro de rechazar esta oferta?')) return;
+    
+    try {
+        const formData = new FormData();
+        formData.append('id_propuesta', id);
+        formData.append('accion', 'rechazar');
+        
+        const response = await fetch('procesar-oferta.php', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            alert('Oferta rechazada correctamente');
+            cargarOfertas(tipoActual);
+        } else {
+            alert('Error: ' + data.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error al procesar la oferta');
+    }
+}
+
+async function cancelarOferta(id) {
+    if (!confirm('¿Estás seguro de cancelar esta oferta?')) return;
+    
+    try {
+        const formData = new FormData();
+        formData.append('id_propuesta', id);
+        formData.append('accion', 'cancelar');
+        
+        const response = await fetch('procesar-oferta.php', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            alert('Oferta cancelada correctamente');
+            cargarOfertas(tipoActual);
+        } else {
+            alert('Error: ' + data.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error al procesar la oferta');
+    }
+}

@@ -1,6 +1,9 @@
 // Variables globales para datos dinámicos
 let notificaciones = [];
 let productos = [];
+let vistaAnterior = null;
+let scrollAnterior = 0;
+let categoriasSeleccionadas = new Set();
 
 // Función para cargar notificaciones desde la base de datos
 function cargarNotificaciones() {
@@ -20,7 +23,8 @@ function cargarNotificaciones() {
         .catch(error => console.error('Error en fetch de notificaciones:', error));
 }
 
-const BASE_URL = '/Yveks-Aplicacion-web-de-trueques/codigo/'; // desde la raíz del servidor
+// Como Docker configura DocumentRoot en /var/www/html/codigo, la base es /
+const BASE_URL = '/';
 
 // ========== FUNCIONES DE CARGA DE DATOS ==========
 
@@ -108,7 +112,7 @@ function generateNotificationsContent(containerId) {
             <div class="flex items-center justify-between">
                 <h3 class="text-lg font-medium text-gray-800">Notificaciones</h3>
                 <button onclick="markAllAsRead()" class="text-sm text-green hover:text-green-700 transition-colors">
-                    Marcar todos como leído
+                    Marcar todas como leídas
                 </button>
             </div>
         </div>
@@ -204,12 +208,12 @@ async function handleNotificationClick(notifId) {
     // Si no está leída, marcarla como leída
     if (!notif.leida) {
         try {
+            const formData = new FormData();
+            formData.append('id_notificacion', notifId);
+            
             const response = await fetch('php/marcar-notificacion-leida.php', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ notificacion_id: notifId })
+                body: formData
             });
             
             const data = await response.json();
@@ -234,42 +238,57 @@ async function handleNotificationClick(notifId) {
         }
     }
     
-    // Manejar la acción según el tipo de notificación
     switch(notif.tipo) {
         case 'solicitud_chat':
-            console.log(`Abriendo chat con ${notif.usuario}`);
+            console.log('Abriendo solicitud de chat');
+            window.location.href = 'php/mensajes.php?tab=solicitudes';
+            break;
+        case 'solicitud_aceptada':
+            if (notif.id_referencia) {
+                window.location.href = 'php/mensajes.php?conversacion=' + notif.id_referencia;
+            } else {
+                window.location.href = 'php/mensajes.php';
+            }
+            break;
+        case 'solicitud_rechazada':
             break;
         case 'oferta':
-            console.log(`Viendo oferta de ${notif.usuario}`);
+            // Solo ofertas NUEVAS van a la página de ofertas
+            window.location.href = 'php/ofertas.php';
+            break;
+        case 'oferta_aceptada':
+            // Ofertas aceptadas van al chat
+            if (notif.id_conversacion) {
+                window.location.href = 'php/mensajes.php?conversacion=' + notif.id_conversacion;
+            } else {
+                window.location.href = 'php/mensajes.php';
+            }
+            break;
+        case 'oferta_rechazada':
+            // Ofertas rechazadas van al chat
+            if (notif.id_conversacion) {
+                window.location.href = 'php/mensajes.php?conversacion=' + notif.id_conversacion;
+            } else {
+                window.location.href = 'php/mensajes.php';
+            }
+            break;
+        case 'oferta_cancelada':
+            // Ofertas canceladas van al chat
+            if (notif.id_conversacion) {
+                window.location.href = 'php/mensajes.php?conversacion=' + notif.id_conversacion;
+            } else {
+                window.location.href = 'php/mensajes.php';
+            }
             break;
         case 'mensaje':
-            console.log(`Abriendo mensaje de ${notif.usuario}`);
+            if (notif.id_referencia) {
+                window.location.href = 'php/mensajes.php?conversacion=' + notif.id_referencia;
+            } else {
+                window.location.href = 'php/mensajes.php';
+            }
             break;
         default:
-            console.log(`Manejando notificación: ${notif.titulo}`);
-    }
-}
-
-// Mark all notifications as read
-async function markAllAsRead() {
-    try {
-        const response = await fetch('marcar-notificacion-leida.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ marcar_todas: true })
-        });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-            // Actualizar estado local
-            notificaciones.forEach(notif => notif.leida = true);
-            updateNotificationBadge();
-        }
-    } catch (error) {
-        console.error('Error al marcar todas como leídas:', error);
+            console.log('Manejando notificación:', notif.titulo);
     }
 }
 
@@ -481,88 +500,95 @@ function openProductDetail(productId) {
                 <!-- Main product card -->
                 <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-4" style="background: linear-gradient(135deg, #719177 0%, #8fa685 100%);">
                     <div class="p-4">
-                        <div class="grid lg:grid-cols-2 gap-6">
-                            <!-- Product image section - larger -->
-                            <div class="relative lg:col-span-1">
-                                <!-- Back arrow on image -->
-                                <button onclick="volverVistaAnterior()" class="absolute left-4 top-4 w-10 h-10 bg-white bg-opacity-90 rounded-full flex items-center justify-center z-10 shadow-md hover:bg-opacity-100 transition-all">
-                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                        <div class="grid lg:grid-cols-2 gap-6 items-stretch">
+                        <!-- Product image section -->
+                        <div class="relative lg:col-span-1 flex items-center justify-center bg-white rounded-2xl overflow-hidden shadow-inner">
+                            <!-- Back arrow on image -->
+                            <button onclick="volverVistaAnterior()" class="absolute left-4 top-4 w-10 h-10 bg-white bg-opacity-90 rounded-full flex items-center justify-center z-10 shadow-md hover:bg-opacity-100 transition-all">
+                                <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                            </button>
+                            
+                            <!-- Options button -->
+                            <button class="absolute right-4 top-4 w-10 h-10 bg-white bg-opacity-90 rounded-full flex items-center justify-center z-10 shadow-md hover:bg-opacity-100 transition-all">
+                                <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"></path>
+                                </svg>
+                            </button>
+
+                            <!-- Main image -->
+                            <img src="${producto.imagenes?.[0]?.imagen || 'ruta/placeholder.png'}"
+                                alt="${producto.nombre}"
+                                class="h-full w-auto object-cover" />
+                        </div>
+
+                        <!-- Product information -->
+                        <div class="text-white space-y-3 flex flex-col justify-between">
+                            <!-- Title and time -->
+                            <div>
+                                <h1 class="text-xl lg:text-xl mb-1 leading-tight">${producto.nombre}</h1>
+                                <p class="text-white text-opacity-90 text-sm">Publicado hace ${producto.publicadoHace}</p>
+                            </div>
+                            
+                            <!-- Seller info with rating -->
+                            <div class="flex items-center justify-between w-full">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-sm text-white text-opacity-70">de</span>
+                                        ${(() => {
+                                            let avatarUrl = producto.vendedor.avatar || '';
+                                            // La ruta ya viene correcta desde el PHP, no modificar
+                                            return avatarUrl 
+                                                ? `<img src="${avatarUrl}" alt="${producto.vendedor.nombre}" class="w-8 h-8 rounded-full border-2 border-white border-opacity-30 object-cover" onerror="this.onerror=null; this.src='recursos/iconos/avatar.svg';">`
+                                                : `<div class="w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center text-white text-xs font-bold border-2 border-white border-opacity-30">${producto.vendedor.nombre.charAt(0).toUpperCase()}</div>`;
+                                        })()}
+                                    <span class="text-sm text-white font-medium">${producto.vendedor.nombre}</span>
+                                </div>
+                                <div class="flex items-center space-x-1">
+                                    <svg class="w-4 h-4 text-yellow-300" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
                                     </svg>
-                                </button>
-                                
-                                <!-- Options button -->
-                                <button class="absolute right-4 top-4 w-10 h-10 bg-white bg-opacity-90 rounded-full flex items-center justify-center z-10 shadow-md hover:bg-opacity-100 transition-all">
-                                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"></path>
-                                    </svg>
-                                </button>
-                                
-                                <!-- Main image - 1:1 aspect ratio and larger -->
-                                <div class="bg-white rounded-2xl overflow-hidden shadow-inner">
-                                    <img src="${producto.imagenes[0].imagen}" alt="${producto.nombre}" class="w-full h-full object-cover aspect-square">
+                                    <span class="text-white text-opacity-90 text-sm">${producto.calificacion} (${producto.resenas})</span>
                                 </div>
                             </div>
                             
-                            <!-- Product information - constrained width -->
-                            <div class="text-white space-y-3 max-w-md">
-                                <!-- Title and time -->
-                                <div>
-                                    <h1 class="text-xl lg:text-xl mb-1 leading-tight">${producto.nombre}</h1>
-                                    <p class="text-white text-opacity-90 text-sm">Publicado hace ${producto.publicadoHace}</p>
-                                </div>
-                                
-                                <!-- Seller info with rating - Una línea -->
-                                <div class="flex items-center justify-between w-full">
-                                    <div class="flex items-center space-x-2">
-                                        <span class="text-sm text-white text-opacity-70">de</span>
-                                        <img src="${producto.vendedor.avatar}" alt="${producto.vendedor.nombre}" class="w-8 h-8 rounded-full border-2 border-white border-opacity-30">
-                                        <span class="text-sm text-white font-medium">${producto.vendedor.nombre}</span>
-                                    </div>
-                                    <div class="flex items-center space-x-1">
-                                        <svg class="w-4 h-4 text-yellow-300" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                                        </svg>
-                                        <span class="text-white text-opacity-90 text-sm">${producto.calificacion} (${producto.resenas})</span>
-                                    </div>
-                                </div>
-                                
-                                <!-- Location -->
-                                <div class="flex items-center space-x-2">
-                                    <svg class="w-5 h-5 text-white text-opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                    </svg>
-                                    <span class="text-white text-opacity-90 text-sm">${producto.ubicacion}</span>
-                                </div>
-                                
-                                <!-- Map -->
-                                <div id="product-detail-map" class="w-full h-32 bg-white bg-opacity-50 rounded-lg"></div>
-
-                                <!-- Product details -->
-                                <div class="space-y-4">
-                                    <h3>Detalles del producto</h3>
-                                    <div class="space-y-3">
-                                        <div class="flex justify-between items-center">
-                                            <span class="text-white text-opacity-80">Estado</span>
-                                            <span>${producto.estado}</span>
-                                        </div>
-                                        <p class="text-white text-opacity-90 text-sm leading-relaxed">${producto.descripcion}</p>
-                                    </div>
-                                </div>
-                                
-                                <!-- Exchange preferences -->
-                                <div class="space-y-3">
-                                    <h3 class="font-semibold">Preferencias de intercambio</h3>
-                                    <p class="text-white text-opacity-90 text-sm">${producto.preferenciasIntercambio.join(', ')}</p>
-                                </div>
-                                
-                                <!-- Make offer button -->
-                                <button onclick="hacerOferta(${producto.id})" class="w-full bg-white text-green font-semibold py-3 px-6 rounded-xl hover:bg-gray-50 transition-colors mt-6">
-                                    Hacer oferta
-                                </button>
+                            <!-- Location -->
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-5 h-5 text-white text-opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                                <span class="text-white text-opacity-90 text-sm">${producto.ubicacion}</span>
                             </div>
+                            
+                            <!-- Map -->
+                            <div id="product-detail-map" class="w-full h-32 bg-white bg-opacity-50 rounded-lg z-10"></div>
+
+                            <!-- Product details -->
+                            <div class="space-y-4">
+                                <h3>Detalles del producto</h3>
+                                <div class="space-y-3">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-white text-opacity-80">Estado</span>
+                                        <span>${producto.estado}</span>
+                                    </div>
+                                    <p class="text-white text-opacity-90 text-sm leading-relaxed">${producto.descripcion}</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Exchange preferences -->
+                            <div class="space-y-3">
+                                <h3 class="font-semibold">Preferencias de intercambio</h3>
+                                <p class="text-white text-opacity-90 text-sm">${producto.preferenciasIntercambio.join(', ')}</p>
+                            </div>
+                            
+                            <!-- Make offer button -->
+                            <button onclick="hacerOferta(${producto.id})" class="w-full bg-white text-green font-semibold py-3 px-6 rounded-xl hover:bg-gray-50 transition-colors mt-6">
+                                Hacer oferta
+                            </button>
                         </div>
+                    </div>
+
                     </div>
                 </div>
                 
@@ -596,10 +622,29 @@ function openProductDetail(productId) {
             </div>
         </div>
     `;
-    
+
+    console.log('Scroll antes de ir al top:', window.pageYOffset);
+
+    // Hacer scroll al top para ver el producto desde arriba
+    setTimeout(() => {
+        const isMobile = window.innerWidth < 1024;
+        if (isMobile) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            const desktopMain = document.querySelector('.desktop-main');
+            if (desktopMain) {
+                desktopMain.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+    }, 50);
+
     // Replace main content with detail view
     reemplazarVistaConDetalle(detailHTML);
-    
+
+    // Scroll inmediato al top (sin animación)
+    window.scrollTo(0, 0);
+    console.log('Scroll movido a 0');
+
     // Initialize map after a brief delay
     setTimeout(() => {
         initProductDetailMap(producto.coordenadas, producto.ubicacion);
@@ -608,23 +653,38 @@ function openProductDetail(productId) {
 
 // Función para guardar la vista anterior
 function guardarVistaAnterior() {
+    // Si ya estamos en una vista de detalle Y ya tenemos una vista guardada, NO sobrescribir
+    if (document.querySelector('.product-detail-view') && vistaAnterior !== null) {
+        console.log('Ya hay vista guardada, no sobrescribir');
+        return;
+    }
+    
     const isMobile = window.innerWidth < 1024;
+    
+    // CORRECCIÓN: En desktop también usar window.pageYOffset
+    scrollAnterior = window.pageYOffset || document.documentElement.scrollTop;
+    
+    console.log('Guardando vista, scroll:', scrollAnterior);
     
     if (isMobile) {
         // Guardar contenido móvil
         const mobileContainer = document.querySelector('.lg\\:hidden');
         vistaAnterior = {
             tipo: 'mobile',
-            contenido: mobileContainer ? mobileContainer.innerHTML : null
+            contenido: mobileContainer ? mobileContainer.innerHTML : null,
+            scroll: scrollAnterior || 0
         };
     } else {
         // Guardar contenido desktop
         const desktopMain = document.querySelector('.desktop-main main');
         vistaAnterior = {
             tipo: 'desktop',
-            contenido: desktopMain ? desktopMain.innerHTML : null
+            contenido: desktopMain ? desktopMain.innerHTML : null,
+            scroll: scrollAnterior || 0
         };
     }
+    
+    console.log('Vista guardada:', vistaAnterior);
 }
 
 // Función para reemplazar la vista con el detalle
@@ -648,8 +708,7 @@ function reemplazarVistaConDetalle(detailHTML) {
 
 // Función para volver a la vista anterior
 function volverVistaAnterior() {
-    if (!vistaAnterior) {
-        // Si no hay vista anterior, recargar la página
+    if (!vistaAnterior || !vistaAnterior.contenido) {
         location.reload();
         return;
     }
@@ -661,23 +720,41 @@ function volverVistaAnterior() {
         const mobileContainer = document.querySelector('.lg\\:hidden');
         if (mobileContainer && vistaAnterior.contenido) {
             mobileContainer.innerHTML = vistaAnterior.contenido;
-            // Reinicializar productos
             generarProductosMovil();
             configurarBusqueda();
+            
+            // Restaurar scroll más rápido
+            const scrollPos = vistaAnterior.scroll || 0;
+            requestAnimationFrame(() => {
+                window.scrollTo({ top: scrollPos, behavior: 'instant' });
+            });
+            
+            vistaAnterior = null;
+            scrollAnterior = 0;
         }
     } else if (!isMobile && vistaAnterior.tipo === 'desktop') {
         // Restaurar vista desktop
         const desktopMain = document.querySelector('.desktop-main main');
         if (desktopMain && vistaAnterior.contenido) {
             desktopMain.innerHTML = vistaAnterior.contenido;
-            // Reinicializar productos
             generarProductosEscritorio();
             configurarBusqueda();
+            
+            // Restaurar scroll más rápido
+            const scrollPos = vistaAnterior.scroll || 0;
+            requestAnimationFrame(() => {
+                window.scrollTo({ top: scrollPos, behavior: 'instant' });
+            });
+            
+            vistaAnterior = null;
+            scrollAnterior = 0;
         }
     }
-    
-    // Limpiar vista anterior
-    vistaAnterior = null;
+}
+
+// Función para volver al detalle del producto desde el formulario de oferta
+function volverADetalleProducto(productId) {
+    openProductDetail(productId);
 }
 
 // Función para inicializar el mapa de detalle
@@ -715,8 +792,337 @@ function initProductDetailMap(coordinates, locationName) {
 
 // Función para hacer oferta
 function hacerOferta(productId) {
-    alert('Funcionalidad de hacer oferta - Producto ID: ' + productId);
+    // Verificar si el usuario está logueado
+    if (typeof usuarioLogueado === 'undefined' || !usuarioLogueado) {
+        // Usar SweetAlert como en el menú
+        if (window.SwalApp) {
+            window.SwalApp.fire({
+                title: 'Acceso restringido',
+                text: 'Debes iniciar sesión para hacer una oferta.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Iniciar sesión',
+                cancelButtonText: 'Volver',
+                allowOutsideClick: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = baseURL + 'php/iniciar-sesion.php';
+                }
+                // Si cancela, simplemente no hace nada (se queda en la página)
+            });
+        } else {
+            // Fallback si SweetAlert no está disponible
+            alert('Acceso restringido');
+        }
+        return;
+    }
+    
+    const producto = productos.find(p => p.id === productId);
+    if (!producto) return;
+
+    console.log('Datos del producto:', producto);
+    console.log('Avatar del vendedor:', producto.vendedor.avatar);
+    
+    fotosOferta = [];
+    
+    // Guardar vista actual
+    guardarVistaAnterior();
+    
+    // Obtener productos relacionados
+    const productosRelacionados = getRelatedProducts(productId);
+    
+    // HTML del formulario de oferta mejorado
+    const ofertaHTML = `
+        <!-- Formulario de oferta -->
+        <div class="w-full px-1 py-1">
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-4" style="background: linear-gradient(135deg, #719177 0%, #8fa685 100%);">
+                <div class="p-4">
+                    <div class="grid lg:grid-cols-2 gap-6 items-stretch">
+                        <!-- Columna izquierda - Imagen del producto (INTACTA) -->
+                        <div class="relative lg:col-span-1 flex items-center justify-center bg-white rounded-2xl overflow-hidden shadow-inner">
+                            <!-- Botón volver en la imagen -->
+                            <button onclick="volverVistaAnterior()" class="absolute left-4 top-4 w-10 h-10 bg-white bg-opacity-90 rounded-full flex items-center justify-center z-10 shadow-md hover:bg-opacity-100 transition-all">
+                                <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                            </button>
+                            
+                            <!-- Options button -->
+                            <button class="absolute right-4 top-4 w-10 h-10 bg-white bg-opacity-90 rounded-full flex items-center justify-center z-10 shadow-md hover:bg-opacity-100 transition-all">
+                                <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"></path>
+                                </svg>
+                            </button>
+
+                            <!-- Main image -->
+                            <img src="${producto.imagenes?.[0]?.imagen || 'ruta/placeholder.png'}"
+                                alt="${producto.nombre}"
+                                class="h-full w-auto object-cover" />
+                        </div>
+
+                        <!-- Columna derecha - Formulario con fondo blanco -->
+                        <div class="bg-white rounded-2xl p-6 text-gray-800 space-y-4 flex flex-col justify-center">
+                            <h2 class="text-lg font-semibold text-gray-800">Hacer oferta</h2>
+                            
+                            <form id="form-oferta" class="space-y-4">
+                                <!-- Upload fotos -->
+                                <div class="form-section">
+                                    <input type="file" id="file-input-oferta" accept="image/*" class="hidden" onchange="handleFileSelect(event)">
+                                    <div id="fotos-container" class="grid grid-cols-3 gap-2"></div>
+                                </div>
+                                
+                                <!-- Título -->
+                                <div class="form-section">
+                                    <input 
+                                        type="text" 
+                                        id="titulo-oferta" 
+                                        placeholder="Título" 
+                                        class="form-input-compact w-full"
+                                        required
+                                    >
+                                </div>
+                                
+                                <!-- Estado -->
+                                <div class="form-section">
+                                    <div class="relative">
+                                        <select 
+                                            id="estado-oferta" 
+                                            class="form-select-compact w-full"
+                                            required
+                                        >
+                                            <option value="">Estado</option>
+                                            <option value="Nuevo">Nuevo</option>
+                                            <option value="Como nuevo">Como nuevo</option>
+                                            <option value="Usado - Buen estado">Usado - Buen estado</option>
+                                            <option value="Usado - Estado aceptable">Usado - Estado aceptable</option>
+                                            <option value="Para reparar">Para reparar</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <!-- Descripción -->
+                                <div class="form-section">
+                                    <textarea 
+                                        id="descripcion-oferta" 
+                                        placeholder="Escribe una descripción" 
+                                        rows="5" 
+                                        class="form-textarea-compact w-full"
+                                        required
+                                    ></textarea>
+                                </div>
+                                
+                                <!-- Botones -->
+                                <div class="flex flex-col sm:flex-row gap-2">
+                                    <button 
+                                        type="button"
+                                        onclick="enviarOferta(${productId})" 
+                                        class="flex-1 bg-green text-white py-2.5 px-5 rounded-full font-semibold text-sm hover:bg-opacity-90 transition-all"
+                                    >
+                                        Enviar oferta
+                                    </button>
+                                    <button 
+                                    type="button"
+                                    onclick="volverADetalleProducto(${productId})" 
+                                    class="flex-1 bg-white text-gray-700 border border-gray-300 py-2.5 px-5 rounded-full font-semibold text-sm hover:bg-gray-50 transition-all"
+                                >
+                                    Cancelar
+                                </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Productos relacionados -->
+            ${productosRelacionados.length > 0 ? `
+            <div>
+                <h2 class="text-2xl text-black mb-6 mt-6">Productos relacionados</h2>
+                <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4">
+                    ${productosRelacionados.map(prod => `
+                        <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition-shadow product-card w-full" onclick="openProductDetail(${prod.id})">
+                            <div class="aspect-square bg-gray-200 relative">
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <img src="${prod.imagenes[0].imagen}" alt="${prod.nombre}" class="w-full h-full object-cover">
+                                </div>
+                            </div>
+                            <div class="p-3">
+                                <h4 class="text-sm font-medium text-gray-800 mb-3">${prod.nombre}</h4>
+                                <div class="flex items-center justify-between mb-1">
+                                    <p class="text-base text-green">${prod.estado}</p>
+                                    <div class="flex items-center gap-1">
+                                        <img src="recursos/iconos/solido/estado/estrella.svg" alt="Estrella" class="w-4 h-4 svg-yellow align-middle">
+                                        <span class="text-base text-gray-500">${prod.calificacion} (${prod.resenas})</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+        ` : ''}
+    `;
+    
+   // Reemplazar vista actual con el formulario
+    reemplazarVistaConDetalle(ofertaHTML);
+    
+    // Inicializar el renderizado de fotos
+    renderizarFotos();
 }
+
+// Array global para almacenar las fotos seleccionadas
+let fotosOferta = [];
+
+// Función para manejar la selección de archivos
+function handleFileSelect(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    // Validar que no supere el máximo de 3 fotos
+    if (fotosOferta.length >= 3) {
+        alert('Máximo 3 fotos permitidas');
+        return;
+    }
+    
+    // Leer la foto y agregarla al array
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        fotosOferta.push({
+            dataURL: e.target.result,
+            file: file
+        });
+        renderizarFotos();
+    };
+    reader.readAsDataURL(file);
+    
+    // Limpiar el input para permitir seleccionar la misma foto nuevamente
+    event.target.value = '';
+}
+
+// Función para renderizar las fotos y placeholders
+function renderizarFotos() {
+    const container = document.getElementById('fotos-container');
+    container.innerHTML = '';
+    
+    // Renderizar fotos existentes
+    fotosOferta.forEach((foto, index) => {
+        const div = document.createElement('div');
+        div.className = 'relative rounded-2xl overflow-hidden border-2 border-gray-200 bg-white';
+        div.style.aspectRatio = '1';
+        div.innerHTML = `
+            <img src="${foto.dataURL}" class="w-full h-full object-cover">
+            <button onclick="eliminarFoto(${index})" type="button" class="absolute top-2 right-2 bg-white rounded-full w-7 h-7 flex items-center justify-center hover:bg-gray-100 transition-all shadow-lg border border-gray-200">
+                <svg class="w-4 h-4" fill="none" stroke="#719177" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        `;
+        container.appendChild(div);
+    });
+    
+    // Mostrar placeholder solo si hay menos de 3 fotos
+    if (fotosOferta.length < 3) {
+        const placeholder = document.createElement('div');
+        placeholder.className = 'border-2 border-dashed border-gray-300 rounded-2xl text-center hover:border-green transition-colors cursor-pointer bg-gray-50 flex flex-col items-center justify-center';
+        placeholder.style.aspectRatio = '1';
+        placeholder.onclick = () => document.getElementById('file-input-oferta').click();
+        placeholder.innerHTML = `
+            <svg class="w-8 h-8 mx-auto text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            <p class="text-gray-500 text-xs font-medium px-2">Adjuntar foto</p>
+        `;
+        container.appendChild(placeholder);
+    }
+    
+    // Rellenar espacios vacíos para mantener el grid
+    const espaciosVacios = 3 - fotosOferta.length - (fotosOferta.length < 3 ? 1 : 0);
+    for (let i = 0; i < espaciosVacios; i++) {
+        const divVacio = document.createElement('div');
+        divVacio.style.aspectRatio = '1';
+        container.appendChild(divVacio);
+    }
+}
+
+// Función para eliminar foto del array
+function eliminarFoto(index) {
+    fotosOferta.splice(index, 1);
+    renderizarFotos();
+}
+
+// Función para cerrar el modal
+function cerrarModalOferta() {
+    const modal = document.getElementById('modal-oferta');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+// Función para enviar la oferta
+async function enviarOferta(productId) {
+    const titulo = document.getElementById('titulo-oferta').value.trim();
+    const estado = document.getElementById('estado-oferta').value;
+    const descripcion = document.getElementById('descripcion-oferta').value.trim();
+    const fileInput = document.getElementById('file-input-oferta');
+    
+    // Validaciones
+    if (!titulo) {
+        alert('Por favor ingresa un título');
+        return;
+    }
+    if (!estado) {
+        alert('Por favor selecciona un estado');
+        return;
+    }
+    if (!descripcion) {
+        alert('Por favor ingresa una descripción');
+        return;
+    }
+    if (fotosOferta.length === 0) {
+        alert('Por favor adjunta al menos una foto');
+        return;
+    }
+    
+    // Crear FormData para enviar archivos
+    const formData = new FormData();
+    formData.append('id_producto', productId);
+    formData.append('titulo', titulo);
+    formData.append('estado', estado);
+    formData.append('descripcion', descripcion);
+    
+    // Agregar todas las fotos
+    fotosOferta.forEach((foto, index) => {
+        formData.append(`fotos[]`, foto.file);
+    });
+    
+    try {
+        const response = await fetch('php/crear-oferta.php', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            alert('¡Oferta enviada exitosamente!');
+            // Redirigir al index después de enviar la oferta
+            window.location.href = 'index.php';
+        } else {
+            alert('Error al enviar oferta: ' + (data.message || 'Error desconocido'));
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error al conectar con el servidor');
+    }
+}
+
+// Cerrar modal al presionar ESC
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        cerrarModalOferta();
+    }
+});
 
 // Búsqueda
 function configurarBusqueda() {

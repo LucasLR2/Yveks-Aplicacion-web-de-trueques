@@ -81,22 +81,32 @@
       <main class="p-[16px] gap-[16px] flex w-full h-screen">
         <!-- Carrusel -->
         <div class="bg-white min-h-[95vh] rounded-[20px] lg:w-[60%] xl:w-[65%]">
-            <div id="carrusel" class="relative w-full h-full overflow-hidden rounded-[20px]">
-                <!-- Slides (sin imagenes aún) -->
-                <div class="flex transition-transform duration-700 ease-in-out w-full items-center" id="diapositivas">
-                    <img src="../" class="w-full flex-shrink-0 object-cover" alt="Imagen de carrusel 1">
-                    <img src="../" class="w-full flex-shrink-0 object-cover" alt="Imagen de carrusel 2">
-                    <img src="../" class="w-full flex-shrink-0 object-cover" alt="Imagen de carrusel 3">
-                </div>
+          <div id="carrusel" class="relative w-full h-full overflow-hidden rounded-[20px]">
+            <!-- Slides -->
+              <div class="flex transition-transform duration-700 ease-in-out w-full h-full" id="diapositivas">
+                <img src="../recursos/imagenes/log1.jpg" class="w-full h-full flex-shrink-0 object-cover" alt="Imagen de carrusel 1">
+                <img src="../recursos/imagenes/log2.jpg" class="w-full h-full flex-shrink-0 object-cover" alt="Imagen de carrusel 2">
+                <img src="../recursos/imagenes/log3.jpg" class="w-full h-full flex-shrink-0 object-cover" alt="Imagen de carrusel 3">
+                <img src="../recursos/imagenes/log4.jpg" class="w-full h-full flex-shrink-0 object-cover" alt="Imagen de carrusel 4">
+              </div>
 
-                <!-- Indicadores -->
-                <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-3">
-                    <button class="w-3 h-3 rounded-full bg-gray-400" onclick="irADiapositiva(0)" id="indicador-0"></button>
-                    <button class="w-3 h-3 rounded-full bg-gray-300" onclick="irADiapositiva(1)" id="indicador-1"></button>
-                    <button class="w-3 h-3 rounded-full bg-gray-300" onclick="irADiapositiva(2)" id="indicador-2"></button>
+              <!-- Texto superpuesto -->
+              <div class="absolute inset-0 flex items-end justify-center pb-48 pointer-events-none">
+                <div class="text-center text-white px-8">
+                  <h2 id="texto-titulo" class="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 drop-shadow-lg"></h2>
+                    <p id="texto-subtitulo" class="text-base md:text-lg lg:text-xl drop-shadow-md"></p>
                 </div>
+              </div>
+
+              <!-- Indicadores -->
+              <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-3">
+                <button class="w-3 h-3 rounded-full bg-gray-400" onclick="irADiapositiva(0)" id="indicador-0"></button>
+                <button class="w-3 h-3 rounded-full bg-gray-300" onclick="irADiapositiva(1)" id="indicador-1"></button>
+                <button class="w-3 h-3 rounded-full bg-gray-300" onclick="irADiapositiva(2)" id="indicador-2"></button>
+                <button class="w-3 h-3 rounded-full bg-gray-300" onclick="irADiapositiva(3)" id="indicador-3"></button>
+              </div>
             </div>
-        </div>
+          </div>
 
         <!-- Registro -->
         <div class="bg-white min-h-[95vh] rounded-[20px] lg:w-[40%] xl:w-[35%] xl:p-[50px]">

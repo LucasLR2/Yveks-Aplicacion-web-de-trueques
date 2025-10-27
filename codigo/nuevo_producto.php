@@ -1,3 +1,11 @@
+<?php
+    session_start();               // Inicia sesión para manejar datos del usuario
+    if (!isset($_SESSION['correo'])) {
+        // Redirigir al usuario a la página de inicio de sesión si no está autenticado
+        header('Location: index.php');
+        exit();
+    }
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -8,33 +16,21 @@
   <link rel="stylesheet" href="css/nuevo_producto.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos-generales.css">
   <link rel="stylesheet" href="css/inicio.css">
 </head>
 
-<!-- Pasar a .php y hacer includes de header y sidebar -->
-
 <body class="bg-white lg:bg-gray-50">
+
+     <?php 
+        include __DIR__ . '/php/componentes/header.php';
+        include __DIR__ . '/php/componentes/menu.php';
+      ?>
+
   <!-- LAYOUT MÓVIL Y TABLET (hasta lg) -->
   <div class="lg:hidden">
     <!-- Container principal para móvil -->
     <div class="w-full bg-white min-h-screen relative">
-      <!-- Header con ubicación -->
-      <div class="bg-white px-6 md:px-16 pb-2 pt-3">
-        <div class="flex flex-col">
-          <span class="text-xs text-gray-600 mb-0">Ubicación</span>
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-              <img src="recursos/iconos/solido/navegacion/ubicacion.svg" alt="Ubicación" class="w-5 h-5 svg-green">
-              <span class="text-sm text-gray-800">Montevideo, Uruguay</span>
-              <img src="recursos/iconos/solido/interfaz/flecha_abajo.svg" alt="Expandir" class="w-6 h-6 svg-gray-800">
-            </div>
-            <div class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center">
-              <img src="recursos/iconos/solido/estado/notificacion.svg" alt="Notificaciones"
-                class="w-5 h-5 svg-gray-800">
-            </div>
-          </div>
-        </div>
-      </div>
 
       <!-- Encabezado de nueva publicación -->
       <div class="px-6 md:px-16 pt-1 pb-3">
@@ -50,7 +46,7 @@
 
       <!-- Formulario móvil -->
       <div class="px-6 md:px-16 mb-20">
-        <form id="productForm" onsubmit="submitForm(event)">
+        <form id="productForm" onsubmit="submitForm(event)" novalidate>
           <!-- Imagen -->
           <div class="mb-6">
             <div class="flex items-center justify-between mb-3">
@@ -154,172 +150,13 @@
           </div>
         </form>
       </div>
-
-      <!-- Bottom Navigation -->
-      <div class="fixed bottom-0 left-0 w-screen z-50 right-0">
-        <div class="w-full h-3 bg-white"></div>
-        <div class="relative bg-green overflow-hidden">
-          <!-- Burbuja animada -->
-          <div id="mobile-bubble" class="absolute left-1/2 bottom-7 -translate-x-1/2 w-12 h-12 bg-white bubble-u-shape">
-          </div>
-          <div class="flex py-2 relative z-10">
-            <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
-              onclick="setActiveTab(this, 0, 'mobile'); window.location.href='index.php'">
-              <img src="recursos/iconos/contorno/general/inicio.svg" alt="Inicio" class="w-6 h-6 mb-1 svg-gray-300">
-            </button>
-            <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
-              onclick="setActiveTab(this, 1, 'mobile'); window.location.href='ofertas.html'">
-              <img src="recursos/iconos/solido/general/etiqueta.svg" alt="Ofertas" class="w-6 h-6 mb-1 svg-gray-300">
-            </button>
-            <button
-              class="w-10 h-10 flex items-center justify-center bg-white text-green rounded-full shadow-lg transition-colors relative z-20 mx-auto active"
-              onclick="setActiveTab(this, 2, 'mobile')">
-              <img src="recursos/iconos/solido/interfaz/mas.svg" alt="Agregar" class="w-4 h-4 svg-green">
-            </button>
-            <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
-              onclick="setActiveTab(this, 3, 'mobile')">
-              <img src="recursos/iconos/contorno/comunicacion/comentario.svg" alt="Comentarios"
-                class="w-6 h-6 mb-1 svg-gray-300">
-            </button>
-            <button class="flex flex-col items-center py-2 text-gray-300 transition-colors" style="width: 20%;"
-              onclick="setActiveTab(this, 4, 'mobile')">
-              <img src="recursos/iconos/contorno/comunicacion/usuario.svg" alt="Usuario"
-                class="w-6 h-6 mb-1 svg-gray-300">
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 
   <!-- LAYOUT DESKTOP (lg y superior) -->
   <div class="hidden lg:block">
-    <!-- Sidebar Navigation -->
-    <div class="desktop-sidebar bg-white border-r border-gray-200 custom-scrollbar overflow-y-auto">
-      <!-- Header del sidebar -->
-      <div class="p-6 border-b border-gray-100">
-        <div class="flex items-center space-x-3 mb-4">
-          <div class="w-10 h-10 bg-green rounded-full flex items-center justify-center">
-            <img src="recursos/iconos/solido/general/bolsa_compras.svg" alt="Tienda" class="w-5 h-5 svg-white">
-          </div>
-          <div>
-            <h1 class="text-xl text-gray-800">Tienda</h1>
-            <p class="text-sm text-gray-500">Tu tienda favorita</p>
-          </div>
-        </div>
-
-        <!-- Ubicación en sidebar -->
-        <div>
-          <div class="text-xs text-gray-500 mb-1">Ubicación</div>
-          <div class="flex items-center space-x-2">
-            <img src="recursos/iconos/solido/navegacion/ubicacion.svg" alt="Ubicación" class="w-5 h-5 svg-green">
-            <span class="text-sm text-gray-800">Montevideo, Uruguay</span>
-            <img src="recursos/iconos/solido/interfaz/flecha_abajo.svg" alt="Expandir" class="w-6 h-6 svg-gray-800">
-          </div>
-        </div>
-      </div>
-
-      <!-- Navegación del sidebar -->
-      <nav class="p-6">
-        <ul class="space-y-2">
-          <li>
-            <a href="index.php"
-              class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-green hover:bg-gray-50 smooth-transition"
-              onclick="setDesktopActiveNav(this)">
-              <img src="recursos/iconos/contorno/general/inicio.svg" alt="Inicio" class="w-5 h-5 svg-green">
-              <span>Inicio</span>
-            </a>
-          </li>
-          <li>
-            <a href="ofertas.html"
-              class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-green hover:bg-gray-50 smooth-transition"
-              onclick="setDesktopActiveNav(this)">
-              <img src="recursos/iconos/contorno/general/etiqueta.svg" alt="Ofertas" class="w-5 h-5 svg-green">
-              <span>Ofertas</span>
-            </a>
-          </li>
-          <li>
-            <a href="perfil.html"
-              class="desktop-nav-item flex items-center space-x-3 px-4 py-3 rounded-lg text-green hover:bg-gray-50 smooth-transition"
-              onclick="setDesktopActiveNav(this)">
-              <img src="recursos/iconos/contorno/comunicacion/usuario.svg" alt="Perfil" class="w-5 h-5 svg-green">
-              <span>Perfil</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-      <div class="p-6 border-t border-gray-100 mt-4"></div>
-    </div>
-
     <!-- Main Content Area -->
     <div class="desktop-main overflow-y-auto">
-      <!-- Top Header -->
-      <header class="bg-white border-b border-gray-200 px-20 py-4 sticky top-0 z-40">
-        <div class="flex items-center justify-between">
-          <!-- Barra de búsqueda expandida -->
-          <div class="flex-1 max-w-2xl">
-            <div class="relative">
-              <img src="recursos/iconos/solido/interfaz/buscar.svg" alt="Buscar"
-                class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 svg-green">
-              <input type="text" placeholder="Buscar productos, marcas, categorías..." id="desktop-search"
-                class="w-full pl-12 pr-4 py-3 rounded-full text-sm border border-gray-600 focus:outline-none text-gray-600 placeholder-gray-600">
-            </div>
-          </div>
-
-          <!-- Botón Nueva publicación centrado (activo) -->
-          <div class="mx-8">
-            <button
-              class="bg-green text-white px-4 h-8 rounded-full smooth-transition flex items-center text-sm opacity-50 cursor-not-allowed">
-              <img src="recursos/iconos/solido/interfaz/mas.svg" alt="Publicar" class="w-3 h-3 svg-white mr-2">
-              Nueva publicación
-            </button>
-          </div>
-
-          <!-- Acciones del header -->
-          <div class="flex items-center space-x-4">
-            <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition">
-              <img src="recursos/iconos/solido/comunicacion/comentario.svg" alt="Comentarios"
-                class="w-5 h-5 svg-gray-800">
-            </button>
-            <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition">
-              <img src="recursos/iconos/solido/estado/notificacion.svg" alt="Notificaciones"
-                class="w-5 h-5 svg-gray-800">
-            </button>
-            <div class="relative inline-block text-left">
-              <div>
-                <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition"
-                  id="menu-button" onclick="showDropdown()" aria-expanded="true" aria-haspopup="true">
-                  <img src="recursos/iconos/solido/comunicacion/usuario.svg" alt="Usuario" class="w-5 h-5 svg-gray-800">
-                </button>
-              </div>
-
-              <div id="menu"
-                class="hidden absolute right-0 z-10 mt-2 w-80 h-96 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-hidden"
-                role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                <div class="flex dropDownProfileConteiner">
-                  <img class="rounded-full w-12 h-12 ml-2 mt-2 mb-2" src="recursos/imagenes/josegimenez.jpg">
-                  <div>
-                    <div class="mt-5 ml-4">José Martínez</div>
-                    <p class="ml-4 text-xs text-green">jsemartinez@gmail</p>
-                  </div>
-                </div>
-                <div class="py-1" role="none">
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 flex" role="menuitem" tabindex="-1"
-                    id="menu-item-5"> <img src="recursos/iconos/contorno/interfaz/configuracion.svg" alt="Configuración"
-                      class="w-4 h-4 svg-gray-400 mr-2">Configuración</a>
-                </div>
-                <div class="py-1" role="none">
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 flex" role="menuitem" tabindex="-1"
-                    id="menu-item-6" onclick="window.location.href='iniciarsesion.html'">
-                    <img src="recursos/iconos/contorno/interfaz/cerrar_sesion.svg" alt="Cerrar sesión"
-                      class="w-4 h-4 svg-red-400 mr-2">Cerrar sesión</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-
       <!-- Content -->
       <main class="p-20">
         <!-- Encabezado -->
@@ -337,7 +174,7 @@
 
         <!-- Formulario desktop -->
         <div class="max-w-6xl mx-auto">
-          <form id="productForm" onsubmit="submitForm(event)">
+          <form id="productForm" onsubmit="submitForm(event)" novalidate>
             <!-- Sección de imágenes -->
             <div class="mb-12">
               <div class="flex items-center justify-between mb-4">

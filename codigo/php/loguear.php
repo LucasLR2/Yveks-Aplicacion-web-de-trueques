@@ -15,7 +15,7 @@ $correo = isset($_POST['identificador']) ? trim($_POST['identificador']) : '';
 $pass   = isset($_POST['contrasena']) ? trim($_POST['contrasena']) : '';
 $hash = hash('sha256', $pass);
 
-$stmt = $conn->prepare("SELECT id_usuario, correo, nombre_comp FROM Usuario WHERE correo = ? AND contrasena = ?");
+$stmt = $conn->prepare("SELECT id_usuario, correo, nombre_comp, rol FROM Usuario WHERE correo = ? AND contrasena = ?");
 if ($stmt) {
     $stmt->bind_param('ss', $correo, $hash);
     $stmt->execute();
@@ -25,7 +25,20 @@ if ($stmt) {
         $_SESSION['id'] = $u['id_usuario'];
         $_SESSION['correo'] = $u['correo'];
         $_SESSION['nombre'] = $u['nombre_comp'];
-        echo json_encode(['success' => true, 'redirect' => '/Yveks-Aplicacion-web-de-trueques/codigo/index.php']);
+        $_SESSION['rol'] = $u['rol'];
+        
+        // Redirect to admin panel if user has an admin role
+        $adminRoles = [
+            'Staff',
+            'Moderador de Reportes',
+            'Supervisor de Trueques',
+            'Gestor de Denuncias',
+            'Gestor de Denuncias / Seguridad',
+            'Gestor de Denuncias/Seguridad',
+            'Asistente Administrativo'
+        ];
+        $redirect = in_array($u['rol'], $adminRoles) ? '/php/frontend/admin.php' : '/index.php';
+        echo json_encode(['success' => true, 'redirect' => $redirect]);
     } else {
         echo json_encode(['success' => false, 'message' => 'No coincide el email o la contraseña.']);
     }

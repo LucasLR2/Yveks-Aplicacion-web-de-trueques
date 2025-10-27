@@ -15,7 +15,7 @@
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(45deg, #95cda2 0%, #49a770 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -34,14 +34,6 @@
 
 .table-row:hover {
     background-color: #f8fafc;
-}
-
-.text-green {
-  color: #719177;
-}
-
-.bg-green {
-  background-color: #719177;
 }
 
 .ring-green {
@@ -161,4 +153,45 @@
 .menu-item i {
   width: 20px;
   text-align: center;
+}
+
+/* Pagination styles */
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+}
+
+button:disabled:hover {
+  background-color: white !important;
+}
+
+#prevPage:not(:disabled):hover,
+#nextPage:not(:disabled):hover,
+#prevPageMobile:not(:disabled):hover,
+#nextPageMobile:not(:disabled):hover {
+  background-color: #f3f4f6;
+}
+
+#paginationInfo {
+  user-select: none;
+}
+
+/* Scroll horizontal para tablas */
+.overflow-x-auto {
+  overflow-x: auto;
+  scrollbar-width: thin; /* Para Firefox */
+}
+
+/* Scrollbar delgada para Chrome, Safari, Edge */
+.overflow-x-auto::-webkit-scrollbar {
+  height: 6px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-thumb {
+  background: #719177;
+  border-radius: 3px;
+}
+
+.overflow-x-auto::-webkit-scrollbar-track {
+  background: transparent;
 }

@@ -497,7 +497,7 @@ function openProductDetail(productId) {
             </div>
             
             <!-- Main content -->
-            <div class="w-full px-1 py-1">
+            <div class="w-full px-1 py-10">
                 <!-- Main product card -->
                 <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-4" style="background: linear-gradient(135deg, #719177 0%, #8fa685 100%);">
                     <div class="p-4">
@@ -597,7 +597,7 @@ function openProductDetail(productId) {
                 ${productosRelacionados.length > 0 ? `
                 <div>
                     <h2 class="text-2xl text-black mb-6 mt-6">Productos relacionados</h2>
-                    <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4">
+                    <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-4 pb-8">
                         ${productosRelacionados.map(prod => `
                             <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition-shadow product-card w-full" onclick="openProductDetail(${prod.id})">
                                 <div class="aspect-square bg-gray-200 relative">
@@ -693,12 +693,11 @@ function ocultarContenidoOriginal() {
     const isMobile = window.innerWidth < 1024;
     
     if (isMobile) {
-        // Ocultar categorías y productos en móvil
-        const categoriasMovil = document.querySelector('#categorias-movil')?.parentElement?.parentElement;
-        const productosMovil = document.querySelector('#mobile-products')?.parentElement;
-        
-        if (categoriasMovil) categoriasMovil.style.display = 'none';
-        if (productosMovil) productosMovil.style.display = 'none';
+        // Eliminar completamente el contenedor principal móvil
+        const containerMovil = document.querySelector('.lg\\:hidden .w-full.bg-white.min-h-screen');
+        if (containerMovil) {
+            containerMovil.style.display = 'none';
+        }
     } else {
         // Ocultar sección de bienvenida, categorías y productos en desktop
         const bienvenida = document.querySelector('.desktop-main main > div:first-child');
@@ -708,6 +707,27 @@ function ocultarContenidoOriginal() {
         if (bienvenida) bienvenida.style.display = 'none';
         if (categorias) categorias.style.display = 'none';
         if (productosDesktop) productosDesktop.style.display = 'none';
+    }
+}
+
+// Función para mostrar el contenido original de la página
+function mostrarContenidoOriginal() {
+    const isMobile = window.innerWidth < 1024;
+    
+    if (isMobile) {
+        // Mostrar el contenedor principal móvil
+        const containerMovil = document.querySelector('.lg\\:hidden .w-full.bg-white.min-h-screen');
+        if (containerMovil) {
+            containerMovil.style.display = 'block';
+        }
+    } else {
+        const bienvenida = document.querySelector('.desktop-main main > div:first-child');
+        const categorias = document.querySelector('.categories-section');
+        const productosDesktop = document.querySelector('#desktop-products')?.parentElement;
+        
+        if (bienvenida) bienvenida.style.display = 'block';
+        if (categorias) categorias.style.display = 'block';
+        if (productosDesktop) productosDesktop.style.display = 'block';
     }
 }
 
@@ -741,12 +761,19 @@ function reemplazarVistaConDetalle(detailHTML) {
         const mobileContainer = document.querySelector('.lg\\:hidden');
         if (mobileContainer) {
             mobileContainer.innerHTML = detailHTML;
+            // Quitar min-height para evitar espacio vacío
+            const bgContainer = mobileContainer.querySelector('.w-full.bg-white.min-h-screen');
+            if (bgContainer) {
+                bgContainer.classList.remove('min-h-screen');
+            }
         }
     } else {
         // Reemplazar contenido desktop principal
         const desktopMain = document.querySelector('.desktop-main main');
         if (desktopMain) {
             desktopMain.innerHTML = detailHTML;
+            // Ajustar padding para que no haya tanto espacio
+            desktopMain.style.paddingBottom = '2rem';
         }
     }
 }

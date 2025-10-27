@@ -8,66 +8,8 @@ function showConfigOverlay() {
         overlay = document.createElement("div");
         overlay.id = "config-overlay";
         overlay.className = "fixed inset-0 bg-white z-50 flex flex-col overflow-y-auto";
-        
-        overlay.innerHTML = `
-            <div class="flex items-center px-6 py-4 mt-4">
-                <button id="close-config" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors mr-4">
-                    <img src="${baseURL}recursos/iconos/solido/navegacion/atras.svg" alt="Volver" class="w-8 h-8">
-                </button>
-                <h2 class="text-lg font-normal text-gray-900">Configuración y actividad</h2>
-            </div>
-            <div class="flex-1 px-6 py-4">
-                <ul class="divide-y divide-gray-200 mt-8">
-                    <li>
-                        <button class="config-item w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors" data-action="datos">
-                            <div class="flex items-center gap-4">
-                                <img src="${baseURL}recursos/iconos/solido/navegacion/User.svg" alt="Datos personales" class="w-6 h-6">
-                                <span class="text-gray-500 font-normal">Datos personales</span>
-                            </div>
-                            <img src="${baseURL}recursos/iconos/solido/interfaz/next.svg" alt="" class="w-5 h-5">
-                        </button>
-                    </li>
-                    <li>
-                        <button class="config-item w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors" data-action="password">
-                            <div class="flex items-center gap-4">
-                                <img src="${baseURL}recursos/iconos/solido/interfaz/Key.svg" alt="Cambiar contraseña" class="w-6 h-6">
-                                <span class="text-gray-500 font-normal">Cambiar contraseña</span>
-                            </div>
-                            <img src="${baseURL}recursos/iconos/solido/interfaz/next.svg" alt="" class="w-5 h-5">
-                        </button>
-                    </li>
-                    <li>
-                        <button class="config-item w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors" data-action="ayuda">
-                            <div class="flex items-center gap-4">
-                                <img src="${baseURL}recursos/iconos/solido/interfaz/Info.svg" alt="Centro de ayuda" class="w-6 h-6">
-                                <span class="text-gray-500 font-normal">Centro de ayuda</span>
-                            </div>
-                            <img src="${baseURL}recursos/iconos/solido/interfaz/next.svg" alt="" class="w-5 h-5">
-                        </button>
-                    </li>
-                    <li>
-                        <button class="config-item w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors" data-action="privacidad">
-                            <div class="flex items-center gap-4">
-                                <img src="${baseURL}recursos/iconos/solido/interfaz/Lock.svg" alt="Políticas de privacidad" class="w-6 h-6">
-                                <span class="text-gray-500 font-normal">Políticas de privacidad</span>
-                            </div>
-                            <img src="${baseURL}recursos/iconos/solido/interfaz/next.svg" alt="" class="w-5 h-5">
-                        </button>
-                    </li>
-                    <li>
-                        <button class="config-item w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors" data-action="logout">
-                            <div class="flex items-center gap-4">
-                                <img src="${baseURL}recursos/iconos/solido/interfaz/Logout.svg" alt="Cerrar sesión" class="w-6 h-6">
-                                <span class="text-gray-500 font-normal">Cerrar sesión</span>
-                            </div>
-                            <img src="${baseURL}recursos/iconos/solido/interfaz/next.svg" alt="" class="w-5 h-5">
-                        </button>
-                    </li>
-                </ul>
-            </div>
-        `;
-        
         document.body.appendChild(overlay);
+<<<<<<< HEAD
 
         // Botón para cerrar el overlay principal
         document.getElementById("close-config").addEventListener("click", () => {
@@ -87,7 +29,87 @@ function showConfigOverlay() {
         });
     } else {
         overlay.style.display = "flex";
+=======
+>>>>>>> fce5b3694f42c5c5205b2fa1b334676e7823da3f
     }
+    
+    // Siempre resetear al contenido principal del menú
+    overlay.innerHTML = `
+        <div class="flex items-center px-6 py-4 mt-4">
+            <button id="close-config" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors mr-4">
+                <img src="${baseURL}recursos/iconos/solido/navegacion/atras.svg" alt="Volver" class="w-8 h-8">
+            </button>
+            <h2 class="text-lg font-normal text-gray-900">Configuración y actividad</h2>
+        </div>
+        <div class="flex-1 px-6 py-4">
+            <ul class="divide-y divide-gray-200 mt-8">
+                <li>
+                    <button class="config-item w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors" data-action="datos">
+                        <div class="flex items-center gap-4">
+                            <img src="${baseURL}recursos/iconos/solido/navegacion/User.svg" alt="Datos personales" class="w-6 h-6">
+                            <span class="text-gray-500 font-normal">Datos personales</span>
+                        </div>
+                        <img src="${baseURL}recursos/iconos/solido/interfaz/next.svg" alt="" class="w-5 h-5">
+                    </button>
+                </li>
+                <li>
+                    <button class="config-item w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors" data-action="password">
+                        <div class="flex items-center gap-4">
+                            <img src="${baseURL}recursos/iconos/solido/interfaz/Key.svg" alt="Cambiar contraseña" class="w-6 h-6">
+                            <span class="text-gray-500 font-normal">Cambiar contraseña</span>
+                        </div>
+                        <img src="${baseURL}recursos/iconos/solido/interfaz/next.svg" alt="" class="w-5 h-5">
+                    </button>
+                </li>
+                <li>
+                    <button class="config-item w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors" data-action="ayuda">
+                        <div class="flex items-center gap-4">
+                            <img src="${baseURL}recursos/iconos/solido/interfaz/Info.svg" alt="Centro de ayuda" class="w-6 h-6">
+                            <span class="text-gray-500 font-normal">Centro de ayuda</span>
+                        </div>
+                        <img src="${baseURL}recursos/iconos/solido/interfaz/next.svg" alt="" class="w-5 h-5">
+                    </button>
+                </li>
+                <li>
+                    <button class="config-item w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors" data-action="privacidad">
+                        <div class="flex items-center gap-4">
+                            <img src="${baseURL}recursos/iconos/solido/interfaz/Lock.svg" alt="Políticas de privacidad" class="w-6 h-6">
+                            <span class="text-gray-500 font-normal">Políticas de privacidad</span>
+                        </div>
+                        <img src="${baseURL}recursos/iconos/solido/interfaz/next.svg" alt="" class="w-5 h-5">
+                    </button>
+                </li>
+                <li>
+                    <button class="config-item w-full flex items-center justify-between py-4 text-gray-600 hover:bg-gray-50 transition-colors" data-action="logout">
+                        <div class="flex items-center gap-4">
+                            <img src="${baseURL}recursos/iconos/solido/interfaz/Logout.svg" alt="Cerrar sesión" class="w-6 h-6">
+                            <span class="text-gray-500 font-normal">Cerrar sesión</span>
+                        </div>
+                        <img src="${baseURL}recursos/iconos/solido/interfaz/next.svg" alt="" class="w-5 h-5">
+                    </button>
+                </li>
+            </ul>
+        </div>
+    `;
+    
+    // Botón para cerrar el overlay principal
+    document.getElementById("close-config").addEventListener("click", () => {
+        overlay.style.display = "none";
+    });
+
+    // Detectar clic en funcionalidades específicos
+    overlay.querySelectorAll(".config-item").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const action = btn.dataset.action;
+            if (action === "password") showPasswordOverlay();
+            if (action === "ayuda") showHelpOverlay();
+            if (action === "privacidad") showPrivacyOverlay();
+            if (action === "logout") showLogoutConfirmation();
+        });
+    });
+    
+    // Mostrar el overlay
+    overlay.style.display = "flex";
 }
 
 // ================= OVERLAYS SECUNDARIOS =================
@@ -142,6 +164,7 @@ function showHelpOverlay() {
         overlay.querySelectorAll(".config-item").forEach(btn => {
             btn.addEventListener("click", () => {
                 const action = btn.dataset.action;
+                if (action === "password") showPasswordOverlay();
                 if (action === "ayuda") showHelpOverlay();
                 if (action === "privacidad") showPrivacyOverlay();
                 if (action === "logout") showLogoutConfirmation();
@@ -189,6 +212,7 @@ function showPrivacyOverlay() {
         overlay.querySelectorAll(".config-item").forEach(btn => {
             btn.addEventListener("click", () => {
                 const action = btn.dataset.action;
+                if (action === "password") showPasswordOverlay();
                 if (action === "ayuda") showHelpOverlay();
                 if (action === "privacidad") showPrivacyOverlay();
                 if (action === "logout") showLogoutConfirmation();
@@ -200,6 +224,439 @@ function showPrivacyOverlay() {
             overlay.style.display = "none";
         });
     });
+}
+
+// cambiar contraseña (para mobile)
+function showPasswordOverlay() {
+    const overlay = document.getElementById("config-overlay");
+    if (!overlay) return;
+
+    const configPanelContent = overlay.innerHTML;
+
+    overlay.innerHTML = `
+        <div class="flex items-center px-6 py-4 mt-4">
+            <button id="back-to-config-password" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors mr-4">
+                <img src="${baseURL}recursos/iconos/solido/navegacion/atras.svg" alt="Volver" class="w-8 h-8">
+            </button>
+            <h2 class="text-lg font-semibold text-gray-900">Nueva contraseña</h2>
+        </div>
+        <div class="flex-1 px-6 py-4">
+            <p class="text-sm text-gray-500 mb-6">Tu nueva contraseña debe de ser diferente a otras previas</p>
+            
+            <form id="form-cambiar-password" class="space-y-6">
+                <!-- Contraseña actual -->
+                <div>
+                    <label for="password-actual" class="block text-sm font-medium text-gray-700 mb-2">Contraseña</label>
+                    <div class="relative">
+                        <input type="password" id="password-actual" name="password_actual" 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-full pr-12 focus:outline-none focus:ring-2 focus:ring-green focus:border-transparent" 
+                               placeholder="••••••••••••" required>
+                        <button type="button" class="toggle-password absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600" data-target="password-actual">
+                            <img src="${baseURL}recursos/iconos/solido/estado/ojo_cerrado.svg" alt="Mostrar" class="w-5 h-5">
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Nueva contraseña -->
+                <div>
+                    <label for="password-nueva" class="block text-sm font-medium text-gray-700 mb-2">Nueva contraseña</label>
+                    <div class="relative">
+                        <input type="password" id="password-nueva" name="password_nueva" 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-full pr-12 focus:outline-none focus:ring-2 focus:ring-green focus:border-transparent" 
+                               placeholder="••••••••••••" required>
+                        <button type="button" class="toggle-password absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600" data-target="password-nueva">
+                            <img src="${baseURL}recursos/iconos/solido/estado/ojo_cerrado.svg" alt="Mostrar" class="w-5 h-5">
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Confirmar contraseña -->
+                <div>
+                    <label for="password-confirmar" class="block text-sm font-medium text-gray-700 mb-2">Confirmar contraseña</label>
+                    <div class="relative">
+                        <input type="password" id="password-confirmar" name="password_confirmar" 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-full pr-12 focus:outline-none focus:ring-2 focus:ring-green focus:border-transparent" 
+                               placeholder="••••••••••••" required>
+                        <button type="button" class="toggle-password absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600" data-target="password-confirmar">
+                            <img src="${baseURL}recursos/iconos/solido/estado/ojo_cerrado.svg" alt="Mostrar" class="w-5 h-5">
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Alerta de error/éxito -->
+                <div id="password-alert" class="hidden px-4 py-3 rounded-lg text-sm"></div>
+
+                <!-- Botón -->
+                <button type="submit" class="w-full bg-green text-white py-3 rounded-full font-medium hover:bg-green-600 transition-colors">
+                    Crear nueva contraseña
+                </button>
+            </form>
+        </div>
+    `;
+
+    // Funcionalidad para mostrar/ocultar contraseñas
+    overlay.querySelectorAll('.toggle-password').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const targetId = this.dataset.target;
+            const input = document.getElementById(targetId);
+            const img = this.querySelector('img');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                img.src = baseURL + 'recursos/iconos/solido/estado/ojo.svg';
+            } else {
+                input.type = 'password';
+                img.src = baseURL + 'recursos/iconos/solido/estado/ojo_cerrado.svg';
+            }
+        });
+    });
+
+    // Manejar envío del formulario
+    document.getElementById('form-cambiar-password').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const passwordActual = document.getElementById('password-actual').value;
+        const passwordNueva = document.getElementById('password-nueva').value;
+        const passwordConfirmar = document.getElementById('password-confirmar').value;
+        const alert = document.getElementById('password-alert');
+        
+        console.log('=== CAMBIAR PASSWORD DEBUG ===');
+        console.log('Password actual:', passwordActual ? 'OK (length: ' + passwordActual.length + ')' : 'VACÍO');
+        console.log('Password nueva:', passwordNueva ? 'OK (length: ' + passwordNueva.length + ')' : 'VACÍO');
+        console.log('Password confirmar:', passwordConfirmar ? 'OK (length: ' + passwordConfirmar.length + ')' : 'VACÍO');
+        
+        // Validaciones
+        if (!passwordActual || !passwordNueva || !passwordConfirmar) {
+            console.log('ERROR: Campos vacíos');
+            mostrarAlertaPassword('Todos los campos son obligatorios', 'error');
+            return;
+        }
+        
+        if (passwordNueva.length < 6) {
+            console.log('ERROR: Password nueva muy corta');
+            mostrarAlertaPassword('La contraseña debe tener al menos 6 caracteres', 'error');
+            return;
+        }
+        
+        if (passwordNueva !== passwordConfirmar) {
+            console.log('ERROR: Passwords no coinciden');
+            mostrarAlertaPassword('Las contraseñas no coinciden', 'error');
+            return;
+        }
+        
+        if (passwordActual === passwordNueva) {
+            console.log('ERROR: Password nueva es igual a la actual');
+            mostrarAlertaPassword('La nueva contraseña debe ser diferente a la actual', 'error');
+            return;
+        }
+        
+        console.log('Validaciones OK - Enviando al backend...');
+        
+        // Enviar al backend
+        const formData = new FormData();
+        formData.append('password_actual', passwordActual);
+        formData.append('password_nueva', passwordNueva);
+        
+        console.log('FormData creado - iniciando fetch...');
+        
+        fetch(baseURL + 'php/cambiar-password.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => {
+            console.log('Respuesta recibida, status:', res.status);
+            return res.json();
+        })
+        .then(data => {
+            console.log('Datos parseados:', data);
+            if (data.success) {
+                console.log('SUCCESS: Contraseña cambiada');
+                mostrarAlertaPassword('Contraseña actualizada exitosamente', 'success');
+                setTimeout(() => {
+                    overlay.style.display = "none";
+                }, 1500);
+            } else {
+                console.log('ERROR del servidor:', data.message);
+                mostrarAlertaPassword(data.message || 'Error al cambiar la contraseña', 'error');
+            }
+        })
+        .catch(error => {
+            console.error('ERROR en fetch:', error);
+            mostrarAlertaPassword('Error de conexión. Intenta nuevamente.', 'error');
+        });
+    });
+
+    // volver al menu config
+    document.getElementById("back-to-config-password").addEventListener("click", () => {
+        overlay.innerHTML = configPanelContent;
+
+        overlay.querySelectorAll(".config-item").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const action = btn.dataset.action;
+                if (action === "password") showPasswordOverlay();
+                if (action === "ayuda") showHelpOverlay();
+                if (action === "privacidad") showPrivacyOverlay();
+                if (action === "logout") showLogoutConfirmation();
+            });
+        });
+
+        // Botón cerrar configuración
+        document.getElementById("close-config").addEventListener("click", () => {
+            overlay.style.display = "none";
+        });
+    });
+}
+
+// Función auxiliar para mostrar alertas en el formulario de contraseña
+function mostrarAlertaPassword(mensaje, tipo) {
+    const alert = document.getElementById('password-alert');
+    if (!alert) return;
+    
+    alert.textContent = mensaje;
+    alert.classList.remove('hidden');
+    
+    if (tipo === 'error') {
+        alert.style.backgroundColor = '#FEE2E2';
+        alert.style.borderColor = '#F87171';
+        alert.style.color = '#7F1D1D';
+    } else {
+        alert.style.backgroundColor = '#D1FAE5';
+        alert.style.borderColor = '#34D399';
+        alert.style.color = '#065F46';
+    }
+    
+    setTimeout(() => {
+        alert.classList.add('hidden');
+    }, 5000);
+}
+
+// Modal de cambiar contraseña para DESKTOP
+function showPasswordModalDesktop() {
+    // Crear el backdrop y modal si no existe
+    let modalBackdrop = document.getElementById('password-modal-backdrop');
+    
+    if (!modalBackdrop) {
+        modalBackdrop = document.createElement('div');
+        modalBackdrop.id = 'password-modal-backdrop';
+        modalBackdrop.className = 'fixed inset-0 bg-black bg-opacity-50 z-[100] flex items-center justify-center p-4';
+        modalBackdrop.style.display = 'none';
+        
+        modalBackdrop.innerHTML = `
+            <div id="password-modal" class="bg-white rounded-2xl shadow-2xl w-full max-w-md transform transition-all">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-xl font-semibold text-gray-900">Nueva contraseña</h2>
+                        <button id="close-password-modal" class="text-gray-400 hover:text-gray-600 transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-2">Tu nueva contraseña debe de ser diferente a otras previas</p>
+                </div>
+                
+                <div class="p-6">
+                    <form id="form-cambiar-password-desktop" class="space-y-5">
+                        <!-- Contraseña actual -->
+                        <div>
+                            <label for="password-actual-desktop" class="block text-sm font-medium text-gray-700 mb-2">Contraseña actual</label>
+                            <div class="relative">
+                                <input type="password" id="password-actual-desktop" name="password_actual" 
+                                       class="w-full px-4 py-2.5 border border-gray-300 rounded-lg pr-10 focus:outline-none focus:ring-2 focus:ring-green focus:border-transparent" 
+                                       placeholder="••••••••••••" required>
+                                <button type="button" class="toggle-password-desktop absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600" data-target="password-actual-desktop">
+                                    <img src="${baseURL}recursos/iconos/solido/estado/ojo_cerrado.svg" alt="Mostrar" class="w-5 h-5">
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Nueva contraseña -->
+                        <div>
+                            <label for="password-nueva-desktop" class="block text-sm font-medium text-gray-700 mb-2">Nueva contraseña</label>
+                            <div class="relative">
+                                <input type="password" id="password-nueva-desktop" name="password_nueva" 
+                                       class="w-full px-4 py-2.5 border border-gray-300 rounded-lg pr-10 focus:outline-none focus:ring-2 focus:ring-green focus:border-transparent" 
+                                       placeholder="••••••••••••" required>
+                                <button type="button" class="toggle-password-desktop absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600" data-target="password-nueva-desktop">
+                                    <img src="${baseURL}recursos/iconos/solido/estado/ojo_cerrado.svg" alt="Mostrar" class="w-5 h-5">
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Confirmar contraseña -->
+                        <div>
+                            <label for="password-confirmar-desktop" class="block text-sm font-medium text-gray-700 mb-2">Confirmar contraseña</label>
+                            <div class="relative">
+                                <input type="password" id="password-confirmar-desktop" name="password_confirmar" 
+                                       class="w-full px-4 py-2.5 border border-gray-300 rounded-lg pr-10 focus:outline-none focus:ring-2 focus:ring-green focus:border-transparent" 
+                                       placeholder="••••••••••••" required>
+                                <button type="button" class="toggle-password-desktop absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600" data-target="password-confirmar-desktop">
+                                    <img src="${baseURL}recursos/iconos/solido/estado/ojo_cerrado.svg" alt="Mostrar" class="w-5 h-5">
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Alerta de error/éxito -->
+                        <div id="password-alert-desktop" class="hidden px-4 py-3 rounded-lg text-sm"></div>
+
+                        <!-- Botones -->
+                        <div class="flex gap-3 pt-2">
+                            <button type="button" id="cancel-password-desktop" class="flex-1 px-4 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium">
+                                Cancelar
+                            </button>
+                            <button type="submit" class="flex-1 px-4 py-2.5 bg-green text-white rounded-lg hover:bg-green-600 transition-colors font-medium">
+                                Guardar cambios
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modalBackdrop);
+        
+        // Cerrar al hacer clic en el backdrop
+        modalBackdrop.addEventListener('click', function(e) {
+            if (e.target === modalBackdrop) {
+                closePasswordModalDesktop();
+            }
+        });
+        
+        // Botón X para cerrar
+        document.getElementById('close-password-modal').addEventListener('click', closePasswordModalDesktop);
+        
+        // Botón cancelar
+        document.getElementById('cancel-password-desktop').addEventListener('click', closePasswordModalDesktop);
+        
+        // Toggle password visibility
+        modalBackdrop.querySelectorAll('.toggle-password-desktop').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const targetId = this.dataset.target;
+                const input = document.getElementById(targetId);
+                const img = this.querySelector('img');
+                
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    img.src = baseURL + 'recursos/iconos/solido/estado/ojo.svg';
+                } else {
+                    input.type = 'password';
+                    img.src = baseURL + 'recursos/iconos/solido/estado/ojo_cerrado.svg';
+                }
+            });
+        });
+        
+        // Manejar envío del formulario
+        document.getElementById('form-cambiar-password-desktop').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const passwordActual = document.getElementById('password-actual-desktop').value;
+            const passwordNueva = document.getElementById('password-nueva-desktop').value;
+            const passwordConfirmar = document.getElementById('password-confirmar-desktop').value;
+            
+            console.log('=== CAMBIAR PASSWORD DESKTOP DEBUG ===');
+            console.log('Password actual:', passwordActual ? 'OK (length: ' + passwordActual.length + ')' : 'VACÍO');
+            console.log('Password nueva:', passwordNueva ? 'OK (length: ' + passwordNueva.length + ')' : 'VACÍO');
+            console.log('Password confirmar:', passwordConfirmar ? 'OK (length: ' + passwordConfirmar.length + ')' : 'VACÍO');
+            
+            // Validaciones
+            if (!passwordActual || !passwordNueva || !passwordConfirmar) {
+                console.log('ERROR: Campos vacíos');
+                mostrarAlertaPasswordDesktop('Todos los campos son obligatorios', 'error');
+                return;
+            }
+            
+            if (passwordNueva.length < 6) {
+                console.log('ERROR: Password nueva muy corta');
+                mostrarAlertaPasswordDesktop('La contraseña debe tener al menos 6 caracteres', 'error');
+                return;
+            }
+            
+            if (passwordNueva !== passwordConfirmar) {
+                console.log('ERROR: Passwords no coinciden');
+                mostrarAlertaPasswordDesktop('Las contraseñas no coinciden', 'error');
+                return;
+            }
+            
+            if (passwordActual === passwordNueva) {
+                console.log('ERROR: Password nueva es igual a la actual');
+                mostrarAlertaPasswordDesktop('La nueva contraseña debe ser diferente a la actual', 'error');
+                return;
+            }
+            
+            console.log('Validaciones OK - Enviando al backend...');
+            
+            // Enviar al backend
+            const formData = new FormData();
+            formData.append('password_actual', passwordActual);
+            formData.append('password_nueva', passwordNueva);
+            
+            console.log('FormData creado - iniciando fetch...');
+            
+            fetch(baseURL + 'php/cambiar-password.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => {
+                console.log('Respuesta recibida, status:', res.status);
+                return res.json();
+            })
+            .then(data => {
+                console.log('Datos parseados:', data);
+                if (data.success) {
+                    console.log('SUCCESS: Contraseña cambiada');
+                    mostrarAlertaPasswordDesktop('Contraseña actualizada exitosamente', 'success');
+                    setTimeout(() => {
+                        closePasswordModalDesktop();
+                    }, 1500);
+                } else {
+                    console.log('ERROR del servidor:', data.message);
+                    mostrarAlertaPasswordDesktop(data.message || 'Error al cambiar la contraseña', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('ERROR en fetch:', error);
+                mostrarAlertaPasswordDesktop('Error de conexión. Intenta nuevamente.', 'error');
+            });
+        });
+    }
+    
+    // Mostrar el modal
+    modalBackdrop.style.display = 'flex';
+    
+    // Limpiar campos
+    document.getElementById('password-actual-desktop').value = '';
+    document.getElementById('password-nueva-desktop').value = '';
+    document.getElementById('password-confirmar-desktop').value = '';
+    document.getElementById('password-alert-desktop').classList.add('hidden');
+}
+
+function closePasswordModalDesktop() {
+    const modalBackdrop = document.getElementById('password-modal-backdrop');
+    if (modalBackdrop) {
+        modalBackdrop.style.display = 'none';
+    }
+}
+
+function mostrarAlertaPasswordDesktop(mensaje, tipo) {
+    const alert = document.getElementById('password-alert-desktop');
+    if (!alert) return;
+    
+    alert.textContent = mensaje;
+    alert.classList.remove('hidden');
+    
+    if (tipo === 'error') {
+        alert.style.backgroundColor = '#FEE2E2';
+        alert.style.borderColor = '#F87171';
+        alert.style.color = '#7F1D1D';
+    } else {
+        alert.style.backgroundColor = '#D1FAE5';
+        alert.style.borderColor = '#34D399';
+        alert.style.color = '#065F46';
+    }
+    
+    setTimeout(() => {
+        alert.classList.add('hidden');
+    }, 5000);
 }
 
 // Función para expandir el dropdown y mostrar contenido adicional
@@ -309,6 +766,11 @@ if (contenedor) {
         .then(response => response.json())
         .then(data => {
             if (data.logueado) {
+                // Usar datos reales del usuario
+                const nombreUsuario = data.nombre || 'Usuario';
+                const correoUsuario = data.correo || '';
+                const imgUsuario = data.img_usuario || 'recursos/iconos/solido/comunicacion/usuario.svg';
+                
                 contenedor.innerHTML = `
                     <!-- Botón Nueva publicación -->
                     <button class="bg-green text-white px-6 h-10 smooth-transition redondeado-personalizado primary-button flex items-center text-sm whitespace-nowrap"
@@ -331,9 +793,9 @@ if (contenedor) {
                     <!-- Perfil con dropdown -->
                     <div class="relative inline-block text-left">
                         <div>
-                            <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition"
+                            <button class="w-8 h-8 bg-gray-custom rounded-full flex items-center justify-center smooth-transition overflow-hidden"
                                 id="menu-button" onclick="showDropdown()" aria-expanded="true" aria-haspopup="true">
-                                <img src="${baseURL}recursos/iconos/solido/comunicacion/usuario.svg" alt="Usuario" class="w-5 h-5 svg-gray-800">
+                                <img src="${baseURL}${imgUsuario}" alt="Usuario" class="w-full h-full object-cover">
                             </button>
                         </div>
 
@@ -343,10 +805,10 @@ if (contenedor) {
                             
                             <!-- Info del usuario -->
                             <div class="flex items-center gap-x-4 mb-4">
-                                <img class="rounded-full w-12 h-12" src="${baseURL}recursos/imagenes/josegimenez.jpg">
+                                <img class="rounded-full w-12 h-12 object-cover" src="${baseURL}${imgUsuario}" alt="${nombreUsuario}">
                                 <div>
-                                    <div class="font-medium text-base text-gray-800">José Martínez</div>
-                                    <p class="text-xs text-green">jsemartinez@gmail</p>
+                                    <div class="font-medium text-base text-gray-800">${nombreUsuario}</div>
+                                    <p class="text-xs text-green">${correoUsuario}</p>
                                 </div>
                             </div>
 
@@ -375,7 +837,7 @@ if (contenedor) {
                             window.location.href = baseURL + 'php/datos-personales.php';
                             break;
                         case 'cambiar-contrasena': 
-                            console.log('Abrir cambiar contraseña'); 
+                            showPasswordModalDesktop();
                             break;
                         case 'centro-ayuda': 
                             expandDropdownWithContent('centro-ayuda');

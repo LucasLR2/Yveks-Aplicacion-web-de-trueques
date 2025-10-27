@@ -10,6 +10,14 @@ class ChatManager {
         this.mensajeRespondiendo = null;
         this.solicitudes = [];
         this.tabActual = 'chats';
+        this.touchStartX = 0;
+        this.touchStartY = 0;
+        this.touchStartTime = 0;
+        this.swipeThreshold = 60;
+        this.longPressTimeout = null;
+        this.longPressThreshold = 500;
+        this.isLongPress = false;
+        this.currentSwipingElement = null;
         
         this.init();
     }
@@ -20,6 +28,9 @@ class ChatManager {
         this.cargarConversaciones();
         this.iniciarPolling();
         this.setupLightbox();
+        if (this.isMobile) {
+            this.setupTouchGestures();
+        }
 
         const urlParams = new URLSearchParams(window.location.search);
         const idConversacion = urlParams.get('conversacion');
@@ -213,6 +224,237 @@ class ChatManager {
                 }
             }
         });
+    }
+
+    setupTouchGestures() {
+        // Delegación de eventos en el contenedor de mensajes
+        const setupGesturesForContainer = (container) => {
+            if (!container) return;
+
+            container.addEventListener('touchstart', (e) => {
+                const wrapper = e.target.closest('.mensaje-wrapper');
+                if (!wrapper) return;
+
+                this.touchStartX = e.touches[0].clientX;
+                this.touchStartY = e.touches[0].clientY;
+                this.touchStartTime = Date.now();
+                this.isLongPress = false;
+
+                // Long press timer
+                this.longPressTimeout = setTimeout(() => {
+                    this.isLongPress = true;
+                    wrapper.classList.add('long-pressing');
+                    this.handleLongPress(wrapper);
+                }, this.longPressThreshold);
+            }, { passive: true });
+
+            container.addEventListener('touchmove', (e) => {
+                const wrapper = e.target.closest('.mensaje-wrapper');
+                if (!wrapper) return;
+
+                // Cancelar long press si hay movimiento
+                if (this.longPressTimeout) {
+                    clearTimeout(this.longPressTimeout);
+                    this.longPressTimeout = null;
+                }
+
+                const touchCurrentX = e.touches[0].clientX;
+                const touchCurrentY = e.touches[0].clientY;
+                const deltaX = touchCurrentX - this.touchStartX;
+                const deltaY = touchCurrentY - this.touchStartY;
+
+                // Solo procesar swipe horizontal si el movimiento vertical es menor
+                if (Math.abs(deltaY) < 30 && Math.abs(deltaX) > 10) {
+                    e.preventDefault(); // Prevenir scroll
+
+                    const isMio = wrapper.classList.contains('mensaje-mio');
+                    
+                    // Mensaje mío: solo swipe izquierda (deltaX negativo)
+                    // Mensaje otro: solo swipe derecha (deltaX positivo)
+                    if ((isMio && deltaX < 0) || (!isMio && deltaX > 0)) {
+                        const maxSwipe = 80;
+                        const translateX = Math.min(Math.abs(deltaX), maxSwipe) * (deltaX < 0 ? -1 : 1);
+                        wrapper.style.transform = `translateX(${translateX}px)`;
+                        
+                        // Mostrar icono si supera threshold
+                        if (Math.abs(deltaX) > this.swipeThreshold / 2) {
+                            wrapper.classList.add('swiping');
+                            this.currentSwipingElement = wrapper;
+                        }
+                    }
+                }
+            }, { passive: false });
+
+            container.addEventListener('touchend', (e) => {
+                const wrapper = e.target.closest('.mensaje-wrapper');
+                
+                // Limpiar long press
+                if (this.longPressTimeout) {
+                    clearTimeout(this.longPressTimeout);
+                    this.longPressTimeout = null;
+                }
+
+                if (!wrapper) return;
+
+                wrapper.classList.remove('long-pressing');
+
+                // Si fue long press, no procesar swipe
+                if (this.isLongPress) {
+                    this.isLongPress = false;
+                    return;
+                }
+
+                const touchEndX = e.changedTouches[0].clientX;
+                const deltaX = touchEndX - this.touchStartX;
+                const touchDuration = Date.now() - this.touchStartTime;
+
+                // Resetear transform
+                wrapper.style.transform = '';
+                wrapper.classList.remove('swiping');
+
+                // Detectar swipe para responder
+                if (Math.abs(deltaX) > this.swipeThreshold && touchDuration < 500) {
+                    const isMio = wrapper.classList.contains('mensaje-mio');
+                    
+                    // Mensaje mío: swipe izquierda | Mensaje otro: swipe derecha
+                    if ((isMio && deltaX < 0) || (!isMio && deltaX > 0)) {
+                        const bubble = wrapper.querySelector('.mensaje-bubble');
+                        const idMensaje = parseInt(bubble.dataset.mensajeId);
+                        const contenido = bubble.querySelector('.mensaje-texto, .mensaje-texto-emoji')?.textContent || 'Imagen';
+                        const nombre = isMio ? 'Tú' : this.getNombreOtroUsuario();
+                        
+                        this.responderMensaje(idMensaje, contenido, nombre);
+                    }
+                }
+
+                this.currentSwipingElement = null;
+            }, { passive: true });
+        };
+
+        // Setup para móvil
+        const containerMovil = document.getElementById('chat-mensajes');
+        setupGesturesForContainer(containerMovil);
+    }
+
+    handleLongPress(wrapper) {
+        const bubble = wrapper.querySelector('.mensaje-bubble');
+        if (!bubble) return;
+
+        const idMensaje = parseInt(bubble.dataset.mensajeId);
+        const esMio = wrapper.classList.contains('mensaje-mio');
+        const enviadoEn = bubble.dataset.enviadoEn;
+
+        // Vibración háptica si está disponible
+        if (navigator.vibrate) {
+            navigator.vibrate(50);
+        }
+
+        this.mostrarMenuMensajeMobile(idMensaje, esMio, enviadoEn, wrapper);
+    }
+
+    mostrarMenuMensajeMobile(idMensaje, esMio, enviadoEn, wrapperElement) {
+        // Cerrar menú anterior si existe
+        this.cerrarMenuMensaje();
+
+        // Crear menú
+        const menu = document.createElement('div');
+        menu.className = 'mobile-context-menu';
+        menu.id = 'mensaje-menu-activo';
+
+        let opciones = '';
+
+        if (esMio) {
+            // Verificar si puede editar
+            if (this.puedeEditar(enviadoEn)) {
+                opciones += `
+                    <button style="color: #5a7360;" class="mobile-context-menu-item" data-action="editar">
+                        Editar mensaje
+                    </button>
+                `;
+            }
+            
+            opciones += `
+                <button class="mobile-context-menu-item danger" data-action="eliminar-todos">
+                    Eliminar para todos
+                </button>
+            `;
+        }
+
+        opciones += `
+            <button class="mobile-context-menu-item danger" data-action="eliminar-mi">
+                Eliminar para mí
+            </button>
+        `;
+
+        menu.innerHTML = opciones;
+        document.body.appendChild(menu);
+
+        // Posicionar menú al lado del mensaje
+        const bubble = wrapperElement.querySelector('.mensaje-bubble');
+        const bubbleRect = bubble.getBoundingClientRect();
+        
+        // Hacer visible temporalmente para medir
+        menu.style.visibility = 'hidden';
+        menu.style.display = 'block';
+        const menuHeight = menu.offsetHeight;
+        const menuWidth = menu.offsetWidth;
+        menu.style.visibility = 'visible';
+
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        // Posicionar horizontalmente según el tipo de mensaje
+        if (esMio) {
+            // Mensaje mío: menú a la izquierda
+            menu.style.right = `${viewportWidth - bubbleRect.left + 8}px`;
+        } else {
+            // Mensaje otro: menú a la derecha
+            menu.style.left = `${bubbleRect.right + 8}px`;
+        }
+
+        // Posicionar verticalmente, centrando con el mensaje
+        let topPos = bubbleRect.top + (bubbleRect.height / 2) - (menuHeight / 2);
+        
+        // Ajustar si se sale de la pantalla
+        if (topPos < 8) topPos = 8;
+        if (topPos + menuHeight > viewportHeight - 8) {
+            topPos = viewportHeight - menuHeight - 8;
+        }
+
+        menu.style.top = `${topPos}px`;
+
+        // Event listeners para las opciones
+        menu.querySelectorAll('.mobile-context-menu-item').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const action = btn.dataset.action;
+                this.cerrarMenuMensaje();
+
+                switch(action) {
+                    case 'editar':
+                        this.editarMensaje(idMensaje);
+                        break;
+                    case 'eliminar-todos':
+                        this.eliminarMensaje(idMensaje, 'para_todos');
+                        break;
+                    case 'eliminar-mi':
+                        this.eliminarMensaje(idMensaje, 'para_mi');
+                        break;
+                }
+            });
+        });
+
+        // Cerrar al tocar fuera del menú
+        const handleClickOutside = (e) => {
+            if (!menu.contains(e.target)) {
+                this.cerrarMenuMensaje();
+                document.removeEventListener('click', handleClickOutside);
+            }
+        };
+        
+        // Esperar un tick para evitar que se cierre inmediatamente
+        setTimeout(() => {
+            document.addEventListener('click', handleClickOutside);
+        }, 100);
     }
 
     editarUltimoMensaje() {
@@ -687,6 +929,24 @@ class ChatManager {
             }
         }
 
+        // Agregar iconos de swipe para móvil
+        if (this.isMobile) {
+            setTimeout(() => {
+                document.querySelectorAll('.mensaje-wrapper').forEach(wrapper => {
+                    if (!wrapper.querySelector('.swipe-reply-icon')) {
+                        const icon = document.createElement('div');
+                        icon.className = 'swipe-reply-icon';
+                        icon.innerHTML = `
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 14l-4-4 4-4M5 10h11a4 4 0 0 1 0 8h-1"></path>
+                            </svg>
+                        `;
+                        wrapper.appendChild(icon);
+                    }
+                });
+            }, 100);
+        }
+
         // Event listeners para abrir imágenes en lightbox
         setTimeout(() => {
             document.querySelectorAll('.mensaje-imagen-item').forEach(item => {
@@ -830,7 +1090,7 @@ class ChatManager {
             html += `
                 <div class="mensaje-wrapper ${claseAlineacion}">
                     <div class="mensaje-bubble ${msg.imagenes ? 'mensaje-con-imagenes' : ''}" data-mensaje-id="${msg.id}" data-enviado-en="${msg.enviado_en}">
-                        ${!msg.eliminado ? `
+                        ${!msg.eliminado && !this.mensajeRespondiendo ? `
                             <button class="mensaje-reply-btn" data-mensaje-id="${msg.id}" data-contenido="${this.escapeHtml(msg.contenido || 'Imagen')}" data-nombre="${msg.es_mio ? 'Tú' : this.getNombreOtroUsuario()}">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M9 14l-4-4 4-4M5 10h11a4 4 0 0 1 0 8h-1"></path>
@@ -1250,9 +1510,6 @@ class ChatManager {
     cerrarMenuMensaje() {
         const menu = document.getElementById('mensaje-menu-activo');
         if (menu) menu.remove();
-
-        const overlay = document.querySelector('.menu-overlay');
-        if (overlay) overlay.remove();
     }
 
     async eliminarMensaje(idMensaje, tipo) {
@@ -1563,6 +1820,11 @@ class ChatManager {
     }
 
     responderMensaje(idMensaje, contenido, nombre) {
+        // Si ya estamos respondiendo, cancelar la respuesta anterior primero
+            if (this.mensajeRespondiendo) {
+                this.cancelarRespuesta();
+            }
+
         const input = this.isMobile 
             ? document.getElementById('input-mensaje')
             : document.getElementById('input-mensaje-desktop');

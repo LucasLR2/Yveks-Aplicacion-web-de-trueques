@@ -1033,8 +1033,8 @@
         display: none !important;
     }
 
-    .mensaje-wrapper:active .mensaje-options-btn,
-    .mensaje-wrapper:active .mensaje-reply-btn {
+    .mensaje-wrapper:active
+    .mensaje-wrapper:active {
         display: flex !important;
     }
 
@@ -1063,6 +1063,86 @@
         width: 60px;
         height: 60px;
     }
+}
+
+/* ==================================
+   GESTOS TÁCTILES MÓVIL
+   ================================== */
+
+/* Icono de respuesta que aparece al hacer swipe */
+.swipe-reply-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+}
+
+.mensaje-mio .swipe-reply-icon {
+    left: 8px;
+    color: #719177;
+}
+
+.mensaje-otro .swipe-reply-icon {
+    right: 8px;
+    color: #719177;
+}
+
+.swipe-reply-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Mostrar icono cuando hay swipe activo */
+.mensaje-wrapper.swiping .swipe-reply-icon {
+    opacity: 1;
+}
+
+/* Menú contextual móvil con long press */
+.mobile-context-menu {
+    position: fixed;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    padding: 8px 0;
+    z-index: 10000;
+    min-width: 200px;
+    animation: menuFadeIn 0.2s ease;
+}
+
+@keyframes menuFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.mobile-context-menu-item {
+    padding: 14px 20px;
+    cursor: pointer;
+    font-size: 15px;
+    color: #1f2937;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.mobile-context-menu-item.danger {
+    color: #719177;
+}
+
+.mobile-context-menu-item:active {
+    background-color: #f3f4f6;
 }
 
 /* ===================================

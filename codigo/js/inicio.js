@@ -535,7 +535,13 @@ function openProductDetail(productId) {
                             <div class="flex items-center justify-between w-full">
                                 <div class="flex items-center space-x-2">
                                     <span class="text-sm text-white text-opacity-70">de</span>
-                                    <img src="${producto.vendedor.avatar}" alt="${producto.vendedor.nombre}" class="w-8 h-8 rounded-full border-2 border-white border-opacity-30">
+                                        ${(() => {
+                                            let avatarUrl = producto.vendedor.avatar || '';
+                                            // La ruta ya viene correcta desde el PHP, no modificar
+                                            return avatarUrl 
+                                                ? `<img src="${avatarUrl}" alt="${producto.vendedor.nombre}" class="w-8 h-8 rounded-full border-2 border-white border-opacity-30 object-cover" onerror="this.onerror=null; this.src='recursos/iconos/avatar.svg';">`
+                                                : `<div class="w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center text-white text-xs font-bold border-2 border-white border-opacity-30">${producto.vendedor.nombre.charAt(0).toUpperCase()}</div>`;
+                                        })()}
                                     <span class="text-sm text-white font-medium">${producto.vendedor.nombre}</span>
                                 </div>
                                 <div class="flex items-center space-x-1">
@@ -813,6 +819,10 @@ function hacerOferta(productId) {
     
     const producto = productos.find(p => p.id === productId);
     if (!producto) return;
+
+    console.log('Datos del producto:', producto);
+    console.log('Avatar del vendedor:', producto.vendedor.avatar);
+    
     fotosOferta = [];
     
     // Guardar vista actual

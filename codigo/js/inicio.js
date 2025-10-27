@@ -967,10 +967,8 @@ function hacerOferta(productId) {
                                         >
                                             <option value="">Estado</option>
                                             <option value="Nuevo">Nuevo</option>
-                                            <option value="Como nuevo">Como nuevo</option>
-                                            <option value="Usado - Buen estado">Usado - Buen estado</option>
-                                            <option value="Usado - Estado aceptable">Usado - Estado aceptable</option>
-                                            <option value="Para reparar">Para reparar</option>
+                                            <option value="Usado">Usado</option>
+                                            <option value="Reacondicionado">Reacondicionado</option>
                                         </select>
                                     </div>
                                 </div>

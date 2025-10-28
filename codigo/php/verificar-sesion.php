@@ -20,7 +20,7 @@
             // Si no tiene imagen, usar el icono por defecto
             $imgUsuario = $usuario['img_usuario'] 
                 ? $usuario['img_usuario']  // Ya viene como "recursos/imagenes/perfiles/avatar_xxx.jpg"
-                : 'recursos/iconos/solido/comunicacion/usuario.svg';
+                : 'recursos/iconos/avatar.svg';
             
             echo json_encode([
                 'logueado' => true,

@@ -10,6 +10,9 @@ const mapaColores = {
   gris: "text-gray-600",
 };
 
+// Variable global para identificar la ruta actual (para el chatbot)
+window.rutaActual = window.rutaActual || '';
+
 // Funciones para cambiar iconos entre solid y outline
 function cambiarIconoASolid(icono) {
   if (!icono || !icono.src) return;

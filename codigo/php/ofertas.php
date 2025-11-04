@@ -22,6 +22,7 @@ if (!isset($_SESSION['correo'])) {
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/botui/0.2.1/botui.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/botui/0.2.1/botui-theme-default.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/chatbot.css">
 </head>
 
 <body class="bg-gray-50">
@@ -72,6 +73,7 @@ if (!isset($_SESSION['correo'])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/botui/0.2.1/botui.min.js"></script>
     <script src="../js/ofertas.js"></script>
     <script src="../js/principal.js"></script>
+    <script src="../js/chatbot.js"></script>
     
     <!-- Script para activar tab según notificación -->
     <script>

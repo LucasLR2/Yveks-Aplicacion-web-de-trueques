@@ -294,3 +294,22 @@ CREATE TABLE `ChatSolicitud` (
     CONSTRAINT `ChatSolicitud_ibfk_3` FOREIGN KEY (`id_producto`) REFERENCES `Producto` (`id_producto`),
     CONSTRAINT `ChatSolicitud_ibfk_4` FOREIGN KEY (`id_propuesta`) REFERENCES `PropuestaIntercambio` (`id_propuesta`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+-- Tabla: ChatbotHistorial (Historial de conversaciones con el bot)
+-- --------------------------------------------------------
+CREATE TABLE `ChatbotHistorial` (
+    `id_historial` INT NOT NULL AUTO_INCREMENT,
+    `id_usuario` INT NOT NULL,
+    `mensaje_usuario` TEXT NOT NULL,
+    `respuesta_bot` TEXT NOT NULL,
+    `fecha` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id_historial`),
+    KEY `id_usuario` (`id_usuario`),
+    CONSTRAINT `ChatbotHistorial_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `Usuario` (`id_usuario`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+-- Agregar campo a Usuario para tracking de chatbot
+-- --------------------------------------------------------
+ALTER TABLE `Usuario` ADD COLUMN `chatbot_visto` TINYINT(1) DEFAULT 0 AFTER `intereses`;

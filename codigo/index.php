@@ -13,13 +13,10 @@ session_start();
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="css/estilos-generales.css">
   <link rel="stylesheet" href="css/inicio.css">
+  <link rel="stylesheet" href="css/chatbot.css">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <!-- Vue 2 -->
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-
-  <!-- BotUI CSS -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/botui/0.2.1/botui.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/botui/0.2.1/botui-theme-default.css" rel="stylesheet">
 </head>
 
 <body class="bg-white lg:bg-gray-50">
@@ -75,33 +72,6 @@ session_start();
             <!-- Productos dinámicos -->
           </div>
         </div>
-        <!-- Contenedor del chatbot -->
-        <div id="chatbot-container" class="hidden fixed w-80 h-96 bg-white rounded-lg shadow-xl border z-50 bottom-[5.75rem] right-0 -translate-x-[10px] flex flex-col">
-          <!-- Header del chatbot -->
-          <div class="chatbot-header text-white font-semibold text-center py-2 rounded-t-lg" style="background-color: #3866389d;">ChatAI</div>
-            <!-- Cuerpo con scroll -->
-            <div id="botui-app" class="chatbot-body flex-1 overflow-y-auto px-3 py-2">
-              <bot-ui></bot-ui>
-              <!-- Opciones en fila horizontal con scroll -->
-              <div class="chat-options mt-3">
-                <button class="option-btn" data-value="intercambiar">Qué puedo intercambiar por…</button>
-                <button class="option-btn" data-value="solicitados">Qué productos la gente solicita</button>
-                <button class="option-btn" data-value="otro">Otro</button>
-              </div>
-            </div>
-            <!-- Input con icono de enviar adaptado -->
-            <div class="chatbot-input flex items-center border-t bg-gray-50 px-2 py-2">
-              <input 
-                type="text" 
-                id="chatbot-input" 
-                placeholder="Escribe tu mensaje..." 
-                class="flex-1 text-sm px-3 py-2 rounded-full border focus:outline-none focus:ring focus:ring-blue-300"
-              >
-              <button id="chatbot-send" class="ml-2 p-2 rounded-full hover:bg-gray-200">
-                <img src="recursos/iconos/contorno/comunicacion/enviar.svg" alt="Enviar" class="w-5 h-5">
-              </button>
-            </div>
-        </div>
       </div>
         <!-- Modal de detalle de producto -->
         <div id="product-modal" class="fixed inset-0 z-50 hidden modal-overlay">
@@ -131,9 +101,9 @@ session_start();
       </main>
     </div>
   </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/botui/0.2.1/botui.min.js"></script>
   <script src="js/principal.js"></script>
   <script src="js/inicio.js"></script>
   <script src="js/categorias.js"></script>
+  <script src="js/chatbot.js"></script>
   </body>
 </html>

@@ -17,6 +17,7 @@ if (!isset($_SESSION['correo'])) {
   <link rel="stylesheet" href="../css/estilos-generales.css">
   <link rel="stylesheet" href="../css/perfil.css">
   <link rel="stylesheet" href="../css/inicio.css">
+  <link rel="stylesheet" href="../css/chatbot.css">
 </head>
 
 <body class="bg-white lg:bg-gray-50">
@@ -141,6 +142,7 @@ if (!isset($_SESSION['correo'])) {
 
   <script src="../js/principal.js"></script>
   <script src="../js/perfil.js"></script>
+  <script src="../js/chatbot.js"></script>
 </body>
 
 </html>

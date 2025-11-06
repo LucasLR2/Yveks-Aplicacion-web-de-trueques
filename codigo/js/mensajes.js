@@ -1274,7 +1274,7 @@ class ChatManager {
                     await this.cargarConversaciones();
                 }
             }
-        }, 20000000);
+        }, 1000);
     }
 
     detenerPolling() {

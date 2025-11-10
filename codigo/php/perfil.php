@@ -37,17 +37,17 @@ if (!isset($_SESSION['correo'])) {
           <!-- Profile Info -->
           <div class="flex items-center mb-6">
             <div class="relative">
-              <img id="mobile-profile-avatar" src="../recursos/imagenes/josegimenez.jpg" alt="Perfil" class="w-20 h-20 rounded-full object-cover">
+              <img id="mobile-profile-avatar" alt="Perfil" class="w-20 h-20 rounded-full object-cover">
               <div class="absolute bottom-1 -right-2 w-7 h-7 bg-green rounded-full flex items-center justify-center border-2 border-white shadow-sm">
                 <img src="../recursos/iconos/contorno/interfaz/editar2.svg" alt="Editar" class="w-4 h-4 svg-white">
               </div>
             </div>
             
             <div class="flex flex-col justify-center ml-4">
-              <h1 id="mobile-profile-name" class="text-lg font-medium text-gray-800 mb-1">José Giménez</h1>
+              <h1 id="mobile-profile-name" class="text-lg font-medium text-gray-800 mb-1"></h1>
               <div class="flex items-center text-gray-600">
                 <img src="../recursos/iconos/solido/navegacion/ubicacion.svg" alt="Ubicación" class="w-4 h-4 svg-gray-600 mr-1">
-                <span id="mobile-profile-location" class="text-sm">Montevideo, Uruguay</span>
+                <span id="mobile-profile-location" class="text-sm"></span>
               </div>
             </div>
           </div>

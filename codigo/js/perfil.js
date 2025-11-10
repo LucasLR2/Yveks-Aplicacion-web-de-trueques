@@ -98,17 +98,6 @@ function openProductDetail(productId) {
     const detailHTML = `
         <!-- Product detail view -->
         <div class="product-detail-view w-full min-h-screen bg-gray-50" style="font-family: 'Leo Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">
-            <!-- Mobile header -->
-            <div class="lg:hidden bg-white px-4 py-3 border-b border-gray-200">
-                <div class="flex items-center">
-                    <button onclick="volverVistaAnterior()" class="w-8 h-8 flex items-center justify-center">
-                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                        </svg>
-                    </button>
-                    <h1 class="ml-3 text-lg font-medium text-gray-900">Detalle del producto</h1>
-                </div>
-            </div>
             
             <!-- Main content -->
             <div class="w-full px-1 py-1">
@@ -119,7 +108,7 @@ function openProductDetail(productId) {
                             <!-- Product image section - larger -->
                             <div class="relative lg:col-span-1">
                                 <!-- Back arrow on image -->
-                                <button onclick="volverVistaAnterior()" class="absolute left-4 top-4 w-10 h-10 bg-white bg-opacity-90 rounded-full flex items-center justify-center z-10 shadow-md hover:bg-opacity-100 transition-all">
+                                <button onclick="window.location.href='perfil.php'" class="absolute left-4 top-4 w-10 h-10 bg-white bg-opacity-90 rounded-full flex items-center justify-center z-10 shadow-md hover:bg-opacity-100 transition-all">
                                     <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                                     </svg>
@@ -229,18 +218,27 @@ function guardarVistaAnterior() {
     }
 }
 
-// Función para reemplazar la vista con el detalle
+// Función para reemplazar la vista con el detalle - CORREGIDA
 function reemplazarVistaConDetalle(detailHTML) {
     const isMobile = window.innerWidth < 1024;
     
     if (isMobile) {
-        // Reemplazar contenido móvil
-        const mobileContainer = document.querySelector('.lg\\:hidden');
-        if (mobileContainer) {
-            mobileContainer.innerHTML = detailHTML;
-        }
+        // Ocultar TODOS los contenedores lg:hidden (header + contenido)
+        const allMobileContainers = document.querySelectorAll('.lg\\:hidden');
+        allMobileContainers.forEach(container => {
+            container.style.display = 'none';
+        });
+        
+        // Crear un nuevo contenedor COMPLETAMENTE independiente
+        const detailContainer = document.createElement('div');
+        detailContainer.id = 'product-detail-full-screen';
+        detailContainer.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; background: white; overflow-y: auto;';
+        detailContainer.innerHTML = detailHTML;
+        
+        // Agregar al body directamente
+        document.body.appendChild(detailContainer);
     } else {
-        // Reemplazar contenido desktop principal
+        // Desktop: reemplazar contenido del main
         const desktopMain = document.querySelector('.desktop-main main');
         if (desktopMain) {
             desktopMain.innerHTML = detailHTML;
@@ -248,45 +246,96 @@ function reemplazarVistaConDetalle(detailHTML) {
     }
 }
 
-// Función para volver a la vista anterior
 function volverVistaAnterior() {
-    if (!vistaAnterior) {
-        // Si no hay vista anterior, recargar la página
-        location.reload();
-        return;
-    }
-    
     const isMobile = window.innerWidth < 1024;
     
-    if (isMobile && vistaAnterior.tipo === 'mobile') {
-        // Restaurar vista móvil
-        const mobileContainer = document.querySelector('.lg\\:hidden');
-        if (mobileContainer && vistaAnterior.contenido) {
-            mobileContainer.innerHTML = vistaAnterior.contenido;
-            // Reinicializar productos y reseñas
+    if (isMobile) {
+        // Eliminar el contenedor del detalle
+        const detailContainer = document.getElementById('product-detail-full-screen');
+        if (detailContainer) {
+            detailContainer.remove();
+        }
+        
+        // Mostrar TODOS los contenedores originales
+        const allMobileContainers = document.querySelectorAll('.lg\\:hidden');
+        allMobileContainers.forEach(container => {
+            container.style.display = 'block';
+        });
+        
+        // Reinicializar productos y reseñas después de restaurar
+        setTimeout(() => {
             generarProductosPerfil();
             generarResenasPerfil();
-            // Restaurar el tab activo
             updateTabIcons(currentTab, 'mobile');
+        }, 50);
+    } else {
+        if (!vistaAnterior || !vistaAnterior.contenido) {
+            location.reload();
+            return;
         }
-    } else if (!isMobile && vistaAnterior.tipo === 'desktop') {
+        
         // Restaurar vista desktop
         const desktopMain = document.querySelector('.desktop-main main');
         if (desktopMain && vistaAnterior.contenido) {
             desktopMain.innerHTML = vistaAnterior.contenido;
-            // Reinicializar productos y reseñas
-            generarProductosPerfil();
-            generarResenasPerfil();
-            // Restaurar el tab activo
-            updateTabIcons(currentTab, 'desktop');
+            
+            setTimeout(() => {
+                generarProductosPerfil();
+                generarResenasPerfil();
+                updateTabIcons(currentTab, 'desktop');
+            }, 50);
         }
     }
     
-    // Limpiar vista anterior
     vistaAnterior = null;
 }
 
-// Función mejorada para inicializar el mapa de detalle
+// Función para volver a la vista anterior - CORREGIDA
+function volverVistaAnterior() {
+    const isMobile = window.innerWidth < 1024;
+    
+    if (isMobile) {
+        // Restaurar vista móvil
+        const profileContainer = document.querySelector('.lg\\:hidden > div');
+        const detailWrapper = document.querySelector('.product-detail-wrapper');
+        
+        if (profileContainer) {
+            profileContainer.style.display = 'block';
+        }
+        
+        if (detailWrapper) {
+            detailWrapper.remove();
+        }
+        
+        // Reinicializar productos y reseñas después de restaurar
+        setTimeout(() => {
+            generarProductosPerfil();
+            generarResenasPerfil();
+            updateTabIcons(currentTab, 'mobile');
+        }, 50);
+    } else {
+        if (!vistaAnterior || !vistaAnterior.contenido) {
+            location.reload();
+            return;
+        }
+        
+        // Restaurar vista desktop
+        const desktopMain = document.querySelector('.desktop-main main');
+        if (desktopMain && vistaAnterior.contenido) {
+            desktopMain.innerHTML = vistaAnterior.contenido;
+            
+            setTimeout(() => {
+                generarProductosPerfil();
+                generarResenasPerfil();
+                updateTabIcons(currentTab, 'desktop');
+            }, 50);
+        }
+    }
+    
+    vistaAnterior = null;
+}
+
+// Función mejorada para inicializar el mapa de detalle - CORREGIDA
 function initProductDetailMap(coordinates, locationName) {
     const mapContainer = document.getElementById('product-detail-map');
     if (!mapContainer) return;
@@ -294,9 +343,7 @@ function initProductDetailMap(coordinates, locationName) {
     mapContainer.innerHTML = '';
     
     try {
-        // Verificar si Leaflet está disponible
         if (typeof L !== 'undefined') {
-            // Crear el mapa con Leaflet
             const map = L.map('product-detail-map', {
                 zoomControl: true,
                 scrollWheelZoom: false,
@@ -307,26 +354,32 @@ function initProductDetailMap(coordinates, locationName) {
                 tap: false
             }).setView(coordinates, 14);
             
-            // Añadir tiles de OpenStreetMap
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© OpenStreetMap contributors',
                 maxZoom: 18
             }).addTo(map);
             
-            // Añadir marcador
             const marker = L.marker(coordinates)
                 .addTo(map)
                 .bindPopup(`<strong>${locationName}</strong>`);
                 
-            // Ajustar el tamaño del mapa después de un pequeño delay
             setTimeout(() => {
                 map.invalidateSize();
             }, 100);
             
         } else {
-            // Fallback: usar iframe de Google Maps (necesita API key válida)
+            // Fallback: CORRECCIÓN - usar parseFloat y calcular correctamente el bbox
             const lat = coordinates[0];
             const lng = coordinates[1];
+            
+            const latNum = parseFloat(lat);
+            const lngNum = parseFloat(lng);
+            const delta = 0.01;
+            
+            const minLng = lngNum - delta;
+            const minLat = latNum - delta;
+            const maxLng = lngNum + delta;
+            const maxLat = latNum + delta;
             
             mapContainer.innerHTML = `
                 <div class="relative w-full h-full bg-gray-100 rounded-lg overflow-hidden">
@@ -337,7 +390,7 @@ function initProductDetailMap(coordinates, locationName) {
                         loading="lazy" 
                         allowfullscreen 
                         referrerpolicy="no-referrer-when-downgrade" 
-                        src="https://www.openstreetmap.org/export/embed.html?bbox=${lng-0.01},${lat-0.01},${lng+0.01},${lat+0.01}&layer=mapnik&marker=${lat},${lng}">
+                        src="https://www.openstreetmap.org/export/embed.html?bbox=${minLng},${minLat},${maxLng},${maxLat}&layer=mapnik&marker=${latNum},${lngNum}">
                     </iframe>
                     <div class="absolute bottom-2 left-2 bg-white bg-opacity-90 px-2 py-1 rounded text-xs">
                         <strong>${locationName}</strong>
@@ -347,7 +400,9 @@ function initProductDetailMap(coordinates, locationName) {
         }
     } catch (error) {
         console.log('Error cargando mapa:', error);
-        // Fallback: mostrar mapa estático con información de ubicación
+        const lat = parseFloat(coordinates[0]);
+        const lng = parseFloat(coordinates[1]);
+        
         mapContainer.innerHTML = `
             <div class="flex items-center justify-center h-full bg-gradient-to-br from-green-100 to-green-200 rounded-lg border-2 border-green-300">
                 <div class="text-center p-4">
@@ -356,15 +411,14 @@ function initProductDetailMap(coordinates, locationName) {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                     </svg>
                     <p class="text-green-800 font-medium text-sm">${locationName}</p>
-                    <p class="text-green-600 text-xs mt-1">Lat: ${coordinates[0]}, Lng: ${coordinates[1]}</p>
+                    <p class="text-green-600 text-xs mt-1">Lat: ${lat.toFixed(6)}, Lng: ${lng.toFixed(6)}</p>
                 </div>
             </div>
         `;
     }
 }
 
-// También necesitas asegurarte de que Leaflet esté cargado
-// Añade esto al HTML si no lo tienes:
+// Función para cargar Leaflet si es necesario
 function loadLeafletIfNeeded() {
     if (typeof L === 'undefined') {
         // Cargar CSS de Leaflet
@@ -499,6 +553,8 @@ function updateTabIcons(activeTab, platform) {
     const productosTab = document.getElementById(`${platform}-tab-productos`);
     const resenasTab = document.getElementById(`${platform}-tab-resenas`);
 
+    if (!productosIcon || !resenasIcon || !productosTab || !resenasTab) return;
+
     if (activeTab === 'productos') {
         // Tab Productos activo
         productosIcon.src = "../recursos/iconos/solido/estado/cuadricula.svg";
@@ -587,7 +643,9 @@ function seleccionarProducto(elemento) {
 // Mostrar dropdown del menú
 function showDropdown() {
     const menu = document.getElementById('menu');
-    menu.classList.toggle('hidden');
+    if (menu) {
+        menu.classList.toggle('hidden');
+    }
 }
 
 // Cerrar dropdown al hacer click fuera

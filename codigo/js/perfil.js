@@ -139,7 +139,7 @@ function openProductDetail(productId) {
                             </div>
                             
                             <!-- Product information - constrained width -->
-                            <div class="text-white space-y-3 max-w-md">
+                            <div class="text-white space-y-3">
                                 <!-- Title and time -->
                                 <div>
                                     <h1 class="text-xl lg:text-xl mb-1 leading-tight">${producto.nombre}</h1>

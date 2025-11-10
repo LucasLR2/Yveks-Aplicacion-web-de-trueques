@@ -3,18 +3,32 @@ class ChatbotManager {
         this.isOpen = false;
         this.mensajes = [];
         this.esperandoRespuesta = false;
+        this.estadoUsuario = null;
         this.init();
     }
 
     init() {
         this.crearWidget();
-        this.cargarHistorial();
-        this.verificarNuevoUsuario();
+        this.verificarEstadoUsuario();
         this.setupEventListeners();
     }
 
     crearWidget() {
-        const botonHTML = '';
+        // Botón flotante con badge de notificación
+        const botonHTML = `
+            <button id="chatbot-toggle" class="chatbot-toggle" style="display: flex !important;">
+                <svg class="chatbot-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                    <path d="M2 17l10 5 10-5"></path>
+                    <path d="M2 12l10 5 10-5"></path>
+                </svg>
+                <svg class="chatbot-close-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+                <span id="chatbot-badge" class="chatbot-badge">1</span>
+            </button>
+        `;
 
         // Contenedor del chat
         const chatHTML = `
@@ -72,12 +86,22 @@ class ChatbotManager {
     }
 
     setupEventListeners() {
-        const toggle = document.getElementById('chatbot-btn');
+        const toggle = document.getElementById('chatbot-toggle');
+        const toggleDesktop = document.getElementById('chatbot-btn');
         const minimize = document.getElementById('chatbot-minimize');
         const input = document.getElementById('chatbot-input');
         const send = document.getElementById('chatbot-send');
 
-        toggle.addEventListener('click', () => this.toggleChat());
+        // Botón flotante (móvil)
+        if (toggle) {
+            toggle.addEventListener('click', () => this.toggleChat());
+        }
+        
+        // Botón desktop (si existe)
+        if (toggleDesktop) {
+            toggleDesktop.addEventListener('click', () => this.toggleChat());
+        }
+        
         minimize.addEventListener('click', () => this.toggleChat());
         
         input.addEventListener('input', (e) => {
@@ -107,12 +131,14 @@ class ChatbotManager {
     toggleChat() {
         this.isOpen = !this.isOpen;
         const container = document.getElementById('chatbot-container');
-        const toggle = document.getElementById('chatbot-btn');
+        const toggleMobile = document.getElementById('chatbot-toggle');
+        const toggleDesktop = document.getElementById('chatbot-btn');
         const badge = document.getElementById('chatbot-badge');
 
         if (this.isOpen) {
             container.classList.add('active');
-            badge.style.display = 'none';
+            if (toggleMobile) toggleMobile.classList.add('active');
+            if (badge) badge.style.display = 'none';
             this.marcarComoVisto();
             
             // Focus en input
@@ -121,33 +147,140 @@ class ChatbotManager {
             }, 300);
         } else {
             container.classList.remove('active');
+            if (toggleMobile) toggleMobile.classList.remove('active');
         }
     }
 
-    async verificarNuevoUsuario() {
+    async verificarEstadoUsuario() {
         try {
-            const response = await fetch('php/chatbot.php?es_nuevo');
+            // Obtener TODO desde chatbot.php - UNA SOLA LLAMADA
+            const response = await fetch('php/chatbot.php?estado_usuario');
             const data = await response.json();
             
-            if (data.es_nuevo) {
-                // Mostrar badge y mensaje de bienvenida después de 2 segundos
-                setTimeout(() => {
-                    const badge = document.getElementById('chatbot-badge');
-                    if (badge) badge.style.display = 'flex';
-                    
-                    // Auto-abrir y mostrar mensaje de bienvenida
-                    setTimeout(() => {
-                        this.toggleChat();
-                        this.agregarMensajeBot(
-                            "¡Hola! 👋 Soy el asistente de Dreva. Estoy aquí para ayudarte a encontrar productos, hacer intercambios y resolver tus dudas. ¿En qué puedo ayudarte?",
-                            ['🔍 Buscar productos', '❓ ¿Cómo funciona?', '📦 Publicar producto']
-                        );
-                    }, 500);
-                }, 2000);
-            }
+            console.log('Datos completos:', data); // Debug
+            
+            this.estadoUsuario = {
+                logueado: data.logueado === true,
+                nombre: data.nombre || 'Usuario',
+                esNuevo: data.es_nuevo,
+                primerVisita: data.primer_visita,
+                productosPublicados: data.productos_publicados || 0,
+                ofertasPendientes: data.ofertas_pendientes || 0
+            };
+            
+            console.log('Estado final:', this.estadoUsuario);
+
+            // Cargar historial primero
+            await this.cargarHistorial();
+            
+            // Decidir si mostrar mensaje de bienvenida
+            this.decidirMensajeBienvenida();
+            
         } catch (error) {
-            console.error('Error verificando usuario:', error);
+            console.error('Error verificando estado:', error);
+            this.estadoUsuario = {
+                logueado: false,
+                esNuevo: true,
+                primerVisita: true
+            };
+            this.mostrarMensajeBienvenidaInvitado();
         }
+    }
+
+    decidirMensajeBienvenida() {
+        const estado = this.estadoUsuario;
+        
+        // Si ya hay historial, no mostrar bienvenida automática
+        if (this.mensajes.length > 0) {
+            return;
+        }
+        
+        // Usuario no logueado - Primera visita
+        if (!estado.logueado && estado.primerVisita) {
+            setTimeout(() => {
+                this.mostrarMensajeBienvenidaInvitado();
+            }, 2000);
+        }
+        // Usuario logueado - Primera vez usando el chatbot
+        else if (estado.logueado && estado.esNuevo) {
+            setTimeout(() => {
+                this.mostrarMensajeBienvenidaLogueado();
+            }, 2000);
+        }
+        // Usuario logueado sin productos
+        else if (estado.logueado && estado.productosPublicados === 0 && estado.primerVisita) {
+            setTimeout(() => {
+                this.mostrarMensajeSinProductos();
+            }, 2000);
+        }
+    }
+
+    mostrarMensajeBienvenidaInvitado() {
+        const badge = document.getElementById('chatbot-badge');
+        if (badge) badge.style.display = 'flex';
+        
+        setTimeout(() => {
+            this.toggleChat();
+            this.agregarMensajeBot(
+                "¡Hola! 👋 Bienvenido a Dreva, la plataforma de intercambio de productos.\n\n" +
+                "Veo que aún no has iniciado sesión. Para comenzar a intercambiar necesitas:\n\n" +
+                "1️⃣ Crear una cuenta o iniciar sesión\n" +
+                "2️⃣ Completar tu perfil\n" +
+                "3️⃣ Publicar productos que quieras intercambiar\n" +
+                "4️⃣ ¡Buscar lo que necesitas y hacer ofertas!\n\n" +
+                "¿Quieres que te guíe en el proceso?",
+                ['🔐 Iniciar sesión', '📝 Crear cuenta', '🔍 Explorar productos', '❓ ¿Cómo funciona?']
+            );
+        }, 500);
+    }
+
+    mostrarMensajeBienvenidaLogueado() {
+        const badge = document.getElementById('chatbot-badge');
+        if (badge) badge.style.display = 'flex';
+        
+        setTimeout(() => {
+            this.toggleChat();
+            const nombre = this.estadoUsuario.nombre.split(' ')[0];
+            
+            if (this.estadoUsuario.productosPublicados === 0) {
+                this.agregarMensajeBot(
+                    `¡Hola ${nombre}! 👋 Me alegra verte por aquí.\n\n` +
+                    "Veo que acabas de crear tu cuenta. Para comenzar a intercambiar:\n\n" +
+                    "1️⃣ Publica tu primer producto (lo que ya no uses)\n" +
+                    "2️⃣ Busca productos que te interesen\n" +
+                    "3️⃣ Haz ofertas de intercambio\n" +
+                    "4️⃣ Chatea y concreta el trueque\n\n" +
+                    "¿Quieres que te ayude a publicar tu primer producto?",
+                    ['📦 Publicar producto', '🔍 Buscar productos', '❓ Más información']
+                );
+            } else {
+                this.agregarMensajeBot(
+                    `¡Hola ${nombre}! 👋 ¿En qué puedo ayudarte hoy?\n\n` +
+                    `Tienes ${this.estadoUsuario.productosPublicados} producto(s) publicado(s)` +
+                    (this.estadoUsuario.ofertasPendientes > 0 
+                        ? ` y ${this.estadoUsuario.ofertasPendientes} oferta(s) pendiente(s).` 
+                        : '.'),
+                    ['🔍 Buscar productos', '📋 Ver mis ofertas', '💬 Ayuda']
+                );
+            }
+        }, 500);
+    }
+
+    mostrarMensajeSinProductos() {
+        const badge = document.getElementById('chatbot-badge');
+        if (badge) badge.style.display = 'flex';
+        
+        setTimeout(() => {
+            this.toggleChat();
+            const nombre = this.estadoUsuario.nombre.split(' ')[0];
+            this.agregarMensajeBot(
+                `Hola ${nombre} 😊\n\n` +
+                "Noto que aún no has publicado ningún producto. " +
+                "Para poder hacer intercambios necesitas tener al menos un producto publicado.\n\n" +
+                "¿Te gustaría que te ayude a publicar tu primer producto?",
+                ['📦 Sí, publicar ahora', '🔍 Primero quiero explorar', '❓ Más información']
+            );
+        }, 500);
     }
 
     async marcarComoVisto() {
@@ -180,12 +313,16 @@ class ChatbotManager {
         
         if (!mensaje || this.esperandoRespuesta) return;
         
-        // Agregar mensaje del usuario
+        if (this.procesarComandoEspecial(mensaje)) {
+            input.value = '';
+            document.getElementById('chatbot-send').disabled = true;
+            return;
+        }
+        
         this.agregarMensajeUsuario(mensaje);
         input.value = '';
         document.getElementById('chatbot-send').disabled = true;
         
-        // Mostrar indicador de escritura
         this.mostrarEscribiendo();
         this.esperandoRespuesta = true;
         
@@ -198,9 +335,11 @@ class ChatbotManager {
                 body: JSON.stringify({ mensaje })
             });
             
-            const data = await response.json();
+            const text = await response.text(); // Cambiar a text() temporalmente
+            console.log('Respuesta del servidor:', text); // Ver qué devuelve
             
-            // Ocultar indicador de escritura
+            const data = JSON.parse(text); // Intentar parsear
+            
             this.ocultarEscribiendo();
             
             if (data.success) {
@@ -217,6 +356,105 @@ class ChatbotManager {
         }
     }
 
+    procesarComandoEspecial(mensaje) {
+        const msg = mensaje.toLowerCase().trim();
+        
+        // NUEVO: Búsqueda de productos específicos
+        const productosBuscables = {
+            'cinto': 'cinto',
+            'cinturón': 'cinto',
+            'remera': 'remera',
+            'camiseta': 'remera',
+            'celular': 'celular',
+            'teléfono': 'celular',
+            'laptop': 'laptop',
+            'computadora': 'laptop',
+            'libro': 'libro',
+            'zapato': 'zapato',
+            'zapatilla': 'zapatilla',
+            'pantalón': 'pantalon',
+            'jean': 'jean',
+            'reloj': 'reloj',
+            'auricular': 'auricular',
+            'audífono': 'auricular'
+        };
+        
+        // Buscar si el mensaje contiene algún producto buscable
+        for (const [palabra, termino] of Object.entries(productosBuscables)) {
+            if (msg.includes(palabra)) {
+                this.buscarProducto(termino, palabra);
+                return true;
+            }
+        }
+        
+        // Comando: Iniciar sesión
+        if (msg.includes('iniciar sesión') || msg.includes('iniciar sesion') || msg === '🔑 iniciar sesión') {
+            this.agregarMensajeBot(
+                "Te voy a redirigir a la página de inicio de sesión. ¡Nos vemos pronto! 👋",
+                null
+            );
+            setTimeout(() => {
+                window.location.href = 'php/iniciar-sesion.php';
+            }, 1500);
+            return true;
+        }
+        
+        // Comando: Crear cuenta
+        if (msg.includes('crear cuenta') || msg.includes('registrar') || msg === '📝 crear cuenta') {
+            this.agregarMensajeBot(
+                "¡Perfecto! Te llevaré al registro. Solo tomará un momento. 😊",
+                null
+            );
+            setTimeout(() => {
+                window.location.href = 'php/registrarse.php';
+            }, 1500);
+            return true;
+        }
+        
+        // Comando: Publicar producto
+        if (msg.includes('publicar producto') || msg === '📦 publicar producto' || msg === '📦 publicar ahora' || msg === '📦 sí, publicar ahora') {
+            if (!this.estadoUsuario.logueado) {
+                this.agregarMensajeBot(
+                    "Para publicar productos necesitas iniciar sesión primero. ¿Quieres hacerlo ahora?",
+                    ['🔑 Sí, iniciar sesión', '📝 Crear cuenta']
+                );
+            } else {
+                this.agregarMensajeBot(
+                    "¡Genial! Te llevaré a la página para publicar tu producto. 📦",
+                    null
+                );
+                setTimeout(() => {
+                    window.location.href = 'nuevo_producto.php';
+                }, 1500);
+            }
+            return true;
+        }
+        
+        // Comando: Explorar productos
+        if (msg.includes('explorar') || msg.includes('buscar producto') || msg === '🔍 explorar productos' || msg === '🔍 primero quiero explorar') {
+            this.agregarMensajeBot(
+                "Puedes explorar productos desde la página principal. Usa el buscador o navega por categorías. ¡Hay muchas cosas interesantes! 🎁",
+                ['💻 Tecnología', '🏠 Hogar', '👕 Ropa', '⚽ Deportes']
+            );
+            return false;
+        }
+        
+        return false;
+    }
+
+    // NUEVA FUNCIÓN: Buscar producto y redirigir
+    buscarProducto(termino, palabraOriginal) {
+        this.agregarMensajeBot(
+            `¡Perfecto! Voy a buscar "${palabraOriginal}" en el catálogo. 🔍\n\nTe redirijo al buscador...`,
+            null
+        );
+        
+        setTimeout(() => {
+            // Redirigir a index.php con el parámetro de búsqueda
+            window.location.href = `index.php?busqueda=${encodeURIComponent(termino)}`;
+        }, 1500);
+    }
+
     agregarMensajeUsuario(texto, scroll = true) {
         const messagesContainer = document.getElementById('chatbot-messages');
         const mensajeHTML = `
@@ -225,6 +463,7 @@ class ChatbotManager {
             </div>
         `;
         messagesContainer.insertAdjacentHTML('beforeend', mensajeHTML);
+        this.mensajes.push({ tipo: 'usuario', texto });
         if (scroll) this.scrollToBottom();
     }
 
@@ -243,10 +482,14 @@ class ChatbotManager {
             </div>
         `;
         messagesContainer.insertAdjacentHTML('beforeend', mensajeHTML);
+        this.mensajes.push({ tipo: 'bot', texto });
         
         // Actualizar sugerencias si existen
         if (sugerencias && sugerencias.length > 0) {
             this.mostrarSugerencias(sugerencias);
+        } else {
+            // Ocultar sugerencias si no hay
+            document.getElementById('chatbot-suggestions').style.display = 'none';
         }
         
         if (scroll) this.scrollToBottom();

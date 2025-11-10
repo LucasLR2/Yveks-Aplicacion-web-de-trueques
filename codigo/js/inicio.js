@@ -1424,3 +1424,64 @@ function obtenerIconoVectorial(nombre, opciones = {}) {
   } = opciones;
   return `<img src="recursos/iconos/contorno/${nombre}.svg" alt="${alt}" class="${tamano} svg-green">`;
 }
+
+// ==========================================
+// BÚSQUEDA AUTOMÁTICA DESDE CHATBOT
+// ==========================================
+document.addEventListener('DOMContentLoaded', function() {
+    // Si hay búsqueda inicial desde el chatbot
+    if (window.busquedaInicialChatbot && window.busquedaInicialChatbot.trim() !== '') {
+        console.log('Búsqueda desde chatbot:', window.busquedaInicialChatbot);
+        
+        // Esperar un poco para que el header y el buscador se carguen
+        setTimeout(() => {
+            // Buscar el input de búsqueda en el header
+            const searchInput = document.querySelector('input[type="search"]') || 
+                              document.querySelector('#buscador') ||
+                              document.querySelector('input[placeholder*="Buscar"]') ||
+                              document.querySelector('input[placeholder*="buscar"]');
+            
+            if (searchInput) {
+                // Establecer el valor
+                searchInput.value = window.busquedaInicialChatbot;
+                
+                // Hacer focus en el input
+                searchInput.focus();
+                
+                // Disparar eventos de búsqueda
+                searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+                searchInput.dispatchEvent(new Event('change', { bubbles: true }));
+                searchInput.dispatchEvent(new KeyboardEvent('keyup', { 
+                    bubbles: true,
+                    key: 'Enter',
+                    keyCode: 13
+                }));
+                
+                // Si hay un botón de búsqueda, clickearlo
+                const searchButton = document.querySelector('button[type="submit"]') ||
+                                   document.querySelector('.search-button') ||
+                                   searchInput.closest('form')?.querySelector('button');
+                
+                if (searchButton) {
+                    setTimeout(() => searchButton.click(), 100);
+                }
+                
+                // Scroll suave a los productos después de 500ms
+                setTimeout(() => {
+                    const productsContainer = document.getElementById('mobile-products') || 
+                                            document.getElementById('desktop-products');
+                    if (productsContainer) {
+                        productsContainer.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                    }
+                }, 500);
+                
+                console.log('✅ Búsqueda automática ejecutada:', window.busquedaInicialChatbot);
+            } else {
+                console.warn('⚠️ No se encontró el input de búsqueda en el header');
+            }
+        }, 300);
+    }
+});

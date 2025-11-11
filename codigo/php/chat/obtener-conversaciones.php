@@ -23,10 +23,11 @@ try {
                    (SELECT nombre_comp FROM Usuario WHERE id_usuario = c.id_usuario2),
                    (SELECT nombre_comp FROM Usuario WHERE id_usuario = c.id_usuario1)
                 ) as nombre,
-                -- Avatar del otro usuario
-                CONCAT('https://i.pravatar.cc/150?u=', 
-                   IF(c.id_usuario1 = ?, c.id_usuario2, c.id_usuario1)
-                ) as avatar,
+                     -- Avatar del otro usuario (leer de la tabla Usuario.img_usuario si existe)
+                     IF(c.id_usuario1 = ?,
+                         (SELECT img_usuario FROM Usuario WHERE id_usuario = c.id_usuario2),
+                         (SELECT img_usuario FROM Usuario WHERE id_usuario = c.id_usuario1)
+                     ) as avatar,
                 -- Último mensaje con detección de respuesta
                 (SELECT 
                     CASE 
@@ -93,10 +94,30 @@ try {
     
     $conversaciones = [];
     while ($row = $result->fetch_assoc()) {
+        // Normalizar ruta de avatar: si viene vacía usar avatar por defecto,
+        // si viene como 'recursos/...' asegurarnos de que tenga slash inicial.
+        $avatar = $row['avatar'];
+        if (!empty($avatar)) {
+            // Si la ruta es algo guardado en img_usuario (p. ej. 'recursos/imagenes/perfiles/archivo.jpg')
+            if (strpos($avatar, 'recursos/') === 0) {
+                $avatar = '/' . $avatar;
+            } elseif (strpos($avatar, '/recursos/') === 0) {
+                // ya tiene slash, dejar
+            } else {
+                // Si es una URL completa (http/https) dejar tal cual
+                if (stripos($avatar, 'http') !== 0) {
+                    // Si sólo es un nombre de archivo, añadir la carpeta de perfiles
+                    $avatar = '/recursos/imagenes/perfiles/' . ltrim($avatar, '/');
+                }
+            }
+        } else {
+            $avatar = '/recursos/iconos/avatar.svg';
+        }
+
         $conversaciones[] = [
             'id_conversacion' => $row['id_conversacion'],
             'nombre' => $row['nombre'],
-            'avatar' => $row['avatar'],
+            'avatar' => $avatar,
             'ultimo_mensaje' => $row['ultimo_mensaje'],
             'tiempo' => $row['tiempo'] ?: '',
             'mensajes_sin_leer' => intval($row['mensajes_sin_leer']),

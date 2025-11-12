@@ -1,10 +1,11 @@
 class ChatbotManager {
     constructor() {
-        this.isOpen = false;
-        this.mensajes = [];
-        this.esperandoRespuesta = false;
-        this.estadoUsuario = null;
-        this.init();
+    this.isOpen = false;
+    this.mensajes = [];
+    this.esperandoRespuesta = false;
+    this.estadoUsuario = null;
+    this.mensajeBienvenidaPreparado = null;
+    this.init();
     }
 
     init() {
@@ -141,6 +142,17 @@ class ChatbotManager {
             if (badge) badge.style.display = 'none';
             this.marcarComoVisto();
             
+            // Si hay un mensaje de bienvenida preparado, mostrarlo ahora
+            if (this.mensajeBienvenidaPreparado) {
+                setTimeout(() => {
+                    this.agregarMensajeBot(
+                        this.mensajeBienvenidaPreparado.texto,
+                        this.mensajeBienvenidaPreparado.sugerencias
+                    );
+                    this.mensajeBienvenidaPreparado = null;
+                }, 300);
+            }
+            
             // Focus en input
             setTimeout(() => {
                 document.getElementById('chatbot-input').focus();
@@ -190,28 +202,22 @@ class ChatbotManager {
     decidirMensajeBienvenida() {
         const estado = this.estadoUsuario;
         
-        // Si ya hay historial, no mostrar bienvenida automática
+        // Si ya hay historial, no mostrar bienvenida
         if (this.mensajes.length > 0) {
             return;
         }
         
         // Usuario no logueado - Primera visita
         if (!estado.logueado && estado.primerVisita) {
-            setTimeout(() => {
-                this.mostrarMensajeBienvenidaInvitado();
-            }, 2000);
+            this.mostrarMensajeBienvenidaInvitado();
         }
         // Usuario logueado - Primera vez usando el chatbot
         else if (estado.logueado && estado.esNuevo) {
-            setTimeout(() => {
-                this.mostrarMensajeBienvenidaLogueado();
-            }, 2000);
+            this.mostrarMensajeBienvenidaLogueado();
         }
         // Usuario logueado sin productos
         else if (estado.logueado && estado.productosPublicados === 0 && estado.primerVisita) {
-            setTimeout(() => {
-                this.mostrarMensajeSinProductos();
-            }, 2000);
+            this.mostrarMensajeSinProductos();
         }
     }
 
@@ -235,49 +241,44 @@ class ChatbotManager {
         const badge = document.getElementById('chatbot-badge');
         if (badge) badge.style.display = 'flex';
         
-        setTimeout(() => {
-            this.toggleChat();
-            const nombre = this.estadoUsuario.nombre.split(' ')[0];
-            
-            if (this.estadoUsuario.productosPublicados === 0) {
-                this.agregarMensajeBot(
-                    `¡Hola ${nombre}! 👋 Me alegra verte por aquí.\n\n` +
+        const nombre = this.estadoUsuario.nombre.split(' ')[0];
+        
+        if (this.estadoUsuario.productosPublicados === 0) {
+            this.mensajeBienvenidaPreparado = {
+                texto: `¡Hola ${nombre}! 👋 Me alegra verte por aquí.\n\n` +
                     "Veo que acabas de crear tu cuenta. Para comenzar a intercambiar:\n\n" +
-                    "1- Publica tu primer producto (lo que ya no uses)\n" +
-                    "2️- Busca productos que te interesen\n" +
-                    "3️- Haz ofertas de intercambio\n" +
-                    "4️- Chatea y concreta el trueque\n\n" +
+                    "1️⃣ Publica tu primer producto (lo que ya no uses)\n" +
+                    "2️⃣ Busca productos que te interesen\n" +
+                    "3️⃣ Haz ofertas de intercambio\n" +
+                    "4️⃣ Chatea y concreta el trueque\n\n" +
                     "¿Quieres que te ayude a publicar tu primer producto?",
-                    ['Publicar producto', 'Buscar productos', 'Más información']
-                );
-            } else {
-                this.agregarMensajeBot(
-                    `¡Hola ${nombre}! 👋 ¿En qué puedo ayudarte hoy?\n\n` +
+                sugerencias: ['📦 Publicar producto', '🔍 Buscar productos', '❓ Más información']
+            };
+        } else {
+            this.mensajeBienvenidaPreparado = {
+                texto: `¡Hola ${nombre}! 👋 ¿En qué puedo ayudarte hoy?\n\n` +
                     `Tienes ${this.estadoUsuario.productosPublicados} producto(s) publicado(s)` +
                     (this.estadoUsuario.ofertasPendientes > 0 
                         ? ` y ${this.estadoUsuario.ofertasPendientes} oferta(s) pendiente(s).` 
                         : '.'),
-                    ['Buscar productos', 'Ver mis ofertas', 'Ayuda']
-                );
-            }
-        }, 500);
+                sugerencias: ['🔍 Buscar productos', '📋 Ver mis ofertas', '💬 Ayuda']
+            };
+        }
     }
 
     mostrarMensajeSinProductos() {
         const badge = document.getElementById('chatbot-badge');
         if (badge) badge.style.display = 'flex';
         
-        setTimeout(() => {
-            this.toggleChat();
-            const nombre = this.estadoUsuario.nombre.split(' ')[0];
-            this.agregarMensajeBot(
-                `Hola ${nombre} 😊\n\n` +
+        const nombre = this.estadoUsuario.nombre.split(' ')[0];
+        
+        this.mensajeBienvenidaPreparado = {
+            texto: `Hola ${nombre} 😊\n\n` +
                 "Noto que aún no has publicado ningún producto. " +
                 "Para poder hacer intercambios necesitas tener al menos un producto publicado.\n\n" +
                 "¿Te gustaría que te ayude a publicar tu primer producto?",
-                ['Sí, publicar ahora', 'Primero quiero explorar', 'Más información']
-            );
-        }, 500);
+            sugerencias: ['📦 Sí, publicar ahora', '🔍 Primero quiero explorar', '❓ Más información']
+        };
     }
 
     async marcarComoVisto() {

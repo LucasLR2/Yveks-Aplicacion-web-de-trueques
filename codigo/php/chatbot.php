@@ -352,25 +352,25 @@ function generarSugerenciasInteligentes($mensaje, $contexto) {
     
     // Si pregunta por productos específicos
     if (preg_match('/\b(busco|necesito|quiero|cinto|cinturón|ropa|celular|laptop|libro)\b/i', $mensaje)) {
-        return ['🔍 Ir al buscador', '📂 Ver categorías', '📦 Publicar lo que tengo'];
+        return ['Ir al buscador', 'Ver categorías', 'Publicar lo que tengo'];
     }
     
     if (!$contexto['logueado']) {
-        return ['🔑 Iniciar sesión', '📝 Crear cuenta', '🔍 Explorar productos'];
+        return ['Iniciar sesión', 'Crear cuenta', 'Explorar productos'];
     }
     
     // Si no tiene productos
     if ($contexto['productos'] == 0) {
-        return ['📦 Publicar mi primer producto', '🔍 Buscar productos', '❓ ¿Cómo funciona?'];
+        return ['Publicar mi primer producto', 'Buscar productos', '¿Cómo funciona?'];
     }
     
     // Si tiene ofertas pendientes
     if ($contexto['ofertas_recibidas'] > 0) {
-        return ['📬 Ver mis ofertas', '🔍 Buscar más productos', '📦 Publicar otro producto'];
+        return ['Ver mis ofertas', 'Buscar más productos', 'Publicar otro producto'];
     }
     
     // Sugerencias por defecto
-    return ['🔍 Buscar productos', '📦 Publicar producto', '📊 Ver mi actividad', '💬 Más ayuda'];
+    return ['Buscar productos', 'Publicar producto', 'Ver mi actividad', 'Más ayuda'];
 }
 
 // ==========================================
@@ -398,7 +398,7 @@ function generarRespuestaSimple($mensaje, $contexto) {
         return [
             'success' => true,
             'respuesta' => "¿Buscas $productoEncontrado? 🔍 Puedo ayudarte a encontrarlo. ¿Quieres que busque en el catálogo?",
-            'sugerencias' => ["🔍 Sí, buscar $productoEncontrado", '📂 Ver todas las categorías', '📦 Publicar lo que tengo']
+            'sugerencias' => ["Sí, buscar $productoEncontrado", 'Ver todas las categorías', 'Publicar lo que tengo']
         ];
     }
     
@@ -410,7 +410,7 @@ function generarRespuestaSimple($mensaje, $contexto) {
         return [
             'success' => true,
             'respuesta' => $respuesta,
-            'sugerencias' => ['🔍 Ir al buscador', '📂 Ver categorías', '📦 Publicar lo que tengo']
+            'sugerencias' => ['Ir al buscador', 'Ver categorías', 'Publicar lo que tengo']
         ];
     }
     
@@ -432,7 +432,7 @@ function generarRespuestaSimple($mensaje, $contexto) {
         return [
             'success' => true,
             'respuesta' => "Puedo ayudarte a publicar productos, buscar intercambios, gestionar ofertas y más. ¿Qué necesitas? 😊",
-            'sugerencias' => ['¿Cómo funciona?', '📦 Publicar producto', '🔍 Buscar', '💬 Más info']
+            'sugerencias' => ['¿Cómo funciona?', 'Publicar producto', 'Buscar', 'Más info']
         ];
     }
     
@@ -443,7 +443,7 @@ function generarRespuestaSimple($mensaje, $contexto) {
             return [
                 'success' => true,
                 'respuesta' => "Para comenzar a intercambiar, primero necesitas publicar productos. ¿Te ayudo con eso? 📦",
-                'sugerencias' => ['📦 Sí, publicar ahora', '🔍 Primero explorar', '❓ Más info']
+                'sugerencias' => ['Sí, publicar ahora', 'Primero explorar', 'Más info']
             ];
         }
         
@@ -451,7 +451,7 @@ function generarRespuestaSimple($mensaje, $contexto) {
             return [
                 'success' => true,
                 'respuesta' => "Tienes {$contexto['ofertas_recibidas']} oferta(s) pendiente(s) ⏳ ¿Quieres revisarlas?",
-                'sugerencias' => ['📬 Ver ofertas', '🔍 Buscar productos', '💬 Ayuda']
+                'sugerencias' => ['Ver ofertas', 'Buscar productos', 'Ayuda']
             ];
         }
         
@@ -459,7 +459,7 @@ function generarRespuestaSimple($mensaje, $contexto) {
         return [
             'success' => true,
             'respuesta' => "Entiendo tu pregunta 😊 Puedo ayudarte con publicar productos, buscar intercambios, gestionar ofertas y más. ¿Qué te interesa?",
-            'sugerencias' => ['🔍 Buscar productos', '📦 Publicar producto', '📊 Ver mi actividad']
+            'sugerencias' => ['Buscar productos', 'Publicar producto', 'Ver mi actividad']
         ];
         
     } else {
@@ -467,7 +467,7 @@ function generarRespuestaSimple($mensaje, $contexto) {
         return [
             'success' => true,
             'respuesta' => "Para intercambiar productos necesitas crear una cuenta. ¿Te gustaría registrarte? 😊",
-            'sugerencias' => ['📝 Crear cuenta', '🔑 Iniciar sesión', '🔍 Explorar primero']
+            'sugerencias' => ['Crear cuenta', 'Iniciar sesión', 'Explorar primero']
         ];
     }
 }

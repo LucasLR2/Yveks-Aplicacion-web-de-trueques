@@ -228,12 +228,12 @@ class ChatbotManager {
         this.mensajeBienvenidaPreparado = {
             texto: "¡Hola! 👋 Bienvenido a Dreva, la plataforma de intercambio de productos.\n\n" +
                 "Veo que aún no has iniciado sesión. Para comenzar a intercambiar necesitas:\n\n" +
-                "1️⃣ Crear una cuenta o iniciar sesión\n" +
-                "2️⃣ Completar tu perfil\n" +
-                "3️⃣ Publicar productos que quieras intercambiar\n" +
-                "4️⃣ ¡Buscar lo que necesitas y hacer ofertas!\n\n" +
+                "1. Crear una cuenta o iniciar sesión\n" +
+                "2. Completar tu perfil\n" +
+                "3. Publicar productos que quieras intercambiar\n" +
+                "4. ¡Buscar lo que necesitas y hacer ofertas!\n\n" +
                 "¿Quieres que te guíe en el proceso?",
-            sugerencias: ['🔐 Iniciar sesión', '📝 Crear cuenta', '🔍 Explorar productos', '❓ ¿Cómo funciona?']
+            sugerencias: ['Iniciar sesión', 'Crear cuenta', 'Explorar productos', '¿Cómo funciona?']
         };
     }
 
@@ -247,12 +247,12 @@ class ChatbotManager {
             this.mensajeBienvenidaPreparado = {
                 texto: `¡Hola ${nombre}! 👋 Me alegra verte por aquí.\n\n` +
                     "Veo que acabas de crear tu cuenta. Para comenzar a intercambiar:\n\n" +
-                    "1️⃣ Publica tu primer producto (lo que ya no uses)\n" +
-                    "2️⃣ Busca productos que te interesen\n" +
-                    "3️⃣ Haz ofertas de intercambio\n" +
-                    "4️⃣ Chatea y concreta el trueque\n\n" +
+                    "1. Publica tu primer producto (lo que ya no uses)\n" +
+                    "2. Busca productos que te interesen\n" +
+                    "3. Haz ofertas de intercambio\n" +
+                    "4. Chatea y concreta el trueque\n\n" +
                     "¿Quieres que te ayude a publicar tu primer producto?",
-                sugerencias: ['📦 Publicar producto', '🔍 Buscar productos', '❓ Más información']
+                sugerencias: ['Publicar producto', 'Buscar productos', 'Más información']
             };
         } else {
             this.mensajeBienvenidaPreparado = {
@@ -261,7 +261,7 @@ class ChatbotManager {
                     (this.estadoUsuario.ofertasPendientes > 0 
                         ? ` y ${this.estadoUsuario.ofertasPendientes} oferta(s) pendiente(s).` 
                         : '.'),
-                sugerencias: ['🔍 Buscar productos', '📋 Ver mis ofertas', '💬 Ayuda']
+                sugerencias: ['Buscar productos', 'Ver mis ofertas', 'Ayuda']
             };
         }
     }
@@ -277,7 +277,7 @@ class ChatbotManager {
                 "Noto que aún no has publicado ningún producto. " +
                 "Para poder hacer intercambios necesitas tener al menos un producto publicado.\n\n" +
                 "¿Te gustaría que te ayude a publicar tu primer producto?",
-            sugerencias: ['📦 Sí, publicar ahora', '🔍 Primero quiero explorar', '❓ Más información']
+            sugerencias: ['Sí, publicar ahora', 'Primero quiero explorar', 'Más información']
         };
     }
 
@@ -400,7 +400,7 @@ class ChatbotManager {
         // Comando: Crear cuenta
         if (msg.includes('crear cuenta') || msg.includes('registrar') || msg === 'crear cuenta') {
             this.agregarMensajeBot(
-                "¡Perfecto! Te llevaré al registro. Solo tomará un momento. 😊",
+                "¡Perfecto! Te llevaré al registro. Solo tomará un momento.",
                 null
             );
             setTimeout(() => {
@@ -418,7 +418,7 @@ class ChatbotManager {
                 );
             } else {
                 this.agregarMensajeBot(
-                    "¡Genial! Te llevaré a la página para publicar tu producto. 📦",
+                    "¡Genial! Te llevaré a la página para publicar tu producto.",
                     null
                 );
                 setTimeout(() => {
@@ -429,9 +429,9 @@ class ChatbotManager {
         }
         
         // Comando: Explorar productos
-        if (msg.includes('explorar') || msg.includes('buscar producto') || msg === '🔍 explorar productos' || msg === '🔍 primero quiero explorar') {
+        if (msg.includes('explorar') || msg.includes('buscar producto') || msg === 'explorar productos' || msg === 'primero quiero explorar') {
             this.agregarMensajeBot(
-                "Puedes explorar productos desde la página principal. Usa el buscador o navega por categorías. ¡Hay muchas cosas interesantes! 🎁",
+                "Puedes explorar productos desde la página principal. Usa el buscador o navega por categorías. ¡Hay muchas cosas interesantes!",
                 ['Tecnología', 'Hogar', 'Ropa', 'Deportes']
             );
             return false;

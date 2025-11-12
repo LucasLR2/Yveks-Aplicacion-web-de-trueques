@@ -222,14 +222,13 @@ class ChatbotManager {
         this.mensajeBienvenidaPreparado = {
             texto: "¡Hola! 👋 Bienvenido a Dreva, la plataforma de intercambio de productos.\n\n" +
                 "Veo que aún no has iniciado sesión. Para comenzar a intercambiar necesitas:\n\n" +
-                "1️- Crear una cuenta o iniciar sesión\n" +
-                "2️- Completar tu perfil\n" +
-                "3️- Publicar productos que quieras intercambiar\n" +
-                "4️- ¡Buscar lo que necesitas y hacer ofertas!\n\n" +
+                "1️⃣ Crear una cuenta o iniciar sesión\n" +
+                "2️⃣ Completar tu perfil\n" +
+                "3️⃣ Publicar productos que quieras intercambiar\n" +
+                "4️⃣ ¡Buscar lo que necesitas y hacer ofertas!\n\n" +
                 "¿Quieres que te guíe en el proceso?",
-                ['Iniciar sesión', 'Crear cuenta', 'Explorar productos', '¿Cómo funciona?']
-            );
-        }, 500);
+            sugerencias: ['🔐 Iniciar sesión', '📝 Crear cuenta', '🔍 Explorar productos', '❓ ¿Cómo funciona?']
+        };
     }
 
     mostrarMensajeBienvenidaLogueado() {

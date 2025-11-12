@@ -222,13 +222,14 @@ class ChatbotManager {
         this.mensajeBienvenidaPreparado = {
             texto: "¡Hola! 👋 Bienvenido a Dreva, la plataforma de intercambio de productos.\n\n" +
                 "Veo que aún no has iniciado sesión. Para comenzar a intercambiar necesitas:\n\n" +
-                "1️⃣ Crear una cuenta o iniciar sesión\n" +
-                "2️⃣ Completar tu perfil\n" +
-                "3️⃣ Publicar productos que quieras intercambiar\n" +
-                "4️⃣ ¡Buscar lo que necesitas y hacer ofertas!\n\n" +
+                "1️- Crear una cuenta o iniciar sesión\n" +
+                "2️- Completar tu perfil\n" +
+                "3️- Publicar productos que quieras intercambiar\n" +
+                "4️- ¡Buscar lo que necesitas y hacer ofertas!\n\n" +
                 "¿Quieres que te guíe en el proceso?",
-            sugerencias: ['🔐 Iniciar sesión', '📝 Crear cuenta', '🔍 Explorar productos', '❓ ¿Cómo funciona?']
-        };
+                ['Iniciar sesión', 'Crear cuenta', 'Explorar productos', '¿Cómo funciona?']
+            );
+        }, 500);
     }
 
     mostrarMensajeBienvenidaLogueado() {
@@ -243,12 +244,12 @@ class ChatbotManager {
                 this.agregarMensajeBot(
                     `¡Hola ${nombre}! 👋 Me alegra verte por aquí.\n\n` +
                     "Veo que acabas de crear tu cuenta. Para comenzar a intercambiar:\n\n" +
-                    "1️⃣ Publica tu primer producto (lo que ya no uses)\n" +
-                    "2️⃣ Busca productos que te interesen\n" +
-                    "3️⃣ Haz ofertas de intercambio\n" +
-                    "4️⃣ Chatea y concreta el trueque\n\n" +
+                    "1- Publica tu primer producto (lo que ya no uses)\n" +
+                    "2️- Busca productos que te interesen\n" +
+                    "3️- Haz ofertas de intercambio\n" +
+                    "4️- Chatea y concreta el trueque\n\n" +
                     "¿Quieres que te ayude a publicar tu primer producto?",
-                    ['📦 Publicar producto', '🔍 Buscar productos', '❓ Más información']
+                    ['Publicar producto', 'Buscar productos', 'Más información']
                 );
             } else {
                 this.agregarMensajeBot(
@@ -257,7 +258,7 @@ class ChatbotManager {
                     (this.estadoUsuario.ofertasPendientes > 0 
                         ? ` y ${this.estadoUsuario.ofertasPendientes} oferta(s) pendiente(s).` 
                         : '.'),
-                    ['🔍 Buscar productos', '📋 Ver mis ofertas', '💬 Ayuda']
+                    ['Buscar productos', 'Ver mis ofertas', 'Ayuda']
                 );
             }
         }, 500);
@@ -275,7 +276,7 @@ class ChatbotManager {
                 "Noto que aún no has publicado ningún producto. " +
                 "Para poder hacer intercambios necesitas tener al menos un producto publicado.\n\n" +
                 "¿Te gustaría que te ayude a publicar tu primer producto?",
-                ['📦 Sí, publicar ahora', '🔍 Primero quiero explorar', '❓ Más información']
+                ['Sí, publicar ahora', 'Primero quiero explorar', 'Más información']
             );
         }, 500);
     }
@@ -385,7 +386,7 @@ class ChatbotManager {
         }
         
         // Comando: Iniciar sesión
-        if (msg.includes('iniciar sesión') || msg.includes('iniciar sesion') || msg === '🔑 iniciar sesión') {
+        if (msg.includes('iniciar sesión') || msg.includes('iniciar sesion') || msg === 'iniciar sesión') {
             this.agregarMensajeBot(
                 "Te voy a redirigir a la página de inicio de sesión. ¡Nos vemos pronto! 👋",
                 null
@@ -397,7 +398,7 @@ class ChatbotManager {
         }
         
         // Comando: Crear cuenta
-        if (msg.includes('crear cuenta') || msg.includes('registrar') || msg === '📝 crear cuenta') {
+        if (msg.includes('crear cuenta') || msg.includes('registrar') || msg === 'crear cuenta') {
             this.agregarMensajeBot(
                 "¡Perfecto! Te llevaré al registro. Solo tomará un momento. 😊",
                 null
@@ -409,11 +410,11 @@ class ChatbotManager {
         }
         
         // Comando: Publicar producto
-        if (msg.includes('publicar producto') || msg === '📦 publicar producto' || msg === '📦 publicar ahora' || msg === '📦 sí, publicar ahora') {
+        if (msg.includes('publicar producto') || msg === 'publicar producto' || msg === 'publicar ahora' || msg === 'sí, publicar ahora') {
             if (!this.estadoUsuario.logueado) {
                 this.agregarMensajeBot(
                     "Para publicar productos necesitas iniciar sesión primero. ¿Quieres hacerlo ahora?",
-                    ['🔑 Sí, iniciar sesión', '📝 Crear cuenta']
+                    ['Sí, iniciar sesión', 'Crear cuenta']
                 );
             } else {
                 this.agregarMensajeBot(
@@ -431,7 +432,7 @@ class ChatbotManager {
         if (msg.includes('explorar') || msg.includes('buscar producto') || msg === '🔍 explorar productos' || msg === '🔍 primero quiero explorar') {
             this.agregarMensajeBot(
                 "Puedes explorar productos desde la página principal. Usa el buscador o navega por categorías. ¡Hay muchas cosas interesantes! 🎁",
-                ['💻 Tecnología', '🏠 Hogar', '👕 Ropa', '⚽ Deportes']
+                ['Tecnología', 'Hogar', 'Ropa', 'Deportes']
             );
             return false;
         }
